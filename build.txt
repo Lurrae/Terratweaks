@@ -1,0 +1,4 @@
+displayName = Terratweaks
+author = Lurrae & Skulgan
+version = 0.1
+modReferences = TepigCore@0.1.0

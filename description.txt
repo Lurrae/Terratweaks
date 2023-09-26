@@ -1,0 +1,21 @@
+A highly-configurable collection of vanilla changes brought to you by the developers of Terrarmory! Most of these changes are quite minor, but there are some additional features which significantly alter the balance of vanilla Terraria. These are disabled by default.
+This mod currently implements the following changes:
+
+GENERAL TWEAKS:
+[i:TargetDummy] Minions, sentries, and homing projectiles can be allowed to target Target Dummies, either only while the Target Dummy is highlighted by a whip's targeting reticle or all the time. Enabled by default, defaults to whip targeting required.
+[i:DD2FlameburstTowerT1Popper] Sentries, like minions, will immediately despawn whenever their owner is killed. Enabled by default.
+[i:OasisCrate] Oasis and Mirage Crates have a chance to drop either a Sandstorm in a Bottle, Flying Carpet, or Pharaoh vanity set instead of an item from a Sandstone Chest. Enabled by default.
+[i:CopperPickaxe] All pre-Hardmode ore gear has identical stats, using the higher of the vanilla stats. Also nerfs Cactus Pickaxe's range by -1. Enabled by default.
+[i:AncientBattleArmorMaterial] If the Eye of Cthulhu has not been defeated, sandstorms will not start, and all modded items which start one should fail to do so. Enabled by default, has no effect if Calamity Mod is enabled (since Calamity locks sandstorms behind its Desert Scourge boss instead).
+[i:EmpressFlightBooster] Soaring Insignia is heavily nerfed (unless Calamity Mod is enabled), but defeating the Empress of Light during the daytime while the Soaring Insignia is in your inventory will upgrade it into the "Radiant Insignia", which uses the pre-nerf stats of Soaring Insignia, even if Calamity is enabled! Disabled by default, as this heavily changes vanilla in a way most people likely won't want.
+[i:ApprenticeScarf] The four Old One's Army accessories that grant +1 sentry slot can be configured to stack, either across different tiers (so the two Dark Mage accs don't stack with one another, but they can stack with one of the Ogre accs) or all at once. Enabled by default, defaults to stacking across tiers.
+[i:DPSMeter] Removes the +/-15% damage variance that all attacks have in vanilla, so every hit always does the same damage. Enabled by default.
+[i:GalaxyPearl] Critical hits are no longer random, and instead guaranteed X crits every 100 hits, with X being your crit chance (ex: 10% crit chance translates to 10 crits every 100 hits, or 1 crit every 10 hits). Enabled by default.
+[i:PDA] Item tooltips now list exact values for knockback and use time. Items which fire projectiles list their projectiles' velocity as well. Enabled by default.
+
+CUSTOM ARMOR SET BONUSES:
+[i:SpiderMask] Each piece of Spider armor provides 5% more damage than vanilla, and the breastplate gives +1 sentry slot. New set bonus: Allows you to cling to walls, provides immunity to Webbed, and slows down hostile enemies/projectiles near you. Enabled by default.
+[i:CobaltHat] New set bonus: Dealing damage increases your defense and provides knockback immunity temporarily. Enabled by default.
+[i:MythrilHood] New set bonus: Columns of flames erupt from below hit enemies. Enabled by default.
+[i:AdamantiteHeadgear] New set bonus: Hearts circle around you, which can be killed to heal a bit of health. Enabled by default.
+[i:SpookyHelmet] Each piece of Spooky armor provides 5% more damage than vanilla. New set bonus: Flaming nettles automatically fire at nearby foes. Enabled by default.

@@ -1,0 +1,256 @@
+Mods: {
+	Terratweaks: {
+		# Modified versions of vanilla's LegacyTooltip localizations, used for new speed/knockback tooltips
+		LegacyTooltip: {
+			6: Insanely fast ({0}) speed
+			7: Very fast ({0}) speed
+			8: Fast ({0}) speed
+			9: Average ({0}) speed
+			10: Slow ({0}) speed
+			11: Very slow ({0}) speed
+			12: Extremely slow ({0}) speed
+			13: Snail ({0}) speed
+			14: No ({0}) knockback
+			15: Extremely weak ({0}) knockback
+			16: Very weak ({0}) knockback
+			17: Weak ({0}) knockback
+			18: Average ({0}) knockback
+			19: Strong ({0}) knockback
+			20: Very strong ({0}) knockback
+			21: Extremely strong ({0}) knockback
+			22: Insane ({0}) knockback
+			# Custom tooltips
+			V: "{0} velocity"
+			C: Crits {0} times every 100 hits
+		}
+
+		Configs: {
+			TerratweaksConfig: {
+				DisplayName: Terratweaks Config
+
+				vanillaChanges: {
+					Label: Vanilla Changes
+					Tooltip:
+						'''
+						Various modifications to assorted vanilla weapons, armor, and other items
+						Everything can be toggled individually for maximum personalization!
+						'''
+				}
+			}
+
+			VanillaChanges: {
+				Tooltip: ""
+
+				armorBonuses: {
+					Label: Vanilla Armorset Reworks
+					Tooltip: Changes to various vanilla armors' set bonuses
+				}
+
+				DummyFix: {
+					Label: "[i:TargetDummy] Targetable Target Dummy"
+					Tooltip:
+						'''
+						Vanilla Behavior - Target dummies behave exactly as they do in vanilla, being untargetable by any minion, sentry, or homing projectile
+						Whip Target Only - Hitting a target dummy with a whip allows all minions, sentries, and homing projectiles to target it until the target reticle is removed from the dummy
+						Always Active - All minions, sentries, and homing projectiles can home in on target dummies with no restrictions
+						'''
+				}
+
+				KillSentries: {
+					Label: "[i:DD2FlameburstTowerT1Popper] [i:Tombstone] Sentries despawn on owner death"
+					Tooltip:
+						'''
+						Makes sentries despawn automatically when the player dies, like minions do
+						This should work with most modded sentries, but some may not despawn
+						'''
+				}
+
+				MoonLootMods: {
+					Label: "[i:CelestialSigil] [i:MoonLordBossBag] [REQUIRES RELOAD] Modified Moon Lord loot tables"
+					Tooltip:
+						'''
+						In Classic Mode, the Moon Lord will choose two random classes, and drop one weapon for each of them
+						In Expert Mode, the Moon Lord's treasure bag will drop one weapon for every class
+						Modded classes' weapons, except Thrower, are all grouped into one "class" for simplicity
+						In theory, this should support modded weapons, provided other mods modify Moon Lord's loot table correctly
+						'''
+				}
+
+				OasisCrateBuff: {
+					Label: "[i:OasisCrate] [i:OasisCrateHard] [REQUIRES RELOAD] Oasis Crates may contain pyramid loot"
+					Tooltip: Oasis Crates and Mirage Crates have a chance to drop one random pyramid item instead of their usual Sandstone Chest accessory/weapon
+				}
+
+				OreUnification: {
+					Label: "[i:CopperPickaxe] [i:TinPickaxe] [REQUIRES RELOAD] Unified pre-HM Ore Gear"
+					Tooltip:
+						'''
+						Unifies the stats of all eight early pre-Hardmode ores so that both ores of a tier make equally strong weapons
+						Whichever ore is normally weaker uses the stats of the stronger ore (so Copper takes the stats of Tin, for example)
+						Additionally, the Cactus Pickaxe is nerfed to have -1 range, and all tool powers are rounded to the nearest multiple of 5
+						The rounded tool powers only affect a small handful of pickaxes and a couple hammers
+						'''
+				}
+
+				PostEyeSandstorms: {
+					Label: "[i:AncientBattleArmorMaterial] [i:SuspiciousLookingEye] Progression-locked sandstorms"
+					Tooltip:
+						'''
+						Sandstorms cannot happen until the {$NPCName.EyeofCthulhu} is defeated, and attempting to summon one (such as with the Forbidden Scarab from Fargo's Mutant Mod) will not work
+						This config setting has no effect if Calamity is enabled, as Calamity already locks Sandstorms behind Desert Scourge
+						'''
+				}
+
+				SIRework: {
+					Label: "[i:EmpressFlightBooster] [REQUIRES RELOAD] Soaring Insignia rework"
+					Tooltip:
+						'''
+						The Soaring Insignia is nerfed, providing only 10% extra jump speed, 1.1x acceleration, and +25% flight time
+						If the Calamity Mod is enabled, these changes will not be applied as Calamity already nerfs Soaring Insignia
+						However, defeating the Empress of Light during the daytime will transform the Soaring Insignia into the "Radiant Insignia" if it is in your inventory
+						The Radiant Insignia provides infinite flight time, doubled acceleration, and 48% extra jump speed, the same as the un-nerfed Soaring Insignia
+						'''
+				}
+
+				StackableDD2Accs: {
+					Label: "[i:ApprenticeScarf] [i:SquireShield] [i:HuntressBuckler] [i:MonkBelt] Stackable DD2 Accs"
+					Tooltip:
+						'''
+						Vanilla Behavior - The four DD2 sentry accessories don't stack at all; no matter how many are equipped at once, you only get +10% summon damage and +1 sentry slot
+						Stack With Other Tier - The two accessories dropped by Dark Mage (Squire's Shield and Apprentice's Scarf) can't stack with each other,
+						                             but can stack with either Ogre drop (Huntress' Buckler or Monk's Belt). The two Ogre drops don't stack with each other.
+						No Restrictions - All four accessories can stack, allowing you to get up to +4 sentry slots and +40% summon damage. This may be slightly unbalanced.
+						'''
+				}
+			}
+
+			ArmorReworks: {
+				SpiderRework: {
+					Label: "[i:SpiderMask] [i:SpiderBreastplate] [i:SpiderGreaves] Spider armor"
+					Tooltip:
+						'''
+						Each piece increases summon damage by 2% more than vanilla (so the total damage is 6% less than with vanilla's set bonus), and the breastplate gives one extra sentry slot
+						New set bonus: Allows you to cling to walls, provides immunity to webbed, and slows down hostile enemies/projectiles near you
+						'''
+				}
+
+				CobaltRework: {
+					Label: "[i:CobaltHat] [i:CobaltHelmet] [i:CobaltMask] [i:CobaltBreastplate] [i:CobaltLeggings] Cobalt armor"
+					Tooltip: New set bonus: Dealing damage increases your defense and provides knockback immunity
+				}
+
+				MythrilRework: {
+					Label: "[i:MythrilHood] [i:MythrilHelmet] [i:MythrilHat] [i:MythrilChainmail] [i:MythrilGreaves] Mythril armor"
+					Tooltip: New set bonus: Columns of flames shoot up from hit enemies
+				}
+
+				AdamantiteRework: {
+					Label: "[i:AdamantiteHeadgear] [i:AdamantiteHelmet] [i:AdamantiteMask] [i:AdamantiteBreastplate] [i:AdamantiteLeggings] Adamantite armor"
+					Tooltip: New set bonus: Hearts circle around you, kill them to get a small bit of healing
+				}
+
+				SpookyRework: {
+					Label: "[i:SpookyHelmet] [i:SpookyBreastplate] [i:SpookyLeggings] Spooky armor"
+					Tooltip:
+						'''
+						Each piece increases summon damage by 17%, up from 11%
+						New set bonus: Flaming nettles automatically fire at nearby foes
+						'''
+				}
+
+				Tooltip: ""
+			}
+
+			DummySetting: {
+				Tooltip: ""
+				Off.Label: Vanilla Behavior
+				Limited.Label: Whip Target Only
+				On.Label: Always Active
+			}
+
+			SentryAccSetting: {
+				Tooltip: ""
+				Off.Label: Vanilla Behavior
+				Limited.Label: Stack With Other Tier
+				On.Label: No Restrictions
+			}
+
+			TerratweaksConfig_Client: {
+				DisplayName: Terraratweaks Config (Client)
+
+				NoDamageVariance: {
+					Label: "[i:DPSMeter] Consistent damage"
+					Tooltip: Removes the damage variance from attacks, so every hit will always deal the same exact damage
+				}
+
+				NoRandomCrit: {
+					Label: "[i:GalaxyPearl] Consistent critical hits"
+					Tooltip:
+						'''
+						Removes random critical hits, and replaces them with a much more consistent system
+						Instead of having a (crit chance)/100 chance to crit with every hit, you will now crit (crit chance) times every 100 hits
+						For example: A crit chance of 10% would translate to 10 crits every 100 hits, or one crit every 10 hits
+						'''
+				}
+
+				StatsInTip: {
+					Label: "[i:PDA] Improved weapon tooltips"
+					Tooltip:
+						'''
+						Weapons (and any other item which lists knockback and use time) will list an exact value
+						This also enables items which fire a projectile to list their projectile's velocity
+						'''
+				}
+			}
+		}
+
+		Common: {
+			# Dialogue when the player can't start a Sandstorm
+			SandstormFail: An all-seeing entity's influence prevents the Sandstorm from brewing...
+			# Modified tooltip for Soaring Insignia when its rework is enabled
+			ReworkedSITip:
+				'''
+				Increases wing flight time by 25%
+				Increases movement speed, jump speed, and acceleration by 10% each
+				'''
+		}
+
+		# Projectile names, mostly just used for PvP
+		Projectiles: {
+			MythrilExplosion.DisplayName: Mythril Explosion
+			Placeholder.DisplayName: This shouldn't have to exist, but TML's auto-formatting is dumb
+		}
+
+		# Buff names and tooltips
+		Buffs: {
+			CobaltBuff: {
+				DisplayName: Cobalt Skin
+				Description: Increased defense and knockback immunity
+			}
+		}
+
+		# Custom set bonus tooltips
+		SetBonus: {
+			Spider:
+				'''
+				You can cling to walls
+				Grants immunity to the Webbed debuff
+				A large cobweb surrounds you, slowing hostile NPCs and projectiles that touch it
+				'''
+			Cobalt: Striking an enemy increases your defense by 10 and grants immunity to knockback
+			Mythril: Hit enemies release a mythril flame explosion
+			Adamantite:
+				'''
+				Up to 5 Adamantite Hearts spawn near you and circle around you
+				When killed, these hearts restore a small amount of health and respawn after two seconds
+				'''
+			Spooky: Flaming nettles are automatically fired at nearby foes
+		}
+
+		# Display names for NPCs
+		NPCs: {
+			AdamantiteHeart.DisplayName: Adamantite Heart
+			Placeholder.DisplayName: This shouldn't have to exist, but TML's auto-formatting is dumb
+		}
+	}
+}
