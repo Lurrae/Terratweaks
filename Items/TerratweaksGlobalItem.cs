@@ -481,7 +481,7 @@ namespace Terratweaks.Items
 					{
 						case ItemID.SpiderMask:
 							if (armorToggles.SpiderRework)
-							tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 7);
+								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 7);
 							break;
 						case ItemID.SpiderBreastplate:
 							if (armorToggles.SpiderRework)
@@ -492,13 +492,13 @@ namespace Terratweaks.Items
 							break;
 						case ItemID.SpiderGreaves:
 							if (armorToggles.SpiderRework)
-							tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 8);
+								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 8);
 							break;
 						case ItemID.SpookyHelmet:
 						case ItemID.SpookyBreastplate:
 						case ItemID.SpookyLeggings:
 							if (armorToggles.SpookyRework)
-							tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 17);
+								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 17);
 							break;
 					}
 				}
