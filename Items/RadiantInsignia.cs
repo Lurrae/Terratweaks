@@ -9,7 +9,7 @@ namespace Terratweaks.Items
 	{
 		public override bool IsLoadingEnabled(Mod mod)
 		{
-			return GetInstance<TerratweaksConfig>().vanillaChanges.SIRework; // Item is only loaded in if SI rework is enabled
+			return GetInstance<TerratweaksConfig>().SIRework; // Item is only loaded in if SI rework is enabled
 		}
 
 		public override void SetStaticDefaults()

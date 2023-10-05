@@ -28,22 +28,24 @@ Mods: {
 			TerratweaksConfig: {
 				DisplayName: Terratweaks Config
 
-				vanillaChanges: {
-					Label: Vanilla Changes
-					Tooltip:
-						'''
-						Various modifications to assorted vanilla weapons, armor, and other items
-						Everything can be toggled individually for maximum personalization!
-						'''
-				}
-			}
-
-			VanillaChanges: {
-				Tooltip: ""
-
 				armorBonuses: {
 					Label: Vanilla Armorset Reworks
 					Tooltip: Changes to various vanilla armors' set bonuses
+				}
+
+				ChesterRework: {
+					Label: "[i:ChesterPetItem] Chester Rework"
+					Tooltip: Chester is reworked to be considered a light pet, but he accesses the player's safe instead of their piggy bank
+				}
+
+				DeerclopsRegens: {
+					Label: "[i:DeerThing] Deerclops Heals Out of Combat"
+					Tooltip: If no living players are within 1000 blocks of Deerclops, he will regenerate HP based on the below config value
+				}
+
+				DeerRegenAmt: {
+					Label: "[i:DeerThing] Deerclops Regeneration Speed (HP/sec)"
+					Tooltip: The amount of health Deerclops should regenerate per second. Has no effect if the above config value is disabled
 				}
 
 				DummyFix: {
@@ -66,7 +68,7 @@ Mods: {
 				}
 
 				MoonLootMods: {
-					Label: "[i:CelestialSigil] [i:MoonLordBossBag] [REQUIRES RELOAD] Modified Moon Lord loot tables"
+					Label: "[i:CelestialSigil] [i:MoonLordBossBag] Modified Moon Lord loot tables"
 					Tooltip:
 						'''
 						In Classic Mode, the Moon Lord will choose two random classes, and drop one weapon for each of them
@@ -77,12 +79,12 @@ Mods: {
 				}
 
 				OasisCrateBuff: {
-					Label: "[i:OasisCrate] [i:OasisCrateHard] [REQUIRES RELOAD] Oasis Crates may contain pyramid loot"
+					Label: "[i:OasisCrate] [i:OasisCrateHard] Oasis Crates may contain pyramid loot"
 					Tooltip: Oasis Crates and Mirage Crates have a chance to drop one random pyramid item instead of their usual Sandstone Chest accessory/weapon
 				}
 
 				OreUnification: {
-					Label: "[i:CopperPickaxe] [i:TinPickaxe] [REQUIRES RELOAD] Unified pre-HM Ore Gear"
+					Label: "[i:CopperPickaxe] [i:TinPickaxe] Unified pre-HM Ore Gear"
 					Tooltip:
 						'''
 						Unifies the stats of all eight early pre-Hardmode ores so that both ores of a tier make equally strong weapons
@@ -102,7 +104,7 @@ Mods: {
 				}
 
 				SIRework: {
-					Label: "[i:EmpressFlightBooster] [REQUIRES RELOAD] Soaring Insignia rework"
+					Label: "[i:EmpressFlightBooster] Soaring Insignia rework"
 					Tooltip:
 						'''
 						The Soaring Insignia is nerfed, providing only 10% extra jump speed, 1.1x acceleration, and +25% flight time
@@ -219,6 +221,7 @@ Mods: {
 		Projectiles: {
 			MythrilExplosion.DisplayName: Mythril Explosion
 			Placeholder.DisplayName: This shouldn't have to exist, but TML's auto-formatting is dumb
+			ChesterSafe.DisplayName: Chester Safe
 		}
 
 		# Buff names and tooltips

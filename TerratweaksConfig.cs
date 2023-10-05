@@ -20,29 +20,20 @@ namespace Terratweaks
 	public class TerratweaksConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide;
-		public static TerratweaksConfig Instance;
-
-		public VanillaChanges vanillaChanges = new();
-	}
-
-	public class TerratweaksConfig_Client : ModConfig
-	{
-		public override ConfigScope Mode => ConfigScope.ClientSide;
-		public static TerratweaksConfig_Client Instance;
-
-		[DefaultValue(true)]
-		public bool NoDamageVariance { get; set; }
-
-		[DefaultValue(true)]
-		public bool NoRandomCrit { get; set; }
-
-		[DefaultValue(true)]
-		public bool StatsInTip { get; set; }
-	}
-
-	public class VanillaChanges
-	{
+		
 		public ArmorReworks armorBonuses = new();
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ChesterRework { get; set; }
+
+		[DefaultValue(true)]
+		public bool DeerclopsRegens { get; set; }
+
+		[Increment(60)]
+		[Range(60, 3600)]
+		[DefaultValue(600)]
+		public int DeerRegenAmt { get; set; }
 
 		[DefaultValue(DummySetting.Limited)]
 		public DummySetting DummyFix { get; set; }
@@ -69,6 +60,21 @@ namespace Terratweaks
 		public SentryAccSetting StackableDD2Accs { get; set; }
 	}
 
+	public class TerratweaksConfig_Client : ModConfig
+	{
+		public override ConfigScope Mode => ConfigScope.ClientSide;
+		
+		[DefaultValue(true)]
+		public bool NoDamageVariance { get; set; }
+
+		[DefaultValue(true)]
+		public bool NoRandomCrit { get; set; }
+
+		[DefaultValue(true)]
+		public bool StatsInTip { get; set; }
+	}
+
+	[SeparatePage]
 	public class ArmorReworks
 	{
 		[DefaultValue(true)]

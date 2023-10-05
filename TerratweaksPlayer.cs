@@ -182,7 +182,7 @@ namespace Terratweaks
 		// Despawn all active sentries when the player is slain, if they have the corresponding config setting enabled
 		public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
 		{
-			if (GetInstance<TerratweaksConfig>().vanillaChanges.KillSentries)
+			if (GetInstance<TerratweaksConfig>().KillSentries)
 			{
 				foreach (Projectile proj in Main.projectile.Where(p => p.active && p.sentry && p.owner == Player.whoAmI))
 				{
@@ -197,5 +197,23 @@ namespace Terratweaks
 	{
 		public bool inCutscene = false;
 		public int direction = 1;
+	}
+
+	// Handles any modded behaviors that stem from player inputs
+	// Can also be used to handle custom keybinds, if we ever add any
+	public class InputPlayer : ModPlayer
+	{
+		public override void PostUpdate()
+		{
+			bool chesterRework = GetInstance<TerratweaksConfig>().ChesterRework;
+
+			if (Player.controlInv && chesterRework && Player.chest == -3)
+			{
+				Player.chest = -1;
+				Main.PlayInteractiveProjectileOpenCloseSound(ProjectileID.ChesterPet, false);
+				Player.piggyBankProjTracker.Clear();
+				Recipe.FindRecipes();
+			}
+		}
 	}
 }

@@ -1,7 +1,10 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terratweaks.Items;
+using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.Projectiles
 {
@@ -34,11 +37,17 @@ namespace Terratweaks.Projectiles
 			{
 				projectile.position -= projectile.velocity * 0.5f; // Effectively halves the speed of the projectile
 			}
+
+			// Chester needs to check if he should access the player's safe instead of their piggy bank
+			if (GetInstance<TerratweaksConfig>().ChesterRework && player.chest == -2)
+			{
+				player.OpenChest((int)(projectile.position.X / 16), (int)(projectile.position.Y / 16), -3);
+			}
 		}
 
 		public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
 		{
-			var clientConfig = TerratweaksConfig_Client.Instance;
+			var clientConfig = GetInstance<TerratweaksConfig_Client>();
 
 			if (clientConfig.NoDamageVariance)
 				modifiers.DamageVariationScale *= 0;

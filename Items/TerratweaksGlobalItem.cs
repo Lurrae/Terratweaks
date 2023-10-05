@@ -10,6 +10,8 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terratweaks.Buffs;
+using Terratweaks.Projectiles;
 using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.Items
@@ -20,7 +22,7 @@ namespace Terratweaks.Items
 		public override bool CanUseItem(Item item, Player player)
 		{
 			// Check if Calamity is enabled since Calamity already locks sandstorms progression-wise
-			bool progressionLockedSandstorms = TerratweaksConfig.Instance.vanillaChanges.PostEyeSandstorms && !ModLoader.HasMod("CalamityMod");
+			bool progressionLockedSandstorms = GetInstance<TerratweaksConfig>().PostEyeSandstorms && !ModLoader.HasMod("CalamityMod");
 
 			if (ModLoader.TryGetMod("Fargowiltas", out Mod _) && TryFind("Fargowiltas", "ForbiddenScarab", out ModItem scarab))
 			{
@@ -53,7 +55,7 @@ namespace Terratweaks.Items
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
 		{
-			var clientConfig = TerratweaksConfig_Client.Instance;
+			var clientConfig = GetInstance<TerratweaksConfig_Client>();
 
 			if (clientConfig.NoDamageVariance)
 				modifiers.DamageVariationScale *= 0;
@@ -74,8 +76,8 @@ namespace Terratweaks.Items
 
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
-			TerratweaksConfig_Client clientConfig = TerratweaksConfig_Client.Instance;
-			TerratweaksConfig config = TerratweaksConfig.Instance;
+			TerratweaksConfig_Client clientConfig = GetInstance<TerratweaksConfig_Client>();
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 
 			if (clientConfig.StatsInTip)
 			{
@@ -108,7 +110,7 @@ namespace Terratweaks.Items
 					tooltip.Text = Language.GetTextValue("Mods.Terratweaks.LegacyTooltip.C", item.crit + GetPlayerCrit(item, Main.LocalPlayer));
 			}
 
-			if (config.vanillaChanges.SIRework)
+			if (config.SIRework)
 			{
 				if (item.type == ItemID.EmpressFlightBooster)
 				{
@@ -139,7 +141,7 @@ namespace Terratweaks.Items
 		// Oasis Crates drop random pyramid loot
 		public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
 		{
-			bool CratesHavePyramidLoot = GetInstance<TerratweaksConfig>().vanillaChanges.OasisCrateBuff;
+			bool CratesHavePyramidLoot = GetInstance<TerratweaksConfig>().OasisCrateBuff;
 
 			// Update Oasis/Mirage Crate loot tables
 			if (CratesHavePyramidLoot && (item.type == ItemID.OasisCrate || item.type == ItemID.OasisCrateHard))
@@ -192,7 +194,7 @@ namespace Terratweaks.Items
 
 		public override void UpdateAccessory(Item item, Player player, bool hideVisual)
 		{
-			SentryAccSetting dd2AccsStack = TerratweaksConfig.Instance.vanillaChanges.StackableDD2Accs;
+			SentryAccSetting dd2AccsStack = GetInstance<TerratweaksConfig>().StackableDD2Accs;
 
 			if (dd2AccsStack == SentryAccSetting.Limited)
 			{
@@ -213,7 +215,7 @@ namespace Terratweaks.Items
 				player.GetDamage(DamageClass.Summon) += 0.1f;
 			}
 
-			if (item.type == ItemID.EmpressFlightBooster && TerratweaksConfig.Instance.vanillaChanges.SIRework && !ModLoader.HasMod("CalamityMod"))
+			if (item.type == ItemID.EmpressFlightBooster && GetInstance<TerratweaksConfig>().SIRework && !ModLoader.HasMod("CalamityMod"))
 			{
 				// Disable vanilla SI effects
 				player.empressBrooch = false;
@@ -232,9 +234,9 @@ namespace Terratweaks.Items
 	{
 		public override void SetDefaults(Item item)
 		{
-			VanillaChanges vanillaChanges = TerratweaksConfig.Instance.vanillaChanges;
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 
-			if (vanillaChanges.OreUnification)
+			if (config.OreUnification)
 			{
 				switch (item.type)
 				{
@@ -440,8 +442,7 @@ namespace Terratweaks.Items
 
 		public override void UpdateEquip(Item item, Player player)
 		{
-			ArmorReworks armorToggles = TerratweaksConfig.Instance.vanillaChanges.armorBonuses;
-			TerratweaksPlayer tPlr = player.GetModPlayer<TerratweaksPlayer>();
+			ArmorReworks armorToggles = GetInstance<TerratweaksConfig>().armorBonuses;
 
 			switch (item.type)
 			{
@@ -471,7 +472,7 @@ namespace Terratweaks.Items
 
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
-			ArmorReworks armorToggles = TerratweaksConfig.Instance.vanillaChanges.armorBonuses;
+			ArmorReworks armorToggles = GetInstance<TerratweaksConfig>().armorBonuses;
 
 			foreach (TooltipLine tooltip in tooltips)
 			{
@@ -508,10 +509,10 @@ namespace Terratweaks.Items
 		// Since vanilla doesn't necessarily have booleans for every vanilla set or anything, we have to define the set bonuses ourselves
 		public override string IsArmorSet(Item head, Item body, Item legs)
 		{
-			VanillaChanges vanillaChanges = TerratweaksConfig.Instance.vanillaChanges;
-			ArmorReworks armorToggles = vanillaChanges.armorBonuses;
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+			ArmorReworks armorToggles = config.armorBonuses;
 
-			if (vanillaChanges.OreUnification)
+			if (config.OreUnification)
 			{
 				if ((head.type == ItemID.IronHelmet || head.type == ItemID.AncientIronHelmet) && body.type == ItemID.IronChainmail && legs.type == ItemID.IronGreaves)
 				{

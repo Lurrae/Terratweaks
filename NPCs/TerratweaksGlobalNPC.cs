@@ -10,7 +10,7 @@ using static Terraria.ModLoader.ModContent;
 namespace Terratweaks.NPCs
 {
 	// A GlobalNPC made to handle any custom debuffs inflicted upon an enemy
-	public class DebuffGlobalNPC : GlobalNPC
+	public class DebuffEffectHandler : GlobalNPC
 	{
 		public override void SetDefaults(NPC npc)
 		{
@@ -30,13 +30,13 @@ namespace Terratweaks.NPCs
 	}
 
 	// Handles modifying the Target Dummy "ghost" npc to allow minions and homing weapons to target it, if that config setting is enabled
-	public class DummyGlobalNPC : GlobalNPC
+	public class DummyTargetHandler : GlobalNPC
 	{
 		public override bool AppliesToEntity(NPC entity, bool lateInstantiation) => entity.type == NPCID.TargetDummy;
 
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
 		{
-			if (GetInstance<TerratweaksConfig>().vanillaChanges.DummyFix == DummySetting.Limited)
+			if (GetInstance<TerratweaksConfig>().DummyFix == DummySetting.Limited)
 			{
 				if (ProjectileID.Sets.IsAWhip[projectile.type])
 				{
@@ -47,7 +47,7 @@ namespace Terratweaks.NPCs
 
 		public override void AI(NPC npc)
 		{
-			switch (GetInstance<TerratweaksConfig>().vanillaChanges.DummyFix)
+			switch (GetInstance<TerratweaksConfig>().DummyFix)
 			{
 				case DummySetting.Off:
 					npc.immortal = true;
@@ -64,8 +64,51 @@ namespace Terratweaks.NPCs
 		}
 	}
 
+	// Handles Deerclops' regeneration effect if no living players are within 1k blocks of him
+	public class DeerclopsRegenHandler : GlobalNPC
+	{
+		public override bool InstancePerEntity => true;
+		public override bool AppliesToEntity(NPC entity, bool lateInstantiation) => entity.type == NPCID.Deerclops;
+
+		int cooldown = 0;
+		public override void AI(NPC npc)
+		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+
+			if (!config.DeerclopsRegens) // Do nothing if Deerclops shouldn't heal
+				return;
+
+			int playersNearby = 0;
+
+			foreach (Player player in Main.player)
+			{
+				// Ignore dead players and hardcore ghosts, as well as players who don't actually exist
+				if (!player.active || player.dead || player.ghost)
+					continue;
+
+				if (player.Center.Distance(npc.Center) < Conversions.ToPixels(1000))
+					playersNearby++;
+			}
+
+			// If no players nearby and at less than max HP, heal Deerclops' HP
+			// Only displays a number every 60 ticks, or 1 second
+			if (playersNearby == 0 && npc.life < npc.lifeMax)
+			{
+				int healFactor = config.DeerRegenAmt / 60;
+				npc.life += healFactor;
+				
+				cooldown--;
+				if (cooldown <= 0)
+				{
+					cooldown = 60;
+					npc.HealEffect(config.DeerRegenAmt);
+				}
+			}
+		}
+	}
+
 	// Any changes that occur when an NPC is killed should be handled here
-	public class KillGlobalNPC : GlobalNPC
+	public class DeathEffectHandler : GlobalNPC
 	{
 		public override bool InstancePerEntity => true;
 
@@ -74,9 +117,9 @@ namespace Terratweaks.NPCs
 			// Killed daytime EoL
 			if (npc.type == NPCID.HallowBoss && Main.dayTime)
 			{
-				TerratweaksConfig config = TerratweaksConfig.Instance;
+				TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 
-				if (config.vanillaChanges.SIRework) // Transform the Soaring Insignia into the Radiant Insignia if the player has one
+				if (config.SIRework) // Transform the Soaring Insignia into the Radiant Insignia if the player has one
 				{
 					foreach (Player plr in Main.player)
 					{
