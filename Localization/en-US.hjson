@@ -30,7 +30,16 @@ Mods: {
 
 				armorBonuses: {
 					Label: Vanilla Armorset Reworks
-					Tooltip: Changes to various vanilla armors' set bonuses
+					Tooltip: Contains toggles that enable new set bonuses for certain vanilla sets
+				}
+
+				expertAccBuffs: {
+					Label: Expert Accessory Buffs
+					Tooltip:
+						'''
+						Contains toggles to buff certain Expert-exclusive accessories and/or enable to scale through progression
+						All changes made by these toggles should apply to modded upgrades/tinkers of the accessories, unless otherwise stated
+						'''
 				}
 
 				ChesterRework: {
@@ -126,6 +135,25 @@ Mods: {
 				}
 			}
 
+			ExpertAccBuffs: {
+				RoyalGel: {
+					Label: "[i:RoyalGel] Royal Gel"
+					Tooltip: If Queen Slime has been defeated, the Royal Gel pacifies the King and Queen Slime's minions
+				}
+
+				HivePack: {
+					Label: "[i:HiveBackpack] Hive Pack"
+					Tooltip: If Plantera has been defeated, the Hive Pack makes affected weapons inflict Acid Venom!
+				}
+
+				BoneHelm: {
+					Label: "[i:BoneHelm] Bone Helm"
+					Tooltip: Increases the base damage of the Bone Helm's projectiles from 18 to 24, and its projectiles gain numerous buffs in Hardmode
+				}
+
+				Tooltip: ""
+			}
+
 			ArmorReworks: {
 				SpiderRework: {
 					Label: "[i:SpiderMask] [i:SpiderBreastplate] [i:SpiderGreaves] Spider armor"
@@ -215,13 +243,19 @@ Mods: {
 				Increases wing flight time by 25%
 				Increases movement speed, jump speed, and acceleration by 10% each
 				'''
+			# Added tooltip for items that get buffed by certain progression points
+			StrongerHoldShift: Becomes stronger upon reaching certain milestones. Hold SHIFT for more information
+			StrongerInHM: Becomes stronger when the spirits of Light and Dark are unleashed
+			StrongerPostQS: Becomes stronger when the slime matriarch is no more
+			StrongerPostMechs: Becomes stronger when the mechanical abominations are demolished
+			StrongerPostPlant: Becomes stronger when the overgrown jungle monstrosity is slain
+			StrongerPostML: Becomes stronger when the lunar god is vanquished
 		}
 
 		# Projectile names, mostly just used for PvP
 		Projectiles: {
 			MythrilExplosion.DisplayName: Mythril Explosion
 			Placeholder.DisplayName: This shouldn't have to exist, but TML's auto-formatting is dumb
-			ChesterSafe.DisplayName: Chester Safe
 		}
 
 		# Buff names and tooltips

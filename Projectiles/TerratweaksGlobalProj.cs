@@ -25,6 +25,20 @@ namespace Terratweaks.Projectiles
 			{
 				sourceItem = src2.Item;
 			}
+
+			// Increase Bone Helm damage, increase it further and increase armor pen and pierce in Hardmode
+			if (GetInstance<TerratweaksConfig>().expertAccBuffs.BoneHelm && projectile.type == ProjectileID.InsanityShadowFriendly)
+			{
+				projectile.damage += 6;
+
+				if (Main.hardMode)
+				{
+					projectile.damage *= 2;
+					projectile.ArmorPenetration += 10;
+					projectile.penetrate *= 2;
+					projectile.maxPenetrate *= 2;
+				}
+			}
 		}
 
 		public override void AI(Projectile projectile)
@@ -38,10 +52,11 @@ namespace Terratweaks.Projectiles
 				projectile.position -= projectile.velocity * 0.5f; // Effectively halves the speed of the projectile
 			}
 
-			// Chester needs to check if he should access the player's safe instead of their piggy bank
-			if (GetInstance<TerratweaksConfig>().ChesterRework && player.chest == -2)
+			// If the player has a buffed Hive Pack equipped, display some Acid Venom particles to clarify the effect is active!
+			if (tPlr.buffedHivePack && (projectile.IsBeeRelated() || projectile.type == ProjectileID.Hornet || projectile.type == ProjectileID.BeeArrow))
 			{
-				player.OpenChest((int)(projectile.position.X / 16), (int)(projectile.position.Y / 16), -3);
+				if (Main.rand.NextBool(6)) // 1/6 chance to spawn dust
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Venom);
 			}
 		}
 

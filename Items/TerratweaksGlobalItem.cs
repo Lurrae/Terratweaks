@@ -7,9 +7,11 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.UI;
 using Terratweaks.Buffs;
 using Terratweaks.Projectiles;
 using static Terraria.ModLoader.ModContent;
@@ -74,14 +76,31 @@ namespace Terratweaks.Items
 			}
 		}
 
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Hardmode = new()
+		{
+			{ ItemID.BoneHelm, () => GetInstance<TerratweaksConfig>().expertAccBuffs.BoneHelm }
+		};
+		// TODO: Add configs for items that scale at other progression points too
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_QS = new()
+		{
+			{ ItemID.RoyalGel, () => GetInstance<TerratweaksConfig>().expertAccBuffs.RoyalGel }
+		};
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Mechs = new() { };
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Plant = new()
+		{
+			{ ItemID.HiveBackpack, () => GetInstance<TerratweaksConfig>().expertAccBuffs.HivePack }
+		};
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_ML = new() { };
+
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
 			TerratweaksConfig_Client clientConfig = GetInstance<TerratweaksConfig_Client>();
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+			
+			int idx = -1;
 
 			if (clientConfig.StatsInTip)
 			{
-				int idx = -1;
 
 				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && (t.Name == "Knockback" || t.Name == "Speed")))
 				{
@@ -128,6 +147,126 @@ namespace Terratweaks.Items
 						tooltips.Remove(tooltip);
 				}
 			}
+
+			// Find the last tooltip line that describes the item's effects
+			idx = -1;
+
+			foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && t.Name.Contains("Tooltip")))
+			{
+				if (!tooltip.Text.StartsWith("'"))
+					idx = tooltips.IndexOf(tooltip);
+			}
+
+			if (idx != -1)
+			{
+				int numLines = 0;
+
+				// Count the number of lines that need to be displayed while the player is holding shift
+				if (ExpertItemsThatScale_Hardmode.ContainsKey(item.type))
+					numLines++;
+				if (ExpertItemsThatScale_QS.ContainsKey(item.type))
+					numLines++;
+				if (ExpertItemsThatScale_Mechs.ContainsKey(item.type))
+					numLines++;
+				if (ExpertItemsThatScale_Plant.ContainsKey(item.type))
+					numLines++;
+				if (ExpertItemsThatScale_ML.ContainsKey(item.type))
+					numLines++;
+
+				bool addedMoonlord = false;
+				bool addedPlant = false;
+				bool addedMechs = false;
+				bool addedQS = false;
+				bool addedHM = false;
+
+				// Player is holding shift, display lines for each relevant boss
+				if (ItemSlot.ShiftInUse)
+				{
+					for (int i = 1; i <= numLines; i++)
+					{
+						TooltipLine line = new(Mod, $"ProgressionStatBoost{i - 1}", "")
+						{
+							OverrideColor = ItemRarity.GetColor(ItemRarityID.LightRed)
+						};
+
+						if (!addedMoonlord && ExpertItemsThatScale_ML.TryGetValue(item.type, out Func<bool> configEnabled) && configEnabled())
+						{
+							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostML");
+							addedMoonlord = true;
+
+							if (NPC.downedMoonlord)
+								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+							tooltips.Insert(idx + 1, line);
+							continue;
+						}
+
+						if (!addedPlant && ExpertItemsThatScale_Plant.TryGetValue(item.type, out configEnabled) && configEnabled())
+						{
+							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostPlant");
+							addedPlant = true;
+
+							if (NPC.downedPlantBoss)
+								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+							tooltips.Insert(idx + 1, line);
+							continue;
+						}
+
+						if (!addedMechs && ExpertItemsThatScale_Mechs.TryGetValue(item.type, out configEnabled) && configEnabled())
+						{
+							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechs");
+							addedMechs = true;
+
+							if (DownedMechBossAll())
+								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+							tooltips.Insert(idx + 1, line);
+							continue;
+						}
+
+						if (!addedQS && ExpertItemsThatScale_QS.TryGetValue(item.type, out configEnabled) && configEnabled())
+						{
+							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostQS");
+							addedQS = true;
+
+							if (NPC.downedQueenSlime)
+								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+							tooltips.Insert(idx + 1, line);
+							continue;
+						}
+
+						if (!addedHM && ExpertItemsThatScale_Hardmode.TryGetValue(item.type, out configEnabled) && configEnabled())
+						{
+							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerInHM");
+							addedHM = true;
+
+							if (Main.hardMode)
+								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+							tooltips.Insert(idx + 1, line);
+							continue;
+						}
+					}
+				}
+				// Player is not holding shift, display a tooltip telling them to hold shift
+				// Only displays for items that have at least one line to display
+				else if (numLines > 0)
+				{
+					TooltipLine line = new(Mod, "ProgressionStatBoost0", Language.GetTextValue("Mods.Terratweaks.Common.StrongerHoldShift"))
+					{
+						OverrideColor = ItemRarity.GetColor(ItemRarityID.LightRed)
+					};
+
+					tooltips.Insert(idx + 1, line);
+				}
+			}
+		}
+
+		static bool DownedMechBossAll()
+		{
+			return NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3;
 		}
 	}
 

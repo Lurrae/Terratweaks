@@ -27,6 +27,14 @@ namespace Terratweaks
 		}
 	}
 
+	public static class Extensions
+	{
+		public static bool IsBeeRelated(this Projectile proj)
+		{
+			return proj.type == ProjectileID.Bee || proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Wasp || proj.type == ProjectileID.HornetStinger;
+		}
+	}
+
 	public static class ExtraItemDefaults
 	{
 		/// <summary>

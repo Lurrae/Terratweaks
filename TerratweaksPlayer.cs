@@ -1,11 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
+using System.Security.Policy;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 using Terratweaks.Buffs;
 using Terratweaks.NPCs;
 using Terratweaks.Projectiles;
@@ -27,8 +29,9 @@ namespace Terratweaks
 		public bool spookyShots;
 		public int spookyCD;
 
-		// Custom boolean for the Ogre-dropped DD2 accessories
+		// Other custom booleans
 		public bool dd2Accessory2;
+		public bool buffedHivePack;
 
 		public override void ResetEffects()
 		{
@@ -39,6 +42,7 @@ namespace Terratweaks
 			spookyShots = false;
 
 			dd2Accessory2 = false;
+			buffedHivePack = false;
 		}
 
 		public override void OnEnterWorld()
@@ -117,6 +121,27 @@ namespace Terratweaks
 				NPC.NewNPC(Player.GetSource_ReleaseEntity(), (int)Player.Center.X + 32, (int)Player.Center.Y, NPCType<AdamantiteHeart>(), ai0: Player.whoAmI);
 				adamCD = 120; // Takes 2 seconds to respawn
 			}
+
+			// Royal Gel buff - If Queen Slime is dead, it protects against Spiked Slimes and Queen Slime's three minions
+			var expertAccBuffs = GetInstance<TerratweaksConfig>().expertAccBuffs;
+
+			if (expertAccBuffs.RoyalGel && NPC.downedQueenSlime)
+			{
+				if (Player.npcTypeNoAggro[NPCID.BlueSlime]) // Player has an accessory that gives Royal Gel's effects
+				{
+					Player.npcTypeNoAggro[NPCID.SlimeSpiked] = true;
+					Player.npcTypeNoAggro[NPCID.QueenSlimeMinionBlue] = true;
+					Player.npcTypeNoAggro[NPCID.QueenSlimeMinionPink] = true;
+					Player.npcTypeNoAggro[NPCID.QueenSlimeMinionPurple] = true;
+				}
+			}
+
+			// Hive Pack buff - If Plantera is dead, buff damage of all bee/wasp weapons and sometimes spawn a swarm of large bees
+			if (expertAccBuffs.HivePack && NPC.downedPlantBoss)
+			{
+				if (Player.strongBees)
+					buffedHivePack = true;
+			}
 		}
 
 		bool scalingUp;
@@ -150,6 +175,13 @@ namespace Terratweaks
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			TriggerOnHitBonus(target, hit, proj);
+
+			// Buffed Hive Pack makes bee weapons inflict Acid Venom for a random duration between 0.5-1.5 seconds
+			if (buffedHivePack && proj.IsBeeRelated())
+			{
+				int duration = 30 * Main.rand.Next(new IntRange(1, 3));
+				target.AddBuff(BuffID.Venom, duration);
+			}
 		}
 
 		public void TriggerOnHitBonus(NPC target, NPC.HitInfo hit, Projectile trigger = null)

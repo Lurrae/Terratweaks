@@ -23,6 +23,8 @@ namespace Terratweaks
 		
 		public ArmorReworks armorBonuses = new();
 
+		public ExpertAccBuffs expertAccBuffs = new();
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ChesterRework { get; set; }
@@ -72,6 +74,19 @@ namespace Terratweaks
 
 		[DefaultValue(true)]
 		public bool StatsInTip { get; set; }
+	}
+
+	[SeparatePage]
+	public class ExpertAccBuffs
+	{
+		[DefaultValue(true)]
+		public bool RoyalGel { get; set; }
+
+		[DefaultValue(true)]
+		public bool HivePack { get; set; }
+
+		[DefaultValue(true)]
+		public bool BoneHelm { get; set; }
 	}
 
 	[SeparatePage]
