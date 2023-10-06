@@ -1,3 +1,4 @@
+global using TepigCore;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
