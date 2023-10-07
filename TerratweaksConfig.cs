@@ -29,6 +29,10 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool ChesterRework { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool CraftablePlanterBoxes { get; set; }
+
 		[DefaultValue(true)]
 		public bool DeerclopsRegens { get; set; }
 

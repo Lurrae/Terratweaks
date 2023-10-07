@@ -2,11 +2,10 @@ global using TepigCore;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terratweaks;
 
-namespace TerrarmoryChanges
+namespace Terratweaks
 {
-	public class TerrarmoryChanges : Mod
+	public class Terratweaks : Mod
 	{
 		bool playerHasChesterSafeOpened = false;
 

@@ -47,6 +47,11 @@ Mods: {
 					Tooltip: Chester is reworked to be considered a light pet, but he accesses the player's safe instead of their piggy bank
 				}
 
+				CraftablePlanterBoxes: {
+					Label: "[i:DayBloomPlanterBox] Craftable Planter Boxes"
+					Tooltip: Enables recipes for every type of planter box- 25 of a relevant soil, 25 of a relevant wood, and one seed makes 25 planter boxes for that seed!
+				}
+
 				DeerclopsRegens: {
 					Label: "[i:DeerThing] Deerclops Heals Out of Combat"
 					Tooltip: If no living players are within 1000 blocks of Deerclops, he will regenerate HP based on the below config value
