@@ -25,6 +25,11 @@ Mods: {
 		}
 
 		Configs: {
+			Common: {
+				Warn_NoCrossmod: "[c/FF3300:Note: Items from other mods likely won't be affected by this config option]"
+				Placeholder: This shouldn't have to exist, but TML's auto-formatting is dumb
+			}
+
 			TerratweaksConfig: {
 				DisplayName: Terratweaks Config
 
@@ -81,14 +86,15 @@ Mods: {
 						'''
 				}
 
-				MoonLootMods: {
-					Label: "[i:CelestialSigil] [i:MoonLordBossBag] Modified Moon Lord loot tables"
+				NoDiminishingReturns: {
+					Label: "[i:AnkletoftheWind] [i:LightningBoots] No Diminishing Returns"
 					Tooltip:
 						'''
-						In Classic Mode, the Moon Lord will choose two random classes, and drop one weapon for each of them
-						In Expert Mode, the Moon Lord's treasure bag will drop one weapon for every class
-						Modded classes' weapons, except Thrower, are all grouped into one "class" for simplicity
-						In theory, this should support modded weapons, provided other mods modify Moon Lord's loot table correctly
+						Accessories which lose some stat upon being combined with other accessories will no longer do that!
+						For example, Lightning Boots now give +15% movement speed- the full sum of the speed buffs from its components!
+						Putrid Scent's upgrades technically lose some benefits, as each accessory only buffs one class' damage and crit chance,
+						but it gives a +10% buff instead of +5% to balance this out
+						{$Mods.Terratweaks.Configs.Common.Warn_NoCrossmod}
 						'''
 				}
 
@@ -105,6 +111,7 @@ Mods: {
 						Whichever ore is normally weaker uses the stats of the stronger ore (so Copper takes the stats of Tin, for example)
 						Additionally, the Cactus Pickaxe is nerfed to have -1 range, and all tool powers are rounded to the nearest multiple of 5
 						The rounded tool powers only affect a small handful of pickaxes and a couple hammers
+						{$Mods.Terratweaks.Configs.Common.Warn_NoCrossmod}
 						'''
 				}
 
@@ -211,7 +218,7 @@ Mods: {
 			}
 
 			TerratweaksConfig_Client: {
-				DisplayName: Terraratweaks Config (Client)
+				DisplayName: Terratweaks Config (Client)
 
 				NoDamageVariance: {
 					Label: "[i:DPSMeter] Consistent damage"

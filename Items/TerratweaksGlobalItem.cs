@@ -157,6 +157,46 @@ namespace Terratweaks.Items
 					idx = tooltips.IndexOf(tooltip);
 			}
 
+			// Add/replace some lines for accessories with removed diminishing returns
+			if (config.NoDiminishingReturns && idx != -1)
+			{
+				// Replace tooltip0 and tooltip1 on most accessories
+				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && t.Name.Contains("Tooltip")))
+				{
+					// Tooltip0 - Only edited by Avenger and Destroyer Emblem
+					if (tooltip.Name.Equals("Tooltip0"))
+					{
+						if (item.type == ItemID.AvengerEmblem || item.type == ItemID.DestroyerEmblem) // 15% increased damage
+							tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedDamage", 15);
+					}
+					// Tooltip1 - Edited by literally everything except Avenger Emblem, Stalker's Quiver, and Arcane Flower
+					else if (tooltip.Name.Equals("Tooltip1"))
+					{
+						if (item.type == ItemID.LightningBoots || item.type == ItemID.FrostsparkBoots || item.type == ItemID.TerrasparkBoots) // 15% increased movement speed
+							tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedMovementSpeed", 15);
+						else if (item.type == ItemID.DestroyerEmblem) // 10% increased crit chance
+							tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedCritChance", 10);
+						else if (item.type == ItemID.ReconScope) // 20% increased ranged damage and crit chance
+							tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedRangedDamageCritChance", 20);
+					}
+				}
+
+				// Add lines for Stalker's Quiver and Arcane Flower; doesn't matter if we do this before or after,
+				// I'm just doing it after for organization purposes
+				if (item.type == ItemID.StalkersQuiver || item.type == ItemID.ArcaneFlower)
+				{
+					TooltipLine line = new(Mod, "Tooltip1", "");
+
+					if (item.type == ItemID.StalkersQuiver)
+						line.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedRangedDamageCritChance", 10);
+					else
+						line.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedMagicDamageCritChance", 10);
+
+					tooltips.Insert(idx + 1, line);
+				}
+			}
+
+			// Add an extra line (or multiple) for Expert accessories that need to scale with progression
 			if (idx != -1)
 			{
 				int numLines = 0;
@@ -333,7 +373,8 @@ namespace Terratweaks.Items
 
 		public override void UpdateAccessory(Item item, Player player, bool hideVisual)
 		{
-			SentryAccSetting dd2AccsStack = GetInstance<TerratweaksConfig>().StackableDD2Accs;
+			var config = GetInstance<TerratweaksConfig>();
+			SentryAccSetting dd2AccsStack = config.StackableDD2Accs;
 
 			if (dd2AccsStack == SentryAccSetting.Limited)
 			{
@@ -354,7 +395,35 @@ namespace Terratweaks.Items
 				player.GetDamage(DamageClass.Summon) += 0.1f;
 			}
 
-			if (item.type == ItemID.EmpressFlightBooster && GetInstance<TerratweaksConfig>().SIRework && !ModLoader.HasMod("CalamityMod"))
+			if (config.NoDiminishingReturns)
+			{
+				// Boots need to give +15% movement speed, but they currently only give +8%- so increase it by 7%!
+				if (item.type == ItemID.LightningBoots || item.type == ItemID.FrostsparkBoots || item.type == ItemID.TerrasparkBoots)
+					player.moveSpeed += 0.07f;
+				// Avenger Emblem needs to give 3% more damage to get up to +15%
+				else if (item.type == ItemID.AvengerEmblem)
+					player.GetDamage(DamageClass.Generic) += 0.03f;
+				// Destroyer Emblem needs 5% more damage and 2% more crit chance
+				else if (item.type == ItemID.DestroyerEmblem)
+				{
+					player.GetDamage(DamageClass.Generic) += 0.05f;
+					player.GetCritChance(DamageClass.Generic) += 2;
+				}
+				// Recon Scope and Stalker's Quiver both need 10% more ranged damage and crit
+				else if (item.type == ItemID.ReconScope || item.type == ItemID.StalkersQuiver)
+				{
+					player.GetDamage(DamageClass.Ranged) += 0.1f;
+					player.GetCritChance(DamageClass.Ranged) += 10;
+				}
+				// Arcane Flower needs 10% more magic damage and crit
+				else if (item.type == ItemID.ArcaneFlower)
+				{
+					player.GetDamage(DamageClass.Magic) += 0.1f;
+					player.GetCritChance(DamageClass.Magic) += 10;
+				}
+			}
+
+			if (item.type == ItemID.EmpressFlightBooster && config.SIRework && !ModLoader.HasMod("CalamityMod"))
 			{
 				// Disable vanilla SI effects
 				player.empressBrooch = false;

@@ -47,6 +47,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool KillSentries { get; set; }
 
+		[DefaultValue(false)]
+		public bool NoDiminishingReturns { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool OasisCrateBuff { get; set; }
