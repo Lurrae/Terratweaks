@@ -44,7 +44,7 @@ namespace Terratweaks.Items
 		}
 	}
 
-	// Anything that is affected by mod configs goes here
+	// Any tooltips that are affected by mod configs goes here
 	public class TooltipChanges : GlobalItem
 	{
 		public override bool InstancePerEntity => true;
@@ -146,6 +146,20 @@ namespace Terratweaks.Items
 					foreach (TooltipLine tooltip in removeList)
 						tooltips.Remove(tooltip);
 				}
+			}
+
+			if (config.DyeTraderShopExpansion && Terratweaks.DyeItemsSoldByTrader.Contains(item.type))
+			{
+				idx = -1;
+
+				foreach (TooltipLine line in tooltips)
+				{
+					if (line.Name == "ItemName" || line.Name == "Material" || line.Name == "Tooltip0")
+						idx = tooltips.IndexOf(line);
+				}
+
+				if (idx > -1)
+					tooltips.Insert(idx + 1, new TooltipLine(Mod, "SoldByDyeTrader", Language.GetTextValue("Mods.DyeQol.Common.SoldByDyeTrader")) { OverrideColor = Color.SlateBlue });
 			}
 
 			// Find the last tooltip line that describes the item's effects
@@ -657,11 +671,11 @@ namespace Terratweaks.Items
 				//Spider armor
 				case ItemID.SpiderMask:
 				case ItemID.SpiderGreaves:
-					if (armorToggles.SpiderRework)
+					if (armorToggles.Spider)
 						player.GetDamage(DamageClass.Summon) += 0.02f;
 					break;
 				case ItemID.SpiderBreastplate:
-					if (armorToggles.SpiderRework)
+					if (armorToggles.Spider)
 					{
 						player.GetDamage(DamageClass.Summon) += 0.02f;
 						player.maxTurrets += 1;
@@ -672,7 +686,7 @@ namespace Terratweaks.Items
 				case ItemID.SpookyHelmet:
 				case ItemID.SpookyBreastplate:
 				case ItemID.SpookyLeggings:
-					if (armorToggles.SpookyRework)
+					if (armorToggles.Spooky)
 						player.GetDamage(DamageClass.Summon) += 0.06f;
 					break;
 			}
@@ -689,24 +703,24 @@ namespace Terratweaks.Items
 					switch (item.type)
 					{
 						case ItemID.SpiderMask:
-							if (armorToggles.SpiderRework)
+							if (armorToggles.Spider)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 7);
 							break;
 						case ItemID.SpiderBreastplate:
-							if (armorToggles.SpiderRework)
+							if (armorToggles.Spider)
 							{
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 7);
 								tooltip.Text += "\n" + Language.GetTextValue("CommonItemTooltip.IncreasesMaxSentriesBy", 1);
 							}
 							break;
 						case ItemID.SpiderGreaves:
-							if (armorToggles.SpiderRework)
+							if (armorToggles.Spider)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 8);
 							break;
 						case ItemID.SpookyHelmet:
 						case ItemID.SpookyBreastplate:
 						case ItemID.SpookyLeggings:
-							if (armorToggles.SpookyRework)
+							if (armorToggles.Spooky)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 17);
 							break;
 					}
@@ -732,25 +746,25 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (head.type == ItemID.SpiderMask && body.type == ItemID.SpiderBreastplate && legs.type == ItemID.SpiderGreaves && armorToggles.SpiderRework)
+			if (head.type == ItemID.SpiderMask && body.type == ItemID.SpiderBreastplate && legs.type == ItemID.SpiderGreaves && armorToggles.Spider)
 			{
 				return "Spider";
 			}
 
-			if (CobaltHeads.Contains(head.type) && body.type == ItemID.CobaltBreastplate && legs.type == ItemID.CobaltLeggings && armorToggles.CobaltRework)
+			if (CobaltHeads.Contains(head.type) && body.type == ItemID.CobaltBreastplate && legs.type == ItemID.CobaltLeggings && armorToggles.Cobalt)
 			{
 				return "Cobalt";
 			}
-			if (MythrilHeads.Contains(head.type) && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves && armorToggles.MythrilRework)
+			if (MythrilHeads.Contains(head.type) && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves && armorToggles.Mythril)
 			{
 				return "Mythril";
 			}
-			if (AdamantiteHeads.Contains(head.type) && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings && armorToggles.AdamantiteRework)
+			if (AdamantiteHeads.Contains(head.type) && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings && armorToggles.Adamantite)
 			{
 				return "Adamantite";
 			}
 
-			if (head.type == ItemID.SpookyHelmet && body.type == ItemID.SpookyBreastplate && legs.type == ItemID.SpookyLeggings && armorToggles.SpookyRework)
+			if (head.type == ItemID.SpookyHelmet && body.type == ItemID.SpookyBreastplate && legs.type == ItemID.SpookyLeggings && armorToggles.Spooky)
 			{
 				return "Spooky";
 			}
@@ -878,6 +892,40 @@ namespace Terratweaks.Items
 					CombatText.NewText(item.getRect(), Color.HotPink, "The Soaring Insignia has regained its might!");
 					SoundEngine.PlaySound(SoundID.AchievementComplete, item.position);
 				}
+			}
+		}
+	}
+
+	public class ShimmerTransmutationHandler : GlobalItem
+	{
+		public override void SetStaticDefaults()
+		{
+			if (GetInstance<TerratweaksConfig>().craftableUncraftables.Moss)
+			{
+				AddShimmerTransmutation_Cycle(new List<int> { ItemID.RedMoss, ItemID.BrownMoss, ItemID.GreenMoss, ItemID.BlueMoss, ItemID.PurpleMoss });
+				AddShimmerTransmutation_Chain(new List<int> { ItemID.LavaMoss, ItemID.XenonMoss, ItemID.KryptonMoss, ItemID.ArgonMoss, ItemID.VioletMoss, ItemID.RainbowMoss });
+			}
+		}
+
+		static void AddShimmerTransmutation_Cycle(List<int> items)
+		{
+			for (int i = 0; i < items.Count; i++)
+			{
+				int item = items[i];
+				int result = i == items.Count - 1 ? items[0] : items[i + 1];
+
+				ItemID.Sets.ShimmerTransformToItem[item] = result;
+			}
+		}
+
+		static void AddShimmerTransmutation_Chain(List<int> items)
+		{
+			for (int i = 0; i < items.Count; i++)
+			{
+				int item = items[i];
+				int result = i == items.Count - 1 ? -1 : items[i + 1];
+
+				ItemID.Sets.ShimmerTransformToItem[item] = result;
 			}
 		}
 	}

@@ -24,6 +24,11 @@ Mods: {
 			C: Crits {0} times every 100 hits
 		}
 
+		Conditions: {
+			DyeConfigActive: Dye Trader Shop Expansion mod config is enabled
+			InPlayerInv: Item must be in the player's inventory or portable storage
+		}
+
 		Configs: {
 			Common: {
 				Warn_NoCrossmod: "[c/FF3300:Note: Items from other mods likely won't be affected by this config option]"
@@ -47,14 +52,18 @@ Mods: {
 						'''
 				}
 
+				craftableUncraftables: {
+					Label: Craftable Uncraftables
+					Tooltip:
+						'''
+						Contains toggles that enable custom recipes for otherwise-uncraftable vanilla items!
+						Does not automatically support modded items, but manual support for some mods (currently only Thorium) can be implemented as needed
+						'''
+				}
+
 				ChesterRework: {
 					Label: "[i:ChesterPetItem] Chester Rework"
 					Tooltip: Chester is reworked to be considered a light pet, but he accesses the player's safe instead of their piggy bank
-				}
-
-				CraftablePlanterBoxes: {
-					Label: "[i:DayBloomPlanterBox] Craftable Planter Boxes"
-					Tooltip: Enables recipes for every type of planter box- 25 of a relevant soil, 25 of a relevant wood, and one seed makes 25 planter boxes for that seed!
 				}
 
 				DeerclopsRegens: {
@@ -75,6 +84,11 @@ Mods: {
 						Whip Target Only - Hitting a target dummy with a whip allows all minions, sentries, and homing projectiles to target it until the target reticle is removed from the dummy
 						Always Active - All minions, sentries, and homing projectiles can home in on target dummies with no restrictions
 						'''
+				}
+
+				DyeTraderShopExpansion: {
+					Label: "[i:DyeTraderTurban] Dye Trader Shop Expansion"
+					Tooltip: The Dye Trader town NPC will sell any dyes or dye ingredients in your inventory or portable storages
 				}
 
 				KillSentries: {
@@ -167,7 +181,7 @@ Mods: {
 			}
 
 			ArmorReworks: {
-				SpiderRework: {
+				Spider: {
 					Label: "[i:SpiderMask] [i:SpiderBreastplate] [i:SpiderGreaves] Spider armor"
 					Tooltip:
 						'''
@@ -176,27 +190,65 @@ Mods: {
 						'''
 				}
 
-				CobaltRework: {
+				Cobalt: {
 					Label: "[i:CobaltHat] [i:CobaltHelmet] [i:CobaltMask] [i:CobaltBreastplate] [i:CobaltLeggings] Cobalt armor"
 					Tooltip: New set bonus: Dealing damage increases your defense and provides knockback immunity
 				}
 
-				MythrilRework: {
+				Mythril: {
 					Label: "[i:MythrilHood] [i:MythrilHelmet] [i:MythrilHat] [i:MythrilChainmail] [i:MythrilGreaves] Mythril armor"
 					Tooltip: New set bonus: Columns of flames shoot up from hit enemies
 				}
 
-				AdamantiteRework: {
+				Adamantite: {
 					Label: "[i:AdamantiteHeadgear] [i:AdamantiteHelmet] [i:AdamantiteMask] [i:AdamantiteBreastplate] [i:AdamantiteLeggings] Adamantite armor"
 					Tooltip: New set bonus: Hearts circle around you, kill them to get a small bit of healing
 				}
 
-				SpookyRework: {
+				Spooky: {
 					Label: "[i:SpookyHelmet] [i:SpookyBreastplate] [i:SpookyLeggings] Spooky armor"
 					Tooltip:
 						'''
 						Each piece increases summon damage by 17%, up from 11%
 						New set bonus: Flaming nettles automatically fire at nearby foes
+						'''
+				}
+
+				Tooltip: ""
+			}
+
+			CraftableUncraftables: {
+				PlanterBoxes: {
+					Label: "[i:DayBloomPlanterBox] Planter Boxes"
+					Tooltip: Enables recipes for every type of planter box- 25 of a relevant soil, 25 of a relevant wood, and one seed makes 25 planter boxes for that seed!
+				}
+
+				GemCritters: {
+					Label: "[i:GemBunnyAmethyst] [i:GemSquirrelAmethyst] Gem Critters"
+					Tooltip: Enables recipes for all gem bunnies and squirrels- 1 of the base critter and 5 of the relevant gem!
+				}
+
+				DungeonFurniture: {
+					Label: "[i:BlueDungeonVase] [i:GreenDungeonVase] [i:PinkDungeonVase] Dungeon Furniture"
+					Tooltip: Enables recipes for all furniture items generated in the dungeon, and adds Dungeon paintings to the Painter's decor shop when he's located in the Dungeon
+				}
+
+				ObsidianFurniture: {
+					Label: "[i:ObsidianVase] Obsidian Furniture"
+					Tooltip: Enables recipes for all furniture items generated in the Underworld's ruined houses, and adds their paintings to the Painter's decor shop when he's located in the Underworld
+				}
+
+				StructureBanners: {
+					Label: "[i:WorldBanner] [i:AnkhBanner] [i:NecromanticSign] [i:HellHammerBanner] Structure Banners"
+					Tooltip: Enables recipes for all banners generated in a structure
+				}
+
+				Moss: {
+					Label: "[i:RedMoss] [i:LavaMoss] Shimmerable Mosses"
+					Tooltip:
+						'''
+						Enables Shimmer transmutations to unlock access to all types of moss in a given world
+						Regular mosses cycle through each other in rainbow order, while glowing mosses have a chain of transmutations similar to ores
 						'''
 				}
 
@@ -255,6 +307,8 @@ Mods: {
 				Increases wing flight time by 25%
 				Increases movement speed, jump speed, and acceleration by 10% each
 				'''
+			# Added tooltip for items sold by the Dye Trader
+			SoldByDyeTrader: "[i:DyeTraderTurban] Sold by the Dye Trader"
 			# Added tooltip for items that get buffed by certain progression points
 			StrongerHoldShift: Becomes stronger upon reaching certain milestones. Hold SHIFT for more information
 			StrongerInHM: Becomes stronger when the spirits of Light and Dark are unleashed
@@ -301,5 +355,7 @@ Mods: {
 			AdamantiteHeart.DisplayName: Adamantite Heart
 			Placeholder.DisplayName: This shouldn't have to exist, but TML's auto-formatting is dumb
 		}
+
+		Keybinds.InfernoToggle.DisplayName: Inferno Toggle
 	}
 }

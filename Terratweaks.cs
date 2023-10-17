@@ -1,18 +1,77 @@
 global using TepigCore;
+using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Terratweaks
 {
+	public enum PacketType
+	{
+		SyncInferno = 0
+	}
+
 	public class Terratweaks : Mod
 	{
 		bool playerHasChesterSafeOpened = false;
 
+		public static ModKeybind InfernoToggleKeybind { get; private set; }
+		public static readonly List<int> DyeItemsSoldByTrader = new();
+
 		public override void Load()
 		{
+			InfernoToggleKeybind = KeybindLoader.RegisterKeybind(this, "InfernoToggle", "I");
+			On_Main.DrawInfernoRings += On_Main_DrawInfernoRings;
 			On_Main.TryInteractingWithMoneyTrough += On_Main_TryInteractingWithMoneyTrough;
 			On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
+		}
+
+		public override void HandlePacket(BinaryReader reader, int fromWho)
+		{
+			PacketType type = (PacketType)reader.ReadByte();
+
+			if (type == PacketType.SyncInferno)
+			{
+				if (Main.netMode == NetmodeID.Server) // Server needs to send out packets to all other players
+				{
+					int playerIdxToIgnore = fromWho;
+					bool value = reader.ReadBoolean();
+
+					ModPacket packet = GetPacket();
+					packet.Write((byte)PacketType.SyncInferno);
+					packet.Write(value);
+					packet.Write(playerIdxToIgnore);
+					packet.Send(ignoreClient: fromWho);
+				}
+				else // Multiplayer client needs to update the inferno visuals for the player they just received data from
+				{
+					int senderWhoAmI = reader.ReadInt32();
+					bool value = reader.ReadBoolean();
+					Main.player[senderWhoAmI].GetModPlayer<InputPlayer>().showInferno = value;
+				}
+			}
+		}
+
+		public override void Unload()
+		{
+			InfernoToggleKeybind = null;
+		}
+
+		private void On_Main_DrawInfernoRings(On_Main.orig_DrawInfernoRings orig, Main self)
+		{
+			for (int i = 0; i < Main.maxPlayers; i++)
+			{
+				Player player = Main.player[i];
+
+				if (player.active && !player.outOfRange && !player.dead)
+				{
+					if (!player.GetModPlayer<InputPlayer>().showInferno)
+						player.inferno = false;
+				}
+			}
+
+			orig(self);
 		}
 
 		private void On_Player_HandleBeingInChestRange(On_Player.orig_HandleBeingInChestRange orig, Player self)

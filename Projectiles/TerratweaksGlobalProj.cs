@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -80,6 +81,21 @@ namespace Terratweaks.Projectiles
 				else
 					modifiers.DisableCrit();
 			}
+		}
+	}
+
+	public class CalamityTeslaVisibilitySupport : GlobalProjectile
+	{
+		public override bool PreDraw(Projectile projectile, ref Color lightColor)
+		{
+			// Hide Calamity's Tesla Potion aura
+			if (ModLoader.TryGetMod("CalamityMod", out Mod calamity) && calamity.TryFind("TeslaAura", out ModProjectile teslaAura))
+			{
+				if (projectile.type == teslaAura.Type && !Main.player[projectile.owner].GetModPlayer<InputPlayer>().showInferno)
+					return false;
+			}
+
+			return base.PreDraw(projectile, ref lightColor);
 		}
 	}
 }

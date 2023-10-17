@@ -5,6 +5,7 @@ using System.Security.Policy;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -32,7 +33,7 @@ namespace Terratweaks
 		// Other custom booleans
 		public bool dd2Accessory2;
 		public bool buffedHivePack;
-
+		
 		public override void ResetEffects()
 		{
 			spiderWeb = false;
@@ -232,9 +233,27 @@ namespace Terratweaks
 	}
 
 	// Handles any modded behaviors that stem from player inputs
-	// Can also be used to handle custom keybinds, if we ever add any
+	// Can also be used to handle custom keybinds
 	public class InputPlayer : ModPlayer
 	{
+		public bool showInferno = true;
+
+		public override void ProcessTriggers(TriggersSet triggersSet)
+		{
+			if (Terratweaks.InfernoToggleKeybind.JustPressed)
+			{
+				showInferno = !showInferno;
+				
+				if (Main.netMode == NetmodeID.MultiplayerClient) // Sync changed value in multiplayer
+				{
+					ModPacket packet = GetInstance<Terratweaks>().GetPacket();
+					packet.Write((byte)PacketType.SyncInferno); // Packet ID - What type of message is this?
+					packet.Write(showInferno); // Packet message - Does this player have the inferno ring visible or not?
+					packet.Send();
+				}
+			}
+		}
+
 		public override void PostUpdate()
 		{
 			bool chesterRework = GetInstance<TerratweaksConfig>().ChesterRework;

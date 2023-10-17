@@ -25,13 +25,11 @@ namespace Terratweaks
 
 		public ExpertAccBuffs expertAccBuffs = new();
 
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool ChesterRework { get; set; }
+		public CraftableUncraftables craftableUncraftables = new();
 
 		[ReloadRequired]
 		[DefaultValue(true)]
-		public bool CraftablePlanterBoxes { get; set; }
+		public bool ChesterRework { get; set; }
 
 		[DefaultValue(true)]
 		public bool DeerclopsRegens { get; set; }
@@ -43,6 +41,9 @@ namespace Terratweaks
 
 		[DefaultValue(DummySetting.Limited)]
 		public DummySetting DummyFix { get; set; }
+
+		[DefaultValue(true)]
+		public bool DyeTraderShopExpansion { get; set; }
 
 		[DefaultValue(true)]
 		public bool KillSentries { get; set; }
@@ -100,18 +101,46 @@ namespace Terratweaks
 	public class ArmorReworks
 	{
 		[DefaultValue(true)]
-		public bool SpiderRework { get; set; }
+		public bool Spider { get; set; }
 
 		[DefaultValue(true)]
-		public bool CobaltRework { get; set; }
+		public bool Cobalt { get; set; }
 
 		[DefaultValue(true)]
-		public bool MythrilRework { get; set; }
+		public bool Mythril { get; set; }
 
 		[DefaultValue(true)]
-		public bool AdamantiteRework { get; set; }
+		public bool Adamantite { get; set; }
 
 		[DefaultValue(true)]
-		public bool SpookyRework { get; set; }
+		public bool Spooky { get; set; }
+	}
+
+	[SeparatePage]
+	public class CraftableUncraftables
+	{
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool GemCritters { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool PlanterBoxes { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool DungeonFurniture { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ObsidianFurniture { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool StructureBanners { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool Moss { get; set; }
 	}
 }

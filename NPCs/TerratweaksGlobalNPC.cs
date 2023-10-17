@@ -152,4 +152,59 @@ namespace Terratweaks.NPCs
 			}
 		}
 	}
+
+	// Modify shops here
+	public class ShopHandler : GlobalNPC
+	{
+		public override void ModifyShop(NPCShop shop)
+		{
+			if (shop.NpcType == NPCID.DyeTrader)
+			{
+				foreach (KeyValuePair<int, Item> pair in ContentSamples.ItemsByType)
+				{
+					int type = pair.Key;
+					Item item = pair.Value;
+
+					if (shop.Entries.Any(e => e.Item.type == type)) // Ignore any items already sold by the Dye Trader
+						continue;
+
+					bool isDyeIngredient = false;
+
+					// Should hopefully handle modded items that are used for dyes!
+					// Also ignores items that are dyes themselves, since we don't need to iterate over recipes if we already know this one's getting added
+					if (item.dye == 0)
+					{
+						foreach (Recipe recipe in Main.recipe.Where(r => r.ContainsIngredient(item.type)))
+						{
+							// Don't add items that are used in a recipe containing bottled water or another dye
+							// This should prevent most items that aren't used exclusively for a dye, like Crystal Shards or Luminite Bars, from being sold by the Dye Trader
+							if (recipe.ContainsIngredient(ItemID.BottledWater) || recipe.requiredItem.Any(i => i.dye > 0))
+								continue;
+
+							if (recipe.createItem.dye > 0)
+							{
+								isDyeIngredient = true;
+								break;
+							}
+						}
+					}
+
+					if (item.dye > 0 || isDyeIngredient)
+					{
+						Condition configEnabled = new("Mods.Terratweaks.Conditions.DyeConfigActive", () => GetInstance<TerratweaksConfig>().DyeTraderShopExpansion);
+						Condition itemInInv = new("Mods.Terratweaks.Conditions.InPlayerInv", () =>
+							Main.LocalPlayer.inventory.Any(i => i.type == type) ||
+							Main.LocalPlayer.dye.Any(i => i.type == type) ||
+							Main.LocalPlayer.miscDyes.Any(i => i.type == type) ||
+							Main.LocalPlayer.bank.item.Any(i => i.type == type) ||
+							Main.LocalPlayer.bank2.item.Any(i => i.type == type) ||
+							Main.LocalPlayer.bank3.item.Any(i => i.type == type) ||
+							Main.LocalPlayer.bank4.item.Any(i => i.type == type));
+						shop.Add(type, configEnabled, itemInInv);
+						Terratweaks.DyeItemsSoldByTrader.Add(type);
+					}
+				}
+			}
+		}
+	}
 }
