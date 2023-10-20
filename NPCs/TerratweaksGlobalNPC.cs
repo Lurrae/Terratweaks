@@ -107,6 +107,94 @@ namespace Terratweaks.NPCs
 		}
 	}
 
+	// Handle removing contact damage and Expert stat scaling
+	public class StatChangeHandler : GlobalNPC
+	{
+		public override void SetStaticDefaults()
+		{
+			if (GetInstance<TerratweaksConfig>().NoExpertScaling)
+			{
+				for (int i = 0; i < NPCID.Sets.NeedsExpertScaling.Length; i++)
+				{
+					NPCID.Sets.DontDoHardmodeScaling[i] = true;
+				}
+			}
+		}
+
+		static readonly List<int> npcTypesThatShouldNotDoContactDamage = new()
+		{
+			// Hornets
+			// TODO: Are the big and little variants necessary? They're all NetID enemies, so they may be "counted" as the normal variants
+			NPCID.Hornet,
+			NPCID.HornetFatty,
+			NPCID.HornetHoney,
+			NPCID.HornetLeafy,
+			NPCID.HornetSpikey,
+			NPCID.HornetStingy,
+			NPCID.BigHornetFatty,
+			NPCID.BigHornetHoney,
+			NPCID.BigHornetLeafy,
+			NPCID.BigHornetSpikey,
+			NPCID.BigHornetStingy,
+			NPCID.LittleHornetFatty,
+			NPCID.LittleHornetHoney,
+			NPCID.LittleHornetLeafy,
+			NPCID.LittleHornetSpikey,
+			NPCID.LittleHornetStingy,
+			
+			// Moss Hornets
+			// TODO: Again, are all the NetID variants necessary?
+			NPCID.MossHornet,
+			NPCID.BigMossHornet,
+			NPCID.GiantMossHornet,
+			NPCID.LittleMossHornet,
+			NPCID.TinyMossHornet,
+
+			// Archers
+			NPCID.CultistArcherBlue,
+			NPCID.CultistArcherWhite,
+			NPCID.ElfArcher,
+			NPCID.GoblinArcher,
+			NPCID.PirateCrossbower,
+			NPCID.SkeletonArcher,
+
+			// Gun users
+			NPCID.PirateDeadeye,
+			NPCID.RayGunner,
+			NPCID.ScutlixRider,
+			NPCID.SnowBalla,
+			NPCID.SnowmanGangsta,
+			NPCID.SkeletonCommando,
+			NPCID.SkeletonSniper,
+			NPCID.TacticalSkeleton,
+			NPCID.VortexRifleman,
+
+			// Misc.
+			NPCID.AngryNimbus,
+			NPCID.Eyezor,
+			NPCID.Gastropod,
+			NPCID.IcyMerman,
+			NPCID.MartianTurret,
+			NPCID.Probe
+		};
+
+		public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
+		{
+			bool shouldNotDoContactDamage = false;
+
+			if (npc.aiStyle == NPCAIStyleID.Caster)
+				shouldNotDoContactDamage = true;
+			
+			if (npcTypesThatShouldNotDoContactDamage.Contains(npc.type) || (npc.type >= NPCID.Salamander && npc.type <= NPCID.Salamander9))
+				shouldNotDoContactDamage = true;
+
+			if (shouldNotDoContactDamage && GetInstance<TerratweaksConfig>().NoCasterContactDamage)
+				return false;
+
+			return base.CanHitPlayer(npc, target, ref cooldownSlot);
+		}
+	}
+
 	// Any changes that occur when an NPC is killed should be handled here
 	public class DeathEffectHandler : GlobalNPC
 	{
@@ -202,6 +290,58 @@ namespace Terratweaks.NPCs
 							Main.LocalPlayer.bank4.item.Any(i => i.type == type));
 						shop.Add(type, configEnabled, itemInInv);
 						Terratweaks.DyeItemsSoldByTrader.Add(type);
+					}
+				}
+			}
+
+			if (shop.NpcType == NPCID.Steampunker)
+			{
+				if (GetInstance<TerratweaksConfig>().SoilSolutionsPreML)
+				{
+					shop.ActiveEntries.First(i => i.Item.type == ItemID.DirtSolution).Disable();
+					shop.InsertAfter(ItemID.DirtSolution, ItemID.DirtSolution, Condition.Hardmode);
+					shop.ActiveEntries.First(i => i.Item.type == ItemID.SandSolution).Disable();
+					shop.InsertAfter(ItemID.SandSolution, ItemID.SandSolution, Condition.Hardmode);
+					shop.ActiveEntries.First(i => i.Item.type == ItemID.SnowSolution).Disable();
+					shop.InsertAfter(ItemID.SnowSolution, ItemID.SnowSolution, Condition.Hardmode);
+				}
+
+				if (GetInstance<TerratweaksConfig>().SolutionsOnGFB)
+				{
+					List<int> itemsToAddToShop = new();
+
+					foreach (var entry in shop.ActiveEntries)
+					{
+						if (entry.Conditions.Contains(Condition.NotRemixWorld))
+						{
+							itemsToAddToShop.Add(entry.Item.type);
+						}
+					}
+
+					foreach (int itemType in itemsToAddToShop)
+					{
+						shop.InsertAfter(itemType, itemType, Condition.DownedMoonLord);
+					}
+				}
+			}
+
+			if (shop.NpcType == NPCID.Truffle)
+			{
+				if (GetInstance<TerratweaksConfig>().SolutionsOnGFB)
+				{
+					List<int> itemsToAddToShop = new();
+
+					foreach (var entry in shop.ActiveEntries)
+					{
+						if (entry.Conditions.Contains(Condition.NotRemixWorld))
+						{
+							itemsToAddToShop.Add(entry.Item.type);
+						}
+					}
+
+					foreach (int itemType in itemsToAddToShop)
+					{
+						shop.InsertAfter(itemType, itemType, new Condition[] { Condition.RemixWorld, Condition.DownedMoonLord });
 					}
 				}
 			}

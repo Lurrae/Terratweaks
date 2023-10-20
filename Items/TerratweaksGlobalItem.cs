@@ -159,7 +159,7 @@ namespace Terratweaks.Items
 				}
 
 				if (idx > -1)
-					tooltips.Insert(idx + 1, new TooltipLine(Mod, "SoldByDyeTrader", Language.GetTextValue("Mods.DyeQol.Common.SoldByDyeTrader")) { OverrideColor = Color.SlateBlue });
+					tooltips.Insert(idx + 1, new TooltipLine(Mod, "SoldByDyeTrader", Language.GetTextValue("Mods.Terratweaks.Common.SoldByDyeTrader")) { OverrideColor = Color.SlateBlue });
 			}
 
 			// Find the last tooltip line that describes the item's effects

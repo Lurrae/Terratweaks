@@ -60,7 +60,11 @@ namespace Terratweaks
 				mythrilCD--;
 			if (adamCD > 0)
 				adamCD--;
-			
+
+			// Provide immunity to chilling water in Expert mode
+			if (GetInstance<TerratweaksConfig>().NoExpertFreezingWater)
+				Player.arcticDivingGear = true;
+
 			// Huntress' Buckler and Monk's Belt effects
 			if (dd2Accessory2)
 			{

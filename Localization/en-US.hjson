@@ -25,7 +25,7 @@ Mods: {
 		}
 
 		Conditions: {
-			DyeConfigActive: Dye Trader Shop Expansion mod config is enabled
+			DyeConfigActive: '''"Dye Trader Shop Expansion" mod config is enabled'''
 			InPlayerInv: Item must be in the player's inventory or portable storage
 		}
 
@@ -100,6 +100,16 @@ Mods: {
 						'''
 				}
 
+				NoCasterContactDamage: {
+					Label: "[i:WoodenBow] Ranged Enemies Deal No Contact Damage"
+					Tooltip:
+						'''
+						Removes contact damage from all enemies that attack with projectiles
+						This includes all enemies with Caster AI, all archer-style enemies, and some special cases like Probes and Gastropods
+						Modded caster enemies will be affected by this setting, but not other modded enemies
+						'''
+				}
+
 				NoDiminishingReturns: {
 					Label: "[i:AnkletoftheWind] [i:LightningBoots] No Diminishing Returns"
 					Tooltip:
@@ -110,6 +120,21 @@ Mods: {
 						but it gives a +10% buff instead of +5% to balance this out
 						{$Mods.Terratweaks.Configs.Common.Warn_NoCrossmod}
 						'''
+				}
+
+				NoExpertDebuffTimes: {
+					Label: "[i:AnkhCharm] Remove Expert Mode Extended Debuff Duration"
+					Tooltip: Disables debuffs getting an increased duration in Expert Mode and Master Mode
+				}
+
+				NoExpertFreezingWater: {
+					Label: "[i:ArcticDivingGear] Remove Expert Mode Freezing Water"
+					Tooltip: Water in the ice biome no longer inflicts Chilled in Expert+
+				}
+
+				NoExpertScaling: {
+					Label: "[i:GreenSlimeBanner] Remove Expert Mode Enemy Stat Scaling"
+					Tooltip: Removes the ridiculous stat scaling Expert/Master Mode applies to certain enemies in Hardmode and post-Plantera
 				}
 
 				OasisCrateBuff: {
@@ -147,6 +172,16 @@ Mods: {
 						However, defeating the Empress of Light during the daytime will transform the Soaring Insignia into the "Radiant Insignia" if it is in your inventory
 						The Radiant Insignia provides infinite flight time, doubled acceleration, and 48% extra jump speed, the same as the un-nerfed Soaring Insignia
 						'''
+				}
+
+				SoilSolutionsPreML: {
+					Label: "[i:DirtSolution] Steampunker sells 1.4.4 solutions pre-ML"
+					Tooltip: Changes the requirements for the {$ItemName.DirtSolution}, {$ItemName.SandSolution}, and {$ItemName.SnowSolution} so they are sold at the same time as other solutions
+				}
+
+				SolutionsOnGFB: {
+					Label: "[i:Clentaminator] Clentaminator/Solutions on Remix seed post-ML"
+					Tooltip: On the Remix seed (and Get Fixed Boi by proxy), the {$ItemName.Clentaminator} and its solutions will be sold once Moon Lord is defeated
 				}
 
 				StackableDD2Accs: {

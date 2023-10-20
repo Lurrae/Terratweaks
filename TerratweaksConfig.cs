@@ -49,7 +49,19 @@ namespace Terratweaks
 		public bool KillSentries { get; set; }
 
 		[DefaultValue(false)]
+		public bool NoCasterContactDamage { get; set; }
+
+		[DefaultValue(false)]
 		public bool NoDiminishingReturns { get; set; }
+
+		[DefaultValue(false)]
+		public bool NoExpertDebuffTimes { get; set; }
+
+		[DefaultValue(false)]
+		public bool NoExpertFreezingWater { get; set; }
+
+		[DefaultValue(false)]
+		public bool NoExpertScaling { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -65,6 +77,14 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool SIRework { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool SoilSolutionsPreML { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool SolutionsOnGFB { get; set; }
 
 		[DefaultValue(SentryAccSetting.Limited)]
 		public SentryAccSetting StackableDD2Accs { get; set; }
