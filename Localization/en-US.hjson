@@ -287,6 +287,15 @@ Mods: {
 						'''
 				}
 
+				Gravestones: {
+					Label: "[i:Tombstone] Shimmerable Gravestones"
+					Tooltip:
+						'''
+						Enables Shimmer transmutations to grant easier access to each type of gravestone
+						The normal graves cycle through each other, and the Golden ones cycle through each other separately
+						'''
+				}
+
 				Tooltip: ""
 			}
 

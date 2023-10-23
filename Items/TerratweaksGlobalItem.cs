@@ -905,6 +905,12 @@ namespace Terratweaks.Items
 				AddShimmerTransmutation_Cycle(new List<int> { ItemID.RedMoss, ItemID.BrownMoss, ItemID.GreenMoss, ItemID.BlueMoss, ItemID.PurpleMoss });
 				AddShimmerTransmutation_Chain(new List<int> { ItemID.LavaMoss, ItemID.XenonMoss, ItemID.KryptonMoss, ItemID.ArgonMoss, ItemID.VioletMoss, ItemID.RainbowMoss });
 			}
+
+			if (GetInstance<TerratweaksConfig>().craftableUncraftables.Gravestones)
+			{
+				AddShimmerTransmutation_Cycle(new List<int> { ItemID.Tombstone, ItemID.GraveMarker, ItemID.CrossGraveMarker, ItemID.Headstone, ItemID.Gravestone, ItemID.Obelisk });
+				AddShimmerTransmutation_Cycle(new List<int> { ItemID.RichGravestone1, ItemID.RichGravestone2, ItemID.RichGravestone3, ItemID.RichGravestone4, ItemID.RichGravestone5 });
+			}
 		}
 
 		static void AddShimmerTransmutation_Cycle(List<int> items)
@@ -923,7 +929,7 @@ namespace Terratweaks.Items
 			for (int i = 0; i < items.Count; i++)
 			{
 				int item = items[i];
-				int result = i == items.Count - 1 ? -1 : items[i + 1];
+				int result = i == items.Count - 1 ? ItemID.Sets.ShimmerTransformToItem[item] : items[i + 1];
 
 				ItemID.Sets.ShimmerTransformToItem[item] = result;
 			}

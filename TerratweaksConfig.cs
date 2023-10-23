@@ -162,5 +162,9 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool Moss { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool Gravestones { get; set; }
 	}
 }
