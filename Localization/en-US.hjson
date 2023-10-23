@@ -194,6 +194,11 @@ Mods: {
 						No Restrictions - All four accessories can stack, allowing you to get up to +4 sentry slots and +40% summon damage. This may be slightly unbalanced.
 						'''
 				}
+
+				UmbrellaHatRework: {
+					Label: "[i:UmbrellaHat] Umbrella Hat rework"
+					Tooltip: Reworks the Umbrella Hat vanity item into an accessory which grants fall damage immunity and lets you hold jump in midair to slow your descent
+				}
 			}
 
 			ExpertAccBuffs: {
@@ -350,6 +355,12 @@ Mods: {
 				'''
 				Increases wing flight time by 25%
 				Increases movement speed, jump speed, and acceleration by 10% each
+				'''
+			# Modified tooltip for Umbrella Hat when its rework is enabled
+			ReworkedUmbrellaHatTip:
+				'''
+				Provides immunity to fall damage
+				Allows you to slow your fall by holding jump in midair
 				'''
 			# Added tooltip for items sold by the Dye Trader
 			SoldByDyeTrader: "[i:DyeTraderTurban] Sold by the Dye Trader"

@@ -241,6 +241,14 @@ namespace Terratweaks
 	public class InputPlayer : ModPlayer
 	{
 		public bool showInferno = true;
+		public bool umbrellaHat;
+		public bool umbrellaHatVanity;
+
+		public override void ResetEffects()
+		{
+			umbrellaHat = false;
+			umbrellaHatVanity = false;
+		}
 
 		public override void ProcessTriggers(TriggersSet triggersSet)
 		{
@@ -258,6 +266,15 @@ namespace Terratweaks
 			}
 		}
 
+		public override void FrameEffects()
+		{
+			// Draw Umbrella Hat on the player's head if it's equipped as an accessory
+			if (umbrellaHatVanity)
+			{
+				Player.head = ArmorIDs.Head.UmbrellaHat;
+			}
+		}
+
 		public override void PostUpdate()
 		{
 			bool chesterRework = GetInstance<TerratweaksConfig>().ChesterRework;
@@ -268,6 +285,21 @@ namespace Terratweaks
 				Main.PlayInteractiveProjectileOpenCloseSound(ProjectileID.ChesterPet, false);
 				Player.piggyBankProjTracker.Clear();
 				Recipe.FindRecipes();
+			}
+
+			// Player is falling while holding jump
+			// If they have the Umbrella Hat equipped and aren't wearing wings, slow their descent
+			if (Player.controlJump && Player.velocity.Y > 0 && Player.wingsLogic == 0 && umbrellaHat)
+			{
+				Player.velocity.Y += Player.gravity / 3 * Player.gravDir;
+
+				if (Player.gravDir == 1)
+				{
+					if (Player.velocity.Y > Player.maxFallSpeed / 3 && !Player.TryingToHoverDown)
+						Player.velocity.Y = Player.maxFallSpeed / 3;
+				}
+				else if (Player.velocity.Y < (0 - Player.maxFallSpeed) / 3 && !Player.TryingToHoverUp)
+					Player.velocity.Y = (0 - Player.maxFallSpeed) / 3;
 			}
 		}
 	}

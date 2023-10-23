@@ -88,6 +88,10 @@ namespace Terratweaks
 
 		[DefaultValue(SentryAccSetting.Limited)]
 		public SentryAccSetting StackableDD2Accs { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool UmbrellaHatRework { get; set; }
 	}
 
 	public class TerratweaksConfig_Client : ModConfig

@@ -148,6 +148,26 @@ namespace Terratweaks.Items
 				}
 			}
 
+			if (config.UmbrellaHatRework)
+			{
+				if (item.type == ItemID.UmbrellaHat)
+				{
+					idx = -1;
+
+					foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria"))
+					{
+						if (tooltip.Name == "Equipable")
+							idx = tooltips.IndexOf(tooltip);
+					}
+
+					if (idx != -1)
+					{
+						TooltipLine line = new(Mod, "UmbrellaHatTip", Language.GetTextValue("Mods.Terratweaks.Common.ReworkedUmbrellaHatTip"));
+						tooltips.Insert(idx + 1, line);
+					}
+				}
+			}
+
 			if (config.DyeTraderShopExpansion && Terratweaks.DyeItemsSoldByTrader.Contains(item.type))
 			{
 				idx = -1;
@@ -385,11 +405,40 @@ namespace Terratweaks.Items
 			ItemID.SquireShield
 		};
 
+		public override void SetDefaults(Item item)
+		{
+			var config = GetInstance<TerratweaksConfig>();
+
+			if (item.type == ItemID.UmbrellaHat && config.UmbrellaHatRework)
+			{
+				item.vanity = false;
+				item.accessory = true;
+				item.headSlot = -1;
+			}
+		}
+
+		public override void UpdateVanity(Item item, Player player)
+		{
+			var config = GetInstance<TerratweaksConfig>();
+
+			if (item.type == ItemID.UmbrellaHat && config.UmbrellaHatRework)
+			{
+				player.GetModPlayer<InputPlayer>().umbrellaHatVanity = true;
+			}
+		}
+
 		public override void UpdateAccessory(Item item, Player player, bool hideVisual)
 		{
 			var config = GetInstance<TerratweaksConfig>();
 			SentryAccSetting dd2AccsStack = config.StackableDD2Accs;
 
+			if (item.type == ItemID.UmbrellaHat && config.UmbrellaHatRework)
+			{
+				player.noFallDmg = true;
+				player.GetModPlayer<InputPlayer>().umbrellaHat = true;
+				player.GetModPlayer<InputPlayer>().umbrellaHatVanity = !hideVisual;
+			}
+			
 			if (dd2AccsStack == SentryAccSetting.Limited)
 			{
 				if (item.type == ItemID.ApprenticeScarf || item.type == ItemID.SquireShield)
