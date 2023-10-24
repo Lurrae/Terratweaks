@@ -170,5 +170,9 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool Gravestones { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool Trophies { get; set; }
 	}
 }

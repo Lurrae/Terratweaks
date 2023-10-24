@@ -301,7 +301,21 @@ Mods: {
 						'''
 				}
 
+				BossTrophies: {
+					Label: "[i:RetinazerTrophy] [i:SpazmatismTrophy] Shimmerable Trophies"
+					Tooltip:
+						'''
+						Enables Shimmer transmutations to cycle through trophies for bosses with multiple (i.e, Twins)
+						Currently supports vanilla and Calamity Mod bosses
+						'''
+				}
+
 				Tooltip: ""
+
+				Trophies: {
+					Label: Trophies
+					Tooltip: ""
+				}
 			}
 
 			DummySetting: {

@@ -960,6 +960,57 @@ namespace Terratweaks.Items
 				AddShimmerTransmutation_Cycle(new List<int> { ItemID.Tombstone, ItemID.GraveMarker, ItemID.CrossGraveMarker, ItemID.Headstone, ItemID.Gravestone, ItemID.Obelisk });
 				AddShimmerTransmutation_Cycle(new List<int> { ItemID.RichGravestone1, ItemID.RichGravestone2, ItemID.RichGravestone3, ItemID.RichGravestone4, ItemID.RichGravestone5 });
 			}
+
+			if (GetInstance<TerratweaksConfig>().craftableUncraftables.Trophies)
+			{
+				AddTrophyRecipes();
+			}
+		}
+
+		static void AddTrophyRecipes()
+		{
+			TrophyRecipes_Vanilla();
+
+			if (ModLoader.TryGetMod("CalamityMod", out Mod calamity))
+				TrophyRecipes_Calamity(calamity);
+		}
+
+		static void TrophyRecipes_Vanilla()
+		{
+			ItemID.Sets.ShimmerTransformToItem[ItemID.RetinazerTrophy] = ItemID.SpazmatismTrophy;
+			ItemID.Sets.ShimmerTransformToItem[ItemID.SpazmatismTrophy] = ItemID.RetinazerTrophy;
+		}
+
+		static void TrophyRecipes_Calamity(Mod calamity)
+		{
+			if (calamity.TryFind("AnahitaTrophy", out ModItem anahita) &&
+				calamity.TryFind("LeviathanTrophy", out ModItem levi))
+			{
+				ItemID.Sets.ShimmerTransformToItem[anahita.Type] = levi.Type;
+				ItemID.Sets.ShimmerTransformToItem[levi.Type] = anahita.Type;
+			}
+
+			if (calamity.TryFind("ApolloTrophy", out ModItem apollo) &&
+				calamity.TryFind("ArtemisTrophy", out ModItem artemis) &&
+				calamity.TryFind("ThanatosTrophy", out ModItem thanatos) &&
+				calamity.TryFind("AresTrophy", out ModItem ares))
+			{
+				AddShimmerTransmutation_Cycle(new List<int> { artemis.Type, apollo.Type, thanatos.Type, ares.Type });
+			}
+
+			if (calamity.TryFind("CalamitasCloneTrophy", out ModItem calClone) &&
+				calamity.TryFind("CataclysmTrophy", out ModItem cataclysm) &&
+				calamity.TryFind("CatastropheTrophy", out ModItem catastrophe))
+			{
+				AddShimmerTransmutation_Cycle(new List<int> { calClone.Type, cataclysm.Type, catastrophe.Type });
+			}
+
+			if (calamity.TryFind("SupremeCalamitasTrophy", out ModItem sCal) &&
+				calamity.TryFind("SupremeCataclysmTrophy", out ModItem sCataclysm) &&
+				calamity.TryFind("SupremeCatastropheTrophy", out ModItem sCatastrophe))
+			{
+				AddShimmerTransmutation_Cycle(new List<int> { sCal.Type, sCataclysm.Type, sCatastrophe.Type });
+			}
 		}
 
 		static void AddShimmerTransmutation_Cycle(List<int> items)
@@ -978,9 +1029,10 @@ namespace Terratweaks.Items
 			for (int i = 0; i < items.Count; i++)
 			{
 				int item = items[i];
-				int result = i == items.Count - 1 ? ItemID.Sets.ShimmerTransformToItem[item] : items[i + 1];
+				int result = i == items.Count - 1 ? -1 : items[i + 1];
 
-				ItemID.Sets.ShimmerTransformToItem[item] = result;
+				if (result > -1)
+					ItemID.Sets.ShimmerTransformToItem[item] = result;
 			}
 		}
 	}
