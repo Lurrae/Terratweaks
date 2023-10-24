@@ -264,6 +264,32 @@ namespace Terratweaks
 					packet.Send();
 				}
 			}
+
+			if (Terratweaks.RulerToggleKeybind.JustPressed)
+			{
+				switch (Player.builderAccStatus[Player.BuilderAccToggleIDs.RulerLine])
+				{
+					case 0:
+						Player.builderAccStatus[Player.BuilderAccToggleIDs.RulerLine] = 1;
+						break;
+					case 1:
+						Player.builderAccStatus[Player.BuilderAccToggleIDs.RulerLine] = 0;
+						break;
+				}
+			}
+
+			if (Terratweaks.MechRulerToggleKeybind.JustPressed)
+			{
+				switch (Player.builderAccStatus[Player.BuilderAccToggleIDs.RulerGrid])
+				{
+					case 0:
+						Player.builderAccStatus[Player.BuilderAccToggleIDs.RulerGrid] = 1;
+						break;
+					case 1:
+						Player.builderAccStatus[Player.BuilderAccToggleIDs.RulerGrid] = 0;
+						break;
+				}
+			}
 		}
 
 		public override void FrameEffects()

@@ -17,11 +17,15 @@ namespace Terratweaks
 		bool playerHasChesterSafeOpened = false;
 
 		public static ModKeybind InfernoToggleKeybind { get; private set; }
+		public static ModKeybind RulerToggleKeybind { get; private set; }
+		public static ModKeybind MechRulerToggleKeybind { get; private set; }
 		public static readonly List<int> DyeItemsSoldByTrader = new();
 
 		public override void Load()
 		{
 			InfernoToggleKeybind = KeybindLoader.RegisterKeybind(this, "InfernoToggle", "I");
+			RulerToggleKeybind = KeybindLoader.RegisterKeybind(this, "RulerToggle", "NumPad1");
+			MechRulerToggleKeybind = KeybindLoader.RegisterKeybind(this, "MechRulerToggle", "NumPad2");
 			On_Main.DrawInfernoRings += On_Main_DrawInfernoRings;
 			On_Main.TryInteractingWithMoneyTrough += On_Main_TryInteractingWithMoneyTrough;
 			On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
@@ -56,6 +60,8 @@ namespace Terratweaks
 		public override void Unload()
 		{
 			InfernoToggleKeybind = null;
+			RulerToggleKeybind = null;
+			MechRulerToggleKeybind = null;
 		}
 
 		private void On_Main_DrawInfernoRings(On_Main.orig_DrawInfernoRings orig, Main self)

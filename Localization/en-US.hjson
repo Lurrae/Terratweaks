@@ -411,6 +411,10 @@ Mods: {
 			Placeholder.DisplayName: This shouldn't have to exist, but TML's auto-formatting is dumb
 		}
 
-		Keybinds.InfernoToggle.DisplayName: Inferno Toggle
+		Keybinds: {
+			InfernoToggle.DisplayName: Toggle Inferno Visuals
+			RulerToggle.DisplayName: Toggle Ruler
+			MechRulerToggle.DisplayName: Toggle Mechanical Ruler
+		}
 	}
 }
