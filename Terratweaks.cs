@@ -1,8 +1,13 @@
 global using TepigCore;
+using Microsoft.Xna.Framework;
+using rail;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
+using Terraria.Chat;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace Terratweaks
@@ -26,9 +31,11 @@ namespace Terratweaks
 			InfernoToggleKeybind = KeybindLoader.RegisterKeybind(this, "InfernoToggle", "I");
 			RulerToggleKeybind = KeybindLoader.RegisterKeybind(this, "RulerToggle", "NumPad1");
 			MechRulerToggleKeybind = KeybindLoader.RegisterKeybind(this, "MechRulerToggle", "NumPad2");
+			
 			On_Main.DrawInfernoRings += On_Main_DrawInfernoRings;
 			On_Main.TryInteractingWithMoneyTrough += On_Main_TryInteractingWithMoneyTrough;
 			On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
+			On_NPC.CountKillForBannersAndDropThem += On_NPC_CountKillForBannersAndDropThem;
 		}
 
 		public override void HandlePacket(BinaryReader reader, int fromWho)
@@ -62,6 +69,66 @@ namespace Terratweaks
 			InfernoToggleKeybind = null;
 			RulerToggleKeybind = null;
 			MechRulerToggleKeybind = null;
+		}
+
+		private void On_NPC_CountKillForBannersAndDropThem(On_NPC.orig_CountKillForBannersAndDropThem orig, NPC self)
+		{
+			if (ModContent.GetInstance<TerratweaksConfig>().BannersDontSpamChat)
+			{
+				// Code adapted from the original method, just modified to use CombatText instead of printing to chat
+				int num = Item.NPCtoBanner(self.BannerID());
+				if (num > 0 && !self.ExcludedFromDeathTally())
+				{
+					NPC.killCount[num]++;
+					if (Main.netMode == NetmodeID.Server)
+					{
+						NetMessage.SendData(MessageID.NPCKillCountDeathTally, -1, -1, null, num, 0f, 0f, 0f, 0, 0, 0);
+					}
+					int num2 = ItemID.Sets.KillsToBanner[Item.BannerToItem(num)];
+					if (NPC.killCount[num] % num2 == 0 && num > 0)
+					{
+						int num3 = Item.BannerToNPC(num);
+						//int num4 = self.lastInteraction;
+						Player player = Main.player[self.lastInteraction];
+						if (!player.active || player.dead)
+						{
+							player = Main.player[self.FindClosestPlayer()];
+						}
+						string message = Language.GetTextValue("Game.EnemiesDefeatedAnnouncement", NPC.killCount[num], Lang.GetNPCName(num3));
+						if (player.whoAmI >= 0 && player.whoAmI < 255)
+						{
+							message = Language.GetTextValue("Game.EnemiesDefeatedByAnnouncement", player.name, NPC.killCount[num], Lang.GetNPCName(num3));
+						}
+
+						Rectangle rect = new((int)player.position.X, (int)player.position.Y + 192, 16, 16);
+						Color color = new(250, 250, 0);
+
+						if (Main.netMode == NetmodeID.SinglePlayer)
+						{
+							CombatText.NewText(rect, color, message, true);
+						}
+						else if (Main.netMode == NetmodeID.Server)
+						{
+							foreach (Player plr in Main.player.Where(p => p.active))
+							{
+								CombatText.NewText(rect, color, message, true);
+							}
+						}
+						int num5 = Item.BannerToItem(num);
+						Vector2 position = self.position;
+						if (player.whoAmI >= 0 && player.whoAmI < 255)
+						{
+							position = player.position;
+						}
+						Item.NewItem(self.GetSource_Loot(), (int)position.X, (int)position.Y, self.width, self.height, num5, 1, false, 0, false, false);
+					}
+				}
+			}
+			// Just run the original method if the config is disabled, no need to do anything special
+			else
+			{
+				orig(self);
+			}
 		}
 
 		private void On_Main_DrawInfernoRings(On_Main.orig_DrawInfernoRings orig, Main self)

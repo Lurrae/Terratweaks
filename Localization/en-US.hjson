@@ -61,6 +61,11 @@ Mods: {
 						'''
 				}
 
+				BannersDontSpamChat: {
+					Label: "[i:GreenSlimeBanner] [i:Megaphone] Banner announcements appear in the world"
+					Tooltip: When a player kills enough enemies to obtain a banner, text appears in the world below all players instead of printing a message in chat
+				}
+
 				ChesterRework: {
 					Label: "[i:ChesterPetItem] Chester Rework"
 					Tooltip: Chester is reworked to be considered a light pet, but he accesses the player's safe instead of their piggy bank
@@ -301,7 +306,7 @@ Mods: {
 						'''
 				}
 
-				BossTrophies: {
+				Trophies: {
 					Label: "[i:RetinazerTrophy] [i:SpazmatismTrophy] Shimmerable Trophies"
 					Tooltip:
 						'''
@@ -310,12 +315,12 @@ Mods: {
 						'''
 				}
 
-				Tooltip: ""
-
-				Trophies: {
-					Label: Trophies
-					Tooltip: ""
+				ClothierVoodooDoll: {
+					Label: "[i:ClothierVoodooDoll] Clothier Voodoo Doll"
+					Tooltip: Enables a recipe to turn a Guide Voodoo Doll and Red Hat into a Clothier Voodoo Doll at a Demon/Crimson Altar
 				}
+
+				Tooltip: ""
 			}
 
 			DummySetting: {

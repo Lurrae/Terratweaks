@@ -27,6 +27,9 @@ namespace Terratweaks
 
 		public CraftableUncraftables craftableUncraftables = new();
 
+		[DefaultValue(true)]
+		public bool BannersDontSpamChat { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ChesterRework { get; set; }
@@ -174,5 +177,9 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool Trophies { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ClothierVoodooDoll { get; set; }
 	}
 }

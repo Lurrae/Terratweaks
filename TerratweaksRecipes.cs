@@ -83,6 +83,15 @@ namespace Terratweaks
 				}
 			}
 
+			if (enabledRecipes.ClothierVoodooDoll)
+			{
+				Recipe.Create(ItemID.ClothierVoodooDoll)
+					.AddIngredient(ItemID.GuideVoodooDoll)
+					.AddIngredient(ItemID.RedHat)
+					.AddTile(TileID.DemonAltar)
+					.Register();
+			}
+
 			if (enabledRecipes.GemCritters)
 				AddGemBunnyRecipes();
 			
