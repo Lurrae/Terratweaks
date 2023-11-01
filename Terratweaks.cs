@@ -35,7 +35,18 @@ namespace Terratweaks
 			On_Main.DrawInfernoRings += On_Main_DrawInfernoRings;
 			On_Main.TryInteractingWithMoneyTrough += On_Main_TryInteractingWithMoneyTrough;
 			On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
+			On_Player.UpdateJumpHeight += On_Player_UpdateJumpHeight;
 			On_NPC.CountKillForBannersAndDropThem += On_NPC_CountKillForBannersAndDropThem;
+		}
+
+		private void On_Player_UpdateJumpHeight(On_Player.orig_UpdateJumpHeight orig, Player self)
+		{
+			orig(self);
+
+			if (self.GetModPlayer<TerratweaksPlayer>().radiantInsignia) // Mimic SI's effect
+			{
+				self.jumpSpeedBoost += 1.8f;
+			}
 		}
 
 		public override void HandlePacket(BinaryReader reader, int fromWho)

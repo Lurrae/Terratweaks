@@ -33,6 +33,7 @@ namespace Terratweaks
 		// Other custom booleans
 		public bool dd2Accessory2;
 		public bool buffedHivePack;
+		public bool radiantInsignia; // Literally only needed because Calamity is dumb
 		
 		public override void ResetEffects()
 		{
@@ -44,6 +45,7 @@ namespace Terratweaks
 
 			dd2Accessory2 = false;
 			buffedHivePack = false;
+			radiantInsignia = false;
 		}
 
 		public override void OnEnterWorld()
@@ -146,6 +148,23 @@ namespace Terratweaks
 			{
 				if (Player.strongBees)
 					buffedHivePack = true;
+			}
+
+			// Radiant Insignia - Infinite wing/rocket boot flight time and increased acceleration
+			// These effects are identical to those of Soaring Insignia
+			if (radiantInsignia)
+			{
+				if (Player.wingTime != 0)
+					Player.wingTime = Player.wingTimeMax;
+
+				Player.rocketTime = Player.rocketTimeMax;
+				Player.runAcceleration *= 1.75f;
+				
+				// Tell Calamity we have infinite flight time if that mod's enabled
+				if (ModLoader.TryGetMod("CalamityMod", out Mod calamity))
+				{
+					calamity.Call("ToggleInfiniteFlight", Player, true);
+				}
 			}
 		}
 

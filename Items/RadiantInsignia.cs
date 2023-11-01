@@ -24,7 +24,7 @@ namespace Terratweaks.Items
 		
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.empressBrooch = true;
+			player.GetModPlayer<TerratweaksPlayer>().radiantInsignia = true;
 			player.moveSpeed += 0.1f;
 		}
 
