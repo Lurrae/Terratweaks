@@ -129,7 +129,7 @@ namespace Terratweaks.Items
 					tooltip.Text = Language.GetTextValue("Mods.Terratweaks.LegacyTooltip.C", item.crit + GetPlayerCrit(item, Main.LocalPlayer));
 			}
 
-			if (config.SIRework)
+			if (config.SIRework && !ModLoader.TryGetMod("CalamityMod", out _))
 			{
 				if (item.type == ItemID.EmpressFlightBooster)
 				{

@@ -68,6 +68,10 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool NPCsSellMinecarts { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool OasisCrateBuff { get; set; }
 
 		[ReloadRequired]
@@ -181,5 +185,9 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ClothierVoodooDoll { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool TempleTraps { get; set; }
 	}
 }

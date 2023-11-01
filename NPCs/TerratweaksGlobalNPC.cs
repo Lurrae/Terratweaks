@@ -246,6 +246,8 @@ namespace Terratweaks.NPCs
 	{
 		public override void ModifyShop(NPCShop shop)
 		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+
 			if (shop.NpcType == NPCID.DyeTrader)
 			{
 				foreach (KeyValuePair<int, Item> pair in ContentSamples.ItemsByType)
@@ -279,7 +281,7 @@ namespace Terratweaks.NPCs
 
 					if (item.dye > 0 || isDyeIngredient)
 					{
-						Condition configEnabled = new("Mods.Terratweaks.Conditions.DyeConfigActive", () => GetInstance<TerratweaksConfig>().DyeTraderShopExpansion);
+						Condition configEnabled = new("Mods.Terratweaks.Conditions.DyeConfigActive", () => config.DyeTraderShopExpansion);
 						Condition itemInInv = new("Mods.Terratweaks.Conditions.InPlayerInv", () =>
 							Main.LocalPlayer.inventory.Any(i => i.type == type) ||
 							Main.LocalPlayer.dye.Any(i => i.type == type) ||
@@ -296,7 +298,7 @@ namespace Terratweaks.NPCs
 
 			if (shop.NpcType == NPCID.Steampunker)
 			{
-				if (GetInstance<TerratweaksConfig>().SoilSolutionsPreML)
+				if (config.SoilSolutionsPreML)
 				{
 					shop.ActiveEntries.First(i => i.Item.type == ItemID.DirtSolution).Disable();
 					shop.InsertAfter(ItemID.DirtSolution, ItemID.DirtSolution, Condition.Hardmode);
@@ -306,28 +308,7 @@ namespace Terratweaks.NPCs
 					shop.InsertAfter(ItemID.SnowSolution, ItemID.SnowSolution, Condition.Hardmode);
 				}
 
-				if (GetInstance<TerratweaksConfig>().SolutionsOnGFB)
-				{
-					List<int> itemsToAddToShop = new();
-
-					foreach (var entry in shop.ActiveEntries)
-					{
-						if (entry.Conditions.Contains(Condition.NotRemixWorld))
-						{
-							itemsToAddToShop.Add(entry.Item.type);
-						}
-					}
-
-					foreach (int itemType in itemsToAddToShop)
-					{
-						shop.InsertAfter(itemType, itemType, Condition.DownedMoonLord);
-					}
-				}
-			}
-
-			if (shop.NpcType == NPCID.Truffle)
-			{
-				if (GetInstance<TerratweaksConfig>().SolutionsOnGFB)
+				if (config.SolutionsOnGFB)
 				{
 					List<int> itemsToAddToShop = new();
 
@@ -343,6 +324,50 @@ namespace Terratweaks.NPCs
 					{
 						shop.InsertAfter(itemType, itemType, new Condition[] { Condition.RemixWorld, Condition.DownedMoonLord });
 					}
+				}
+			}
+
+			if (shop.NpcType == NPCID.Truffle)
+			{
+				if (config.SolutionsOnGFB)
+				{
+					List<int> itemsToAddToShop = new();
+
+					foreach (var entry in shop.ActiveEntries)
+					{
+						if (entry.Conditions.Contains(Condition.NotRemixWorld))
+						{
+							itemsToAddToShop.Add(entry.Item.type);
+						}
+					}
+
+					foreach (int itemType in itemsToAddToShop)
+					{
+						shop.InsertAfter(itemType, itemType, new Condition[] { Condition.RemixWorld, Condition.DownedMoonLord });
+					}
+				}
+
+				if (config.NPCsSellMinecarts)
+				{
+					shop.Add(ItemID.ShroomMinecart);
+				}
+			}
+
+			if (shop.NpcType == NPCID.Dryad)
+			{
+				if (config.NPCsSellMinecarts)
+				{
+					shop.Add(ItemID.SunflowerMinecart, Condition.HappyWindyDay);
+					shop.Add(ItemID.LadybugMinecart, Condition.HappyWindyDay);
+					shop.Add(ItemID.BeeMinecart, Condition.DownedQueenBee);
+				}
+			}
+
+			if (shop.NpcType == NPCID.Merchant)
+			{
+				if (config.NPCsSellMinecarts)
+				{
+					shop.Add(ItemID.DesertMinecart, Condition.InDesert);
 				}
 			}
 		}

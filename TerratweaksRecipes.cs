@@ -92,6 +92,9 @@ namespace Terratweaks
 					.Register();
 			}
 
+			if (enabledRecipes.TempleTraps)
+				AddTempleTrapRecipes();
+
 			if (enabledRecipes.GemCritters)
 				AddGemBunnyRecipes();
 			
@@ -108,6 +111,33 @@ namespace Terratweaks
 		public override void AddRecipeGroups()
 		{
 			RecipeGroup.RegisterGroup("DungeonBricks", new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} Dungeon Brick", ItemID.BlueBrick, ItemID.GreenBrick, ItemID.PinkBrick));
+		}
+
+		static void AddTempleTrapRecipes()
+		{
+			Recipe.Create(ItemID.SuperDartTrap)
+				.AddIngredient(ItemID.LihzahrdBrick, 5)
+				.AddIngredient(ItemID.DartTrap)
+				.AddTile(TileID.LihzahrdFurnace)
+				.Register();
+
+			Recipe.Create(ItemID.SpearTrap)
+				.AddIngredient(ItemID.LihzahrdBrick, 5)
+				.AddIngredient(ItemID.Javelin)
+				.AddTile(TileID.LihzahrdFurnace)
+				.Register();
+
+			Recipe.Create(ItemID.SpikyBallTrap)
+				.AddIngredient(ItemID.LihzahrdBrick, 5)
+				.AddIngredient(ItemID.SpikyBall, 5)
+				.AddTile(TileID.LihzahrdFurnace)
+				.Register();
+
+			Recipe.Create(ItemID.FlameTrap)
+				.AddIngredient(ItemID.LihzahrdBrick, 5)
+				.AddIngredient(ItemID.LivingFireBlock, 5)
+				.AddTile(TileID.LihzahrdFurnace)
+				.Register();
 		}
 
 		static void AddGemBunnyRecipes()

@@ -204,6 +204,11 @@ Mods: {
 					Label: "[i:UmbrellaHat] Umbrella Hat rework"
 					Tooltip: Reworks the Umbrella Hat vanity item into an accessory which grants fall damage immunity and lets you hold jump in midair to slow your descent
 				}
+
+				NPCsSellMinecarts: {
+					Label: N P Cs Sell Minecarts
+					Tooltip: ""
+				}
 			}
 
 			ExpertAccBuffs: {
@@ -320,6 +325,11 @@ Mods: {
 					Tooltip: Enables a recipe to turn a Guide Voodoo Doll and Red Hat into a Clothier Voodoo Doll at a Demon/Crimson Altar
 				}
 
+				TempleTraps: {
+					Label: "[i:SuperDartTrap] [i:SpearTrap] [i:SpikyBallTrap] [i:FlameTrap] Jungle Temple Traps"
+					Tooltip: Enables recipes to craft the Jungle Temple's various traps using some Lihzahrd Bricks and other relevant materials
+				}
+
 				Tooltip: ""
 			}
 
@@ -390,6 +400,17 @@ Mods: {
 			StrongerPostMechs: Becomes stronger when the mechanical abominations are demolished
 			StrongerPostPlant: Becomes stronger when the overgrown jungle monstrosity is slain
 			StrongerPostML: Becomes stronger when the lunar god is vanquished
+		}
+
+		Items: {
+			RadiantInsignia: {
+				DisplayName: Radiant Insignia
+				Tooltip:
+					'''
+					Grants infinite wing and rocket boot flight
+					Increases flight and jump mobility
+					'''
+			}
 		}
 
 		# Projectile names, mostly just used for PvP
