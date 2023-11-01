@@ -206,8 +206,14 @@ Mods: {
 				}
 
 				NPCsSellMinecarts: {
-					Label: N P Cs Sell Minecarts
-					Tooltip: ""
+					Label: NPCs Sell Rare Minecarts
+					Tooltip:
+						'''
+						The rare minecarts normally only available in chests are now sold by various NPCs!
+						The Dryad sells the Sunflower and Ladybug Minecarts during a windy day, and the Bee Minecart after defeating Queen Bee
+						The Truffle sells the Shroom Minecart at all times
+						The Merchant sells the Desert Minecart when housed in the desert biome
+						'''
 				}
 			}
 
