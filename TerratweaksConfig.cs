@@ -189,5 +189,9 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool TempleTraps { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ShimmerBottomlessAndSponges { get; set; }
 	}
 }

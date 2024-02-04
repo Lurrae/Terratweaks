@@ -336,6 +336,15 @@ Mods: {
 					Tooltip: Enables recipes to craft the Jungle Temple's various traps using some Lihzahrd Bricks and other relevant materials
 				}
 
+				ShimmerBottomlessAndSponges: {
+					Label: "[i:BottomlessLavaBucket] [i:LavaAbsorbantSponge] Shimmerable Bottomless Buckets and Sponges"
+					Tooltip:
+						'''
+						Enables Shimmer transmutations for the Bottomless Lava and Honey Buckets and their Sponge counterparts
+						The Bottomless Water Bucket and Super Absorbant Sponge are unaffected because the Bottomless Water Bucket already shimmers into the Bottomless Shimmer Bucket post-Moonlord
+						'''
+				}
+
 				Tooltip: ""
 			}
 

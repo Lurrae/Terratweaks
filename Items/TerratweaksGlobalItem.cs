@@ -236,15 +236,15 @@ namespace Terratweaks.Items
 				int numLines = 0;
 
 				// Count the number of lines that need to be displayed while the player is holding shift
-				if (ExpertItemsThatScale_Hardmode.ContainsKey(item.type))
+				if (ExpertItemsThatScale_Hardmode.ContainsKey(item.type) && ExpertItemsThatScale_Hardmode.TryGetValue(item.type, out Func<bool> configEnabled) && configEnabled())
 					numLines++;
-				if (ExpertItemsThatScale_QS.ContainsKey(item.type))
+				if (ExpertItemsThatScale_QS.ContainsKey(item.type) && ExpertItemsThatScale_QS.TryGetValue(item.type, out configEnabled) && configEnabled())
 					numLines++;
-				if (ExpertItemsThatScale_Mechs.ContainsKey(item.type))
+				if (ExpertItemsThatScale_Mechs.ContainsKey(item.type) && ExpertItemsThatScale_Mechs.TryGetValue(item.type, out configEnabled) && configEnabled())
 					numLines++;
-				if (ExpertItemsThatScale_Plant.ContainsKey(item.type))
+				if (ExpertItemsThatScale_Plant.ContainsKey(item.type) && ExpertItemsThatScale_Plant.TryGetValue(item.type, out configEnabled) && configEnabled())
 					numLines++;
-				if (ExpertItemsThatScale_ML.ContainsKey(item.type))
+				if (ExpertItemsThatScale_ML.ContainsKey(item.type) && ExpertItemsThatScale_ML.TryGetValue(item.type, out configEnabled) && configEnabled())
 					numLines++;
 
 				bool addedMoonlord = false;
@@ -263,7 +263,7 @@ namespace Terratweaks.Items
 							OverrideColor = ItemRarity.GetColor(ItemRarityID.LightRed)
 						};
 
-						if (!addedMoonlord && ExpertItemsThatScale_ML.TryGetValue(item.type, out Func<bool> configEnabled) && configEnabled())
+						if (!addedMoonlord && ExpertItemsThatScale_ML.TryGetValue(item.type, out configEnabled) && configEnabled())
 						{
 							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostML");
 							addedMoonlord = true;
@@ -964,6 +964,15 @@ namespace Terratweaks.Items
 			if (GetInstance<TerratweaksConfig>().craftableUncraftables.Trophies)
 			{
 				AddTrophyRecipes();
+			}
+
+			if (GetInstance<TerratweaksConfig>().craftableUncraftables.ShimmerBottomlessAndSponges)
+			{
+				ItemID.Sets.ShimmerTransformToItem[ItemID.BottomlessLavaBucket] = ItemID.LavaAbsorbantSponge;
+				ItemID.Sets.ShimmerTransformToItem[ItemID.LavaAbsorbantSponge] = ItemID.BottomlessLavaBucket;
+
+				ItemID.Sets.ShimmerTransformToItem[ItemID.BottomlessHoneyBucket] = ItemID.HoneyAbsorbantSponge;
+				ItemID.Sets.ShimmerTransformToItem[ItemID.HoneyAbsorbantSponge] = ItemID.BottomlessHoneyBucket;
 			}
 		}
 
