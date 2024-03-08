@@ -37,6 +37,14 @@ namespace Terratweaks
 			On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
 			On_Player.UpdateJumpHeight += On_Player_UpdateJumpHeight;
 			On_NPC.CountKillForBannersAndDropThem += On_NPC_CountKillForBannersAndDropThem;
+
+			//On_WorldGen.KillTile += On_WorldGen_KillTile;
+		}
+
+		private void On_WorldGen_KillTile(On_WorldGen.orig_KillTile orig, int i, int j, bool fail, bool effectOnly, bool noItem)
+		{
+			Main.NewText("KillTile has been called!");
+			orig(i, j, fail, effectOnly, noItem);
 		}
 
 		private void On_Player_UpdateJumpHeight(On_Player.orig_UpdateJumpHeight orig, Player self)

@@ -66,6 +66,15 @@ Mods: {
 					Tooltip: When a player kills enough enemies to obtain a banner, text appears in the world below all players instead of printing a message in chat
 				}
 
+				BetterCrackedBricks: {
+					Label: "[i:CrackedBlueBrick] Better Cracked Bricks"
+					Tooltip:
+						'''
+						When a Cracked Dungeon Brick is broken, all adjacent Cracked Dungeon Bricks are guaranteed to break as well
+						This effect is capable of cascading to destroy all Cracked Dungeon Bricks in an area when even just one brick is destroyed!
+						'''
+				}
+
 				ChesterRework: {
 					Label: "[i:ChesterPetItem] Chester Rework"
 					Tooltip: Chester is reworked to be considered a light pet, but he accesses the player's safe instead of their piggy bank
