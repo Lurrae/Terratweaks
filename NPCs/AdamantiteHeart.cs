@@ -13,7 +13,7 @@ namespace Terratweaks.NPCs
 	{
 		public override void SetStaticDefaults()
 		{
-			Main.npcFrameCount[NPC.type] = 5;
+			Main.npcFrameCount[NPC.type] = 10;
 
 			// Setting some basic things about this NPC
 			NPCID.Sets.CantTakeLunchMoney[Type] = true; // Prevents this NPC from stealing the player's coins when they die
@@ -21,7 +21,7 @@ namespace Terratweaks.NPCs
 			NPCID.Sets.NeedsExpertScaling[Type] = false; // Prevent Expert Mode scaling from occurring, because again, this NPC should have a set amount of HP regardless of mode
 
 			// Prevents this NPC from counting towards the Bestiary
-			NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new(0) { Hide = true };
+			NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new() { Hide = true };
 			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, bestiaryData);
 		}
 

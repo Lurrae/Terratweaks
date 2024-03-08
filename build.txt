@@ -1,4 +1,5 @@
 displayName = Terratweaks
 author = Lurrae & Skulgan
-version = 0.1
-modReferences = TepigCore@0.1.0
+version = 1.0
+modReferences = TepigCore@1.0
+weakReferences = CalamityMod

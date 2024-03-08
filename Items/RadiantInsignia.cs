@@ -20,6 +20,8 @@ namespace Terratweaks.Items
 		public override void SetDefaults() 
 		{
 			Item.CloneDefaults(ItemID.EmpressFlightBooster);
+			Item.width = 34;
+			Item.height = 42;
 		}
 		
 		public override void UpdateAccessory(Player player, bool hideVisual)

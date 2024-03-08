@@ -1,11 +1,10 @@
 global using TepigCore;
 using Microsoft.Xna.Framework;
-using rail;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.Chat;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -15,6 +14,27 @@ namespace Terratweaks
 	public enum PacketType
 	{
 		SyncInferno = 0
+	}
+
+	public static class TerratweaksDropConditions
+	{
+		public class NightEoL : IItemDropRuleCondition, IProvideItemConditionDescription
+		{
+			public bool CanDrop(DropAttemptInfo info)
+			{
+				return !info.npc.AI_120_HallowBoss_IsGenuinelyEnraged();
+			}
+
+			public bool CanShowItemDropInUI()
+			{
+				return true;
+			}
+
+			public string GetConditionDescription()
+			{
+				return Language.GetTextValue("Mods.Terratweaks.Conditions.NightEoL");
+			}
+		}
 	}
 
 	public class Terratweaks : Mod
@@ -37,14 +57,6 @@ namespace Terratweaks
 			On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
 			On_Player.UpdateJumpHeight += On_Player_UpdateJumpHeight;
 			On_NPC.CountKillForBannersAndDropThem += On_NPC_CountKillForBannersAndDropThem;
-
-			//On_WorldGen.KillTile += On_WorldGen_KillTile;
-		}
-
-		private void On_WorldGen_KillTile(On_WorldGen.orig_KillTile orig, int i, int j, bool fail, bool effectOnly, bool noItem)
-		{
-			Main.NewText("KillTile has been called!");
-			orig(i, j, fail, effectOnly, noItem);
 		}
 
 		private void On_Player_UpdateJumpHeight(On_Player.orig_UpdateJumpHeight orig, Player self)

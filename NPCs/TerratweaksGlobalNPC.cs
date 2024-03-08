@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
@@ -241,6 +243,78 @@ namespace Terratweaks.NPCs
 		}
 	}
 
+	// Add/modify NPC drops here
+	[JITWhenModsEnabled("CalamityMod")]
+	public class DropHandler : GlobalNPC
+	{
+		public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+
+			if (npc.type == NPCID.HallowBoss) // Empress of Light
+			{
+				if (ModLoader.HasMod("CalamityMod")) // Remove Calamity's Terraprisma drop from EoL
+				{
+					foreach (IItemDropRule rule in npcLoot.Get(false))
+					{
+						HandleCalamityEoLChanges(rule);
+					}
+				}
+
+				// If the configs allow it, add a secondary Terraprisma drop chance when EoL is not "genuinely enraged"
+				if (config.TerraprismaDropRate > 0 && (!ModLoader.HasMod("CalamityMod") || config.TerraprismaCalReversion))
+				{
+					var nightEol = new TerratweaksDropConditions.NightEoL();
+					npcLoot.Add(new ItemDropWithConditionRule(ItemID.EmpressBlade, 100, 1, 1, nightEol, config.TerraprismaDropRate));
+				}
+			}
+		}
+
+		void HandleCalamityEoLChanges(IItemDropRule rule)
+		{
+			if (rule is LeadingConditionRule lcr && lcr.ChainedRules.Count > 2) // The rule we're looking for has at least 3 items
+			{
+				CalamityMod.DropHelper.AllOptionsAtOnceWithPityDropRule targetRule = null;
+
+				foreach (IItemDropRuleChainAttempt chainedRule in lcr.ChainedRules)
+				{
+					// The rule we're looking for is a custom type from Calamity, which is why we needed the JITWhenModsEnabled stuff
+					if (chainedRule.RuleToChain is CalamityMod.DropHelper.AllOptionsAtOnceWithPityDropRule pityRule)
+					{
+						targetRule = pityRule;
+						break;
+					}
+				}
+
+				if (targetRule != null) // Found Calamity's rule, now remove Terraprisma from it
+				{
+					CalamityMod.WeightedItemStack stackToRemove= new();
+					bool foundTerraprisma = false;
+
+					foreach (CalamityMod.WeightedItemStack stack in targetRule.stacks)
+					{
+						FieldInfo stackItemID = stack.GetType().GetField("itemID", BindingFlags.NonPublic | BindingFlags.Instance);
+						int itemID = (int)stackItemID.GetValue(stack);
+
+						if (itemID == ItemID.EmpressBlade)
+						{
+							stackToRemove = stack;
+							foundTerraprisma = true;
+							break;
+						}
+					}
+
+					if (foundTerraprisma)
+					{
+						List<CalamityMod.WeightedItemStack> stacksList = targetRule.stacks.ToList();
+						stacksList.Remove(stackToRemove);
+						targetRule.stacks = stacksList.ToArray();
+					}
+				}
+			}
+		}
+	}
+
 	// Modify shops here
 	public class ShopHandler : GlobalNPC
 	{
@@ -301,11 +375,11 @@ namespace Terratweaks.NPCs
 				if (config.SoilSolutionsPreML)
 				{
 					shop.ActiveEntries.First(i => i.Item.type == ItemID.DirtSolution).Disable();
-					shop.InsertAfter(ItemID.DirtSolution, ItemID.DirtSolution, Condition.Hardmode);
+					shop.InsertAfter(ItemID.DirtSolution, ItemID.DirtSolution, Condition.NotRemixWorld);
 					shop.ActiveEntries.First(i => i.Item.type == ItemID.SandSolution).Disable();
-					shop.InsertAfter(ItemID.SandSolution, ItemID.SandSolution, Condition.Hardmode);
+					shop.InsertAfter(ItemID.SandSolution, ItemID.SandSolution, Condition.NotRemixWorld);
 					shop.ActiveEntries.First(i => i.Item.type == ItemID.SnowSolution).Disable();
-					shop.InsertAfter(ItemID.SnowSolution, ItemID.SnowSolution, Condition.Hardmode);
+					shop.InsertAfter(ItemID.SnowSolution, ItemID.SnowSolution, Condition.NotRemixWorld);
 				}
 
 				if (config.SolutionsOnGFB)
@@ -314,7 +388,7 @@ namespace Terratweaks.NPCs
 
 					foreach (var entry in shop.ActiveEntries)
 					{
-						if (entry.Conditions.Contains(Condition.NotRemixWorld))
+						if (entry.Conditions.Contains(Condition.NotRemixWorld) && !itemsToAddToShop.Contains(entry.Item.type))
 						{
 							itemsToAddToShop.Add(entry.Item.type);
 						}
@@ -322,7 +396,16 @@ namespace Terratweaks.NPCs
 
 					foreach (int itemType in itemsToAddToShop)
 					{
-						shop.InsertAfter(itemType, itemType, new Condition[] { Condition.RemixWorld, Condition.DownedMoonLord });
+						if (ModLoader.TryGetMod("CalamityMod", out Mod calamity))
+						{
+							Condition inCalEndgame = new("Mods.Terratweaks.Conditions.InCalEndgame", () => (bool)calamity.Call("GetBossDowned", "calamitas") && (bool)calamity.Call("GetBossDowned", "exomechs"));
+
+							shop.InsertAfter(itemType, itemType, Condition.RemixWorld, inCalEndgame);
+						}
+						else
+						{
+							shop.InsertAfter(itemType, itemType, Condition.RemixWorld, Condition.DownedMoonLord);
+						}
 					}
 				}
 			}

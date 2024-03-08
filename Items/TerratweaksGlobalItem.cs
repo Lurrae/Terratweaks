@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.UI;
@@ -12,8 +12,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
-using Terratweaks.Buffs;
-using Terratweaks.Projectiles;
 using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.Items
@@ -345,6 +343,7 @@ namespace Terratweaks.Items
 	}
 
 	// Any changes to crates, boss treasure bags, or other grab bag items go here
+	[JITWhenModsEnabled("CalamityMod")]
 	public class GrabBagChanges : GlobalItem
 	{
 		public override bool InstancePerEntity => true;
@@ -354,10 +353,8 @@ namespace Terratweaks.Items
 		// Oasis Crates drop random pyramid loot
 		public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
 		{
-			bool CratesHavePyramidLoot = GetInstance<TerratweaksConfig>().OasisCrateBuff;
-
 			// Update Oasis/Mirage Crate loot tables
-			if (CratesHavePyramidLoot && (item.type == ItemID.OasisCrate || item.type == ItemID.OasisCrateHard))
+			if (GetInstance<TerratweaksConfig>().OasisCrateBuff && (item.type == ItemID.OasisCrate || item.type == ItemID.OasisCrateHard))
 			{
 				var rules = itemLoot.Get();
 				var mainRule = (AlwaysAtleastOneSuccessDropRule)rules.FirstOrDefault(x => x is AlwaysAtleastOneSuccessDropRule);
@@ -390,6 +387,43 @@ namespace Terratweaks.Items
 
 				itemLoot.Remove(mainRule);
 				itemLoot.Add(newMainRule);
+			}
+
+			if (GetInstance<TerratweaksConfig>().TerraprismaCalReversion && ModLoader.HasMod("CalamityMod") && item.type == ItemID.FairyQueenBossBag)
+			{
+				foreach (IItemDropRule rule in itemLoot.Get(false))
+				{
+					HandleCalamityEoLChanges(rule);
+				}
+			}
+		}
+
+		void HandleCalamityEoLChanges(IItemDropRule rule)
+		{
+			if (rule is CalamityMod.DropHelper.AllOptionsAtOnceWithPityDropRule pityRule)
+			{
+				CalamityMod.WeightedItemStack stackToRemove = new();
+				bool foundTerraprisma = false;
+
+				foreach (CalamityMod.WeightedItemStack stack in pityRule.stacks)
+				{
+					FieldInfo stackItemID = stack.GetType().GetField("itemID", BindingFlags.NonPublic | BindingFlags.Instance);
+					int itemID = (int)stackItemID.GetValue(stack);
+
+					if (itemID == ItemID.EmpressBlade)
+					{
+						stackToRemove = stack;
+						foundTerraprisma = true;
+						break;
+					}
+				}
+
+				if (foundTerraprisma)
+				{
+					List<CalamityMod.WeightedItemStack> stacksList = pityRule.stacks.ToList();
+					stacksList.Remove(stackToRemove);
+					pityRule.stacks = stacksList.ToArray();
+				}
 			}
 		}
 	}

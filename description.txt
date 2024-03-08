@@ -2,13 +2,30 @@ A highly-configurable collection of vanilla changes brought to you by the develo
 This mod currently implements the following changes:
 
 GENERAL TWEAKS:
+[i:BlueSlimeBanner] When a banner is obtained, it displays text above the collector's head rather than posting a message in chat. Enabled by default.
+[i:CrackedBlueBrick] Cracked Bricks in the dungeon now all break at once when even one is destroyed. Enabled by default.
+[i:ChesterPetItem] Chester is changed to be a light pet, but accesses the player's safe instead of their piggy bank. Enabled by default.
+[i:DeerThing] While no living players are nearby, Deerclops regenerates HP at a configurable rate. Enabled by default, default regen amount is 600 HP/second.
 [i:TargetDummy] Minions, sentries, and homing projectiles can be allowed to target Target Dummies, either only while the Target Dummy is highlighted by a whip's targeting reticle or all the time. Enabled by default, defaults to whip targeting required.
+[i:DyeTraderTurban] The Dye Trader sells any dyes or dye ingredients that the player has in their inventory. Enabled by default.
 [i:DD2FlameburstTowerT1Popper] Sentries, like minions, will immediately despawn whenever their owner is killed. Enabled by default.
+[i:WoodenBow] Ranged enemies, such as Dark Casters in the dungeon, no longer deal contact damage. Disabled by default.
+[i:LightningBoots] Several vanilla accessory tinkers, such as Lightning Boots and all Putrid Scent upgrades, have been buffed to inherit the full effects of their components rather than having "diminishing returns". Disabled by default.
+[i:AnkhCharm] Debuffs won't have an increased duration when playing in Expert+. Disabled by default.
+[i:ArcticDivingGear] Snow biome water won't freeze the player when playing in Expert+. Disabled by default.
+[i:GreenSlimeBanner] Enemies' stats won't scale in Hardmode and post-Plantera when playing in Expert+. Disabled by default.
+[i:BeeMinecart] Rare minecarts, such as the Ladybug, Sunflower, Bee, and Desert Minecart, are sold by NPCs. Enabled by default.
 [i:OasisCrate] Oasis and Mirage Crates have a chance to drop either a Sandstorm in a Bottle, Flying Carpet, or Pharaoh vanity set instead of an item from a Sandstone Chest. Enabled by default.
 [i:CopperPickaxe] All pre-Hardmode ore gear has identical stats, using the higher of the vanilla stats. Also nerfs Cactus Pickaxe's range by -1. Enabled by default.
 [i:AncientBattleArmorMaterial] If the Eye of Cthulhu has not been defeated, sandstorms will not start, and all modded items which start one should fail to do so. Enabled by default, has no effect if Calamity Mod is enabled (since Calamity locks sandstorms behind its Desert Scourge boss instead).
 [i:EmpressFlightBooster] Soaring Insignia is heavily nerfed (unless Calamity Mod is enabled), but defeating the Empress of Light during the daytime while the Soaring Insignia is in your inventory will upgrade it into the "Radiant Insignia", which uses the pre-nerf stats of Soaring Insignia, even if Calamity is enabled! Disabled by default, as this heavily changes vanilla in a way most people likely won't want.
+[i:DirtSolution] The Steampunker sells the Brown, Yellow, and White Solutions as soon as Hardmode starts, just like the other solutions, rather than having them locked behind Moon Lord. Enabled by default.
+[i:Clentaminator] On the Remix seed and Get Fixed Boi, the Steampunker sells the Clentaminator and all of its solutions if Moon Lord has been defeated. If Calamity is enabled, the items are moved to Calamity's endgame. Enabled by default.
 [i:ApprenticeScarf] The four Old One's Army accessories that grant +1 sentry slot can be configured to stack, either across different tiers (so the two Dark Mage accs don't stack with one another, but they can stack with one of the Ogre accs) or all at once. Enabled by default, defaults to stacking across tiers.
+[i:EmpressBlade] Calamity's changes to the Terraprisma can be reverted so that Empress of Light only drops the Terraprisma if killed during the daytime just like in vanilla. Additionally, if Calamity's changes are reverted or Calamity is not enabled, you can set a chance for her to drop the Terraprisma outside of the normal conditions. Calamity reversion is enabled by default, Terraprisma drop chance is 0% by default.
+[i:UmbrellaHat] The Umbrella Hat is reworked into an accessory that disables fall damage and allows slow falling by holding space. Enabled by default.
+
+CLIENT-SIDE TWEAKS:
 [i:DPSMeter] Removes the +/-15% damage variance that all attacks have in vanilla, so every hit always does the same damage. Enabled by default.
 [i:GalaxyPearl] Critical hits are no longer random, and instead guaranteed X crits every 100 hits, with X being your crit chance (ex: 10% crit chance translates to 10 crits every 100 hits, or 1 crit every 10 hits). Enabled by default.
 [i:PDA] Item tooltips now list exact values for knockback and use time. Items which fire projectiles list their projectiles' velocity as well. Enabled by default.
@@ -19,3 +36,21 @@ CUSTOM ARMOR SET BONUSES:
 [i:MythrilHood] New set bonus: Columns of flames erupt from below hit enemies. Enabled by default.
 [i:AdamantiteHeadgear] New set bonus: Hearts circle around you, which can be killed to heal a bit of health. Enabled by default.
 [i:SpookyHelmet] Each piece of Spooky armor provides 5% more damage than vanilla. New set bonus: Flaming nettles automatically fire at nearby foes. Enabled by default.
+
+EXPERT ACCESSORY BUFFS:
+[i:RoyalGel] Royal Gel now protects against damage from Spiked Slimes and Queen Slime's minions after Queen Slime has been defeated. Enabled by default.
+[i:HiveBackpack] The Hive Pack makes bee/hornet/wasp-related weapons inflict Acid Venom after Plantera has been defeated. Enabled by default.
+[i:BoneHelm] Bone Helm's base damage is increased, and it becomes stronger upon entering Hardmode. Enabled by default.
+
+CRAFTABLE UNCRAFTABLES:
+[i:DayBloomPlanterBox] Planter Boxes can now be crafted with various types of wood, soil/stone, and an herb seed. Enabled by default.
+[i:GemBunnyAmethyst] Gem Bunnies and Gem Squirrels can now be crafted with the corresponding gem and critter. Supports Thorium Mod gems. Enabled by default.
+[i:BlueDungeonVase] Dungeon furniture can now be crafted with colored Dungeon bricks and other relevant materials. Enabled by default.
+[i:ObsidianVase] Obsidian furniture can now be crafted with Obsidian Bricks and other relevant materials. Enabled by default.
+[i:WorldBanner] Decorative banners, such as the ones in floating island houses, the Dungeon, Underworld ruined houses, and desert pyramids can all be crafted with silk. Enabled by default.
+[i:RedMoss] All colors of moss can be shimmered into one another; regular mosses shimmer in a cycle, while glowing mosses use a transmutation chain like ores. Enabled by default.
+[i:Tombstone] All tombstones can be shimmered into one another; regular tombstones and golden tombstones have their own cycles. Enabled by default.
+[i:RetinazerTrophy] Bosses with multiple trophies (such as the Twins) can have their trophies shimmered to the other counterpart. Supports Calamity Mod trophies. Enabled by default.
+[i:ClothierVoodooDoll] Clothier Voodoo Dolls can now be crafted with a Guide Voodoo Doll and a Red Hat. Enabled by default.
+[i:SuperDartTrap] Jungle Temple traps can now be crafted with Lihzahrd Bricks and other relevant materials. Enabled by default.
+[i:BottomlessLavaBucket] The various bottomless buckets and sponges can now be shimmered into one another in a cycle, just like regular liquid buckets. Enabled by default.

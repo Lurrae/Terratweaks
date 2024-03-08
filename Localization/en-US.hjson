@@ -26,14 +26,13 @@ Mods: {
 
 		Conditions: {
 			DyeConfigActive: '''"Dye Trader Shop Expansion" mod config is enabled'''
+			InCalEndgame: Defeated Supreme Witch, Calamitas and the Exo Mechs
 			InPlayerInv: Item must be in the player's inventory or portable storage
+			NightEoL: Drops if the Empress of Light is attacked at least once during the night
 		}
 
 		Configs: {
-			Common: {
-				Warn_NoCrossmod: "[c/FF3300:Note: Items from other mods likely won't be affected by this config option]"
-				Placeholder: This shouldn't have to exist, but TML's auto-formatting is dumb
-			}
+			Common.Warn_NoCrossmod: "[c/FF3300:Note: Items from other mods likely won't be affected by this config option]"
 
 			TerratweaksConfig: {
 				DisplayName: Terratweaks Config
@@ -151,6 +150,17 @@ Mods: {
 					Tooltip: Removes the ridiculous stat scaling Expert/Master Mode applies to certain enemies in Hardmode and post-Plantera
 				}
 
+				NPCsSellMinecarts: {
+					Label: NPCs Sell Rare Minecarts
+					Tooltip:
+						'''
+						The rare minecarts normally only available in chests are now sold by various NPCs!
+						The Dryad sells the Sunflower and Ladybug Minecarts during a windy day, and the Bee Minecart after defeating Queen Bee
+						The Truffle sells the Shroom Minecart at all times
+						The Merchant sells the Desert Minecart when housed in the desert biome
+						'''
+				}
+
 				OasisCrateBuff: {
 					Label: "[i:OasisCrate] [i:OasisCrateHard] Oasis Crates may contain pyramid loot"
 					Tooltip: Oasis Crates and Mirage Crates have a chance to drop one random pyramid item instead of their usual Sandstone Chest accessory/weapon
@@ -195,7 +205,11 @@ Mods: {
 
 				SolutionsOnGFB: {
 					Label: "[i:Clentaminator] Clentaminator/Solutions on Remix seed post-ML"
-					Tooltip: On the Remix seed (and Get Fixed Boi by proxy), the {$ItemName.Clentaminator} and its solutions will be sold once Moon Lord is defeated
+					Tooltip:
+						'''
+						On the Remix seed (and Get Fixed Boi by proxy), the {$ItemName.Clentaminator} and its solutions will be sold once Moon Lord is defeated, regardless of what biome the Steampunker is in
+						If the Calamity Mod is enabled, the requirement is moved to post-Scal and Exo Mechs instead of post-Moon Lord
+						'''
 				}
 
 				StackableDD2Accs: {
@@ -209,20 +223,29 @@ Mods: {
 						'''
 				}
 
+				TerraprismaCalReversion: {
+					Label: "[i:EmpressBlade] Undo Calamity's Terraprisma drop changes"
+					Tooltip:
+						'''
+						If this config is enabled while Calamity Mod is enabled, the Terraprisma will only drop from daytime Empress of Light just like in vanilla
+						If the below config is set to a value higher than 0%, the Terraprisma will also have a chance to drop from nighttime Empress of Light
+						This config does nothing without Calamity Mod enabled
+						'''
+				}
+
+				TerraprismaDropRate: {
+					Label: "[i:EmpressBlade] Terraprisma Drop Rate"
+					Tooltip:
+						'''
+						Sets a percentage chance for the Empress of Light to drop the Terraprisma at night, when she otherwise would not
+						If set to 0%, vanilla behavior is retained (EoL will only drop the Terraprisma if all damage was dealt during the day)
+						This config option will do nothing if the Calamity Mod is enabled and the above config is NOT enabled
+						'''
+				}
+
 				UmbrellaHatRework: {
 					Label: "[i:UmbrellaHat] Umbrella Hat rework"
 					Tooltip: Reworks the Umbrella Hat vanity item into an accessory which grants fall damage immunity and lets you hold jump in midair to slow your descent
-				}
-
-				NPCsSellMinecarts: {
-					Label: NPCs Sell Rare Minecarts
-					Tooltip:
-						'''
-						The rare minecarts normally only available in chests are now sold by various NPCs!
-						The Dryad sells the Sunflower and Ladybug Minecarts during a windy day, and the Bee Minecart after defeating Queen Bee
-						The Truffle sells the Shroom Minecart at all times
-						The Merchant sells the Desert Minecart when housed in the desert biome
-						'''
 				}
 			}
 

@@ -100,6 +100,14 @@ namespace Terratweaks
 		public SentryAccSetting StackableDD2Accs { get; set; }
 
 		[ReloadRequired]
+		[DefaultValue(0)]
+		public int TerraprismaDropRate { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool TerraprismaCalReversion { get; set; }
+
+		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool UmbrellaHatRework { get; set; }
 	}
