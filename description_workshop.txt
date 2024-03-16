@@ -3,6 +3,7 @@ This mod currently implements the following changes:
 
 GENERAL TWEAKS:
 - When a banner is obtained, it displays text above the collector's head rather than posting a message in chat. Enabled by default.
+- Every enemy only requires one kill for their bestiary entry to fully fill out. Disabled by default, as it can be seen as somewhat "cheaty".
 - Cracked Bricks in the dungeon now all break at once when even one is destroyed. Enabled by default.
 - Chester is changed to be a light pet, but accesses the player's safe instead of their piggy bank. Enabled by default.
 - While no living players are nearby, Deerclops regenerates HP at a configurable rate. Enabled by default, default regen amount is 600 HP/second.
@@ -26,9 +27,10 @@ GENERAL TWEAKS:
 - The Umbrella Hat is reworked into an accessory that disables fall damage and allows slow falling by holding space. Enabled by default.
 
 CLIENT-SIDE TWEAKS:
-- Removes the +/-15% damage variance that all attacks have in vanilla, so every hit always does the same damage. Enabled by default.
+- Removes the +/-15% damage variance that the player's attacks have in vanilla, so every hit always does the same damage. Does not affect enemies' damage. Enabled by default.
 - Critical hits are no longer random, and instead guaranteed X crits every 100 hits, with X being your crit chance (ex: 10% crit chance translates to 10 crits every 100 hits, or 1 crit every 10 hits). Enabled by default.
 - Item tooltips now list exact values for knockback and use time. Items which fire projectiles list their projectiles' velocity as well. Enabled by default.
+- If you have a DPS Meter or related item in your inventory, weapons will now list an estimated DPS in their tooltip. Enabled by default.
 
 CUSTOM ARMOR SET BONUSES:
 - Each piece of Spider armor provides 5% more damage than vanilla, and the breastplate gives +1 sentry slot. New set bonus: Allows you to cling to walls, provides immunity to Webbed, and slows down hostile enemies/projectiles near you. Enabled by default.

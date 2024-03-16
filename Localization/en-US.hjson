@@ -65,6 +65,11 @@ Mods: {
 					Tooltip: When a player kills enough enemies to obtain a banner, text appears in the world below all players instead of printing a message in chat
 				}
 
+				BetterBestiary: {
+					Label: "[i:Book] Better Bestiary"
+					Tooltip: Every enemy's bestiary entry unlocks after only one kill. This should work on modded bestiary entries too!
+				}
+
 				BetterCrackedBricks: {
 					Label: "[i:CrackedBlueBrick] Better Cracked Bricks"
 					Tooltip:
@@ -151,7 +156,7 @@ Mods: {
 				}
 
 				NPCsSellMinecarts: {
-					Label: NPCs Sell Rare Minecarts
+					Label: "[i:BeeMinecart] NPCs Sell Rare Minecarts"
 					Tooltip:
 						'''
 						The rare minecarts normally only available in chests are now sold by various NPCs!
@@ -397,6 +402,16 @@ Mods: {
 			TerratweaksConfig_Client: {
 				DisplayName: Terratweaks Config (Client)
 
+				EstimatedDPS: {
+					Label: "[i:DPSMeter] DPS Meter shows estimated DPS"
+					Tooltip:
+						'''
+						When you have a DPS Meter (or any item that gives its effects) in your inventory, all weapons will list an estimated DPS in their tooltip
+						This estimated DPS is based solely on the weapon's base damage, number of shots per use, and fire rate
+						Because it doesn't take projectile count, accuracy, or immunity frames into account, the estimation is not super accurate for certain kinds of weapons
+						'''
+				}
+
 				NoDamageVariance: {
 					Label: "[i:DPSMeter] Consistent damage"
 					Tooltip: Removes the damage variance from attacks, so every hit will always deal the same exact damage
@@ -447,6 +462,10 @@ Mods: {
 			StrongerPostMechs: Becomes stronger when the mechanical abominations are demolished
 			StrongerPostPlant: Becomes stronger when the overgrown jungle monstrosity is slain
 			StrongerPostML: Becomes stronger when the lunar god is vanquished
+			# Added tooltip for DPS Meter and Goblin Tech
+			DpsMeterExtraTip: Also displays a weapon's estimated DPS in its tooltip!
+			# Estimated DPS tooltips for weapons while using a DPS Meter
+			EstDPS: Estimated DPS: {0} damage per second
 		}
 
 		Items: {

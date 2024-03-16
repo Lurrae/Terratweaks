@@ -30,6 +30,10 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool BannersDontSpamChat { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool BetterBestiary { get; set; }
+
 		[DefaultValue(true)]
 		public bool BetterCrackedBricks { get; set; }
 
@@ -115,7 +119,10 @@ namespace Terratweaks
 	public class TerratweaksConfig_Client : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ClientSide;
-		
+
+		[DefaultValue(true)]
+		public bool EstimatedDPS { get; set; }
+
 		[DefaultValue(true)]
 		public bool NoDamageVariance { get; set; }
 

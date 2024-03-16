@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,6 +28,28 @@ namespace Terratweaks.NPCs
 			if (tPlr.spiderWeb && npc.damage > 0 && npc.Distance(Main.player[Main.myPlayer].Center) <= 64 && !npc.buffImmune[BuffID.Webbed])
 			{
 				npc.position -= npc.velocity * 0.5f;
+			}
+		}
+	}
+
+	// Handles any changes to bestiary kill counts
+	public class BestiaryEditHandler : GlobalNPC
+	{
+		public override void SetBestiary(NPC npc, BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			if (!GetInstance<TerratweaksConfig>().BetterBestiary)
+				return;
+			
+			// Setting "quick unlock" makes it so that every Bestiary entry will be fully unlocked after one kill, regardless of banner requirement
+			if (bestiaryEntry.UIInfoProvider is CommonEnemyUICollectionInfoProvider uiInfo)
+			{
+				FieldInfo killCount = typeof(CommonEnemyUICollectionInfoProvider).GetField("_quickUnlock", BindingFlags.NonPublic | BindingFlags.Instance);
+				killCount.SetValue(uiInfo, true);
+			}
+			else if (bestiaryEntry.UIInfoProvider is SalamanderShellyDadUICollectionInfoProvider uiInfo2)
+			{
+				FieldInfo killCount = typeof(SalamanderShellyDadUICollectionInfoProvider).GetField("_quickUnlock", BindingFlags.NonPublic | BindingFlags.Instance);
+				killCount.SetValue(uiInfo2, true);
 			}
 		}
 	}

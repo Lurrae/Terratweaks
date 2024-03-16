@@ -234,6 +234,12 @@ namespace Terratweaks
 			}
 		}
 
+		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+		{
+			if (GetInstance<TerratweaksConfig_Client>().NoDamageVariance)
+				modifiers.DamageVariationScale *= 0;
+		}
+
 		// Despawn all active sentries when the player is slain, if they have the corresponding config setting enabled
 		public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
 		{

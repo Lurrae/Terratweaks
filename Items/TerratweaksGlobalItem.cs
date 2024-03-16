@@ -96,10 +96,10 @@ namespace Terratweaks.Items
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 			
 			int idx = -1;
+			int velIdx = -1;
 
 			if (clientConfig.StatsInTip)
 			{
-
 				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && (t.Name == "Knockback" || t.Name == "Speed")))
 				{
 					if (tooltip.Name == "Knockback")
@@ -118,6 +118,31 @@ namespace Terratweaks.Items
 				{
 					float realShootSpeed = item.shootSpeed * (ContentSamples.ProjectilesByType[item.shoot].extraUpdates + 1);
 					tooltips.Insert(idx + 1, new TooltipLine(Mod, "Velocity", Language.GetTextValue("Mods.Terratweaks.LegacyTooltip.V", realShootSpeed)));
+					velIdx = idx + 1;
+				}
+			}
+
+			if (clientConfig.EstimatedDPS)
+			{
+				idx = -1;
+
+				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && (t.Name.Equals("Knockback") || t.Name.Equals("Speed") || t.Name.Contains("Tooltip") || t.Name.Contains("Power"))))
+				{
+					idx = tooltips.IndexOf(tooltip);
+				}
+
+				if (velIdx != -1 && velIdx > idx)
+					idx = velIdx;
+
+				if (Main.LocalPlayer.accDreamCatcher && idx != -1)
+				{
+					float dps = (float)Math.Round(item.damage * ((float)item.useAnimation / item.useTime) * (60.0f / item.useAnimation), 2);
+					TooltipLine dpsLine = new(Mod, "EstDps", Language.GetTextValue("Mods.Terratweaks.Common.EstDPS", dps));
+
+					if (item.damage > 0 && !item.accessory && !item.IsACoin)
+					{
+						tooltips.Insert(idx + 1, dpsLine);
+					}
 				}
 			}
 
@@ -180,13 +205,22 @@ namespace Terratweaks.Items
 					tooltips.Insert(idx + 1, new TooltipLine(Mod, "SoldByDyeTrader", Language.GetTextValue("Mods.Terratweaks.Common.SoldByDyeTrader")) { OverrideColor = Color.SlateBlue });
 			}
 
-			// Find the last tooltip line that describes the item's effects
+			// Find the last tooltip line that describes the item's effects (i.e, no flavor text)
 			idx = -1;
 
 			foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && t.Name.Contains("Tooltip")))
 			{
 				if (!tooltip.Text.StartsWith("'"))
 					idx = tooltips.IndexOf(tooltip);
+			}
+
+			// Add a line to the DPS Meter
+			if (clientConfig.EstimatedDPS && idx != -1)
+			{
+				if (item.type == ItemID.DPSMeter || item.type == ItemID.GoblinTech)
+				{
+					tooltips.Insert(idx + 1, new TooltipLine(Mod, "DpsMeterExtraTip", Language.GetTextValue("Mods.Terratweaks.Common.DpsMeterExtraTip")));
+				}
 			}
 
 			// Add/replace some lines for accessories with removed diminishing returns
