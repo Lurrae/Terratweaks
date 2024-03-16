@@ -62,12 +62,10 @@ namespace Terratweaks.Projectiles
 
 		public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
 		{
-			var clientConfig = GetInstance<TerratweaksConfig_Client>();
-
-			if (clientConfig.NoDamageVariance)
+			if (GetInstance<TerratweaksConfig>().NoDamageVariance == DamageVarianceSetting.Limited)
 				modifiers.DamageVariationScale *= 0;
 
-			if (clientConfig.NoRandomCrit && sourceItem != null)
+			if (GetInstance<TerratweaksConfig_Client>().NoRandomCrit && sourceItem != null)
 			{
 				var globalItem = sourceItem.GetGlobalItem<TooltipChanges>();
 				globalItem.hitsDone += projectile.CritChance;

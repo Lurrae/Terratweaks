@@ -11,6 +11,7 @@ GENERAL TWEAKS:
 [i:DyeTraderTurban] The Dye Trader sells any dyes or dye ingredients that the player has in their inventory. Enabled by default.
 [i:DD2FlameburstTowerT1Popper] Sentries, like minions, will immediately despawn whenever their owner is killed. Enabled by default.
 [i:WoodenBow] Ranged enemies, such as Dark Casters in the dungeon, no longer deal contact damage. Disabled by default.
+[i:DPSMeter] Removes the +/-15% damage variance that attacks have in vanilla, so every hit always does the same damage. Can be configured to only disable it for players' damage, or for both players and enemies. Damage variance is disabled for players and enemies by default.
 [i:LightningBoots] Several vanilla accessory tinkers, such as Lightning Boots and all Putrid Scent upgrades, have been buffed to inherit the full effects of their components rather than having "diminishing returns". Disabled by default.
 [i:AnkhCharm] Debuffs won't have an increased duration when playing in Expert+. Disabled by default.
 [i:ArcticDivingGear] Snow biome water won't freeze the player when playing in Expert+. Disabled by default.
@@ -27,7 +28,6 @@ GENERAL TWEAKS:
 [i:UmbrellaHat] The Umbrella Hat is reworked into an accessory that disables fall damage and allows slow falling by holding space. Enabled by default.
 
 CLIENT-SIDE TWEAKS:
-[i:DPSMeter] Removes the +/-15% damage variance that the player's attacks have in vanilla, so every hit always does the same damage. Does not affect enemies' damage. Enabled by default.
 [i:GalaxyPearl] Critical hits are no longer random, and instead guaranteed X crits every 100 hits, with X being your crit chance (ex: 10% crit chance translates to 10 crits every 100 hits, or 1 crit every 10 hits). Enabled by default.
 [i:PDA] Item tooltips now list exact values for knockback and use time. Items which fire projectiles list their projectiles' velocity as well. Enabled by default.
 [i:DPSMeter] If you have a DPS Meter or related item in your inventory, weapons will now list an estimated DPS in their tooltip. Enabled by default.

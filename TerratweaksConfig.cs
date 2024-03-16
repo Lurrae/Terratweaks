@@ -17,6 +17,13 @@ namespace Terratweaks
 		On
 	}
 
+	public enum DamageVarianceSetting
+	{
+		Off,
+		Limited,
+		On
+	}
+
 	public class TerratweaksConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide;
@@ -60,6 +67,9 @@ namespace Terratweaks
 
 		[DefaultValue(false)]
 		public bool NoCasterContactDamage { get; set; }
+
+		[DefaultValue(DamageVarianceSetting.On)]
+		public DamageVarianceSetting NoDamageVariance { get; set; }
 
 		[DefaultValue(false)]
 		public bool NoDiminishingReturns { get; set; }
@@ -122,9 +132,6 @@ namespace Terratweaks
 
 		[DefaultValue(true)]
 		public bool EstimatedDPS { get; set; }
-
-		[DefaultValue(true)]
-		public bool NoDamageVariance { get; set; }
 
 		[DefaultValue(true)]
 		public bool NoRandomCrit { get; set; }

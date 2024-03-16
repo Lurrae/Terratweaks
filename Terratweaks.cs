@@ -1,5 +1,6 @@
 global using TepigCore;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -57,6 +58,19 @@ namespace Terratweaks
 			On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
 			On_Player.UpdateJumpHeight += On_Player_UpdateJumpHeight;
 			On_NPC.CountKillForBannersAndDropThem += On_NPC_CountKillForBannersAndDropThem;
+			On_Main.DamageVar_float_int_float += On_Main_DamageVar_float_int_float;
+		}
+
+		private int On_Main_DamageVar_float_int_float(On_Main.orig_DamageVar_float_int_float orig, float dmg, int percent, float luck)
+		{
+			if (ModContent.GetInstance<TerratweaksConfig>().NoDamageVariance == DamageVarianceSetting.On)
+			{
+				return (int)Math.Round(dmg);
+			}
+			else
+			{
+				return orig(dmg, percent, luck);
+			}
 		}
 
 		private void On_Player_UpdateJumpHeight(On_Player.orig_UpdateJumpHeight orig, Player self)

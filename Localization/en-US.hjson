@@ -128,6 +128,15 @@ Mods: {
 						'''
 				}
 
+				NoDamageVariance: {
+					Label: "[i:DPSMeter] Consistent damage"
+					Tooltip:
+						'''
+						Removes the damage variance from attacks, so every hit will always deal the same exact damage
+						Can choose between vanilla behavior, removing damage variance only from players' attacks, or removing damage variance from ALL attacks (both players and enemies)
+						'''
+				}
+
 				NoDiminishingReturns: {
 					Label: "[i:AnkletoftheWind] [i:LightningBoots] No Diminishing Returns"
 					Tooltip:
@@ -399,6 +408,13 @@ Mods: {
 				On.Label: No Restrictions
 			}
 
+			DamageVarianceSetting: {
+				Tooltip: ""
+				Off.Label: Vanilla Behavior
+				Limited.Label: No Player Damage Variance
+				On.Label: No Damage Variance
+			}
+
 			TerratweaksConfig_Client: {
 				DisplayName: Terratweaks Config (Client)
 
@@ -410,11 +426,6 @@ Mods: {
 						This estimated DPS is based solely on the weapon's base damage, number of shots per use, and fire rate
 						Because it doesn't take projectile count, accuracy, or immunity frames into account, the estimation is not super accurate for certain kinds of weapons
 						'''
-				}
-
-				NoDamageVariance: {
-					Label: "[i:DPSMeter] Consistent damage"
-					Tooltip: Removes the damage variance from attacks, so every hit will always deal the same exact damage
 				}
 
 				NoRandomCrit: {

@@ -55,12 +55,10 @@ namespace Terratweaks.Items
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
 		{
-			var clientConfig = GetInstance<TerratweaksConfig_Client>();
-
-			if (clientConfig.NoDamageVariance)
+			if (GetInstance<TerratweaksConfig>().NoDamageVariance == DamageVarianceSetting.Limited)
 				modifiers.DamageVariationScale *= 0;
 
-			if (clientConfig.NoRandomCrit)
+			if (GetInstance<TerratweaksConfig_Client>().NoRandomCrit)
 			{
 				hitsDone += item.crit + GetPlayerCrit(item, player);
 
