@@ -33,6 +33,7 @@ namespace Terratweaks
 		public bool dd2Accessory2;
 		public bool buffedHivePack;
 		public bool radiantInsignia; // Literally only needed because Calamity is dumb
+		public bool summonsDisabled;
 		
 		public override void ResetEffects()
 		{
@@ -45,6 +46,7 @@ namespace Terratweaks
 			dd2Accessory2 = false;
 			buffedHivePack = false;
 			radiantInsignia = false;
+			summonsDisabled = false;
 		}
 
 		public override void OnEnterWorld()
@@ -345,6 +347,31 @@ namespace Terratweaks
 				else if (Player.velocity.Y < (0 - Player.maxFallSpeed) / 3 && !Player.TryingToHoverUp)
 					Player.velocity.Y = (0 - Player.maxFallSpeed) / 3;
 			}
+		}
+	}
+
+	// Tracks whether or not the player is considered "in combat"
+	// This system is based on the way Thorium does it, though I didn't reference their code for this
+	public class CombatPlayer : ModPlayer
+	{
+		public int combatTimer = 0;
+
+		public bool IsInCombat() => combatTimer > 0;
+
+		public override void PostUpdateEquips()
+		{
+			if (IsInCombat())
+				combatTimer--;
+		}
+
+		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+		{
+			combatTimer = Conversions.ToFrames(5);
+		}
+
+		public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
+		{
+			combatTimer = Conversions.ToFrames(5);
 		}
 	}
 }

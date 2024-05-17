@@ -118,6 +118,15 @@ Mods: {
 						'''
 				}
 
+				ManaFreeSummoner: {
+					Label: "[i:SlimeStaff] [i:ManaCrystal] Summoners don't use mana"
+					Tooltip:
+						'''
+						Minion and sentry summon items never cost mana to use. This should affect modded minion/sentry summons as well, without affecting "misc." summon items that use mana
+						When the player is in combat (i.e, has attacked or been hurt by an enemy in the past 5 seconds), using any minion/sentry summon weapon prevents summoning another for 3 seconds
+						'''
+				}
+
 				NoCasterContactDamage: {
 					Label: "[i:WoodenBow] Ranged Enemies Deal No Contact Damage"
 					Tooltip:
@@ -475,6 +484,8 @@ Mods: {
 			StrongerPostML: Becomes stronger when the lunar god is vanquished
 			# Added tooltip for DPS Meter and Goblin Tech
 			DpsMeterExtraTip: Also displays a weapon's estimated DPS in its tooltip!
+			# Added tooltip for summon weapons that apply the cooldown debuff
+			SummonCooldown: If used while in combat, prevents summoning additional minions/sentries for 3 seconds
 			# Estimated DPS tooltips for weapons while using a DPS Meter
 			EstDPS: Estimated DPS: {0} damage per second
 		}
@@ -501,6 +512,11 @@ Mods: {
 			CobaltBuff: {
 				DisplayName: Cobalt Skin
 				Description: Increased defense and knockback immunity
+			}
+
+			SummonsDisabled: {
+				DisplayName: Summoning Shock
+				Description: You must wait to summon another minion or sentry!
 			}
 		}
 

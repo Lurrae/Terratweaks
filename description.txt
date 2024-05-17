@@ -12,6 +12,7 @@ GENERAL TWEAKS:
 [i:DD2FlameburstTowerT1Popper] Sentries, like minions, will immediately despawn whenever their owner is killed. Enabled by default.
 [i:WoodenBow] Ranged enemies, such as Dark Casters in the dungeon, no longer deal contact damage. Disabled by default.
 [i:DPSMeter] Removes the +/-15% damage variance that attacks have in vanilla, so every hit always does the same damage. Can be configured to only disable it for players' damage, or for both players and enemies. Damage variance is disabled for players and enemies by default.
+[i:SlimeStaff] Items that summon a minion or sentry no longer cost mana, but if you're in combat, using one prevents you from summoning any other minions/sentries for 3 seconds. Enabled by default.
 [i:LightningBoots] Several vanilla accessory tinkers, such as Lightning Boots and all Putrid Scent upgrades, have been buffed to inherit the full effects of their components rather than having "diminishing returns". Disabled by default.
 [i:AnkhCharm] Debuffs won't have an increased duration when playing in Expert+. Disabled by default.
 [i:ArcticDivingGear] Snow biome water won't freeze the player when playing in Expert+. Disabled by default.

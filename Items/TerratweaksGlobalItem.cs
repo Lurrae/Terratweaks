@@ -1,10 +1,13 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.UI;
@@ -12,6 +15,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terratweaks.Buffs;
 using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.Items
@@ -218,6 +222,17 @@ namespace Terratweaks.Items
 				if (item.type == ItemID.DPSMeter || item.type == ItemID.GoblinTech)
 				{
 					tooltips.Insert(idx + 1, new TooltipLine(Mod, "DpsMeterExtraTip", Language.GetTextValue("Mods.Terratweaks.Common.DpsMeterExtraTip")));
+				}
+			}
+
+			// Add a line to summon weapons explaining the cooldown
+			if (config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon))
+			{
+				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
+
+				if (proj.minion || proj.sentry)
+				{
+					tooltips.Insert(idx + 1, new TooltipLine(Mod, "SummonCooldown", Language.GetTextValue("Mods.Terratweaks.Common.SummonCooldown")));
 				}
 			}
 
@@ -750,6 +765,96 @@ namespace Terratweaks.Items
 						break;
 				}
 			}
+
+			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon))
+			{
+				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
+
+				if (proj.minion || proj.sentry)
+				{
+					item.mana = 0;
+				}
+			}
+		}
+
+		public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+			Player player = Main.LocalPlayer;
+
+			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon))
+			{
+				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
+
+				if (proj.minion || proj.sentry)
+				{
+					if (player.GetModPlayer<TerratweaksPlayer>().summonsDisabled)
+					{
+						int buffIdx = player.FindBuffIndex(ModContent.BuffType<SummonsDisabled>());
+						
+						if (buffIdx > -1)
+						{
+							// Draw an X over disabled items, in much the same way as healing potions
+							Texture2D value = TextureAssets.InventoryBack.Value;
+							Texture2D texture = TextureAssets.Cd.Value;
+							float inventoryScale = Main.inventoryScale;
+
+							Color color = Color.White;
+							if (drawColor != Color.Transparent)
+							{
+								color = drawColor;
+							}
+
+							Vector2 vector = value.Size() * inventoryScale;
+							Vector2 originalPosition = position - (vector / 2f);
+
+							Vector2 position2 = originalPosition + value.Size() * inventoryScale / 2f - texture.Size() * inventoryScale / 2f;
+							Color color3 = item.GetAlpha(color) * ((float)player.buffTime[buffIdx] / (float)Conversions.ToFrames(3));
+							spriteBatch.Draw(texture, position2, null, color3, 0f, default(Vector2), 1.0f, SpriteEffects.None, 0f);
+						}
+					}
+				}
+			}
+		}
+
+		public override bool CanUseItem(Item item, Player player)
+		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+
+			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon))
+			{
+				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
+
+				if (proj.minion || proj.sentry)
+				{
+					if (player.GetModPlayer<TerratweaksPlayer>().summonsDisabled)
+					{
+						return false;
+					}
+				}
+			}
+
+			return base.CanUseItem(item, player);
+		}
+
+		public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+
+			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon))
+			{
+				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
+
+				if (proj.minion || proj.sentry)
+				{
+					if (player.GetModPlayer<CombatPlayer>().IsInCombat())
+					{
+						player.AddBuff(ModContent.BuffType<SummonsDisabled>(), Conversions.ToFrames(3));
+					}
+				}
+			}
+
+			return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
 		}
 	}
 

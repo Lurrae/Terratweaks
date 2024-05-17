@@ -65,6 +65,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool KillSentries { get; set; }
 
+		[DefaultValue(true)]
+		public bool ManaFreeSummoner { get; set; }
+
 		[DefaultValue(false)]
 		public bool NoCasterContactDamage { get; set; }
 
