@@ -226,7 +226,7 @@ namespace Terratweaks.Items
 			}
 
 			// Add a line to summon weapons explaining the cooldown
-			if (config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon))
+			if (config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.ContainsKey(item.shoot))
 			{
 				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
 
@@ -766,7 +766,7 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon))
+			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.ContainsKey(item.shoot))
 			{
 				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
 
@@ -782,7 +782,7 @@ namespace Terratweaks.Items
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 			Player player = Main.LocalPlayer;
 
-			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon))
+			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.ContainsKey(item.shoot))
 			{
 				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
 
