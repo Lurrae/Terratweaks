@@ -52,6 +52,50 @@ namespace Terratweaks.Items
 		public override bool InstancePerEntity => true;
 		public int hitsDone = 0;
 
+		public static readonly Dictionary<int, Func<Player, bool>> PermBuffBools = new()
+		{
+			{ ItemID.DemonHeart, (Player p) => p.extraAccessory },
+			{ ItemID.CombatBook, (Player p) => NPC.combatBookWasUsed },
+			{ ItemID.ArtisanLoaf, (Player p) => p.ateArtisanBread },
+			{ ItemID.TorchGodsFavor, (Player p) => p.unlockedBiomeTorches },
+			{ ItemID.AegisCrystal, (Player p) => p.usedAegisCrystal },
+			{ ItemID.AegisFruit, (Player p) => p.usedAegisFruit },
+			{ ItemID.ArcaneCrystal, (Player p) => p.usedArcaneCrystal },
+			{ ItemID.Ambrosia, (Player p) => p.usedAmbrosia },
+			{ ItemID.GummyWorm, (Player p) => p.usedGummyWorm },
+			{ ItemID.GalaxyPearl, (Player p) => p.usedGalaxyPearl },
+			{ ItemID.CombatBookVolumeTwo, (Player p) => NPC.combatBookVolumeTwoWasUsed },
+			{ ItemID.PeddlersSatchel, (Player p) => NPC.peddlersSatchelWasUsed },
+			{ ItemID.MinecartPowerup, (Player p) => p.unlockedSuperCart }
+		};
+
+		public static readonly Dictionary<int, Func<Player, Vector2>> MultiPermBuffs = new()
+		{
+			{ ItemID.LifeCrystal, (Player p) => new Vector2(p.ConsumedLifeCrystals, 15) },
+			{ ItemID.ManaCrystal, (Player p) => new Vector2(p.ConsumedManaCrystals, 9) },
+			{ ItemID.LifeFruit, (Player p) => new Vector2(p.ConsumedLifeFruit, 20) }
+		};
+
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Hardmode = new()
+		{
+			{ ItemID.BoneHelm, () => GetInstance<TerratweaksConfig>().expertAccBuffs.BoneHelm }
+		};
+
+		// TODO: Add configs for items that scale at other progression points too
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_QS = new()
+		{
+			{ ItemID.RoyalGel, () => GetInstance<TerratweaksConfig>().expertAccBuffs.RoyalGel }
+		};
+
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Mechs = new() { };
+
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Plant = new()
+		{
+			{ ItemID.HiveBackpack, () => GetInstance<TerratweaksConfig>().expertAccBuffs.HivePack }
+		};
+
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_ML = new() { };
+
 		private static int GetPlayerCrit(Item item, Player player)
 		{
 			return (int)player.GetCritChance(item.DamageType) + (int)player.GetCritChance(DamageClass.Generic);
@@ -75,22 +119,6 @@ namespace Terratweaks.Items
 					modifiers.DisableCrit();
 			}
 		}
-
-		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Hardmode = new()
-		{
-			{ ItemID.BoneHelm, () => GetInstance<TerratweaksConfig>().expertAccBuffs.BoneHelm }
-		};
-		// TODO: Add configs for items that scale at other progression points too
-		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_QS = new()
-		{
-			{ ItemID.RoyalGel, () => GetInstance<TerratweaksConfig>().expertAccBuffs.RoyalGel }
-		};
-		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Mechs = new() { };
-		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Plant = new()
-		{
-			{ ItemID.HiveBackpack, () => GetInstance<TerratweaksConfig>().expertAccBuffs.HivePack }
-		};
-		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_ML = new() { };
 
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
@@ -222,6 +250,30 @@ namespace Terratweaks.Items
 				if (item.type == ItemID.DPSMeter || item.type == ItemID.GoblinTech)
 				{
 					tooltips.Insert(idx + 1, new TooltipLine(Mod, "DpsMeterExtraTip", Language.GetTextValue("Mods.Terratweaks.Common.DpsMeterExtraTip")));
+				}
+			}
+
+			// Add a line to consumed permanent buffs (should work with modded ones hopefully?)
+			if (clientConfig.PermBuffTips && idx != -1)
+			{
+				// Permanent buffs that can be consumed multiple times use special logic, listing the number consumed instead of if they have/haven't been consumed
+				if (MultiPermBuffs.ContainsKey(item.type) && MultiPermBuffs.TryGetValue(item.type, out Func<Player, Vector2> values))
+				{
+					int numConsumed = (int)values(Main.LocalPlayer).X;
+					int max = (int)values(Main.LocalPlayer).Y;
+
+					tooltips.Insert(idx + 1, new TooltipLine(Mod, "PermBuffTip", Language.GetTextValue("Mods.Terratweaks.Common.AmtConsumed", item.Name, numConsumed, max)));
+				}
+				// List if an item has been consumed for permanent buffs
+				else
+				{
+					if (PermBuffBools.ContainsKey(item.type) && PermBuffBools.TryGetValue(item.type, out Func<Player, bool> hasUsedItem))
+					{
+						if (hasUsedItem(Main.LocalPlayer))
+						{
+							tooltips.Insert(idx + 1, new TooltipLine(Mod, "PermBuffTip", Language.GetTextValue("Mods.Terratweaks.Common.PermBuffTip", item.Name)));
+						}
+					}
 				}
 			}
 

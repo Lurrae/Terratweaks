@@ -9,6 +9,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terratweaks.Items;
 
 namespace Terratweaks
 {
@@ -59,6 +60,55 @@ namespace Terratweaks
 			On_Player.UpdateJumpHeight += On_Player_UpdateJumpHeight;
 			On_NPC.CountKillForBannersAndDropThem += On_NPC_CountKillForBannersAndDropThem;
 			On_Main.DamageVar_float_int_float += On_Main_DamageVar_float_int_float;
+		}
+
+		public override object Call(params object[] args)
+		{
+			if (args[0] is string content)
+			{
+				switch (content)
+				{
+					case "IsSentryKillingEnabled":
+						return ModContent.GetInstance<TerratweaksConfig>().KillSentries;
+					case "AddPermConsumable":
+						if (args[1] is int itemType)
+						{
+							if (args[2] is Func<Player, bool> hasBeenUsed)
+							{
+								if (TooltipChanges.PermBuffBools.ContainsKey(itemType))
+								{
+									Logger.Warn($"'AddPermConsumable' attempted to add an item of ID {itemType}, but it already exists in PermBuffBools");
+								}
+								else
+								{
+									TooltipChanges.PermBuffBools.Add(itemType, hasBeenUsed);
+								}
+							}
+							else if (args[2] is Func<Player, Vector2> amtConsumed)
+							{
+								if (TooltipChanges.MultiPermBuffs.ContainsKey(itemType))
+								{
+									Logger.Warn($"'AddPermConsumable' attempted to add an item of ID {itemType}, but it already exists in MultiPermBuffs");
+								}
+								else
+								{
+									TooltipChanges.MultiPermBuffs.Add(itemType, amtConsumed);
+								}
+							}
+							else
+							{
+								Logger.Warn($"Invalid argument 2 for 'AddPermConsumable'. Expected Func<Player, bool> or Func<Player, Vector2>, got {args[2].GetType().Name}");
+							}
+						}
+						else
+						{
+							Logger.Warn($"Invalid argument 1 for 'AddPermConsumable'. Expected int, got {args[1].GetType().Name}");
+						}
+						break;
+				}
+			}
+
+			return true;
 		}
 
 		private int On_Main_DamageVar_float_int_float(On_Main.orig_DamageVar_float_int_float orig, float dmg, int percent, float luck)
@@ -242,20 +292,6 @@ namespace Terratweaks
 			}
 
 			return originalReturn;
-		}
-
-		public override object Call(params object[] args)
-		{
-			if (args[0] is string content)
-			{
-				switch (content)
-				{
-					case "IsSentryKillingEnabled":
-						return ModContent.GetInstance<TerratweaksConfig>().KillSentries;
-				}
-			}
-
-			return true;
 		}
 	}
 }

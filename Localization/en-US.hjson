@@ -447,6 +447,15 @@ Mods: {
 						'''
 				}
 
+				PermBuffTips: {
+					Label: "[i:LifeCrystal] [i:AegisCrystal] Improved permanent buff tooltips"
+					Tooltip:
+						'''
+						Permanent buff items (such as the Vital Crystal) will display an extra tooltip line when they've been consumed
+						Life Crystals, Mana Crystals, and Life Fruits will display how many have been consumed instead
+						'''
+				}
+
 				StatsInTip: {
 					Label: "[i:PDA] Improved weapon tooltips"
 					Tooltip:
@@ -486,6 +495,9 @@ Mods: {
 			DpsMeterExtraTip: Also displays a weapon's estimated DPS in its tooltip!
 			# Added tooltip for summon weapons that apply the cooldown debuff
 			SummonCooldown: If used while in combat, prevents summoning additional minions/sentries for 3 seconds
+			# Added tooltips for permanent buff items
+			AmtConsumed: You have consumed {1}/{2} {0}
+			PermBuffTip: You have already consumed the {0}
 			# Estimated DPS tooltips for weapons while using a DPS Meter
 			EstDPS: Estimated DPS: {0} damage per second
 		}

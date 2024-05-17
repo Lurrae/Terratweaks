@@ -140,6 +140,9 @@ namespace Terratweaks
 		public bool NoRandomCrit { get; set; }
 
 		[DefaultValue(true)]
+		public bool PermBuffTips { get; set; }
+
+		[DefaultValue(true)]
 		public bool StatsInTip { get; set; }
 	}
 
