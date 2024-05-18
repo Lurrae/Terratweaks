@@ -224,5 +224,9 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ShimmerBottomlessAndSponges { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool TeamBlocks { get; set; }
 	}
 }

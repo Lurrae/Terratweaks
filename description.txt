@@ -62,4 +62,5 @@ CRAFTABLE UNCRAFTABLES:
 [i:RetinazerTrophy] Bosses with multiple trophies (such as the Twins) can have their trophies shimmered to the other counterpart. Supports Calamity Mod trophies. Enabled by default.
 [i:ClothierVoodooDoll] Clothier Voodoo Dolls can now be crafted with a Guide Voodoo Doll and a Red Hat. Enabled by default.
 [i:SuperDartTrap] Jungle Temple traps can now be crafted with Lihzahrd Bricks and other relevant materials. Enabled by default.
+[i:TeamBlockRed] [i:TeamBlockRedPlatform] Team Blocks can now be crafted with 25 Stone and a relevant dye (makes 25 blocks). Team Platforms can be crafted to/from their respective blocks like any other platform. Enabled by default.
 [i:BottomlessLavaBucket] The various bottomless buckets and sponges can now be shimmered into one another in a cycle, just like regular liquid buckets. Enabled by default.

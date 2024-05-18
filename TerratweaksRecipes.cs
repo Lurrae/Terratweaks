@@ -92,6 +92,27 @@ namespace Terratweaks
 					.Register();
 			}
 
+			if (enabledRecipes.TeamBlocks)
+			{
+				AddTeamBlockRecipe(ItemID.TeamBlockWhite, ItemID.SilverDye);
+				AddTeamPlatformRecipe(ItemID.TeamBlockWhite, ItemID.TeamBlockWhitePlatform);
+
+				AddTeamBlockRecipe(ItemID.TeamBlockRed, ItemID.RedDye);
+				AddTeamPlatformRecipe(ItemID.TeamBlockRed, ItemID.TeamBlockRedPlatform);
+
+				AddTeamBlockRecipe(ItemID.TeamBlockBlue, ItemID.BlueDye);
+				AddTeamPlatformRecipe(ItemID.TeamBlockBlue, ItemID.TeamBlockBluePlatform);
+
+				AddTeamBlockRecipe(ItemID.TeamBlockGreen, ItemID.GreenDye);
+				AddTeamPlatformRecipe(ItemID.TeamBlockGreen, ItemID.TeamBlockGreenPlatform);
+
+				AddTeamBlockRecipe(ItemID.TeamBlockYellow, ItemID.YellowDye);
+				AddTeamPlatformRecipe(ItemID.TeamBlockYellow, ItemID.TeamBlockYellowPlatform);
+
+				AddTeamBlockRecipe(ItemID.TeamBlockPink, ItemID.PinkDye);
+				AddTeamPlatformRecipe(ItemID.TeamBlockPink, ItemID.TeamBlockPinkPlatform);
+			}
+
 			if (enabledRecipes.TempleTraps)
 				AddTempleTrapRecipes();
 
@@ -111,6 +132,26 @@ namespace Terratweaks
 		public override void AddRecipeGroups()
 		{
 			RecipeGroup.RegisterGroup("DungeonBricks", new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} Dungeon Brick", ItemID.BlueBrick, ItemID.GreenBrick, ItemID.PinkBrick));
+		}
+
+		private static void AddTeamBlockRecipe(int teamBlockType, int dyeType)
+		{
+			Recipe.Create(teamBlockType, 25)
+				.AddIngredient(ItemID.StoneBlock, 25)
+				.AddIngredient(dyeType)
+				.AddTile(TileID.DyeVat)
+				.Register();
+		}
+
+		private static void AddTeamPlatformRecipe(int teamBlockType, int teamPlatformType)
+		{
+			Recipe.Create(teamPlatformType, 2)
+				.AddIngredient(teamBlockType)
+				.Register();
+
+			Recipe.Create(teamBlockType)
+				.AddIngredient(teamPlatformType, 2)
+				.Register();
 		}
 
 		static void AddTempleTrapRecipes()

@@ -391,6 +391,11 @@ Mods: {
 					Tooltip: Enables recipes to craft the Jungle Temple's various traps using some Lihzahrd Bricks and other relevant materials
 				}
 
+				TeamBlocks: {
+					Label: "[i:TeamBlockRed] [i:TeamBlockRedPlatform] Team Blocks"
+					Tooltip: Enables recipes to turn 25 Stone and a dye into 25 Team Blocks of the dye's color, as well as crafting Team Platforms in the same way as normal platforms
+				}
+
 				ShimmerBottomlessAndSponges: {
 					Label: "[i:BottomlessLavaBucket] [i:LavaAbsorbantSponge] Shimmerable Bottomless Buckets and Sponges"
 					Tooltip:
