@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terratweaks.Items;
+using Terratweaks.NPCs;
 
 namespace Terratweaks
 {
@@ -46,7 +48,7 @@ namespace Terratweaks
 		public static ModKeybind InfernoToggleKeybind { get; private set; }
 		public static ModKeybind RulerToggleKeybind { get; private set; }
 		public static ModKeybind MechRulerToggleKeybind { get; private set; }
-		public static readonly List<int> DyeItemsSoldByTrader = new();
+		public static readonly List<int> DyeItemsSoldByTrader = [];
 
 		public override void Load()
 		{
@@ -54,12 +56,26 @@ namespace Terratweaks
 			RulerToggleKeybind = KeybindLoader.RegisterKeybind(this, "RulerToggle", "NumPad1");
 			MechRulerToggleKeybind = KeybindLoader.RegisterKeybind(this, "MechRulerToggle", "NumPad2");
 			
-			On_Main.DrawInfernoRings += On_Main_DrawInfernoRings;
-			On_Main.TryInteractingWithMoneyTrough += On_Main_TryInteractingWithMoneyTrough;
-			On_Player.HandleBeingInChestRange += On_Player_HandleBeingInChestRange;
-			On_Player.UpdateJumpHeight += On_Player_UpdateJumpHeight;
-			On_NPC.CountKillForBannersAndDropThem += On_NPC_CountKillForBannersAndDropThem;
-			On_Main.DamageVar_float_int_float += On_Main_DamageVar_float_int_float;
+			On_Main.DamageVar_float_int_float += DisableDamageVariance;
+			On_Main.DrawInfernoRings += HideInfernoVisuals;
+			On_Main.TryInteractingWithMoneyTrough += ChesterRework_OpenSafe;
+			On_Player.HandleBeingInChestRange += ChesterRework_Variables;
+			On_Player.TakeDamageFromJellyfish += IncreasedJellyfishDamage;
+			On_Player.UpdateJumpHeight += RadiantInsigniaJumpHeight;
+			On_NPC.CountKillForBannersAndDropThem += BannerCombatText;
+			On_NPC.HitModifiers.GetDamage += CritsBypassDefense;
+		}
+
+		public override void PostSetupContent()
+		{
+			foreach (NPC npc in ContentSamples.NpcsByNetId.Values.Where(n => n.aiStyle == NPCAIStyleID.GraniteElemental))
+			{
+				StatChangeHandler.DREnemy drEnemyStats = new(0.25f, 1.1f, (NPC npc) => npc.ai[0] == -1);
+				if (!StatChangeHandler.damageResistantEnemies.TryAdd(npc.type, drEnemyStats))
+				{
+					StatChangeHandler.damageResistantEnemies[npc.type] = drEnemyStats;
+				}
+			}
 		}
 
 		public override object Call(params object[] args)
@@ -69,68 +85,146 @@ namespace Terratweaks
 				switch (content)
 				{
 					case "IsSentryKillingEnabled":
+						Logger.Warn($"The 'IsSentryKillingEnabled' mod call is deprecated; please use 'Query' instead.");
 						return ModContent.GetInstance<TerratweaksConfig>().KillSentries;
+					case "Query":
+						if (args[1] is string settingToQuery)
+						{
+							return settingToQuery switch
+							{
+								#region Returns
+								"BannersDontSpamChat" => ModContent.GetInstance<TerratweaksConfig>().BannersDontSpamChat,
+								"BetterBestiary" => ModContent.GetInstance<TerratweaksConfig>().BetterBestiary,
+								"BetterCrackedBricks" => ModContent.GetInstance<TerratweaksConfig>().BetterCrackedBricks,
+								"ChesterRework" => ModContent.GetInstance<TerratweaksConfig>().ChesterRework,
+								"CritsBypassDefense" => ModContent.GetInstance<TerratweaksConfig>().CritsBypassDefense,
+								"DeerclopsRegens" => ModContent.GetInstance<TerratweaksConfig>().DeerclopsRegens,
+								"DeerRegenAmt" => ModContent.GetInstance<TerratweaksConfig>().DeerRegenAmt,
+								"DummyFix" => ModContent.GetInstance<TerratweaksConfig>().DummyFix,
+								"DyeTraderShopExpansion" => ModContent.GetInstance<TerratweaksConfig>().DyeTraderShopExpansion,
+								"KillSentries" => ModContent.GetInstance<TerratweaksConfig>().KillSentries,
+								"ManaFreeSummoner" => ModContent.GetInstance<TerratweaksConfig>().ManaFreeSummoner,
+								"NoEnemyInvulnerability" => ModContent.GetInstance<TerratweaksConfig>().NoEnemyInvulnerability,
+								"NoCasterContactDamage" => ModContent.GetInstance<TerratweaksConfig>().NoCasterContactDamage,
+								"NoDamageVariance" => ModContent.GetInstance<TerratweaksConfig>().NoDamageVariance,
+								"NoDiminishingReturns" => ModContent.GetInstance<TerratweaksConfig>().NoDiminishingReturns,
+								"NoExpertDebuffTimes" => ModContent.GetInstance<TerratweaksConfig>().NoExpertDebuffTimes,
+								"NoExpertFreezingWater" => ModContent.GetInstance<TerratweaksConfig>().NoExpertFreezingWater,
+								"NoExpertScaling" => ModContent.GetInstance<TerratweaksConfig>().NoExpertScaling,
+								"NPCsSellMinecarts" => ModContent.GetInstance<TerratweaksConfig>().NPCsSellMinecarts,
+								"OasisCrateBuff" => ModContent.GetInstance<TerratweaksConfig>().OasisCrateBuff,
+								"PostEyeSandstorms" => ModContent.GetInstance<TerratweaksConfig>().PostEyeSandstorms,
+								"SIRework" or "SoaringInsigniaRework" => ModContent.GetInstance<TerratweaksConfig>().SIRework,
+								"SoilSolutionsPreML" => ModContent.GetInstance<TerratweaksConfig>().SoilSolutionsPreML,
+								"SolutionsOnGFB" => ModContent.GetInstance<TerratweaksConfig>().SolutionsOnGFB,
+								"StackableDD2Accs" => ModContent.GetInstance<TerratweaksConfig>().StackableDD2Accs,
+								"TerraprismaCalReversion" => ModContent.GetInstance<TerratweaksConfig>().TerraprismaCalReversion,
+								"TerraprismaDropRate" => ModContent.GetInstance<TerratweaksConfig>().TerraprismaDropRate,
+								"UmbrellaHatRework" => ModContent.GetInstance<TerratweaksConfig>().UmbrellaHatRework,
+
+								"ExpertAccBuffs_RoyalGel" or "RoyalGelBuff" => ModContent.GetInstance<TerratweaksConfig>().expertAccBuffs.RoyalGel,
+								"ExpertAccBuffs_HivePack" or "HivePackBuff" => ModContent.GetInstance<TerratweaksConfig>().expertAccBuffs.HivePack,
+								"ExpertAccBuffs_BoneHelm" or "BoneHelmBuff" => ModContent.GetInstance<TerratweaksConfig>().expertAccBuffs.BoneHelm,
+
+								"ArmorReworks_Spider" or "SpiderArmorSetBonus" => ModContent.GetInstance<TerratweaksConfig>().armorBonuses.Spider,
+								"ArmorReworks_Cobalt" or "CobaltArmorSetBonus" => ModContent.GetInstance<TerratweaksConfig>().armorBonuses.Cobalt,
+								"ArmorReworks_Mythril" or "MythrilArmorSetBonus" => ModContent.GetInstance<TerratweaksConfig>().armorBonuses.Mythril,
+								"ArmorReworks_Adamantite" or "AdamantiteArmorSetBonus" => ModContent.GetInstance<TerratweaksConfig>().armorBonuses.Adamantite,
+								"ArmorReworks_Spooky" or "SpookyArmorSetBonus" => ModContent.GetInstance<TerratweaksConfig>().armorBonuses.Spooky,
+
+								"CraftableUncraftables_PlanterBoxes" or "PlanterBoxesRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.PlanterBoxes,
+								"CraftableUncraftables_GemCritters" or "GemCrittersRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.GemCritters,
+								"CraftableUncraftables_DungeonFurniture" or "DungeonFurnitureRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.DungeonFurniture,
+								"CraftableUncraftables_ObsidianFurniture" or "ObsidianRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.ObsidianFurniture,
+								"CraftableUncraftables_StructureBanners" or "StructureBannersRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.StructureBanners,
+								"CraftableUncraftables_Moss" or "MossRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.Moss,
+								"CraftableUncraftables_Gravestones" or "GravestonesRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.Gravestones,
+								"CraftableUncraftables_Trophies" or "TrophiesRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.Trophies,
+								"CraftableUncraftables_ClothierVoodooDoll" or "ClothierVoodooDollRecipe" or "ClothierDollRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.ClothierVoodooDoll,
+								"CraftableUncraftables_TempleTraps" or "TempleTrapsRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.TempleTraps,
+								"CraftableUncraftables_ShimmerBottomlessAndSponges" or "BottomlessAndSpongesShimmer" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.ShimmerBottomlessAndSponges,
+
+								"Client_EstimatedDPS" or "EstimatedDPS" => ModContent.GetInstance<TerratweaksConfig_Client>().EstimatedDPS,
+								"Client_NoRandomCrit" or "NoRandomCrit" => ModContent.GetInstance<TerratweaksConfig_Client>().NoRandomCrit,
+								"Client_PermBuffTips" or "PermBuffTips" => ModContent.GetInstance<TerratweaksConfig_Client>().PermBuffTips,
+								"Client_StatsInTip" or "StatsInTip" => ModContent.GetInstance<TerratweaksConfig_Client>().StatsInTip,
+
+								_ => throw new Exception($"Could not find Terratweaks config option named {args[1]}."),
+								#endregion
+							};
+						}
+						throw new ArgumentException($"Expected an argument of type string for 'Query', but got type {args[1].GetType().Name} instead.");
 					case "AddPermConsumable":
 						if (args[1] is int itemType)
 						{
 							if (args[2] is Func<Player, bool> hasBeenUsed)
 							{
-								if (TooltipChanges.PermBuffBools.ContainsKey(itemType))
+								if (!TooltipChanges.PermBuffBools.TryAdd(itemType, hasBeenUsed))
 								{
-									Logger.Warn($"'AddPermConsumable' attempted to add an item of ID {itemType}, but it already exists in PermBuffBools");
+									TooltipChanges.PermBuffBools[itemType] = hasBeenUsed;
 								}
-								else
-								{
-									TooltipChanges.PermBuffBools.Add(itemType, hasBeenUsed);
-								}
+								
+								return true;
 							}
 							else if (args[2] is Func<Player, Vector2> amtConsumed)
 							{
-								if (TooltipChanges.MultiPermBuffs.ContainsKey(itemType))
+								if (!TooltipChanges.MultiPermBuffs.TryAdd(itemType, amtConsumed))
 								{
-									Logger.Warn($"'AddPermConsumable' attempted to add an item of ID {itemType}, but it already exists in MultiPermBuffs");
+									TooltipChanges.MultiPermBuffs[itemType] = amtConsumed;
 								}
-								else
-								{
-									TooltipChanges.MultiPermBuffs.Add(itemType, amtConsumed);
-								}
+								
+								return true;
 							}
 							else
 							{
-								Logger.Warn($"Invalid argument 2 for 'AddPermConsumable'. Expected Func<Player, bool> or Func<Player, Vector2>, got {args[2].GetType().Name}");
+								throw new ArgumentException($"Expected a second argument of type Func<Player, bool> or Func<Player, Vector2> for 'AddPermConsumable', but got type {args[2].GetType().Name} instead.");
 							}
 						}
-						else
+						throw new ArgumentException($"Expected a first argument of type int for 'AddPermConsumable', but got type {args[1].GetType().Name} instead.");
+					case "AddDefensiveEnemy":
+						if (args[1] is string type)
 						{
-							Logger.Warn($"Invalid argument 1 for 'AddPermConsumable'. Expected int, got {args[1].GetType().Name}");
+							switch (type)
+							{
+								case "DamageResistant":
+									if (args[2] is int npcID && args[3] is float dmgResist && args[4] is float kbResist && args[5] is Func<NPC, bool> defensiveState)
+									{
+										StatChangeHandler.DREnemy drEnemyStats = new(dmgResist, kbResist, defensiveState);
+										if (!StatChangeHandler.damageResistantEnemies.TryAdd(npcID, drEnemyStats))
+										{
+											StatChangeHandler.damageResistantEnemies[npcID] = drEnemyStats;
+										}
+
+										return true;
+									}
+									else
+									{
+										throw new ArgumentException($"Expected arguments of type int, float, float, and Func<NPC, bool> for 'AddDefensiveEnemy', but got types {args[2].GetType().Name}, {args[3].GetType().Name}, {args[4].GetType().Name}, and {args[5].GetType().Name} instead.");
+									}
+								// TODO: Add more defensive enemy types in the future, maybe projectile-reflecting ones like Selenians and Legendary Mode EoC could be cool?
+							}
 						}
-						break;
+						throw new ArgumentException($"Expected a first argument of type string for 'AddDefensiveEnemy', but got type {args[1].GetType().Name} instead.");
+					case "AddNoContactDamageEnemy":
+						if (args[1] is int npcType)
+						{
+							if (!StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Contains(npcType))
+								StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Add(npcType);
+							
+							return true;
+						}
+						throw new ArgumentException($"Expected an argument of type int for 'AddNoContactDamageEnemy', but got type {args[1].GetType().Name} instead.");
+					case "RemoveNoContactDamageEnemy":
+						if (args[1] is int npcType2)
+						{
+							StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Remove(npcType2);
+							return true;
+						}
+						throw new ArgumentException($"Expected an argument of type int for 'RemoveNoContactDamageEnemy', but got type {args[1].GetType().Name} instead.");
 				}
 			}
 
 			return true;
-		}
-
-		private int On_Main_DamageVar_float_int_float(On_Main.orig_DamageVar_float_int_float orig, float dmg, int percent, float luck)
-		{
-			if (ModContent.GetInstance<TerratweaksConfig>().NoDamageVariance == DamageVarianceSetting.On)
-			{
-				return (int)Math.Round(dmg);
-			}
-			else
-			{
-				return orig(dmg, percent, luck);
-			}
-		}
-
-		private void On_Player_UpdateJumpHeight(On_Player.orig_UpdateJumpHeight orig, Player self)
-		{
-			orig(self);
-
-			if (self.GetModPlayer<TerratweaksPlayer>().radiantInsignia) // Mimic SI's effect
-			{
-				self.jumpSpeedBoost += 1.8f;
-			}
 		}
 
 		public override void HandlePacket(BinaryReader reader, int fromWho)
@@ -166,7 +260,40 @@ namespace Terratweaks
 			MechRulerToggleKeybind = null;
 		}
 
-		private void On_NPC_CountKillForBannersAndDropThem(On_NPC.orig_CountKillForBannersAndDropThem orig, NPC self)
+		private int DisableDamageVariance(On_Main.orig_DamageVar_float_int_float orig, float dmg, int percent, float luck)
+		{
+			if (ModContent.GetInstance<TerratweaksConfig>().NoDamageVariance == DamageVarianceSetting.On)
+			{
+				return (int)Math.Round(dmg);
+			}
+			else
+			{
+				return orig(dmg, percent, luck);
+			}
+		}
+
+		private void RadiantInsigniaJumpHeight(On_Player.orig_UpdateJumpHeight orig, Player self)
+		{
+			orig(self);
+
+			if (self.GetModPlayer<TerratweaksPlayer>().radiantInsignia) // Mimic SI's effect
+			{
+				self.jumpSpeedBoost += 1.8f;
+			}
+		}
+
+		private int CritsBypassDefense(On_NPC.HitModifiers.orig_GetDamage orig, ref NPC.HitModifiers self, float baseDamage, bool crit, bool damageVariation, float luck)
+		{
+			// Nullify defense on crits, if the corresponding config option is enabled
+			if (ModContent.GetInstance<TerratweaksConfig>().CritsBypassDefense && crit)
+			{
+				self.DefenseEffectiveness *= 0f;
+			}
+
+			return orig(ref self, baseDamage, crit, damageVariation, luck);
+		}
+
+		private void BannerCombatText(On_NPC.orig_CountKillForBannersAndDropThem orig, NPC self)
 		{
 			if (ModContent.GetInstance<TerratweaksConfig>().BannersDontSpamChat)
 			{
@@ -226,7 +353,30 @@ namespace Terratweaks
 			}
 		}
 
-		private void On_Main_DrawInfernoRings(On_Main.orig_DrawInfernoRings orig, Main self)
+		private void IncreasedJellyfishDamage(On_Player.orig_TakeDamageFromJellyfish orig, Player self, int npcIndex)
+		{
+			Main.NewText("TakeDamageFromJellyfish has been called, regardless of config option");
+			
+			// Deal 2x NPC's base damage if electrified while this config is enabled, instead of 1.3x
+			if (ModContent.GetInstance<TerratweaksConfig>().NoEnemyInvulnerability)
+			{
+				// Code adapted from the original method
+				Main.NewText($"A jellyfish was just hurt by {self.name}'s melee attack or connected projectile!");
+				Main.NewText("Applying retalitory damage...");
+				NPC jelly = Main.npc[npcIndex];
+				double dmg = self.Hurt(PlayerDeathReason.ByNPC(npcIndex), jelly.damage * 2, -self.direction);
+				Main.NewText($"Applied {dmg} damage (2 x base contact damage of {jelly.damage}) to {self.name}!");
+				self.SetMeleeHitCooldown(npcIndex, self.itemAnimation);
+				self.ApplyAttackCooldown();
+			}
+			// Just run the original method if the config is disabled
+			else
+			{
+				orig(self, npcIndex);
+			}
+		}
+
+		private void HideInfernoVisuals(On_Main.orig_DrawInfernoRings orig, Main self)
 		{
 			for (int i = 0; i < Main.maxPlayers; i++)
 			{
@@ -242,7 +392,7 @@ namespace Terratweaks
 			orig(self);
 		}
 
-		private void On_Player_HandleBeingInChestRange(On_Player.orig_HandleBeingInChestRange orig, Player self)
+		private void ChesterRework_Variables(On_Player.orig_HandleBeingInChestRange orig, Player self)
 		{
 			bool chesterRework = ModContent.GetInstance<TerratweaksConfig>().ChesterRework;
 			if (!chesterRework) // No need to run any special code if the rework is disabled, other than setting the chester safe bool to false
@@ -266,7 +416,7 @@ namespace Terratweaks
 			}
 		}
 
-		private int On_Main_TryInteractingWithMoneyTrough(On_Main.orig_TryInteractingWithMoneyTrough orig, Projectile proj)
+		private int ChesterRework_OpenSafe(On_Main.orig_TryInteractingWithMoneyTrough orig, Projectile proj)
 		{
 			Player player = Main.LocalPlayer;
 			bool chesterRework = ModContent.GetInstance<TerratweaksConfig>().ChesterRework;

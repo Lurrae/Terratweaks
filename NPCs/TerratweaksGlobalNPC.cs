@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -132,9 +133,14 @@ namespace Terratweaks.NPCs
 		}
 	}
 
-	// Handle removing contact damage and Expert stat scaling
+	// Handle removing contact damage, Expert stat scaling, and NPC invulnerability
 	public class StatChangeHandler : GlobalNPC
 	{
+		public override bool InstancePerEntity => true;
+
+		private float baseKBResist = 0f;
+		private float baseDamageMult = 1f;
+
 		public override void SetStaticDefaults()
 		{
 			if (GetInstance<TerratweaksConfig>().NoExpertScaling)
@@ -146,8 +152,94 @@ namespace Terratweaks.NPCs
 			}
 		}
 
-		static readonly List<int> npcTypesThatShouldNotDoContactDamage = new()
+		public override void OnSpawn(NPC npc, IEntitySource source)
 		{
+			baseKBResist = npc.knockBackResist;
+			baseDamageMult = npc.takenDamageMultiplier;
+		}
+
+		public struct DREnemy(float dmgResist, float kbResist, Func<NPC, bool> defensiveState)
+		{
+			public float DmgResist { get; } = dmgResist;
+			public float KbResist { get; } = kbResist;
+			public Func<NPC, bool> DefensiveState = defensiveState;
+		}
+
+		public static readonly Dictionary<int, DREnemy> damageResistantEnemies = new()
+		{
+			{ NPCID.GraniteFlyer, new DREnemy(0.25f, 1.1f, (NPC npc) => npc.ai[0] == -1) },
+			{ NPCID.GraniteGolem, new DREnemy(0.25f, 0.05f, (NPC npc) => npc.ai[2] < 0f) }
+		};
+
+		public override void PostAI(NPC npc)
+		{
+			// Ignore this entire process if the config option is not set
+			if (!GetInstance<TerratweaksConfig>().NoEnemyInvulnerability)
+				return;
+
+			// Do not try to remove invulnerability from bosses (bosses should NEVER have any of these AIs, but you never know)
+			if (npc.boss)
+				return;
+
+			// Granite enemies have their invulnerability disabled and damage reduction applied
+			if (npc.aiStyle == NPCAIStyleID.GraniteElemental || npc.type == NPCID.GraniteGolem)
+			{
+				npc.dontTakeDamage = false;
+
+				if ((npc.aiStyle == NPCAIStyleID.GraniteElemental && npc.ai[0] == -1) || (npc.type == NPCID.GraniteGolem && npc.ai[2] < 0f))
+				{
+					npc.takenDamageMultiplier = 0.25f;
+
+					if (npc.aiStyle == NPCAIStyleID.GraniteElemental)
+					{
+						npc.knockBackResist = 1.1f;
+					}
+					else
+					{
+						npc.knockBackResist = 0.05f;
+					}
+				}
+				else if (npc.aiStyle == NPCAIStyleID.GraniteElemental || npc.type == NPCID.GraniteGolem)
+				{
+					npc.takenDamageMultiplier = baseDamageMult;
+					npc.knockBackResist = baseKBResist;
+				}
+			}
+			// Remove invulnerability from jellyfish. The increased retaliation damage on melee hits needs to be handled elsewhere
+			else if (npc.aiStyle == NPCAIStyleID.Jellyfish)
+			{
+				npc.dontTakeDamage = false;
+			}
+		}
+
+		// Call TakeDamageFromJellyfish manually because for SOME reason, vanilla checks npc.dontTakeDamage instead of npc.ai[1] == 1
+		public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
+		{
+			if (NPCID.Sets.ZappingJellyfish[npc.type])
+			{
+				if (GetInstance<TerratweaksConfig>().NoEnemyInvulnerability && npc.wet && npc.ai[1] == 1f)
+				{
+					player.TakeDamageFromJellyfish(npc.whoAmI);
+				}
+			}
+		}
+
+		public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
+		{
+			if (NPCID.Sets.ZappingJellyfish[npc.type])
+			{
+				bool isHurtingProjectile = projectile.aiStyle == ProjAIStyleID.Spear || projectile.aiStyle == ProjAIStyleID.ShortSword || projectile.aiStyle == ProjAIStyleID.HeldProjectile || projectile.aiStyle == ProjAIStyleID.SleepyOctopod || ProjectileID.Sets.IsAWhip[projectile.type] || ProjectileID.Sets.AllowsContactDamageFromJellyfish[projectile.type];
+
+				if (GetInstance<TerratweaksConfig>().NoEnemyInvulnerability && npc.wet && npc.ai[1] == 1f && isHurtingProjectile)
+				{
+					Main.player[projectile.owner].TakeDamageFromJellyfish(npc.whoAmI);
+				}
+			}
+		}
+
+		public static readonly List<int> npcTypesThatShouldNotDoContactDamage =
+		#region npcTypesThatShouldNotDoContactDamage
+		[
 			// Hornets
 			// TODO: Are the big and little variants necessary? They're all NetID enemies, so they may be "counted" as the normal variants
 			NPCID.Hornet,
@@ -201,7 +293,8 @@ namespace Terratweaks.NPCs
 			NPCID.IcyMerman,
 			NPCID.MartianTurret,
 			NPCID.Probe
-		};
+		];
+		#endregion
 
 		public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
 		{

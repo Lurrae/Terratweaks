@@ -48,6 +48,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool ChesterRework { get; set; }
 
+		[DefaultValue(false)]
+		public bool CritsBypassDefense { get; set; }
+
 		[DefaultValue(true)]
 		public bool DeerclopsRegens { get; set; }
 
@@ -76,6 +79,9 @@ namespace Terratweaks
 
 		[DefaultValue(false)]
 		public bool NoDiminishingReturns { get; set; }
+
+		[DefaultValue(true)]
+		public bool NoEnemyInvulnerability { get; set; }
 
 		[DefaultValue(false)]
 		public bool NoExpertDebuffTimes { get; set; }

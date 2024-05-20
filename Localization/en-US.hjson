@@ -84,6 +84,11 @@ Mods: {
 					Tooltip: Chester is reworked to be considered a light pet, but he accesses the player's safe instead of their piggy bank
 				}
 
+				CritsBypassDefense: {
+					Label: "[i:EyeoftheGolem] Crits Bypass Defense"
+					Tooltip: Critical hits ignore enemy defense entirely, making crit builds less reliant on armor piercing effects
+				}
+
 				DeerclopsRegens: {
 					Label: "[i:DeerThing] Deerclops Heals Out of Combat"
 					Tooltip: If no living players are within 1000 blocks of Deerclops, he will regenerate HP based on the below config value
@@ -124,6 +129,17 @@ Mods: {
 						'''
 						Minion and sentry summon items never cost mana to use. This should affect modded minion/sentry summons as well, without affecting "misc." summon items that use mana
 						When the player is in combat (i.e, has attacked or been hurt by an enemy in the past 5 seconds), using any minion/sentry summon weapon prevents summoning another for 3 seconds
+						'''
+				}
+
+				NoEnemyInvulnerability: {
+					Label: "[i:JellyfishStatue] [i:GraniteGolemStatue] No Enemy Invulnerability"
+					Tooltip:
+						'''
+						Vanilla non-boss enemies that have a state which grants them invulnerability no longer become invulnerable in this state
+						In return, this state gives them some other bonus depending on the enemy type:
+						Jellyfish deal damage to the player on melee hits for 2x their contact damage, up from 1.3x in vanilla
+						Granite Golems and Granite Elementals take 1/4th the damage they normally would from the player's attacks. They also have altered knockback resistance
 						'''
 				}
 
