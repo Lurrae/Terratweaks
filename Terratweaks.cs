@@ -352,17 +352,12 @@ namespace Terratweaks
 
 		private void IncreasedJellyfishDamage(On_Player.orig_TakeDamageFromJellyfish orig, Player self, int npcIndex)
 		{
-			Main.NewText("TakeDamageFromJellyfish has been called, regardless of config option");
-			
 			// Deal 2x NPC's base damage if electrified while this config is enabled, instead of 1.3x
 			if (ModContent.GetInstance<TerratweaksConfig>().NoEnemyInvulnerability)
 			{
 				// Code adapted from the original method
-				Main.NewText($"A jellyfish was just hurt by {self.name}'s melee attack or connected projectile!");
-				Main.NewText("Applying retalitory damage...");
 				NPC jelly = Main.npc[npcIndex];
 				double dmg = self.Hurt(PlayerDeathReason.ByNPC(npcIndex), jelly.damage * 2, -self.direction);
-				Main.NewText($"Applied {dmg} damage (2 x base contact damage of {jelly.damage}) to {self.name}!");
 				self.SetMeleeHitCooldown(npcIndex, self.itemAnimation);
 				self.ApplyAttackCooldown();
 			}
