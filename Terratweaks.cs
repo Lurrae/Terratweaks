@@ -84,9 +84,6 @@ namespace Terratweaks
 			{
 				switch (content)
 				{
-					case "IsSentryKillingEnabled":
-						Logger.Warn($"The 'IsSentryKillingEnabled' mod call is deprecated; please use 'Query' instead.");
-						return ModContent.GetInstance<TerratweaksConfig>().KillSentries;
 					case "Query":
 						if (args[1] is string settingToQuery)
 						{
