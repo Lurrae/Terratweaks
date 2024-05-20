@@ -834,15 +834,17 @@ namespace Terratweaks.Items
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 			Player player = Main.LocalPlayer;
 
-			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.ContainsKey(item.shoot))
-			{
-				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
+			// Don't do anything if we aren't in a world
+			if (Main.gameMenu)
+				return;
 
+			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
+			{
 				if (proj.minion || proj.sentry)
 				{
 					if (player.GetModPlayer<TerratweaksPlayer>().summonsDisabled)
 					{
-						int buffIdx = player.FindBuffIndex(ModContent.BuffType<SummonsDisabled>());
+						int buffIdx = player.FindBuffIndex(BuffType<SummonsDisabled>());
 						
 						if (buffIdx > -1)
 						{
@@ -861,8 +863,8 @@ namespace Terratweaks.Items
 							Vector2 originalPosition = position - (vector / 2f);
 
 							Vector2 position2 = originalPosition + value.Size() * inventoryScale / 2f - texture.Size() * inventoryScale / 2f;
-							Color color3 = item.GetAlpha(color) * ((float)player.buffTime[buffIdx] / (float)Conversions.ToFrames(3));
-							spriteBatch.Draw(texture, position2, null, color3, 0f, default(Vector2), 1.0f, SpriteEffects.None, 0f);
+							Color color3 = item.GetAlpha(color) * (player.buffTime[buffIdx] / (float)Conversions.ToFrames(3));
+							spriteBatch.Draw(texture, position2, null, color3, 0f, default, 1.0f, SpriteEffects.None, 0f);
 						}
 					}
 				}
@@ -901,7 +903,7 @@ namespace Terratweaks.Items
 				{
 					if (player.GetModPlayer<CombatPlayer>().IsInCombat())
 					{
-						player.AddBuff(ModContent.BuffType<SummonsDisabled>(), Conversions.ToFrames(3));
+						player.AddBuff(BuffType<SummonsDisabled>(), Conversions.ToFrames(3));
 					}
 				}
 			}

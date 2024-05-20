@@ -60,7 +60,7 @@ CRAFTABLE UNCRAFTABLES:
 [i:ClothierVoodooDoll] Clothier Voodoo Dolls can now be crafted with a Guide Voodoo Doll and a Red Hat. Enabled by default.
 [i:SuperDartTrap] Jungle Temple traps can now be crafted with Lihzahrd Bricks and other relevant materials. Enabled by default.
 [i:TeamBlockRed] [i:TeamBlockRedPlatform] Team Blocks can now be crafted with 25 Stone and a relevant dye (makes 25 blocks). Team Platforms can be crafted to/from their respective blocks like any other platform. Enabled by default.
-[i:BottomlessLavaBucket] The various bottomless buckets and sponges can now be shimmered between each other, except the Bottomless Water Bucket and Unlimited Sponge since the former already has a transmutation. Enabled by default.
+[i:BottomlessLavaBucket] The various bottomless buckets and sponges can now be shimmered between each other, except the Bottomless Water Bucket and Super Absorbant Sponge since the former already has a transmutation. Enabled by default.
 
 MOD CALLS:
 Call("IsSentryKillingEnabled") - Returns true if the config option to despawn sentries on the owner's death is enabled. Deprecated but left in for backwards compatibility, use "Query" instead.

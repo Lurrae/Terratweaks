@@ -336,7 +336,7 @@ Mods: {
 					Label: "[i:SpookyHelmet] [i:SpookyBreastplate] [i:SpookyLeggings] Spooky armor"
 					Tooltip:
 						'''
-						Each piece increases summon damage by 17%, up from 11%
+						Each piece increases summon damage by 6% more than vanilla (so the total damage is 7% less than with vanilla's set bonus)
 						New set bonus: Flaming nettles automatically fire at nearby foes
 						'''
 				}
@@ -416,7 +416,7 @@ Mods: {
 					Label: "[i:BottomlessLavaBucket] [i:LavaAbsorbantSponge] Shimmerable Bottomless Buckets and Sponges"
 					Tooltip:
 						'''
-						Enables Shimmer transmutations for the Bottomless Lava and Honey Buckets and their Sponge counterparts
+						Enables Shimmer transmutations to turn the Bottomless Lava/Honey Buckets into the Lava/Honey Absorbant Sponges, and vice-versa
 						The Bottomless Water Bucket and Super Absorbant Sponge are unaffected because the Bottomless Water Bucket already shimmers into the Bottomless Shimmer Bucket post-Moonlord
 						'''
 				}
@@ -465,6 +465,7 @@ Mods: {
 						Removes random critical hits, and replaces them with a much more consistent system
 						Instead of having a (crit chance)/100 chance to crit with every hit, you will now crit (crit chance) times every 100 hits
 						For example: A crit chance of 10% would translate to 10 crits every 100 hits, or one crit every 10 hits
+						[c/FF3300:Note: This option seems to conflict with the TRAE Project mod's prefix changes, so you may notice a loss in DPS with this config option using that mod]
 						'''
 				}
 
@@ -474,6 +475,7 @@ Mods: {
 						'''
 						Permanent buff items (such as the Vital Crystal) will display an extra tooltip line when they've been consumed
 						Life Crystals, Mana Crystals, and Life Fruits will display how many have been consumed instead
+						By default, Thorium and Calamity items are supported, but other mods' items are not natively supported
 						'''
 				}
 

@@ -241,31 +241,13 @@ namespace Terratweaks.NPCs
 		#region npcTypesThatShouldNotDoContactDamage
 		[
 			// Hornets
-			// TODO: Are the big and little variants necessary? They're all NetID enemies, so they may be "counted" as the normal variants
 			NPCID.Hornet,
 			NPCID.HornetFatty,
 			NPCID.HornetHoney,
 			NPCID.HornetLeafy,
 			NPCID.HornetSpikey,
 			NPCID.HornetStingy,
-			NPCID.BigHornetFatty,
-			NPCID.BigHornetHoney,
-			NPCID.BigHornetLeafy,
-			NPCID.BigHornetSpikey,
-			NPCID.BigHornetStingy,
-			NPCID.LittleHornetFatty,
-			NPCID.LittleHornetHoney,
-			NPCID.LittleHornetLeafy,
-			NPCID.LittleHornetSpikey,
-			NPCID.LittleHornetStingy,
-			
-			// Moss Hornets
-			// TODO: Again, are all the NetID variants necessary?
 			NPCID.MossHornet,
-			NPCID.BigMossHornet,
-			NPCID.GiantMossHornet,
-			NPCID.LittleMossHornet,
-			NPCID.TinyMossHornet,
 
 			// Archers
 			NPCID.CultistArcherBlue,
@@ -286,6 +268,17 @@ namespace Terratweaks.NPCs
 			NPCID.TacticalSkeleton,
 			NPCID.VortexRifleman,
 
+			// Salamanders
+			NPCID.Salamander,
+			NPCID.Salamander2,
+			NPCID.Salamander3,
+			NPCID.Salamander4,
+			NPCID.Salamander5,
+			NPCID.Salamander6,
+			NPCID.Salamander7,
+			NPCID.Salamander8,
+			NPCID.Salamander9,
+
 			// Misc.
 			NPCID.AngryNimbus,
 			NPCID.Eyezor,
@@ -303,7 +296,7 @@ namespace Terratweaks.NPCs
 			if (npc.aiStyle == NPCAIStyleID.Caster)
 				shouldNotDoContactDamage = true;
 			
-			if (npcTypesThatShouldNotDoContactDamage.Contains(npc.type) || (npc.type >= NPCID.Salamander && npc.type <= NPCID.Salamander9))
+			if (npcTypesThatShouldNotDoContactDamage.Contains(npc.type))
 				shouldNotDoContactDamage = true;
 
 			if (shouldNotDoContactDamage && GetInstance<TerratweaksConfig>().NoCasterContactDamage)
