@@ -65,9 +65,8 @@ namespace Terratweaks.Projectiles
 			if (GetInstance<TerratweaksConfig>().NoDamageVariance == DamageVarianceSetting.Limited)
 				modifiers.DamageVariationScale *= 0;
 
-			if (GetInstance<TerratweaksConfig_Client>().NoRandomCrit && sourceItem != null)
+			if (GetInstance<TerratweaksConfig_Client>().NoRandomCrit && sourceItem != null && sourceItem.TryGetGlobalItem(out TooltipChanges globalItem))
 			{
-				var globalItem = sourceItem.GetGlobalItem<TooltipChanges>();
 				globalItem.hitsDone += projectile.CritChance;
 
 				if (globalItem.hitsDone >= 100)
