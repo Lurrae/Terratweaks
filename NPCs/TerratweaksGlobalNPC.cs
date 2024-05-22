@@ -209,6 +209,20 @@ namespace Terratweaks.NPCs
 			else if (npc.aiStyle == NPCAIStyleID.Jellyfish)
 			{
 				npc.dontTakeDamage = false;
+
+				// If Calamity is installed, implement their conditional contact damage
+				// This is needed because just like vanilla, the Calamity devs check npc.dontTakeDamage instead of npc.ai[1] == 1
+				if (ModLoader.TryGetMod("CalamityMod", out Mod calamity))
+				{
+					float damagingVelocity = npc.type == NPCID.GreenJellyfish ? 3.6f : 2.8f;
+
+					if ((bool)calamity.Call("GetDifficultyActive", "revengeance"))
+					{
+						damagingVelocity = npc.type == NPCID.GreenJellyfish ? 7.2f : 5.6f;
+					}
+
+					npc.damage = (npc.ai[1] == 1 || npc.velocity.Length() > damagingVelocity) ? npc.defDamage : 0;
+				}
 			}
 		}
 

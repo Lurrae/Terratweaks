@@ -96,11 +96,6 @@ namespace Terratweaks.Items
 
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_ML = new() { };
 
-		private static int GetPlayerCrit(Item item, Player player)
-		{
-			return (int)player.GetCritChance(item.DamageType) + (int)player.GetCritChance(DamageClass.Generic);
-		}
-
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
 		{
 			if (GetInstance<TerratweaksConfig>().NoDamageVariance == DamageVarianceSetting.Limited)
@@ -108,7 +103,7 @@ namespace Terratweaks.Items
 
 			if (GetInstance<TerratweaksConfig_Client>().NoRandomCrit)
 			{
-				hitsDone += item.crit + GetPlayerCrit(item, player);
+				hitsDone += player.GetWeaponCrit(item);
 
 				if (hitsDone >= 100)
 				{
@@ -179,7 +174,7 @@ namespace Terratweaks.Items
 			if (clientConfig.NoRandomCrit)
 			{
 				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && t.Name == "CritChance"))
-					tooltip.Text = Language.GetTextValue("Mods.Terratweaks.LegacyTooltip.C", item.crit + GetPlayerCrit(item, Main.LocalPlayer));
+					tooltip.Text = Language.GetTextValue("Mods.Terratweaks.LegacyTooltip.C", Main.LocalPlayer.GetWeaponCrit(item));
 			}
 
 			if (config.SIRework && !ModLoader.TryGetMod("CalamityMod", out _))

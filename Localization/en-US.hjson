@@ -465,7 +465,6 @@ Mods: {
 						Removes random critical hits, and replaces them with a much more consistent system
 						Instead of having a (crit chance)/100 chance to crit with every hit, you will now crit (crit chance) times every 100 hits
 						For example: A crit chance of 10% would translate to 10 crits every 100 hits, or one crit every 10 hits
-						[c/FF3300:Note: This option seems to conflict with the TRAE Project mod's prefix changes, so you may notice a loss in DPS with this config option using that mod]
 						'''
 				}
 
