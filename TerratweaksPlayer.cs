@@ -325,7 +325,7 @@ namespace Terratweaks
 		{
 			bool chesterRework = GetInstance<TerratweaksConfig>().ChesterRework;
 
-			if (Player.controlInv && chesterRework && Player.chest == -3)
+			if (Player.controlInv && chesterRework && Player.chest == -3 && Terratweaks.playerHasChesterSafeOpened)
 			{
 				Player.chest = -1;
 				Main.PlayInteractiveProjectileOpenCloseSound(ProjectileID.ChesterPet, false);

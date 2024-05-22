@@ -43,7 +43,7 @@ namespace Terratweaks
 
 	public class Terratweaks : Mod
 	{
-		bool playerHasChesterSafeOpened = false;
+		public static bool playerHasChesterSafeOpened = false;
 
 		public static ModKeybind InfernoToggleKeybind { get; private set; }
 		public static ModKeybind RulerToggleKeybind { get; private set; }
