@@ -60,6 +60,15 @@ Mods: {
 						'''
 				}
 
+				calamitweaks: {
+					Label: Calamitweaks
+					Tooltip:
+						'''
+						Contains toggles that change various things about the Calamity Mod, if it's enabled
+						These options do nothing if the Calamity Mod is not enabled
+						'''
+				}
+
 				BannersDontSpamChat: {
 					Label: "[i:GreenSlimeBanner] [i:Megaphone] Banner announcements appear in the world"
 					Tooltip: When a player kills enough enemies to obtain a banner, text appears in the world below all players instead of printing a message in chat
@@ -262,23 +271,13 @@ Mods: {
 						'''
 				}
 
-				TerraprismaCalReversion: {
-					Label: "[i:EmpressBlade] Undo Calamity's Terraprisma drop changes"
-					Tooltip:
-						'''
-						If this config is enabled while Calamity Mod is enabled, the Terraprisma will only drop from daytime Empress of Light just like in vanilla
-						If the below config is set to a value higher than 0%, the Terraprisma will also have a chance to drop from nighttime Empress of Light
-						This config does nothing without Calamity Mod enabled
-						'''
-				}
-
 				TerraprismaDropRate: {
 					Label: "[i:EmpressBlade] Terraprisma Drop Rate"
 					Tooltip:
 						'''
 						Sets a percentage chance for the Empress of Light to drop the Terraprisma at night, when she otherwise would not
 						If set to 0%, vanilla behavior is retained (EoL will only drop the Terraprisma if all damage was dealt during the day)
-						This config option will do nothing if the Calamity Mod is enabled and the above config is NOT enabled
+						This config option will do nothing if the Calamity Mod is enabled and Calamitweaks > Revert Terraprisma Drop is not enabled
 						'''
 				}
 
@@ -486,6 +485,104 @@ Mods: {
 						This also enables items which fire a projectile to list their projectile's velocity
 						'''
 				}
+			}
+
+			CalTweaks: {
+				AsgardsValorBuff: {
+					Label: "[i:AnkhShield] Asgard's Valor Inherits More Shields"
+					Tooltip:
+						'''
+						Adds the Shield of the Ocean and Deep Diver to Asgard's Valor recipe
+						Asgard's Valor and Asgardian Aegis provide increased defense, movement speed, and regen while in water,
+						and allow free movement in water
+						'''
+				}
+
+				AquaticEmblemBuff: {
+					Label: "[i:ShrimpyTruffle] Aquatic Emblem Works While Mounted"
+					Tooltip: Fixes the Aquatic Emblem setting its defense boost to 0 when riding a mount, even if you're in water
+				}
+
+				CraftableHostileTurrets: {
+					Label: "[i:BottomlessShimmerBucket] Obtainable Hostile Turrets"
+					Tooltip: Makes the normally-unobtainable Hostile Turrets obtainable by throwing the normal Turrets into Shimmer
+				}
+
+				DeificAmuletBuff: {
+					Label: "[i:StarVeil] Deific Amulet Inherits Charm of Myths"
+					Tooltip:
+						'''
+						Reverts the Deific Amulet recipe change from the Bountiful Harvest update
+						Deific Amulet now requires Charm of Myths to craft once again, but provides its effects
+						Deific Amulet also retains its buff from the Bountiful Harvest update (providing bonus i-frames on top of those from Cross Necklace)
+						'''
+				}
+
+				DRBuffs: {
+					Label: "[i:WormScarf] Increased Damage Reduction"
+					Tooltip:
+						'''
+						Increases the damage reduction values provided by the following accessories:
+						Worm Scarf: 14% -> 17%
+						Bloody Worm Scarf: 10% -> 17% (melee damage is unchanged)
+						Old Duke Scales (while not exhausted): 10% -> 25%
+						The Sponge (while shield is active): 10% -> 30%
+						Gem Tech armor (pink gem): 12% -> 25%
+						'''
+				}
+
+				DryadSellsSeeds: {
+					Label: "[i:AshGrassSeeds] Dryad Sells Calamity Biome Seeds"
+					Tooltip: Adds the Astral Grass and Cinder Blossom Seeds to the Dryad's shop while she is in the respective biomes
+				}
+
+				EzCalBanners: {
+					Label: "[i:PinkyBanner] Reduced Banner Kill Counts"
+					Tooltip:
+						'''
+						Lowers the kill counts of several Calamity enemy banners to values matching vanilla enemies
+						The following banners are changed:
+						Fearless Goldfish Warrior, Renegade Warlock, Cnidrion, Earth Elemental, Cloud Elemental,
+						Armored Digger, and Plaguebringer require 25 kills
+						Piggy, Androomba, Colossal Squid, Reaper Shark, and Juvenile Eidolon Wyrm require 10 kills
+						Additionally, the Giant Clam's Bestiary entry unlocks fully after only one kill
+						'''
+				}
+
+				NoDefenseDamage: {
+					Label: "[i:ArmorPolish] No Defense Damage"
+					Tooltip: Disables enemies/bosses and projectiles applying defense damage, effectively removing it as a mechanic outright
+				}
+
+				RevertGraveyards: {
+					Label: "[i:Tombstone] Revert Graveyard Changes"
+					Tooltip: Lowers the number of tombstones needed to form a graveyard from Calamity's 13 to vanilla's 7
+				}
+
+				RevertPillars: {
+					Label: "[i:SolarMonolith] Undo Pillar Progression Changes"
+					Tooltip:
+						'''
+						Reverts Calamity's changes to the lunar events, allowing all enemies to spawn throughout the whole event
+						This literally only exists because the changes make it actually impossible to obtain certain banners after you've killed Moon Lord
+						'''
+				}
+
+				RevertTerraprisma: {
+					Label: "[i:EmpressBlade] Undo Terraprisma Drop Changes"
+					Tooltip:
+						'''
+						Removes the Terraprisma from EoL's regular loot table/treasure bag, forcing it to only drop during daytime as in vanilla
+						If the Terraprisma Drop Rate config is set to a value higher than 0%, the Terraprisma will also have a chance to drop from nighttime Empress of Light
+						'''
+				}
+
+				SummonerAccBuffs: {
+					Label: "[i:PygmyNecklace] More Minion Slots"
+					Tooltip: Increases the number of minion slots provided by the Star-Tainted Generator and Nucleogenesis to equal the number of combined slots provided by their components
+				}
+
+				Tooltip: ""
 			}
 		}
 

@@ -115,7 +115,6 @@ namespace Terratweaks
 								"SoilSolutionsPreML" => ModContent.GetInstance<TerratweaksConfig>().SoilSolutionsPreML,
 								"SolutionsOnGFB" => ModContent.GetInstance<TerratweaksConfig>().SolutionsOnGFB,
 								"StackableDD2Accs" => ModContent.GetInstance<TerratweaksConfig>().StackableDD2Accs,
-								"TerraprismaCalReversion" => ModContent.GetInstance<TerratweaksConfig>().TerraprismaCalReversion,
 								"TerraprismaDropRate" => ModContent.GetInstance<TerratweaksConfig>().TerraprismaDropRate,
 								"UmbrellaHatRework" => ModContent.GetInstance<TerratweaksConfig>().UmbrellaHatRework,
 
@@ -145,6 +144,19 @@ namespace Terratweaks
 								"Client_NoRandomCrit" or "NoRandomCrit" => ModContent.GetInstance<TerratweaksConfig_Client>().NoRandomCrit,
 								"Client_PermBuffTips" or "PermBuffTips" => ModContent.GetInstance<TerratweaksConfig_Client>().PermBuffTips,
 								"Client_StatsInTip" or "StatsInTip" => ModContent.GetInstance<TerratweaksConfig_Client>().StatsInTip,
+
+								"Calamitweaks_AquaticEmblemBuff" or "AquaticEmblemBuff" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.AquaticEmblemBuff,
+								"Calamitweaks_AsgardsValorBuff" or "AsgardsValorBuff" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.AsgardsValorBuff,
+								"Calamitweaks_CraftableHostileTurrets" or "CraftableUncraftables_HostileTurrets" or "HostileTurretsRecipe" or "HostileTurretsShimmer" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.CraftableHostileTurrets,
+								"Calamitweaks_DeificAmuletBuff" or "DeificAmuletBuff" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.DeificAmuletBuff,
+								"Calamitweaks_DRBuffs" or "CalDRBuffs" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.DRBuffs,
+								"Calamitweaks_DryadSellsSeeds" or "DryadSellsCalSeeds" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.DryadSellsSeeds,
+								"Calamitweaks_EzCalBanners" or "EzCalBanners" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.EzCalBanners,
+								"Calamitweaks_NoDefenseDamage" or "NoDefenseDamage" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.NoDefenseDamage,
+								"Calamitweaks_RevertGraveyards" or "GraveyardCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertGraveyards,
+								"Calamitweaks_RevertPillars" or "PillarCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertPillars,
+								"Calamitweaks_RevertTerraprisma" or "TerraprismaCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertTerraprisma,
+								"Calamitweaks_SummonerAccBuffs" or "CalSummonerAccBuffs" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.SummonerAccBuffs,
 
 								_ => throw new Exception($"Could not find Terratweaks config option named {args[1]}."),
 								#endregion
@@ -218,6 +230,22 @@ namespace Terratweaks
 							return true;
 						}
 						throw new ArgumentException($"Expected an argument of type int for 'RemoveNoContactDamageEnemy', but got type {args[1].GetType().Name} instead.");
+					case "AddIgnoredSummonWeapon":
+						if (args[1] is int summonWeaponType)
+						{
+							if (!ItemChanges.IgnoredSummonWeapons.Contains(summonWeaponType))
+								ItemChanges.IgnoredSummonWeapons.Add(summonWeaponType);
+
+							return true;
+						}
+						throw new ArgumentException($"Expected an argument of type int for 'AddIgnoredSummonWeapon', but got type {args[1].GetType().Name} instead.");
+					case "RemoveIgnoredSummonWeapon":
+						if (args[1] is int summonWeaponType2)
+						{
+							ItemChanges.IgnoredSummonWeapons.Remove(summonWeaponType2);
+							return true;
+						}
+						throw new ArgumentException($"Expected an argument of type int for 'RemoveIgnoredSummonWeapon', but got type {args[1].GetType().Name} instead.");
 				}
 			}
 

@@ -483,7 +483,7 @@ namespace Terratweaks.Items
 				itemLoot.Add(newMainRule);
 			}
 
-			if (GetInstance<TerratweaksConfig>().TerraprismaCalReversion && ModLoader.HasMod("CalamityMod") && item.type == ItemID.FairyQueenBossBag)
+			if (GetInstance<TerratweaksConfig>().calamitweaks.RevertTerraprisma && ModLoader.HasMod("CalamityMod") && item.type == ItemID.FairyQueenBossBag)
 			{
 				foreach (IItemDropRule rule in itemLoot.Get(false))
 				{
@@ -631,6 +631,8 @@ namespace Terratweaks.Items
 	// Contains all item changes, like tools or weapons
 	public class ItemChanges : GlobalItem
 	{
+		public static readonly List<int> IgnoredSummonWeapons = new();
+
 		public override void SetDefaults(Item item)
 		{
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
@@ -813,10 +815,8 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.ContainsKey(item.shoot))
+			if (config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
 			{
-				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
-
 				if (proj.minion || proj.sentry)
 				{
 					item.mana = 0;
@@ -833,7 +833,7 @@ namespace Terratweaks.Items
 			if (Main.gameMenu)
 				return;
 
-			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
+			if (config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
 			{
 				if (proj.minion || proj.sentry)
 				{
@@ -870,7 +870,7 @@ namespace Terratweaks.Items
 		{
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 
-			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon))
+			if (config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon))
 			{
 				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
 
@@ -890,7 +890,7 @@ namespace Terratweaks.Items
 		{
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 
-			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon))
+			if (config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon))
 			{
 				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
 

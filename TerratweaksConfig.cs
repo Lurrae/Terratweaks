@@ -34,6 +34,8 @@ namespace Terratweaks
 
 		public CraftableUncraftables craftableUncraftables = new();
 
+		public CalTweaks calamitweaks = new();
+
 		[DefaultValue(true)]
 		public bool BannersDontSpamChat { get; set; }
 
@@ -121,10 +123,6 @@ namespace Terratweaks
 
 		[DefaultValue(SentryAccSetting.Limited)]
 		public SentryAccSetting StackableDD2Accs { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool TerraprismaCalReversion { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(0)]
@@ -234,5 +232,53 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool TeamBlocks { get; set; }
+	}
+
+	[SeparatePage]
+	public class CalTweaks
+	{
+		[DefaultValue(true)]
+		public bool AquaticEmblemBuff { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool AsgardsValorBuff { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool CraftableHostileTurrets { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool DeificAmuletBuff { get; set; }
+
+		[DefaultValue(false)]
+		public bool DRBuffs { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool DryadSellsSeeds { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool EzCalBanners { get; set; }
+
+		[DefaultValue(false)]
+		public bool NoDefenseDamage { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool RevertGraveyards { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool RevertPillars { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool RevertTerraprisma { get; set; }
+
+		[DefaultValue(false)]
+		public bool SummonerAccBuffs { get; set; }
 	}
 }

@@ -385,7 +385,7 @@ namespace Terratweaks.NPCs
 				}
 
 				// If the configs allow it, add a secondary Terraprisma drop chance when EoL is not "genuinely enraged"
-				if (config.TerraprismaDropRate > 0 && (!ModLoader.HasMod("CalamityMod") || config.TerraprismaCalReversion))
+				if (config.TerraprismaDropRate > 0 && (!ModLoader.HasMod("CalamityMod") || config.calamitweaks.RevertTerraprisma))
 				{
 					var nightEol = new TerratweaksDropConditions.NightEoL();
 					npcLoot.Add(new ItemDropWithConditionRule(ItemID.EmpressBlade, 100, 1, 1, nightEol, config.TerraprismaDropRate));
@@ -549,7 +549,7 @@ namespace Terratweaks.NPCs
 
 					foreach (int itemType in itemsToAddToShop)
 					{
-						shop.InsertAfter(itemType, itemType, new Condition[] { Condition.RemixWorld, Condition.DownedMoonLord });
+						shop.InsertAfter(itemType, itemType, [ Condition.RemixWorld, Condition.DownedMoonLord ]);
 					}
 				}
 
