@@ -303,6 +303,8 @@ namespace Terratweaks.NPCs
 		];
 		#endregion
 
+		public static readonly List<int> ignoreNoContactDmg = new();
+
 		public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
 		{
 			bool shouldNotDoContactDamage = false;
@@ -313,7 +315,7 @@ namespace Terratweaks.NPCs
 			if (npcTypesThatShouldNotDoContactDamage.Contains(npc.type))
 				shouldNotDoContactDamage = true;
 
-			if (shouldNotDoContactDamage && GetInstance<TerratweaksConfig>().NoCasterContactDamage)
+			if (shouldNotDoContactDamage && !ignoreNoContactDmg.Contains(npc.type) && GetInstance<TerratweaksConfig>().NoCasterContactDamage)
 				return false;
 
 			return base.CanHitPlayer(npc, target, ref cooldownSlot);

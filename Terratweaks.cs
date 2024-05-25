@@ -214,6 +214,25 @@ namespace Terratweaks
 							}
 						}
 						throw new ArgumentException($"Expected a first argument of type string for 'AddDefensiveEnemy', but got type {args[1].GetType().Name} instead.");
+					case "RemoveDefensiveEnemy":
+						if (args[1] is string type2)
+						{
+							switch (type2)
+							{
+								case "DamageResistant":
+									if (args[2] is int npcID)
+									{
+										StatChangeHandler.damageResistantEnemies.Remove(npcID);
+
+										return true;
+									}
+									else
+									{
+										throw new ArgumentException($"Expected a second argument of type int for 'RemoveDefensiveEnemy', but got type {args[2].GetType().Name} instead.");
+									}
+							}
+						}
+						throw new ArgumentException($"Expected a first argument of type string for 'RemoveDefensiveEnemy', but got type {args[1].GetType().Name} instead.");
 					case "AddNoContactDamageEnemy":
 						if (args[1] is int npcType)
 						{
@@ -227,6 +246,7 @@ namespace Terratweaks
 						if (args[1] is int npcType2)
 						{
 							StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Remove(npcType2);
+							StatChangeHandler.ignoreNoContactDmg.Add(npcType2);
 							return true;
 						}
 						throw new ArgumentException($"Expected an argument of type int for 'RemoveNoContactDamageEnemy', but got type {args[1].GetType().Name} instead.");
