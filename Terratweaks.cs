@@ -330,7 +330,8 @@ namespace Terratweaks
 		private int CritsBypassDefense(On_NPC.HitModifiers.orig_GetDamage orig, ref NPC.HitModifiers self, float baseDamage, bool crit, bool damageVariation, float luck)
 		{
 			// Nullify defense on crits, if the corresponding config option is enabled
-			if (ModContent.GetInstance<TerratweaksConfig>().CritsBypassDefense && crit)
+			// Don't apply this change with "Consistent Critical Hits", as that config handles armor piercing itself
+			if (ModContent.GetInstance<TerratweaksConfig>().CritsBypassDefense && !ModContent.GetInstance<TerratweaksConfig_Client>().NoRandomCrit && crit)
 			{
 				self.DefenseEffectiveness *= 0f;
 			}

@@ -109,6 +109,9 @@ namespace Terratweaks.Items
 				{
 					modifiers.SetCrit();
 					hitsDone = 0;
+
+					if (GetInstance<TerratweaksConfig>().CritsBypassDefense)
+						modifiers.DefenseEffectiveness *= 0;
 				}
 				else
 					modifiers.DisableCrit();
