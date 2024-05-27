@@ -251,7 +251,7 @@ namespace Terratweaks.Items
 				}
 			}
 
-			// Add a line to consumed permanent buffs (should work with modded ones hopefully?)
+			// Add a line to consumed permanent buffs (doesn't support modded ones by default, requires mod call)
 			if (clientConfig.PermBuffTips && idx != -1)
 			{
 				// Permanent buffs that can be consumed multiple times use special logic, listing the number consumed instead of if they have/haven't been consumed
@@ -260,7 +260,11 @@ namespace Terratweaks.Items
 					int numConsumed = (int)values(Main.LocalPlayer).X;
 					int max = (int)values(Main.LocalPlayer).Y;
 
-					tooltips.Insert(idx + 1, new TooltipLine(Mod, "PermBuffTip", Language.GetTextValue("Mods.Terratweaks.Common.AmtConsumed", item.Name, numConsumed, max)));
+					TooltipLine line = new(Mod, "PermBuffTip", Language.GetTextValue("Mods.Terratweaks.Common.AmtConsumed", item.Name, numConsumed, max))
+					{
+						OverrideColor = new Color(138, 138, 138)
+					};
+					tooltips.Insert(idx + 1, line);
 				}
 				// List if an item has been consumed for permanent buffs
 				else
@@ -269,20 +273,26 @@ namespace Terratweaks.Items
 					{
 						if (hasUsedItem(Main.LocalPlayer))
 						{
-							tooltips.Insert(idx + 1, new TooltipLine(Mod, "PermBuffTip", Language.GetTextValue("Mods.Terratweaks.Common.PermBuffTip", item.Name)));
+							TooltipLine line = new(Mod, "PermBuffTip", Language.GetTextValue("Mods.Terratweaks.Common.PermBuffTip", item.Name))
+							{
+								OverrideColor = new Color(138, 138, 138)
+							};
+							tooltips.Insert(idx + 1, line);
 						}
 					}
 				}
 			}
 
 			// Add a line to summon weapons explaining the cooldown
-			if (config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.ContainsKey(item.shoot))
+			if (config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
 			{
-				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
-
 				if (proj.minion || proj.sentry)
 				{
-					tooltips.Insert(idx + 1, new TooltipLine(Mod, "SummonCooldown", Language.GetTextValue("Mods.Terratweaks.Common.SummonCooldown")));
+					TooltipLine line = new(Mod, "SummonCooldown", Language.GetTextValue("Mods.Terratweaks.Common.SummonCooldown"))
+					{
+						OverrideColor = ItemRarity.GetColor(ItemRarityID.LightRed)
+					};
+					tooltips.Insert(idx + 1, line);
 				}
 			}
 
