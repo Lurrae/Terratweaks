@@ -137,7 +137,8 @@ Mods: {
 					Tooltip:
 						'''
 						Minion and sentry summon items never cost mana to use. This should affect modded minion/sentry summons as well, without affecting "misc." summon items that use mana
-						When the player is in combat (i.e, has attacked or been hurt by an enemy in the past 5 seconds), using any minion/sentry summon weapon prevents summoning another for 3 seconds
+						Exceptions can be added using a mod call
+						While any boss is alive, using any minion/sentry summon weapon prevents summoning another for 3 seconds
 						'''
 				}
 
@@ -613,7 +614,7 @@ Mods: {
 			# Added tooltip for DPS Meter and Goblin Tech
 			DpsMeterExtraTip: Also displays a weapon's estimated DPS in its tooltip!
 			# Added tooltip for summon weapons that apply the cooldown debuff
-			SummonCooldown: If used while in combat, prevents summoning additional minions/sentries for 3 seconds
+			SummonCooldown: If used while a boss is alive, prevents summoning additional minions/sentries for 3 seconds
 			# Added tooltips for permanent buff items
 			AmtConsumed: You have consumed {1}/{2} {0}
 			PermBuffTip: You have already consumed the {0}

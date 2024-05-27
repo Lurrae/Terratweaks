@@ -899,7 +899,7 @@ namespace Terratweaks.Items
 
 				if (proj.minion || proj.sentry)
 				{
-					if (player.GetModPlayer<CombatPlayer>().IsInCombat())
+					if (/*player.GetModPlayer<CombatPlayer>().IsInCombat()*/ Main.CurrentFrameFlags.AnyActiveBossNPC || AnyBossExists(true))
 					{
 						player.AddBuff(BuffType<SummonsDisabled>(), Conversions.ToFrames(3));
 					}
@@ -907,6 +907,26 @@ namespace Terratweaks.Items
 			}
 
 			return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
+		}
+
+		private static bool AnyBossExists(bool ignorePillars = false)
+		{
+			bool flag = false;
+
+			foreach (NPC npc in Main.npc)
+			{
+				if (!npc.active || (!npc.boss && !NPCID.Sets.DangerThatPreventsOtherDangers[npc.type]))
+					continue;
+
+				// Don't count pillars if told not to
+				if (ignorePillars && (npc.type == NPCID.LunarTowerNebula || npc.type == NPCID.LunarTowerSolar || npc.type == NPCID.LunarTowerVortex || npc.type == NPCID.LunarTowerStardust))
+					continue;
+
+				flag = true;
+				break;
+			}
+
+			return flag;
 		}
 	}
 
