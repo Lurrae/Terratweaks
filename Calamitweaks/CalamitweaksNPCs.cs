@@ -43,6 +43,19 @@ namespace Terratweaks.Calamitweaks
 			}
 		}
 
+		public override void PostAI(NPC npc)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+
+			// ModNPC check makes this only affect vanilla bosses
+			if (npc.boss && npc.ModNPC == null && calamitweaks.ForceBossContactDamage)
+			{
+				// Force the boss to deal damage at all times
+				// TODO: Is this the best way to do this?
+				npc.damage = npc.defDamage;
+			}
+		}
+
 		public override void ModifyShop(NPCShop shop)
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;

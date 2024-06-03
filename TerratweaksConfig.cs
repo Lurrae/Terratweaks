@@ -263,6 +263,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool EzCalBanners { get; set; }
 
+		[DefaultValue(true)]
+		public bool ForceBossContactDamage { get; set; }
+
 		[DefaultValue(false)]
 		public bool NoDefenseDamage { get; set; }
 
