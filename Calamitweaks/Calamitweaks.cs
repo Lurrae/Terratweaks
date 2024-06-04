@@ -30,6 +30,11 @@ namespace Terratweaks.Calamitweaks
 				SceneMetrics.GraveyardTileThreshold = 28;
 			}
 
+			if (calamitweaks.RevertVanillaBossAIChanges)
+			{
+				CalamityMod.CalamityMod.ExternalFlag_DisableNonRevBossAI = true;
+			}
+
 			MonoModHooks.Add(_pillarEventProgressionEdit, ProgressionEditRemover);
 		}
 

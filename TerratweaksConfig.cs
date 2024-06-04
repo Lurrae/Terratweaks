@@ -281,6 +281,10 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool RevertTerraprisma { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool RevertVanillaBossAIChanges { get; set; }
+
 		[DefaultValue(false)]
 		public bool SummonerAccBuffs { get; set; }
 	}

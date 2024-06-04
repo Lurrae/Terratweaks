@@ -588,6 +588,15 @@ Mods: {
 						'''
 				}
 
+				RevertVanillaBossAIChanges: {
+					Label: "[i:SuspiciousLookingEye] Undo non-Rev+ Boss AI Changes"
+					Tooltip:
+						'''
+						Reverts all vanilla boss AI changes done by Calamity outside of Revengeance and Death Mode changes
+						These changes inherently break other vanilla boss rework mods, and reverting them is the easiest way to allow using Calamity with those mods
+						'''
+				}
+
 				SummonerAccBuffs: {
 					Label: "[i:PygmyNecklace] More Minion Slots"
 					Tooltip: Increases the number of minion slots provided by the Star-Tainted Generator and Nucleogenesis to equal the number of combined slots provided by their components
