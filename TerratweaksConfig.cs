@@ -67,7 +67,7 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool DyeTraderShopExpansion { get; set; }
 
-		[DefaultValue(true)]
+		[DefaultValue(false)]
 		public bool ForceBossContactDamage { get; set; }
 
 		[DefaultValue(true)]
