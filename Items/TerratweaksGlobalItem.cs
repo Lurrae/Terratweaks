@@ -180,7 +180,7 @@ namespace Terratweaks.Items
 					tooltip.Text = Language.GetTextValue("Mods.Terratweaks.LegacyTooltip.C", Main.LocalPlayer.GetWeaponCrit(item));
 			}
 
-			if (config.SIRework && !ModLoader.TryGetMod("CalamityMod", out _))
+			if (config.SIRework && !ModLoader.HasMod("CalamityMod"))
 			{
 				if (item.type == ItemID.EmpressFlightBooster)
 				{
@@ -215,6 +215,25 @@ namespace Terratweaks.Items
 					{
 						TooltipLine line = new(Mod, "UmbrellaHatTip", Language.GetTextValue("Mods.Terratweaks.Common.ReworkedUmbrellaHatTip"));
 						tooltips.Insert(idx + 1, line);
+					}
+				}
+			}
+
+			if (config.DeerWeaponsRework)
+			{
+				if (item.type == ItemID.LucyTheAxe)
+				{
+					idx = -1;
+
+					foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria"))
+					{
+						if (tooltip.Name == "Tooltip0")
+							idx = tooltips.IndexOf(tooltip);
+					}
+
+					if (idx != -1)
+					{
+						tooltips[idx] = new(Mod, "Tooltip0", Language.GetTextValue("Mods.Terratweaks.Common.ReworkedLucyTip", 15, 10, 25));
 					}
 				}
 			}
@@ -834,6 +853,11 @@ namespace Terratweaks.Items
 				{
 					item.mana = 0;
 				}
+			}
+
+			if (config.DeerWeaponsRework && item.type == ItemID.PewMaticHorn)
+			{
+				item.useTime = item.useAnimation = 10;
 			}
 		}
 

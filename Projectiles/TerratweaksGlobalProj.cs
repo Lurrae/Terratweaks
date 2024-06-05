@@ -39,6 +39,12 @@ namespace Terratweaks.Projectiles
 					projectile.maxPenetrate *= 2;
 				}
 			}
+
+			if (GetInstance<TerratweaksConfig>().DeerWeaponsRework && projectile.type == ProjectileID.WeatherPainShot)
+			{
+				projectile.idStaticNPCHitCooldown = 10; // Reduced from 25 to 10, so it can now hit 6 times per second instead of about 2 times per second
+				projectile.penetrate = 45; // Hits about 3x more, allowing it to remain active for about as long as it did before
+			}
 		}
 
 		public override void AI(Projectile projectile)
@@ -57,6 +63,13 @@ namespace Terratweaks.Projectiles
 			{
 				if (Main.rand.NextBool(6)) // 1/6 chance to spawn dust
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Venom);
+			}
+
+			// Houndius Shootius buff - Now fires a projectile every 3/4 second instead of 1.5 seconds
+			if (GetInstance<TerratweaksConfig>().DeerWeaponsRework && projectile.type == ProjectileID.HoundiusShootius)
+			{
+				if (projectile.ai[0] > 45)
+					projectile.ai[0] = 45;
 			}
 		}
 

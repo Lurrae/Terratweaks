@@ -108,6 +108,20 @@ Mods: {
 					Tooltip: The amount of health Deerclops should regenerate per second. Has no effect if the above config value is disabled
 				}
 
+				DeerWeaponsRework: {
+					Label: "[i:LucyTheAxe] [i:PewMaticHorn] [i:WeatherPain] [i:HoundiusShootius] Deerclops Weapon Buffs"
+					Tooltip:
+						'''
+						Buffs the stats of the four weapons dropped by Deerclops so they're more useful in late pre-Hardmode
+						Lucy the Axe is fully reworked - as the player attacks enemies with Lucy, a meter builds up that, when full, transforms the player into a werebeaver
+						that has increased melee damage, movement speed, provides some damage reduction and night vision, and reduces the duration of hot/cold debuffs
+						Pew-matic Horn gets a ~33% attack speed increase to make it more consistent in spite of its projectiles' random damage multipliers
+						Weather Pain's projectile hits 6 times a second instead of ~2.4 times a second, which should make it somewhat decent on its own while retaining its current support role
+						Weather Pain also has triple the pierce, to make up for the fact that it hits much faster, so that it remains active for just about as long as before
+						Houndius Shootius attacks twice as fast (0.75 seconds per shot instead of 1.5 seconds), making it a little stronger than the Tavernkeep's sentries
+						'''
+				}
+
 				DummyFix: {
 					Label: "[i:TargetDummy] Targetable Target Dummy"
 					Tooltip:
@@ -620,6 +634,16 @@ Mods: {
 				'''
 				Provides immunity to fall damage
 				Allows you to slow your fall by holding jump in midair
+				'''
+			# Modified tooltip for Lucy the Axe when her rework is enabled
+			ReworkedLucyTip:
+				'''
+				Hitting enemies builds up a 'wereness' meter that decays while not in combat
+				When this meter is full, you transform into a werebeaver
+				The werebeaver deals {0}% increased melee damage, {1}% increased movement speed,
+				takes {2}% reduced damage, has night vision, and reduces the duration of hot and cold debuffs
+				The werebeaver form has a limited duration, and wears off quickly while not in combat
+				'I love Lucy!'
 				'''
 			# Added tooltip for items sold by the Dye Trader
 			SoldByDyeTrader: "[i:DyeTraderTurban] Sold by the Dye Trader"

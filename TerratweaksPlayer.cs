@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
@@ -34,7 +35,12 @@ namespace Terratweaks
 		public bool buffedHivePack;
 		public bool radiantInsignia; // Literally only needed because Calamity is dumb
 		public bool summonsDisabled;
-		
+		public bool werebeaver;
+		public bool werebeaverLastFrame;
+		public int werenessMeter = 0;
+
+		public static readonly int MAX_WERENESS = 500;
+
 		public override void ResetEffects()
 		{
 			spiderWeb = false;
@@ -52,6 +58,68 @@ namespace Terratweaks
 		public override void OnEnterWorld()
 		{
 			adamCD = 120; // Make the hearts start off on cooldown
+			werenessMeter = 0; // Make the player have 0 wereness by default, this builds up by hitting enemies
+		}
+
+		private void SpawnTransformationSmoke()
+		{
+			// Only spawn dusts in singleplayer or on clients
+			if (Main.netMode == NetmodeID.Server)
+				return;
+
+			// This code was adapted from the Minecart mounting/dismounting code
+			// Vanilla Mount.cs, lines 5695-5754
+			for (int i = 0; i < 100; i++)
+			{
+				if (i % 10 == 0)
+				{
+					int type = Main.rand.Next(61, 64);
+					Gore gore = Gore.NewGoreDirect(Player.GetSource_FromThis(), new Vector2(Player.position.X, Player.position.Y), Vector2.Zero, type);
+					gore.alpha = 100;
+					gore.velocity = Vector2.Transform(new Vector2(1f, 0f), Matrix.CreateRotationZ((float)(Main.rand.NextDouble() * MathHelper.TwoPi)));
+				}
+			}
+		}
+
+		public static readonly List<int> HotDebuffs = new()
+		{
+			BuffID.OnFire,
+			BuffID.CursedInferno,
+			BuffID.ShadowFlame,
+			BuffID.Daybreak,
+			BuffID.OnFire3
+		};
+
+		public static readonly List<int> ColdDebuffs = new()
+		{
+			BuffID.Frostburn,
+			BuffID.Frozen,
+			BuffID.Frostburn2
+		};
+
+		private void AdjustRemainingHotAndColdDebuffTimes()
+		{
+			// Only run on the client of this player
+			if (Player.whoAmI != Main.myPlayer)
+				return;
+			
+			float insulation = 0.75f; // Werebeaver reduces duration of cold debuffs by 25%
+
+			for (int i = 0; i < Player.buffType.Length; i++)
+			{
+				int buffType = Player.buffType[i];
+
+				if (buffType == 0)
+					continue;
+
+				if (Main.debuff[buffType] && (HotDebuffs.Contains(buffType) || ColdDebuffs.Contains(buffType)))
+				{
+					if (werebeaver)
+						Player.buffTime[i] = (int)(Player.buffTime[i] * insulation);
+					else
+						Player.buffTime[i] = (int)(Player.buffTime[i] / insulation);
+				}
+			}
 		}
 
 		public override void PostUpdateEquips()
@@ -59,10 +127,30 @@ namespace Terratweaks
 			// Cooldown ticking
 			if (spookyCD > 0)
 				spookyCD--;
+			
 			if (mythrilCD > 0)
 				mythrilCD--;
+			
 			if (adamCD > 0)
 				adamCD--;
+
+			// Wereness meter decays at a rate of 1 unit per tick while in werebeaver form or not in combat
+			// This means the werebeaver form lasts about 8 seconds (500 / 60 = 8.333...)
+			if (werebeaver || !Player.GetModPlayer<CombatPlayer>().IsInCombat())
+			{
+				werenessMeter--;
+
+				if (werenessMeter <= 0 && werebeaver)
+				{
+					werebeaver = false;
+					werenessMeter = 0;
+					SpawnTransformationSmoke();
+				}
+			}
+
+			// Make sure the wereness meter always starts at 0
+			if (werenessMeter < 0)
+				werenessMeter = 0;
 
 			// Provide immunity to chilling water in Expert mode
 			if (GetInstance<TerratweaksConfig>().NoExpertFreezingWater)
@@ -74,6 +162,22 @@ namespace Terratweaks
 				Player.maxTurrets++;
 				Player.GetDamage(DamageClass.Summon) += 0.1f;
 			}
+
+			// Werebeaver effects- because this runs after the previous werebeaver check, the player won't have these stats the frame their meter runs out
+			if (werebeaver)
+			{
+				Player.GetDamage(DamageClass.Melee) += 0.15f; // +15% melee damage
+				Player.endurance += 0.25f; // +25% damage resistance
+				Player.moveSpeed += 0.1f; // +10% movement speed
+				Player.nightVision = true; // Night vision
+			}
+
+			if (werebeaver != werebeaverLastFrame)
+			{
+				AdjustRemainingHotAndColdDebuffTimes();
+			}
+			
+			werebeaverLastFrame = werebeaver;
 
 			// Spooky armor's new set bonus
 			if (spookyShots)
@@ -173,6 +277,11 @@ namespace Terratweaks
 		float scale;
 		public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
 		{
+			// Do nothing if drawing an afterimage of the player
+			if (drawInfo.shadow != 0f)
+				return;
+
+			// Draw spider web around the player
 			if (spiderWeb)
 			{
 				Texture2D texture = (Texture2D)Request<Texture2D>($"Terraria/Images/Extra_32");
@@ -190,11 +299,43 @@ namespace Terratweaks
 				if (scale >= 1.25f || scale <= 1.15f)
 					scalingUp = !scalingUp;
 			}
+
+			// Draw a healthbar above the player's head to indicate their wereness meter while the meter is above 0
+			if (GetInstance<TerratweaksConfig>().DeerWeaponsRework && werenessMeter > 0)
+			{
+				Main.instance.DrawHealthBar(Player.Center.X, Player.position.Y - 16, werenessMeter, MAX_WERENESS, 1);
+			}
 		}
 
-		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+		public override void FrameEffects()
+		{
+			if (werebeaver)
+			{
+				Player.head = ArmorIDs.Head.Werewolf;
+				Player.body = ArmorIDs.Body.Werewolf;
+				Player.legs = 20;
+			}
+		}
+
+		public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			TriggerOnHitBonus(target, hit);
+
+			if (item.type == ItemID.LucyTheAxe && GetInstance<TerratweaksConfig>().DeerWeaponsRework && !werebeaver)
+			{
+				// Ignore target dummies and any enemies that don't drop coins
+				if (target.value > 0 && !target.immortal)
+				{
+					werenessMeter += 25;
+
+					if (werenessMeter >= MAX_WERENESS)
+					{
+						werenessMeter = MAX_WERENESS;
+						werebeaver = true;
+						SpawnTransformationSmoke();
+					}
+				}
+			}
 		}
 
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, NPC.HitInfo hit, int damageDone)

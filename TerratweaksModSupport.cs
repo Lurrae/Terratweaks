@@ -1,4 +1,6 @@
 using CalamityMod;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.PermanentBoosters;
 using EfficientNohits.Items;
@@ -7,6 +9,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using ThoriumMod;
+using ThoriumMod.Buffs;
 using ThoriumMod.Items.BardItems;
 using ThoriumMod.Items.Depths;
 
@@ -44,6 +47,19 @@ namespace Terratweaks
 
 			// Accessory slots
 			Mod.Call("AddPermConsumable", ModContent.ItemType<CelestialOnion>(), (Player p) => p.Calamity().extraAccessoryML);
+
+			// Hot debuffs
+			Mod.Call("AddHotDebuff", ModContent.BuffType<BanishingFire>());
+			Mod.Call("AddHotDebuff", ModContent.BuffType<BrimstoneFlames>());
+			Mod.Call("AddHotDebuff", ModContent.BuffType<Dragonfire>());
+			Mod.Call("AddHotDebuff", ModContent.BuffType<GodSlayerInferno>());
+			Mod.Call("AddHotDebuff", ModContent.BuffType<HolyFlames>());
+			Mod.Call("AddHotDebuff", ModContent.BuffType<VulnerabilityHex>());
+
+			// Cold debuffs
+			Mod.Call("AddColdDebuff", ModContent.BuffType<GlacialState>());
+			Mod.Call("AddColdDebuff", ModContent.BuffType<Nightwither>());
+			Mod.Call("AddColdDebuff", ModContent.BuffType<TemporalSadness>());
 		}
 	}
 
@@ -66,6 +82,15 @@ namespace Terratweaks
 			// Move speed upgrades
 			Mod.Call("AddPermConsumable", ModContent.ItemType<CrystalWave>(), (Player p) => new Vector2(p.GetModPlayer<ThoriumPlayer>().consumedCrystalWaveCount, 5));
 			Mod.Call("AddPermConsumable", ModContent.ItemType<AstralWave>(), (Player p) => p.GetModPlayer<ThoriumPlayer>().consumedAstralWave);
+
+			// Hot debuffs
+			Mod.Call("AddHotDebuff", ModContent.BuffType<IncandescentSparkDebuff>());
+			Mod.Call("AddHotDebuff", ModContent.BuffType<NapalmDebuff>());
+			Mod.Call("AddHotDebuff", ModContent.BuffType<SchmelzeDebuff>());
+			Mod.Call("AddHotDebuff", ModContent.BuffType<Singed>());
+
+			// Cold debuffs
+			Mod.Call("AddColdDebuff", ModContent.BuffType<Freezing>());
 		}
 	}
 

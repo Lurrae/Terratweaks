@@ -266,6 +266,36 @@ namespace Terratweaks
 							return true;
 						}
 						throw new ArgumentException($"Expected an argument of type int for 'RemoveIgnoredSummonWeapon', but got type {args[1].GetType().Name} instead.");
+					case "AddHotDebuff":
+						if (args[1] is int hotDebuffID)
+						{
+							if (!TerratweaksPlayer.HotDebuffs.Contains(hotDebuffID))
+								TerratweaksPlayer.HotDebuffs.Add(hotDebuffID);
+							return true;
+						}
+						throw new ArgumentException($"Expected an argument of type int for 'AddHotDebuff', but got type {args[1].GetType().Name} instead.");
+					case "RemoveHotDebuff":
+						if (args[1] is int hotDebuffID2)
+						{
+							TerratweaksPlayer.HotDebuffs.Remove(hotDebuffID2);
+							return true;
+						}
+						throw new ArgumentException($"Expected an argument of type int for 'RemoveHotDebuff', but got type {args[1].GetType().Name} instead.");
+					case "AddColdDebuff":
+						if (args[1] is int coldDebuffID)
+						{
+							if (!TerratweaksPlayer.ColdDebuffs.Contains(coldDebuffID))
+								TerratweaksPlayer.ColdDebuffs.Add(coldDebuffID);
+							return true;
+						}
+						throw new ArgumentException($"Expected an argument of type int for 'AddColdDebuff', but got type {args[1].GetType().Name} instead.");
+					case "RemoveColdDebuff":
+						if (args[1] is int coldDebuffID2)
+						{
+							TerratweaksPlayer.ColdDebuffs.Remove(coldDebuffID2);
+							return true;
+						}
+						throw new ArgumentException($"Expected an argument of type int for 'RemoveColdDebuff', but got type {args[1].GetType().Name} instead.");
 				}
 			}
 

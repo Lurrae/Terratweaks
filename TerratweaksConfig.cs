@@ -61,6 +61,9 @@ namespace Terratweaks
 		[DefaultValue(600)]
 		public int DeerRegenAmt { get; set; }
 
+		[DefaultValue(true)]
+		public bool DeerWeaponsRework { get; set; }
+
 		[DefaultValue(DummySetting.Limited)]
 		public DummySetting DummyFix { get; set; }
 
