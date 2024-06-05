@@ -123,6 +123,16 @@ Mods: {
 					Tooltip: The Dye Trader town NPC will sell any dyes or dye ingredients in your inventory or portable storages
 				}
 
+				ForceBossContactDamage: {
+					Label: "[i:ThornsPotion] Force Contact Damage on Vanilla Bosses"
+					Tooltip:
+						'''
+						Forces all vanilla bosses to always deal contact damage
+						This is useful if you have a mod like Calamity which conditionally removes contact damage,
+						but is causing issues with another mod by doing so
+						'''
+				}
+
 				KillSentries: {
 					Label: "[i:DD2FlameburstTowerT1Popper] [i:Tombstone] Sentries despawn on owner death"
 					Tooltip:
@@ -547,16 +557,6 @@ Mods: {
 						Armored Digger, and Plaguebringer require 25 kills
 						Piggy, Androomba, Colossal Squid, Reaper Shark, and Juvenile Eidolon Wyrm require 10 kills
 						Additionally, the Giant Clam's Bestiary entry unlocks fully after only one kill
-						'''
-				}
-
-				ForceBossContactDamage: {
-					Label: "[i:ThornsPotion] Force Contact Damage on Vanilla Bosses"
-					Tooltip:
-						'''
-						Forces all vanilla bosses to always deal contact damage
-						Calamity normally changes certain bosses- such as the Eye of Cthulhu- to only deal damage some of the time,
-						usually during jump or dash attacks, though this comes at the cost of breaking other mods
 						'''
 				}
 

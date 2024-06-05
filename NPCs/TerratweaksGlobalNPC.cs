@@ -173,8 +173,19 @@ namespace Terratweaks.NPCs
 
 		public override void PostAI(NPC npc)
 		{
-			// Ignore this entire process if the config option is not set
-			if (!GetInstance<TerratweaksConfig>().NoEnemyInvulnerability)
+			var config = GetInstance<TerratweaksConfig>();
+
+			// Handle forcing vanilla boss contact damage
+			// ModNPC check makes this only affect vanilla bosses
+			if (npc.boss && npc.ModNPC == null && config.ForceBossContactDamage)
+			{
+				// Force the boss to deal damage at all times
+				// TODO: Is this the best way to do this?
+				npc.damage = npc.defDamage;
+			}
+
+			// Ignore everything below if the config option to disable enemy invulnerability is not set
+			if (!config.NoEnemyInvulnerability)
 				return;
 
 			// Do not try to remove invulnerability from bosses (bosses should NEVER have any of these AIs, but you never know)

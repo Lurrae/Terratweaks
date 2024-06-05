@@ -68,6 +68,9 @@ namespace Terratweaks
 		public bool DyeTraderShopExpansion { get; set; }
 
 		[DefaultValue(true)]
+		public bool ForceBossContactDamage { get; set; }
+
+		[DefaultValue(true)]
 		public bool KillSentries { get; set; }
 
 		[DefaultValue(true)]
@@ -262,9 +265,6 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool EzCalBanners { get; set; }
-
-		[DefaultValue(true)]
-		public bool ForceBossContactDamage { get; set; }
 
 		[DefaultValue(false)]
 		public bool NoDefenseDamage { get; set; }
