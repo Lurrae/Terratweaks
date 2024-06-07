@@ -445,6 +445,15 @@ Mods: {
 						'''
 				}
 
+				PrehardUnobtainables: {
+					Label: "[i:HelFire] [i:ZapinatorOrange] Shimmerable Hel-Fire and Orange Zapinator"
+					Tooltip:
+						'''
+						Enables Shimmer transmutations to turn the Hel-Fire into the Cascade and the Orange Zapinator into the Gray Zapinator
+						This is implemented for the same reason as the ability to shimmer Hardmode crates- allowing the player to obtain the Cascade and Gray Zapinator in Hardmode!
+						'''
+				}
+
 				Tooltip: ""
 			}
 

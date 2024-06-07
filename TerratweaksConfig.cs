@@ -238,6 +238,10 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool TeamBlocks { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool PrehardUnobtainables { get; set; }
 	}
 
 	[SeparatePage]

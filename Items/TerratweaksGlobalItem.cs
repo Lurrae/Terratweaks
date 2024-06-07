@@ -1226,30 +1226,38 @@ namespace Terratweaks.Items
 	{
 		public override void SetStaticDefaults()
 		{
-			if (GetInstance<TerratweaksConfig>().craftableUncraftables.Moss)
+			var config = GetInstance<TerratweaksConfig>().craftableUncraftables;
+
+			if (config.Moss)
 			{
 				AddShimmerTransmutation_Cycle(new List<int> { ItemID.RedMoss, ItemID.BrownMoss, ItemID.GreenMoss, ItemID.BlueMoss, ItemID.PurpleMoss });
 				AddShimmerTransmutation_Chain(new List<int> { ItemID.LavaMoss, ItemID.XenonMoss, ItemID.KryptonMoss, ItemID.ArgonMoss, ItemID.VioletMoss, ItemID.RainbowMoss });
 			}
 
-			if (GetInstance<TerratweaksConfig>().craftableUncraftables.Gravestones)
+			if (config.Gravestones)
 			{
 				AddShimmerTransmutation_Cycle(new List<int> { ItemID.Tombstone, ItemID.GraveMarker, ItemID.CrossGraveMarker, ItemID.Headstone, ItemID.Gravestone, ItemID.Obelisk });
 				AddShimmerTransmutation_Cycle(new List<int> { ItemID.RichGravestone1, ItemID.RichGravestone2, ItemID.RichGravestone3, ItemID.RichGravestone4, ItemID.RichGravestone5 });
 			}
 
-			if (GetInstance<TerratweaksConfig>().craftableUncraftables.Trophies)
+			if (config.Trophies)
 			{
 				AddTrophyRecipes();
 			}
 
-			if (GetInstance<TerratweaksConfig>().craftableUncraftables.ShimmerBottomlessAndSponges)
+			if (config.ShimmerBottomlessAndSponges)
 			{
 				ItemID.Sets.ShimmerTransformToItem[ItemID.BottomlessLavaBucket] = ItemID.LavaAbsorbantSponge;
 				ItemID.Sets.ShimmerTransformToItem[ItemID.LavaAbsorbantSponge] = ItemID.BottomlessLavaBucket;
 
 				ItemID.Sets.ShimmerTransformToItem[ItemID.BottomlessHoneyBucket] = ItemID.HoneyAbsorbantSponge;
 				ItemID.Sets.ShimmerTransformToItem[ItemID.HoneyAbsorbantSponge] = ItemID.BottomlessHoneyBucket;
+			}
+
+			if (config.PrehardUnobtainables)
+			{
+				ItemID.Sets.ShimmerTransformToItem[ItemID.HelFire] = ItemID.Cascade;
+				ItemID.Sets.ShimmerTransformToItem[ItemID.ZapinatorOrange] = ItemID.ZapinatorGray;
 			}
 		}
 
