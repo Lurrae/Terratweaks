@@ -1224,6 +1224,22 @@ namespace Terratweaks.Items
 
 	public class ShimmerTransmutationHandler : GlobalItem
 	{
+		public static readonly Dictionary<string, List<int>> ShimmerableBossDrops = new()
+		{
+			{ "KingSlime", new List<int> { ItemID.SlimeGun, ItemID.SlimeHook } },
+			{ "NinjaSet", new List<int> { ItemID.NinjaHood, ItemID.NinjaShirt, ItemID.NinjaPants } },
+			{ "QueenBee", new List<int> { ItemID.BeeKeeper, ItemID.BeesKnees, ItemID.BeeGun } },
+			{ "BeeSet", new List<int> { ItemID.BeeHat, ItemID.BeeShirt, ItemID.BeePants } },
+			{ "Deerclops", new List<int> { ItemID.LucyTheAxe, ItemID.PewMaticHorn, ItemID.WeatherPain, ItemID.HoundiusShootius } },
+			{ "CrystalAssassinSet", new List<int> { ItemID.CrystalNinjaHelmet, ItemID.CrystalNinjaChestplate, ItemID.CrystalNinjaLeggings } },
+			{ "Plantera", new List<int> { ItemID.Seedler, ItemID.FlowerPow, ItemID.VenusMagnum, ItemID.GrenadeLauncher, ItemID.NettleBurst, ItemID.LeafBlower, ItemID.WaspGun } },
+			{ "Golem", new List<int> { ItemID.GolemFist, ItemID.PossessedHatchet, ItemID.Stynger, ItemID.HeatRay, ItemID.StaffofEarth, ItemID.EyeoftheGolem, ItemID.SunStone } },
+			{ "DukeFishron", new List<int> { ItemID.Flairon, ItemID.Tsunami, ItemID.RazorbladeTyphoon, ItemID.BubbleGun, ItemID.TempestStaff } },
+			{ "EmpressOfLight", new List<int> { ItemID.PiercingStarlight, ItemID.FairyQueenRangedItem, ItemID.FairyQueenMagicItem, ItemID.RainbowWhip } },
+			{ "Betsy", new List<int> { ItemID.DD2SquireBetsySword, ItemID.DD2BetsyBow, ItemID.ApprenticeStaffT3, ItemID.MonkStaffT3 } },
+			{ "MoonLord", new List<int> { ItemID.Meowmere, ItemID.StarWrath, ItemID.Terrarian, ItemID.SDMG, ItemID.Celeb2, ItemID.LastPrism, ItemID.LunarFlareBook, ItemID.RainbowCrystalStaff, ItemID.MoonlordTurretStaff } }
+		};
+
 		public override void SetStaticDefaults()
 		{
 			var config = GetInstance<TerratweaksConfig>().craftableUncraftables;
@@ -1258,6 +1274,15 @@ namespace Terratweaks.Items
 			{
 				ItemID.Sets.ShimmerTransformToItem[ItemID.HelFire] = ItemID.Cascade;
 				ItemID.Sets.ShimmerTransformToItem[ItemID.ZapinatorOrange] = ItemID.ZapinatorGray;
+			}
+
+			if (config.ShimmerBossDrops)
+			{
+				foreach (KeyValuePair<string, List<int>> pair in ShimmerableBossDrops)
+				{
+					if (pair.Value.Count > 0)
+						AddShimmerTransmutation_Cycle(pair.Value);
+				}
 			}
 		}
 

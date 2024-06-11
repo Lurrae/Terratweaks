@@ -16,4 +16,6 @@ This mod currently implements too many changes to list in the mod description, s
 [*][code]Call("RemoveHotDebuff", int buffID)[/code] Removes a hot debuff from the list in the above call. Returns true if successful, but throws an exception if an invalid argument is provided.
 [*][code]Call("AddColdDebuff", int buffID)[/code] Registers a debuff which should be considered a 'cold' debuff, used by the Lucy the Axe rework. Returns true if successful, but throws an exception if an invalid argument is provided.
 [*][code]Call("RemoveColdDebuff", int buffID)[/code] Removes a cold debuff from the list in the above call. Returns true if successful, but throws an exception if an invalid argument is provided.
+[*][code]Call("AddShimmerableBossDrop", string listToEdit, int itemID)[/code] Adds an item to the specified list, creating a new list if none are found. The lists for vanilla bosses mostly use the boss' name, though armor/vanity sets use the set name instead. Returns true if successful, but throws an exception if an invalid argument is provided.
+[*][code]Call("RemoveShimmerableBossDrop", string listToEdit, int itemID)[/code] Removes an item from the specified list. Lists with no items are ignored by Shimmer recipe generation. Returns true if successful, but throws an exception if an invalid argument is provided.
 [/list]

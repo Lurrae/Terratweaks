@@ -454,6 +454,17 @@ Mods: {
 						'''
 				}
 
+				ShimmerBossDrops: {
+					Label: "[i:NinjaHood] [i:NinjaShirt] [i:NinjaPants] Shimmerable Boss Drops"
+					Tooltip:
+						'''
+						Enables Shimmer transmutations to cycle through mutually-exclusive boss drops
+						This uses the same functionality/logic as Wall of Flesh's weapons and emblems, just applied to other bosses' drops (mostly weapons, but also armor/vanity sets)
+						By default, Thorium and Calamity boss drops are supported, but other mods' boss drops are not natively supported
+						Note: Due to limitations with how Shimmer works, some items (consumable Rogue/Thrower weapons and Whispering armor) cannot be obtained through Shimmer transmutations
+						'''
+				}
+
 				Tooltip: ""
 			}
 

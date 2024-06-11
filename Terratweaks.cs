@@ -296,6 +296,30 @@ namespace Terratweaks
 							return true;
 						}
 						throw new ArgumentException($"Expected an argument of type int for 'RemoveColdDebuff', but got type {args[1].GetType().Name} instead.");
+					case "AddShimmerableBossDrop":
+						if (args[1] is string listToEdit && args[2] is List<int> items)
+						{
+							ShimmerTransmutationHandler.ShimmerableBossDrops.TryAdd(listToEdit, items);
+
+							foreach (int item in items)
+							{
+								ShimmerTransmutationHandler.ShimmerableBossDrops[listToEdit].Add(item);
+							}
+
+							return true;
+						}
+						throw new ArgumentException($"Expected arguments of type string and List<int> for 'AddShimmerableBossDrop', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
+					case "RemoveShimmerableBossDrop":
+						if (args[1] is string listToEdit2 && args[2] is List<int> items2)
+						{
+							foreach (int item in items2)
+							{
+								ShimmerTransmutationHandler.ShimmerableBossDrops[listToEdit2].Remove(item);
+							}
+
+							return true;
+						}
+						throw new ArgumentException($"Expected arguments of type string and List<int> for 'RemoveShimmerableBossDrop', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
 				}
 			}
 
