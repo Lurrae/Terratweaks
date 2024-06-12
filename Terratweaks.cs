@@ -299,10 +299,13 @@ namespace Terratweaks
 					case "AddShimmerableBossDrop":
 						if (args[1] is string listToEdit && args[2] is List<int> items)
 						{
-							ShimmerTransmutationHandler.ShimmerableBossDrops.TryAdd(listToEdit, items);
+							ShimmerTransmutationHandler.ShimmerableBossDrops.TryAdd(listToEdit, new List<int>());
 
 							foreach (int item in items)
 							{
+								if (ShimmerTransmutationHandler.ShimmerableBossDrops[listToEdit].Contains(item))
+									continue;
+
 								ShimmerTransmutationHandler.ShimmerableBossDrops[listToEdit].Add(item);
 							}
 
