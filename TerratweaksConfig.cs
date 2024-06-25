@@ -275,6 +275,10 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool EnemyFoodDrops { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool EzCalBanners { get; set; }
 
 		[DefaultValue(false)]

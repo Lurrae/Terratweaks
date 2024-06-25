@@ -581,6 +581,15 @@ Mods: {
 					Tooltip: Adds the Astral Grass and Cinder Blossom Seeds to the Dryad's shop while she is in the respective biomes
 				}
 
+				EnemyFoodDrops: {
+					Label: "[i:Burger] Bring Back Enemy Food Drops"
+					Tooltip:
+						'''
+						Reverts a Calamity change which disables enemies dropping food items
+						Happy NPCs will still sell the food items, but enemies will also be able to drop them again!
+						'''
+				}
+
 				EzCalBanners: {
 					Label: "[i:PinkyBanner] Reduced Banner Kill Counts"
 					Tooltip:

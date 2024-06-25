@@ -1,8 +1,10 @@
+using CalamityMod;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.NPCs;
 using System;
+using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
@@ -16,7 +18,7 @@ namespace Terratweaks.Calamitweaks
 		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("CalamityMod");
 
 		private static readonly MethodInfo _pillarEventProgressionEdit = typeof(CalamityGlobalNPC).GetMethod("PillarEventProgressionEdit", BindingFlags.Instance | BindingFlags.NonPublic);
-
+		private static readonly MethodInfo _blockDrops = typeof(DropHelper).GetMethod("BlockDrops", BindingFlags.Static | BindingFlags.Public);
 		public override void Load()
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
@@ -36,6 +38,7 @@ namespace Terratweaks.Calamitweaks
 			}
 
 			MonoModHooks.Add(_pillarEventProgressionEdit, ProgressionEditRemover);
+			MonoModHooks.Add(_blockDrops, PreventFoodDropBlocking);
 		}
 
 		private static void ProgressionEditRemover(Action<CalamityGlobalNPC, NPC> orig, CalamityGlobalNPC self, NPC npc)
@@ -47,6 +50,19 @@ namespace Terratweaks.Calamitweaks
 				return;
 
 			orig(self, npc);
+		}
+
+		private static void PreventFoodDropBlocking(Action<int[]> orig, params int[] itemIDs)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+
+			// Like with ProgressionEditRemover, not calling the original function prevents it from running
+			// In this case, it should always run the original function UNLESS trying to block enemy food drops, that way we don't run into issues
+			// with other items being left unblocked (such as the evil ores and materials from EoW's segments or BoC's creepers)
+			if (itemIDs.Contains(ItemID.ApplePie) && calamitweaks.EnemyFoodDrops)
+				return;
+
+			orig(itemIDs);
 		}
 
 		public override void PostAddRecipes()
