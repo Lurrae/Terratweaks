@@ -15,6 +15,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.Utilities;
 using Terratweaks.Buffs;
 using static Terraria.ModLoader.ModContent;
 
@@ -1355,4 +1356,144 @@ namespace Terratweaks.Items
 			}
 		}
 	}
+
+	// TODO: This breaks every player in existence in its current state
+	//		 I need to figure out how to make it not do that eventually, but for now
+	//		 I'm leaving it commented out because I don't really wanna deal with it rn - Lurrae
+	/*public class ReforgeHandler : GlobalItem
+	{
+		public static readonly Dictionary<int, float> vanillaPrefixValues = new()
+		{
+			{ PrefixID.Large, 1.2544f },
+			{ PrefixID.Massive, 1.3924f },
+			{ PrefixID.Dangerous, 1.3147f },
+			{ PrefixID.Savage, 1.7716f },
+			{ PrefixID.Sharp, 1.3225f },
+			{ PrefixID.Pointy, 1.21f },
+			{ PrefixID.Tiny, 0.6724f },
+			{ PrefixID.Terrible, 0.3951f },
+			{ PrefixID.Small, 0.81f },
+			{ PrefixID.Dull, 0.7225f },
+			{ PrefixID.Unhappy, 0.5314f },
+			{ PrefixID.Bulky, 1.1662f },
+			{ PrefixID.Shameful, 0.6273f },
+			{ PrefixID.Heavy, 1.0712f },
+			{ PrefixID.Light, 1.0712f },
+			{ PrefixID.Sighted, 1.3596f },
+			{ PrefixID.Rapid, 1.6002f },
+			{ PrefixID.Hasty, 1.6002f },
+			{ PrefixID.Intimidating, 1.4581f },
+			{ PrefixID.Deadly, 1.7538f },
+			{ PrefixID.Staunch, 1.6002f },
+			{ PrefixID.Awful, 0.474f },
+			{ PrefixID.Lethargic, 0.5852f },
+			{ PrefixID.Awkward, 0.5184f },
+			{ PrefixID.Powerful, 1.1145f },
+			{ PrefixID.Mystic, 1.6002f },
+			{ PrefixID.Adept, 1.3225f },
+			{ PrefixID.Masterful, 1.9283f },
+			{ PrefixID.Inept, 0.81f },
+			{ PrefixID.Ignorant, 0.5184f },
+			{ PrefixID.Deranged, 0.6561f },
+			{ PrefixID.Intense, 0.8742f },
+			{ PrefixID.Taboo, 1.1859f },
+			{ PrefixID.Celestial, 1.435f },
+			{ PrefixID.Furious, 1.1194f },
+			{ PrefixID.Keen, 1.1236f },
+			{ PrefixID.Superior, 1.6451f },
+			{ PrefixID.Forceful, 1.3225f },
+			{ PrefixID.Broken, 0.3136f },
+			{ PrefixID.Damaged, 0.7225f },
+			{ PrefixID.Shoddy, 0.5852f },
+			{ PrefixID.Quick, 1.21f },
+			{ PrefixID.Deadly2, 1.4641f },
+			{ PrefixID.Agile, 1.3596f },
+			{ PrefixID.Nimble, 1.1025f },
+			{ PrefixID.Murderous, 1.4454f },
+			{ PrefixID.Slow, 0.7225f },
+			{ PrefixID.Sluggish, 0.64f },
+			{ PrefixID.Lazy, 0.8464f },
+			{ PrefixID.Annoying, 0.4624f },
+			{ PrefixID.Nasty, 1.1687f },
+			{ PrefixID.Manic, 1.1859f },
+			{ PrefixID.Hurtful, 1.21f },
+			{ PrefixID.Strong, 1.3225f },
+			{ PrefixID.Unpleasant, 1.4581f },
+			{ PrefixID.Weak, 0.64f },
+			{ PrefixID.Ruthless, 1.1278f },
+			{ PrefixID.Frenzying, 0.9555f },
+			{ PrefixID.Godly, 2.1163f },
+			{ PrefixID.Demonic, 1.6002f },
+			{ PrefixID.Zealous, 1.21f },
+			{ PrefixID.Hard, 1.1025f },
+			{ PrefixID.Guarding, 1.21f },
+			{ PrefixID.Armored, 1.3225f },
+			{ PrefixID.Warding, 1.44f },
+			{ PrefixID.Arcane, 1.3225f },
+			{ PrefixID.Precise, 1.21f },
+			{ PrefixID.Lucky, 1.44f },
+			{ PrefixID.Jagged, 1.1025f },
+			{ PrefixID.Spiked, 1.21f },
+			{ PrefixID.Angry, 1.3225f },
+			{ PrefixID.Menacing, 1.44f },
+			{ PrefixID.Brisk, 1.1025f },
+			{ PrefixID.Fleeting, 1.21f },
+			{ PrefixID.Hasty2, 1.3225f },
+			{ PrefixID.Quick2, 1.44f },
+			{ PrefixID.Wild, 1.1025f },
+			{ PrefixID.Rash, 1.21f },
+			{ PrefixID.Intrepid, 1.3225f },
+			{ PrefixID.Violent, 1.44f },
+			{ PrefixID.Legendary, 3.0985f },
+			{ PrefixID.Unreal, 3.0985f },
+			{ PrefixID.Mythical, 3.0985f },
+			{ PrefixID.Legendary2, 3.0985f }
+		};
+
+		public override bool AllowPrefix(Item item, int pre)
+		{
+			// Don't force rerolls with Calamity Mod since it reworks reforging anyways
+			// TODO: Can we access Calamity's config from here? We should check if their rework is enabled,
+			//		 since it can be toggled in their config - Lurrae
+			if (!ModLoader.HasMod("CalamityMod") && GetInstance<TerratweaksConfig>().BetterHappiness)
+			{
+				float currentPrefixValue;
+				float targetPrefixValue;
+
+				if (vanillaPrefixValues.TryGetValue(item.prefix, out float value))
+				{
+					currentPrefixValue = value;
+				}
+				else
+				{
+					PrefixLoader.GetPrefix(item.prefix).ModifyValue(ref value);
+					currentPrefixValue = value;
+				}
+
+				if (vanillaPrefixValues.TryGetValue(pre, out value))
+				{
+					targetPrefixValue = value;
+				}
+				else
+				{
+					PrefixLoader.GetPrefix(pre).ModifyValue(ref value);
+					targetPrefixValue = value;
+				}
+
+				// Don't affect chances if tinkerer is unhappy
+				if (Main.LocalPlayer.currentShoppingSettings.PriceAdjustment < 1.0f)
+				{
+					var chance = 1.0f - (Main.LocalPlayer.currentShoppingSettings.PriceAdjustment * 0.5f);
+
+					if (targetPrefixValue < currentPrefixValue && Main.rand.NextFloat() <= chance)
+					{
+						// Force a reroll because this would've been a worse prefix
+						return false;
+					}
+				}
+			}
+
+			return base.AllowPrefix(item, pre);
+		}
+	}*/
 }

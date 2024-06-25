@@ -88,6 +88,18 @@ Mods: {
 						'''
 				}
 
+				BetterHappiness: {
+					Label: "[i:MusicBoxTownDay] More Useful NPC Happiness"
+					Tooltip:
+						'''
+						The Angler gives accessories more often with high happiness, and the Goblin Tinkerer gives higher-quality modifiers with high happiness
+						The way the reforging changes work is that there's a chance to guarantee a modifier of equal or higher value than your current modifier, rather than being truly random
+						The higher the goblin's happiness, the higher this chance of a guaranteed equivalent/better modifier is
+						If the Angler or Goblin Tinkerer are unhappy, they will simply use their vanilla behavior
+						The Goblin Tinkerer's changes are not applied while the Calamity Mod is active, since Calamity reworks reforging itself
+						'''
+				}
+
 				ChesterRework: {
 					Label: "[i:ChesterPetItem] Chester Rework"
 					Tooltip: Chester is reworked to be considered a light pet, but he accesses the player's safe instead of their piggy bank

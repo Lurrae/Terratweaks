@@ -46,6 +46,10 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool BetterCrackedBricks { get; set; }
 
+		// TODO: Enable this when I actually implement it - Lurrae
+		//[DefaultValue(true)]
+		//public bool BetterHappiness { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ChesterRework { get; set; }
