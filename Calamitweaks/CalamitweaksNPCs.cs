@@ -43,6 +43,18 @@ namespace Terratweaks.Calamitweaks
 			}
 		}
 
+		public override bool PreAI(NPC npc)
+		{
+			// Set EoW/Destroyer's DR increase timer so that they won't be invincible
+			if ((npc.type >= NPCID.TheDestroyer && npc.type <= NPCID.TheDestroyerTail) || (npc.type >= NPCID.EaterofWorldsHead && npc.type <= NPCID.EaterofWorldsTail))
+			{
+				CalamityGlobalNPC calNpc = npc.Calamity();
+				calNpc.newAI[1] = 600f;
+			}
+
+			return base.PreAI(npc);
+		}
+
 		public override void ModifyShop(NPCShop shop)
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;

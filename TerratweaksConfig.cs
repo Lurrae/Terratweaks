@@ -141,6 +141,50 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool UmbrellaHatRework { get; set; }
+
+		public override bool NeedsReload(ModConfig pendingConfig)
+		{
+			if (pendingConfig is TerratweaksConfig pendingTtConfig)
+			{
+				// Check all craftable uncraftable configs for forced reloads
+				// TODO: This will need to be removed if/when tmod updates to check nested ReloadRequireds
+				if (craftableUncraftables.GemCritters != pendingTtConfig.craftableUncraftables.GemCritters ||
+					craftableUncraftables.PlanterBoxes != pendingTtConfig.craftableUncraftables.PlanterBoxes ||
+					craftableUncraftables.DungeonFurniture != pendingTtConfig.craftableUncraftables.DungeonFurniture ||
+					craftableUncraftables.ObsidianFurniture != pendingTtConfig.craftableUncraftables.ObsidianFurniture ||
+					craftableUncraftables.StructureBanners != pendingTtConfig.craftableUncraftables.StructureBanners ||
+					craftableUncraftables.Moss != pendingTtConfig.craftableUncraftables.Moss ||
+					craftableUncraftables.Gravestones != pendingTtConfig.craftableUncraftables.Gravestones ||
+					craftableUncraftables.Trophies != pendingTtConfig.craftableUncraftables.Trophies ||
+					craftableUncraftables.ClothierVoodooDoll != pendingTtConfig.craftableUncraftables.ClothierVoodooDoll ||
+					craftableUncraftables.TempleTraps != pendingTtConfig.craftableUncraftables.TempleTraps ||
+					craftableUncraftables.ShimmerBottomlessAndSponges != pendingTtConfig.craftableUncraftables.ShimmerBottomlessAndSponges ||
+					craftableUncraftables.TeamBlocks != pendingTtConfig.craftableUncraftables.TeamBlocks ||
+					craftableUncraftables.PrehardUnobtainables != pendingTtConfig.craftableUncraftables.PrehardUnobtainables ||
+					craftableUncraftables.ShimmerBossDrops != pendingTtConfig.craftableUncraftables.ShimmerBossDrops)
+				{
+					return true;
+				}
+
+				// Check all Calamitweaks configs for forced reloads
+				// TODO: Ditto the above todo (remove if/when tmod fixes the issue that makes this necessary)
+				if (calamitweaks.AsgardsValorBuff != pendingTtConfig.calamitweaks.AsgardsValorBuff ||
+					calamitweaks.CraftableHostileTurrets != pendingTtConfig.calamitweaks.CraftableHostileTurrets ||
+					calamitweaks.DeificAmuletBuff != pendingTtConfig.calamitweaks.DeificAmuletBuff ||
+					calamitweaks.DryadSellsSeeds != pendingTtConfig.calamitweaks.DryadSellsSeeds ||
+					calamitweaks.EnemyFoodDrops != pendingTtConfig.calamitweaks.EnemyFoodDrops ||
+					calamitweaks.EzCalBanners != pendingTtConfig.calamitweaks.EzCalBanners ||
+					calamitweaks.RevertGraveyards != pendingTtConfig.calamitweaks.RevertGraveyards ||
+					calamitweaks.RevertPillars != pendingTtConfig.calamitweaks.RevertPillars ||
+					calamitweaks.RevertTerraprisma != pendingTtConfig.calamitweaks.RevertTerraprisma ||
+					calamitweaks.RevertVanillaBossAIChanges != pendingTtConfig.calamitweaks.RevertVanillaBossAIChanges)
+				{
+					return true;
+				}
+			}
+
+			return base.NeedsReload(pendingConfig);
+		}
 	}
 
 	public class TerratweaksConfig_Client : ModConfig
