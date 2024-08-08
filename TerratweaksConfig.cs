@@ -57,6 +57,11 @@ namespace Terratweaks
 		//[DefaultValue(true)]
 		//public bool BetterHappiness { get; set; }
 
+		[DefaultValue(1)]
+		[Range(0f, 10f)]
+		[Increment(0.25f)]
+		public float BossesLowerSpawnRates { get; set; }
+
 		[DefaultValue(0)]
 		[Range(0, 10)]
 		public int PlayerDeathsToCallOffInvasion { get; set; }
@@ -149,6 +154,13 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool SolutionsOnGFB { get; set; }
+
+		[DefaultValue(false)]
+		public bool SmartMimics { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool SmartNymphs { get; set; }
 
 		[DefaultValue(SentryAccSetting.Limited)]
 		public SentryAccSetting StackableDD2Accs { get; set; }

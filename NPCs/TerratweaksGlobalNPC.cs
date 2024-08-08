@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -152,6 +153,11 @@ namespace Terratweaks.NPCs
 				{
 					NPCID.Sets.DontDoHardmodeScaling[i] = true;
 				}
+			}
+
+			if (GetInstance<TerratweaksConfig>().SmartNymphs)
+			{
+				NPCID.Sets.DontDoHardmodeScaling[NPCID.LostGirl] = true;
 			}
 		}
 
@@ -431,7 +437,7 @@ namespace Terratweaks.NPCs
 			}
 		}
 
-		void HandleCalamityEoLChanges(IItemDropRule rule)
+		private static void HandleCalamityEoLChanges(IItemDropRule rule)
 		{
 			if (rule is LeadingConditionRule lcr && lcr.ChainedRules.Count > 2) // The rule we're looking for has at least 3 items
 			{
@@ -614,6 +620,197 @@ namespace Terratweaks.NPCs
 					shop.Add(ItemID.DesertMinecart, Condition.InDesert);
 				}
 			}
+		}
+	}
+
+	// Handles all of the spawning behavior changes done to make non-biome Mimics harder to discern from real chests
+	public class MimicChanges : GlobalNPC
+	{
+		public override void OnSpawn(NPC npc, IEntitySource source)
+		{
+			// This should affect any modded NPCs that use mimic AI, such as Thorium's Lihzahrd Mimics
+			if (GetInstance<TerratweaksConfig>().SmartMimics && npc.aiStyle == NPCAIStyleID.Mimic)
+			{
+				Vector2 snapPos = new((int)Math.Floor(npc.position.X / 16), (int)Math.Floor(npc.position.Y / 16));
+				if (!TileObject.CanPlace((int)snapPos.X, (int)snapPos.Y, 21, 0, 1, out _, true))
+				{
+					if (FindClosestMimicSpawnPosition(snapPos) != null)
+						snapPos = FindClosestMimicSpawnPosition(snapPos).Value;
+				}
+
+				npc.Bottom = snapPos.ToWorldCoordinates(npc.width / 2, 32 - npc.height) + new Vector2(-4, 8);
+			}
+		}
+
+		private static Vector2? FindClosestMimicSpawnPosition(Vector2 originalPosition)
+		{
+			// This code was taken from the following StackOverflow answer: https://stackoverflow.com/a/3706260
+			// It was modified slightly to work in this context of course
+
+			// (dx, dy) is a vector - direction in which we move right now
+			int dx = 1;
+			int dy = 0;
+			// length of current segment
+			int segment_length = 1;
+
+			// current position (x, y) and how much of current segment we passed
+			int x = (int)originalPosition.X;
+			int y = (int)originalPosition.Y;
+			int segment_passed = 0;
+			for (int n = 0; n < 256; ++n)
+			{
+				// make a step, add 'direction' vector (dx, dy) to current position (x, y)
+				x += dx;
+				y += dy;
+				++segment_passed;
+
+				if (segment_passed == segment_length)
+				{
+					// done with current segment
+					segment_passed = 0;
+
+					// 'rotate' directions
+					int buffer = dx;
+					dx = -dy;
+					dy = buffer;
+
+					// increase segment length if necessary
+					if (dy == 0)
+					{
+						++segment_length;
+					}
+				}
+
+				if (TileObject.CanPlace(x, y, 21, 0, 1, out _, true))
+				{
+					return new Vector2(x, y);
+				}
+			}
+
+			return null;
+		}
+
+		public override bool PreAI(NPC npc)
+		{
+			if (GetInstance<TerratweaksConfig>().SmartMimics && npc.aiStyle == NPCAIStyleID.Mimic)
+			{
+				npc.canDisplayBuffs = npc.ai[0] != 0;
+
+				if (npc.ai[0] == 0)
+				{
+					npc.dontTakeDamage = true;
+				}
+			}
+			
+			return base.PreAI(npc);
+		}
+
+		public override void DrawEffects(NPC npc, ref Color drawColor)
+		{
+			if (GetInstance<TerratweaksConfig>().SmartMimics && npc.aiStyle == NPCAIStyleID.Mimic)
+			{
+				if (npc.ai[0] == 0 && Main.LocalPlayer.HasBuff(BuffID.Spelunker))
+				{
+					if (drawColor.R < 200)
+						drawColor.R = 200;
+
+					if (drawColor.G < 170)
+						drawColor.G = 170;
+
+					if (Main.rand.NextBool(60))
+					{
+						Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.TreasureSparkle, Alpha: 150, Scale: 0.3f);
+						dust.fadeIn = 1f;
+						dust.velocity *= 0.1f;
+						dust.noLight = true;
+					}
+				}
+			}
+		}
+	}
+
+	// Handles all of the AI changes to Lost Girls to make them more difficult to discern from real bound NPCs
+	public class NymphChanges : GlobalNPC
+	{
+		public override void SetDefaults(NPC npc)
+		{
+			if (GetInstance<TerratweaksConfig>().SmartNymphs && npc.type == NPCID.LostGirl)
+			{
+				npc.friendly = true;
+			}
+		}
+
+		public override bool PreAI(NPC npc)
+		{
+			// Stop vanilla Lost Girl AI from running, as we're going to be using custom behavior and don't want vanilla stuff to interfere
+			if (GetInstance<TerratweaksConfig>().SmartNymphs && npc.type == NPCID.LostGirl)
+			{
+				return false;
+			}
+
+			return base.PreAI(npc);
+		}
+
+		public override bool? CanChat(NPC npc)
+		{
+			if (GetInstance<TerratweaksConfig>().SmartNymphs && npc.type == NPCID.LostGirl)
+				return true;
+
+			return base.CanChat(npc);
+		}
+
+		public override void PostAI(NPC npc)
+		{
+			if (GetInstance<TerratweaksConfig>().SmartNymphs && npc.type == NPCID.LostGirl)
+			{
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					for (int i = 0; i < Main.maxPlayers; i++)
+					{
+						Player player = Main.player[i];
+						if (player.active && player.talkNPC == npc.whoAmI)
+						{
+							npc.AI_000_TransformBoundNPC(i, NPCID.Nymph);
+							player.SetTalkNPC(-1);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public class SpawnRateScaling : GlobalNPC
+	{
+		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
+		{
+			bool anyBosses = false;
+
+			for (int i = 0; i < 200; i++)
+			{
+				NPC npc = Main.npc[i];
+				if (npc.active && (npc.boss || NPCID.Sets.DangerThatPreventsOtherDangers[npc.type]))
+				{
+					if (npc.type == NPCID.LunarTowerSolar ||
+						npc.type == NPCID.LunarTowerVortex ||
+						npc.type == NPCID.LunarTowerNebula ||
+						npc.type == NPCID.LunarTowerStardust)
+					{
+						continue;
+					}
+
+					anyBosses = true;
+				}
+			}
+
+			if (!anyBosses)
+				return;
+
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+
+			if (config.BossesLowerSpawnRates > 0)
+				spawnRate = (int)Math.Round(spawnRate * (1 / config.BossesLowerSpawnRates));
+
+			maxSpawns = (int)Math.Round(maxSpawns * config.BossesLowerSpawnRates);
 		}
 	}
 }

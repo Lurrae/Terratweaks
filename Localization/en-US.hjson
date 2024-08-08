@@ -100,6 +100,15 @@ Mods: {
 						'''
 				}
 
+				BossesLowerSpawnRates: {
+					Label: "[i:SuspiciousLookingEye] Spawn Rate Multiplier from Bosses"
+					Tooltip:
+						'''
+						While any boss is alive, spawn rates are multiplied by the specified amount (for example, setting this to 10 makes 10x as many enemies spawn during boss fights, probably not a good idea unless you want a challenge)
+						This multiplier applies on top of any other multipliers to spawn rate, including similar changes made by Calamity or Fargo's Mutant Mod!
+						'''
+				}
+
 				PlayerDeathsToCallOffInvasion: {
 					Label: "[i:GoblinBattleStandard] Cancel Invasions After Player Dies"
 					Tooltip: If players die the specified amount of times during an invasion, the invasion is considered failed and automatically ends. If set to 0, this mechanic does not apply at all
@@ -300,6 +309,16 @@ Mods: {
 						However, defeating the Empress of Light during the daytime will transform the Soaring Insignia into the "Radiant Insignia" if it is in your inventory
 						The Radiant Insignia provides infinite flight time, doubled acceleration, and 48% extra jump speed, the same as the un-nerfed Soaring Insignia
 						'''
+				}
+
+				SmartMimics: {
+					Label: "[i:Chest] Smarter Mimics"
+					Tooltip: Regular Mimics (the ones modeled after actual chests) have smarter spawning behavior and are much harder to distinguish from real chests
+				}
+
+				SmartNymphs: {
+					Label: "[i:NypmhBanner] Smarter Nymphs"
+					Tooltip: Lost Girls are made much harder to distinguish from actual bound NPCs
 				}
 
 				SoilSolutionsPreML: {

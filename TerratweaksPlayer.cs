@@ -377,18 +377,6 @@ namespace Terratweaks
 				mythrilCD = 30;
 			}
 		}
-
-		// Despawn all active sentries when the player is slain, if they have the corresponding config setting enabled
-		public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
-		{
-			if (GetInstance<TerratweaksConfig>().KillSentries)
-			{
-				foreach (Projectile proj in Main.projectile.Where(p => p.active && p.sentry && p.owner == Player.whoAmI))
-				{
-					proj.Kill();
-				}
-			}
-		}
 	}
 
 	// This ModPlayer is used exclusively for checking if the player is in the Radiant Insignia cutscene, because APPARENTLY global items don't exist on dropped items for a frame or two
@@ -533,6 +521,16 @@ namespace Terratweaks
 		{
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 
+			// Despawn all active sentries when the player is slain, if they have the corresponding config setting enabled
+			if (config.KillSentries)
+			{
+				foreach (Projectile proj in Main.projectile.Where(p => p.active && p.sentry && p.owner == Player.whoAmI))
+				{
+					proj.Kill();
+				}
+			}
+
+			// Call off invasions if the player dies too many times to the same one
 			if (config.PlayerDeathsToCallOffInvasion > 0 && Main.invasionType != InvasionID.None)
 			{
 				deathsThisInvasion++;
