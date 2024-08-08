@@ -24,6 +24,13 @@ namespace Terratweaks
 		On
 	}
 
+	public enum CoinTheftSetting
+	{
+		Off,
+		Limited,
+		On
+	}
+
 	public class TerratweaksConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide;
@@ -49,6 +56,14 @@ namespace Terratweaks
 		// TODO: Enable this when I actually implement it - Lurrae
 		//[DefaultValue(true)]
 		//public bool BetterHappiness { get; set; }
+
+		[DefaultValue(0)]
+		[Range(0, 10)]
+		public int PlayerDeathsToCallOffInvasion { get; set; }
+
+		[DefaultValue(0)]
+		[Range(0, 10)]
+		public int NPCDeathsToCallOffInvasion { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -85,6 +100,10 @@ namespace Terratweaks
 
 		[DefaultValue(false)]
 		public bool NoCasterContactDamage { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(CoinTheftSetting.On)]
+		public CoinTheftSetting NoCoinTheft { get; set; }
 
 		[DefaultValue(DamageVarianceSetting.On)]
 		public DamageVarianceSetting NoDamageVariance { get; set; }

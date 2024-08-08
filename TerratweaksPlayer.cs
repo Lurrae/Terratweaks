@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terratweaks.Buffs;
@@ -513,6 +514,36 @@ namespace Terratweaks
 		public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
 		{
 			combatTimer = Conversions.ToFrames(5);
+		}
+	}
+
+	// Effects that happen when the player dies
+	public class DeathEffectPlayer : ModPlayer
+	{
+		public int deathsThisInvasion = 0;
+
+		public override void PostUpdate()
+		{
+			// Reset death counter if an invasion is not active
+			if (Main.invasionType == InvasionID.None)
+				deathsThisInvasion = 0;
+		}
+
+		public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+
+			if (config.PlayerDeathsToCallOffInvasion > 0 && Main.invasionType != InvasionID.None)
+			{
+				deathsThisInvasion++;
+
+				if (deathsThisInvasion >= config.PlayerDeathsToCallOffInvasion)
+				{
+					Main.invasionType = InvasionID.None;
+					Color color = new(175, 75, 255);
+					Main.NewText(Language.GetTextValue("Mods.Terratweaks.Common.InvasionFailPlayer"), color);
+				}
+			}
 		}
 	}
 }

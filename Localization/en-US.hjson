@@ -100,6 +100,16 @@ Mods: {
 						'''
 				}
 
+				PlayerDeathsToCallOffInvasion: {
+					Label: "[i:GoblinBattleStandard] Cancel Invasions After Player Dies"
+					Tooltip: If players die the specified amount of times during an invasion, the invasion is considered failed and automatically ends. If set to 0, this mechanic does not apply at all
+				}
+
+				NPCDeathsToCallOffInvasion: {
+					Label: "[i:GoblinBattleStandard] Cancel Invasions After NPCs Die"
+					Tooltip: If the specified number of town NPCs die during an invasion, the invasion is considered failed and automatically ends. If set to 0, this mechanic does not apply at all
+				}
+
 				ChesterRework: {
 					Label: "[i:ChesterPetItem] Chester Rework"
 					Tooltip: Chester is reworked to be considered a light pet, but he accesses the player's safe instead of their piggy bank
@@ -196,6 +206,15 @@ Mods: {
 						Removes contact damage from all enemies that attack with projectiles
 						This includes all enemies with Caster AI, all archer-style enemies, and some special cases like Probes and Gastropods
 						Modded caster enemies will be affected by this setting, but not other modded enemies
+						'''
+				}
+
+				NoCoinTheft: {
+					Label: "[i:GoldCoin] No Coin Theft"
+					Tooltip:
+						'''
+						Disables the Expert+ mechanic where enemies can pick up coins dropped on the ground
+						Can choose between vanilla behavior, disabling only bosses picking up coins, or disabling all enemies picking up coins
 						'''
 				}
 
@@ -501,6 +520,13 @@ Mods: {
 				On.Label: No Damage Variance
 			}
 
+			CoinTheftSetting: {
+				Tooltip: ""
+				Off.Label: Vanilla Behavior
+				Limited.Label: Bosses Can't Steal Coins
+				On.Label: All Enemies Can't Steal Coins
+			}
+
 			TerratweaksConfig_Client: {
 				DisplayName: Terratweaks Config (Client)
 
@@ -664,6 +690,9 @@ Mods: {
 		Common: {
 			# Dialogue when the player can't start a Sandstorm
 			SandstormFail: An all-seeing entity's influence prevents the Sandstorm from brewing...
+			# Dialogue when an invasion ends due to player/NPC deaths
+			InvasionFailPlayer: The invaders killed enough players and left!
+			InvasionFailNPC: The invaders killed enough town NPCs and left!
 			# Modified tooltip for Soaring Insignia when its rework is enabled
 			ReworkedSITip:
 				'''

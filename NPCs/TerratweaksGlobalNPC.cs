@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,7 +9,9 @@ using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.NPCs
@@ -338,13 +341,22 @@ namespace Terratweaks.NPCs
 	{
 		public override bool InstancePerEntity => true;
 
+		public static int townNpcDeathsThisInvasion = 0;
+
+		public override void AI(NPC npc)
+		{
+			// Reset death counter if an invasion is not active
+			if (Main.invasionType == InvasionID.None)
+				townNpcDeathsThisInvasion = 0;
+		}
+
 		public override void OnKill(NPC npc)
 		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+
 			// Killed daytime EoL
 			if (npc.type == NPCID.HallowBoss && Main.dayTime)
 			{
-				TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
 				if (config.SIRework) // Transform the Soaring Insignia into the Radiant Insignia if the player has one
 				{
 					foreach (Player plr in Main.player)
@@ -374,6 +386,19 @@ namespace Terratweaks.NPCs
 							}
 						}
 					}
+				}
+			}
+
+			// Town NPC died- increment invasion death counter and call off the invasion if necessary
+			if (npc.townNPC && config.NPCDeathsToCallOffInvasion > 0 && Main.invasionType != InvasionID.None)
+			{
+				townNpcDeathsThisInvasion++;
+
+				if (townNpcDeathsThisInvasion >= config.NPCDeathsToCallOffInvasion)
+				{
+					Main.invasionType = InvasionID.None;
+					Color color = new(175, 75, 255);
+					Main.NewText(Language.GetTextValue("Mods.Terratweaks.Common.InvasionFailNPC"), color);
 				}
 			}
 		}

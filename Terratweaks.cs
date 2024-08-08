@@ -76,6 +76,25 @@ namespace Terratweaks
 					StatChangeHandler.damageResistantEnemies[npc.type] = drEnemyStats;
 				}
 			}
+
+			// Block only boss NPCs (and EoW) from stealing coins
+			TerratweaksConfig config = ModContent.GetInstance<TerratweaksConfig>();
+			if (config.NoCoinTheft == CoinTheftSetting.Limited)
+			{
+				foreach (NPC npc in ContentSamples.NpcsByNetId.Values)
+				{
+					if ((npc.type <= NPCID.EaterofWorldsHead && npc.type >= NPCID.EaterofWorldsTail) || npc.boss)
+						NPCID.Sets.CantTakeLunchMoney[npc.type] = true;
+				}
+			}
+			// Block all enemies from stealing coins
+			else if (config.NoCoinTheft == CoinTheftSetting.On)
+			{
+				foreach (NPC npc in ContentSamples.NpcsByNetId.Values)
+				{
+					NPCID.Sets.CantTakeLunchMoney[npc.type] = true;
+				}
+			}
 		}
 
 		public override object Call(params object[] args)
