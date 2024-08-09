@@ -1,5 +1,6 @@
 using CalamityMod;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.PlaceableTurrets;
 using System.Collections.Generic;
@@ -65,6 +66,32 @@ namespace Terratweaks.Calamitweaks
 				ItemID.Sets.DrawUnsafeIndicator[ModContent.ItemType<HostileOnyxTurret>()] = true;
 				ItemID.Sets.DrawUnsafeIndicator[ModContent.ItemType<HostilePlagueTurret>()] = true;
 				ItemID.Sets.DrawUnsafeIndicator[ModContent.ItemType<HostileWaterTurret>()] = true;
+			}
+		}
+
+		public override bool CanUseItem(Item item, Player player)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+
+			if (item.type == ModContent.ItemType<CelestialOnion>() && calamitweaks.OnionMasterMode)
+			{
+				return !player.Calamity().extraAccessoryML;
+			}
+
+			return base.CanUseItem(item, player);
+		}
+
+		public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+
+			if (calamitweaks.OnionMasterMode)
+			{
+				if (item.type == ItemID.MoonLordBossBag)
+				{
+					// Add a drop rule for if the world IS in master, as Calamity already handles cases where it ISN'T
+					itemLoot.AddIf((info) => !info.player.Calamity().extraAccessoryML && Main.masterMode, ModContent.ItemType<CelestialOnion>());
+				}
 			}
 		}
 
@@ -220,6 +247,16 @@ namespace Terratweaks.Calamitweaks
 				{
 					TooltipLine line = tooltips.FindLast(t => t.Name.Contains("Tooltip"));
 					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MoreShields", "Increases defense by 5 and provides +10% movement speed and +1 HP/s life regeneration when submerged in a liquid\nProvides greatly improved water mobility"));
+				}
+			}
+
+			if (calamitweaks.OnionMasterMode)
+			{
+				// Celestial Onion - Remove tooltip stating that it does nothing in Master Mode
+				if (item.type == ModContent.ItemType<CelestialOnion>())
+				{
+					TooltipLine line = tooltips.Find(t => t.Name.Equals("Tooltip1"));
+					tooltips.Remove(line);
 				}
 			}
 		}

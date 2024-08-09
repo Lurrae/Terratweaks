@@ -205,6 +205,7 @@ namespace Terratweaks
 					calamitweaks.DryadSellsSeeds != pendingTtConfig.calamitweaks.DryadSellsSeeds ||
 					calamitweaks.EnemyFoodDrops != pendingTtConfig.calamitweaks.EnemyFoodDrops ||
 					calamitweaks.EzCalBanners != pendingTtConfig.calamitweaks.EzCalBanners ||
+					calamitweaks.OnionMasterMode != pendingTtConfig.calamitweaks.OnionMasterMode ||
 					calamitweaks.RevertGraveyards != pendingTtConfig.calamitweaks.RevertGraveyards ||
 					calamitweaks.RevertPillars != pendingTtConfig.calamitweaks.RevertPillars ||
 					calamitweaks.RevertTerraprisma != pendingTtConfig.calamitweaks.RevertTerraprisma ||
@@ -362,6 +363,10 @@ namespace Terratweaks
 
 		[DefaultValue(false)]
 		public bool NoDefenseDamage { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool OnionMasterMode { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(false)]

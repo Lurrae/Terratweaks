@@ -665,6 +665,11 @@ Mods: {
 					Tooltip: Disables enemies/bosses and projectiles applying defense damage, effectively removing it as a mechanic outright
 				}
 
+				OnionMasterMode: {
+					Label: "[i:DemonHeart] Enable Celestial Onion Slot in Master Mode"
+					Tooltip: Allows the Celestial Onion to be obtained and used in Master Mode
+				}
+
 				RevertGraveyards: {
 					Label: "[i:Tombstone] Revert Graveyard Changes"
 					Tooltip: Lowers the number of tombstones needed to form a graveyard from Calamity's 13 to vanilla's 7

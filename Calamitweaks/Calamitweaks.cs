@@ -1,6 +1,8 @@
 using CalamityMod;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables;
 using CalamityMod.NPCs;
 using System;
@@ -19,6 +21,8 @@ namespace Terratweaks.Calamitweaks
 
 		private static readonly MethodInfo _pillarEventProgressionEdit = typeof(CalamityGlobalNPC).GetMethod("PillarEventProgressionEdit", BindingFlags.Instance | BindingFlags.NonPublic);
 		private static readonly MethodInfo _blockDrops = typeof(DropHelper).GetMethod("BlockDrops", BindingFlags.Static | BindingFlags.Public);
+		private static readonly MethodInfo _canUseOnion = typeof(CelestialOnion).GetMethod("CanUseItem", BindingFlags.Instance | BindingFlags.Public);
+		private static readonly MethodInfo _onionSlotIsEnabled = typeof(CelestialOnionAccessorySlot).GetMethod("IsEnabled", BindingFlags.Instance | BindingFlags.Public);
 		public override void Load()
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
@@ -39,6 +43,8 @@ namespace Terratweaks.Calamitweaks
 
 			MonoModHooks.Add(_pillarEventProgressionEdit, ProgressionEditRemover);
 			MonoModHooks.Add(_blockDrops, PreventFoodDropBlocking);
+			MonoModHooks.Add(_onionSlotIsEnabled, EnableOnionSlotInMasterMode);
+			MonoModHooks.Add(_canUseOnion, EnableOnionUseInMasterMode);
 		}
 
 		private static void ProgressionEditRemover(Action<CalamityGlobalNPC, NPC> orig, CalamityGlobalNPC self, NPC npc)
@@ -63,6 +69,33 @@ namespace Terratweaks.Calamitweaks
 				return;
 
 			orig(itemIDs);
+		}
+
+		private static bool EnableOnionUseInMasterMode(Func<ModItem, Player, bool> orig, ModItem self, Player player)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+
+			if (calamitweaks.OnionMasterMode)
+			{
+				return !player.Calamity().extraAccessoryML;
+			}
+
+			return orig(self, player);
+		}
+
+		private static bool EnableOnionSlotInMasterMode(Func<ModAccessorySlot, bool> orig, ModAccessorySlot self)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+
+			if (calamitweaks.OnionMasterMode)
+			{
+				if (!ModAccessorySlot.Player.active)
+					return false;
+
+				return ModAccessorySlot.Player.Calamity().extraAccessoryML;
+			}
+			
+			return orig(self);
 		}
 
 		public override void PostAddRecipes()
