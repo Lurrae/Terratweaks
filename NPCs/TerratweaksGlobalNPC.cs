@@ -626,10 +626,15 @@ namespace Terratweaks.NPCs
 	// Handles all of the spawning behavior changes done to make non-biome Mimics harder to discern from real chests
 	public class MimicChanges : GlobalNPC
 	{
+		private static bool IsAMimic(NPC npc)
+		{
+			return npc.active && npc.aiStyle == NPCAIStyleID.Mimic && npc.TypeName.Contains("Mimic");
+		}
+
 		public override void OnSpawn(NPC npc, IEntitySource source)
 		{
 			// This should affect any modded NPCs that use mimic AI, such as Thorium's Lihzahrd Mimics
-			if (GetInstance<TerratweaksConfig>().SmartMimics && npc.aiStyle == NPCAIStyleID.Mimic)
+			if (GetInstance<TerratweaksConfig>().SmartMimics && IsAMimic(npc))
 			{
 				Vector2 snapPos = new((int)Math.Floor(npc.position.X / 16), (int)Math.Floor(npc.position.Y / 16));
 				if (!TileObject.CanPlace((int)snapPos.X, (int)snapPos.Y, 21, 0, 1, out _, true))
@@ -692,13 +697,17 @@ namespace Terratweaks.NPCs
 
 		public override bool PreAI(NPC npc)
 		{
-			if (GetInstance<TerratweaksConfig>().SmartMimics && npc.aiStyle == NPCAIStyleID.Mimic)
+			if (GetInstance<TerratweaksConfig>().SmartMimics && IsAMimic(npc))
 			{
 				npc.canDisplayBuffs = npc.ai[0] != 0;
 
 				if (npc.ai[0] == 0)
 				{
 					npc.dontTakeDamage = true;
+				}
+				else
+				{
+					npc.dontTakeDamage = false;
 				}
 			}
 			
@@ -707,7 +716,7 @@ namespace Terratweaks.NPCs
 
 		public override void DrawEffects(NPC npc, ref Color drawColor)
 		{
-			if (GetInstance<TerratweaksConfig>().SmartMimics && npc.aiStyle == NPCAIStyleID.Mimic)
+			if (GetInstance<TerratweaksConfig>().SmartMimics && IsAMimic(npc))
 			{
 				if (npc.ai[0] == 0 && Main.LocalPlayer.HasBuff(BuffID.Spelunker))
 				{
