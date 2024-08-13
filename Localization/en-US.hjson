@@ -178,6 +178,17 @@ Mods: {
 						'''
 				}
 
+				HouseSizeAffectsHappiness: {
+					Label: "[i:MusicBoxTownDay] House Size Affects Happiness"
+					Tooltip:
+						'''
+						NPC Happiness is affected by the size of the house they live in, in addition to the existing biome, neighbor, and crowdedness preferences
+						If you build the smallest house possible, the NPC's not gonna like it very much, but if you build them an entire mansion, they'll be very happy!
+						The requirements are generally pretty forgiving, so you shouldn't have to go out of your way to avoid getting a happiness penalty
+						The Princess is excluded from this system (just like she doesn't mind crowded spaces), and other mods can exclude their NPCs if desired
+						'''
+				}
+
 				KillSentries: {
 					Label: "[i:DD2FlameburstTowerT1Popper] [i:Tombstone] Sentries despawn on owner death"
 					Tooltip:
@@ -817,6 +828,198 @@ Mods: {
 			InfernoToggle.DisplayName: Toggle Inferno Visuals
 			RulerToggle.DisplayName: Toggle Ruler
 			MechRulerToggle.DisplayName: Toggle Mechanical Ruler
+		}
+
+		# Dialogue for custom NPC Happiness factors
+		HappinessFactors: {
+			Default: {
+				TinySpace: This house is way too small, I can't move freely!
+				SmallSpace: I wish this house were a little bigger...
+				BigSpace: I appreciate the extra space in this house!
+				HugeSpace: This is a wonderfully huge house! I love it!
+			}
+
+			Angler: {
+				TinySpace: I need somewhere to put all my fish! Give me a bigger house!
+				SmallSpace: This house is too small! Do something about it!
+				BigSpace: Nice, this'll be perfect for storing all my fish!
+				HugeSpace: If you're gonna give me all this space for fish, you'd better be planning to get me a whole bunch!
+			}
+
+			ArmsDealer: {
+				TinySpace: Hey, I need room for doin' deals, pal.
+				SmallSpace: I'd appreciate a bit more open space, ya know?
+				BigSpace: The extra space here is nice. Thanks, pal.
+				HugeSpace: Now this is what I'm talkin' about! Tons of free space away from prying eyes!
+			}
+
+			Clothier: {
+				TinySpace: I may like dark rooms, but tight corridors are not my thing.
+				SmallSpace: Something about this small room rubs me the wrong way...
+				BigSpace: I do quite like this open floor plan.
+				HugeSpace: This huge house gives me plenty of room to myself!
+			}
+
+			Cyborg: {
+				TinySpace: Dimensions of living arrangement are too restrictive. I cannot move freely.
+				SmallSpace: My sensors indicate that this shelter is too small.
+				BigSpace: Living arrangements analyzed: This is adequate.
+				HugeSpace: Having such a large shelter is a major plus.
+			}
+
+			Demolitionist: {
+				TinySpace: How am I supposed to test my explosives when I can't even move out of the way?
+				SmallSpace: This small of a house has to be a safety concern!
+				BigSpace: All this space will help with testing bombs safely!
+				HugeSpace: This huge house is great for safe explosive testing!
+			}
+
+			Dryad: {
+				TinySpace: A flower cannot grow without adequate space for it.
+				SmallSpace: I dislike this dense, cramped space...
+				BigSpace: I like this open space, great for growing plants.
+				HugeSpace: This massive space is perfect for my needs.
+			}
+
+			DyeTrader: {
+				TinySpace: You think I can make brilliant colors without any elbow room? Don't think so!
+				SmallSpace: I do not appreciate this limited space.
+				BigSpace: This space is ideal for mixing colors, I like it, yes?
+				HugeSpace: What a glorious palace! Thank you, my dear!
+			}
+
+			GoblinTinkerer: {
+				TinySpace: Are human houses normally this cramped? I can barely move here!
+				SmallSpace: I'd really prefer some extra space to work on my inventions.
+				BigSpace: I appreciate the extra work space.
+				HugeSpace: This is perfect! I've got all the room I could ever need to tinker with gadgets!
+			}
+
+			Golfer: {
+				TinySpace: I need somewhere for my ball to go when I hit it!
+				SmallSpace: I would appreciate a larger course. Mini-golf is not my favorite.
+				BigSpace: Nothing beats having a nice, large golf course to play on.
+				HugeSpace: Now this is one luxurious golfing range!
+			}
+
+			Guide: {
+				TinySpace: A tiny house is better than none, but I would greatly appreciate some room to move around.
+				SmallSpace: This house is a bit cramped. I'd appreciate something a bit bigger.
+				BigSpace: This house is quite open, I like it.
+				HugeSpace: Having such a large space to myself is wonderful. I greatly appreciate it.
+			}
+
+			Mechanic: {
+				TinySpace: This area is way too cramped! It reminds me of a traumatic experience!
+				SmallSpace: It's a little hard to wire up my machinery with this little space.
+				BigSpace: Perfect, there's plenty of room here to wire everything up!
+				HugeSpace: As long as I've got an adequate power source for this huge space, I'm happy.
+			}
+
+			Merchant: {
+				TinySpace: I can hardly store my wares here, let alone have any room for customers!
+				SmallSpace: This house doesn't give me nearly enough room to set up shop.
+				BigSpace: This is a good size for my store. Thank you, friend.
+				HugeSpace: A store this enormous is sure to attract loads of customers!
+			}
+
+			Nurse: {
+				TinySpace: UGH, I need some space here! I can't treat patients if they have nowhere to stay!
+				SmallSpace: This place is not up to standards, it's much too small.
+				BigSpace: This is good, a nice open house will allow for social distancing.
+				HugeSpace: Love the personal space here, it offers plenty of room for exercising.
+			}
+
+			Painter: {
+				TinySpace: I can hardly move here, much less paint freely!
+				SmallSpace: I'd appreciate more room to express myself. There's only so much I can paint over a small area.
+				BigSpace: This long wall will look great with a mural!
+				HugeSpace: I'll need lots of paint for this room, but I love how much room I have for expression!
+			}
+
+			PartyGirl: {
+				TinySpace: Hey, where are the guests supposed to stay? There's no room for anyone here!
+				SmallSpace: I'd love to party here, but I'm afraid I'll bump into someone else while dancing.
+				BigSpace: This place lends itself well to partying! I like it!
+				HugeSpace: Now THIS is a great place for the world's biggest party!
+			}
+
+			Pirate: {
+				TinySpace: Arr, me ship ain't much o' a ship if I can hardly move!
+				SmallSpace: Aye, I would prefer a space more open than this.
+				BigSpace: "'Tis a nice change of pace, matey!"
+				HugeSpace: Har Har! Melikes this huge free space, and all to meself too!
+			}
+
+			SantaClaus: {
+				TinySpace: I'm adding you to the naughty list for trying to cram me into this tiny space.
+				SmallSpace: I'd like a more open space so I can wrap presents in secret!
+				BigSpace: This is a nice, open workshop. My elves have plenty of space to work!
+				HugeSpace: Ho ho ho! Now this is the perfect remote workshop for me and my elves! You're going on top of the nice list for this one!
+			}
+
+			Steampunker: {
+				TinySpace: Oi, this tiny flat really grinds my gears!
+				SmallSpace: I dinnae like this small space, not much room for any steam engines.
+				BigSpace: A jolly good room! This is nice.
+				HugeSpace: This huge room gives me plenty o' space, remarkable!
+			}
+
+			Stylist: {
+				TinySpace: Sorry hun, I need room to set up my station and have people sit before I can style hair.
+				SmallSpace: I need more room to focus properly.
+				BigSpace: Lovely, I can work freely in this large room!
+				HugeSpace: I love the fresh vibes with this huge house, and having room to set up multiple stations is nice too!
+			}
+
+			Tavernkeep: {
+				TinySpace: I feel out of place in this tight room, where am I supposed to set up my bar? Where are people supposed to drink?
+				SmallSpace: I could use some extra space so people have somewhere to sit and drink.
+				BigSpace: Ahh, this is more like it! I quite like having a larger bar to tend to.
+				HugeSpace: Now this is a luxury! I love this huge open space, it gives plenty of room for customers!
+			}
+
+			TaxCollector: {
+				TinySpace: Bah, I've got nowhere to store my riches!
+				SmallSpace: I'll have you know, I do not appreciate living in the house of a peasant!
+				BigSpace: A man of my riches deserves a larger house like this one. This is pleasant.
+				HugeSpace: This mansion is a perfect fit for me. And there's plenty of room so those miserable peasants won't bother me.
+			}
+
+			Truffle: {
+				TinySpace: I need more room to grow, please.
+				SmallSpace: This place leaves mush room for improvement. What?
+				BigSpace: Finally, a large open space to spread my roots.
+				HugeSpace: I love this huge room all to myself.
+			}
+
+			WitchDoctor: {
+				TinySpace: Energy cannot flow if it has nowhere to flow to.
+				SmallSpace: Does your kind typically live in spaces this tight? I would hope not.
+				BigSpace: I like the calmness of this space.
+				HugeSpace: This place puts my soul at peace. I greatly appreciate it.
+			}
+
+			Wizard: {
+				TinySpace: Magic needs free space to flow! This place is far too cramped!
+				SmallSpace: I would like more room to practice my magic. No? Ok.
+				BigSpace: This room leaves plenty of room for magic. I like it.
+				HugeSpace: This is a magical space, and I adore it.
+			}
+
+			Zoologist: {
+				TinySpace: Like, I need some room here, you know?
+				SmallSpace: I love animals, so they need room to play too!
+				BigSpace: I like the open space here. It's nice for my pets to have room to play!
+				HugeSpace: This is like, totally awesome! I love having lots of room to play with my pets!
+			}
+
+			Zoologist_Transformed: {
+				TinySpace: GRAH! Room VERY SMALL. Cannot stand.
+				SmallSpace: Grr... Room BAD! Too small!
+				BigSpace: Room... Good. PLAY!
+				HugeSpace: Room... Great! RUN! PLAY! HUNT! Yee!
+			}
 		}
 	}
 }

@@ -97,6 +97,9 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool ForceBossContactDamage { get; set; }
 
+		[DefaultValue(false)]
+		public bool HouseSizeAffectsHappiness { get; set; }
+
 		[DefaultValue(true)]
 		public bool KillSentries { get; set; }
 

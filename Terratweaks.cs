@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
@@ -64,6 +66,7 @@ namespace Terratweaks
 			On_Player.UpdateJumpHeight += RadiantInsigniaJumpHeight;
 			On_NPC.CountKillForBannersAndDropThem += BannerCombatText;
 			On_NPC.HitModifiers.GetDamage += CritsBypassDefense;
+			On_ShopHelper.ProcessMood += CustomHappinessFactors;
 		}
 
 		public override void PostSetupContent()
@@ -342,6 +345,32 @@ namespace Terratweaks
 							return true;
 						}
 						throw new ArgumentException($"Expected arguments of type string and List<int> for 'RemoveShimmerableBossDrop', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
+					case "AddHappinessFactorBlacklistedNPC":
+						if (args[1] is int blacklistNpcID)
+						{
+							happinessFactorBlacklist.Add(blacklistNpcID);
+
+							return true;
+						}
+						else if (args[1] is List<int> blacklistNpcIDs)
+						{
+							foreach (int blacklistNpcID2 in blacklistNpcIDs)
+								happinessFactorBlacklist.Add(blacklistNpcID2);
+
+							return true;
+						}
+						throw new ArgumentException($"Expected argument of type int or List<int> for 'AddHappinessFactorBlacklistedNPC', but got type {args[1].GetType().Name} instead.");
+					case "AddHappinessFactorLocalization":
+						if (args[1] is int npcType3 && args[2] is string npcLocKey)
+						{
+							if (!npcHappinessKeys.TryAdd(npcType3, npcLocKey))
+							{
+								npcHappinessKeys[npcType3] = npcLocKey;
+							}
+
+							return true;
+						}
+						throw new ArgumentException($"Expected arguments of type int and string for 'AddHappinessFactorLocalization', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
 				}
 			}
 
@@ -379,6 +408,128 @@ namespace Terratweaks
 			InfernoToggleKeybind = null;
 			RulerToggleKeybind = null;
 			MechRulerToggleKeybind = null;
+		}
+
+		private static readonly List<int> happinessFactorBlacklist = new()
+		{
+			NPCID.Princess
+		};
+
+		private static readonly string mainKey = "Mods.Terratweaks.HappinessFactors";
+
+		private static readonly Dictionary<int, string> npcHappinessKeys = new()
+		{
+			{ NPCID.Angler, mainKey + ".Angler" },
+			{ NPCID.ArmsDealer, mainKey + ".ArmsDealer" },
+			{ NPCID.Clothier, mainKey + ".Clothier" },
+			{ NPCID.Cyborg, mainKey + ".Cyborg" },
+			{ NPCID.Demolitionist, mainKey + ".Demolitionist" },
+			{ NPCID.Dryad, mainKey + ".Dryad" },
+			{ NPCID.DyeTrader, mainKey + ".DyeTrader" },
+			{ NPCID.GoblinTinkerer, mainKey + ".GoblinTinkerer" },
+			{ NPCID.Golfer, mainKey + ".Golfer" },
+			{ NPCID.Guide, mainKey + ".Guide" },
+			{ NPCID.Mechanic, mainKey + ".Mechanic" },
+			{ NPCID.Merchant, mainKey + ".Merchant" },
+			{ NPCID.Nurse, mainKey + ".Nurse" },
+			{ NPCID.Painter, mainKey + ".Painter" },
+			{ NPCID.PartyGirl, mainKey + ".PartyGirl" },
+			{ NPCID.Pirate, mainKey + ".Pirate" },
+			{ NPCID.SantaClaus, mainKey + ".SantaClaus" },
+			{ NPCID.Steampunker, mainKey + ".Steampunker" },
+			{ NPCID.Stylist, mainKey + ".Stylist" },
+			{ NPCID.DD2Bartender, mainKey + ".Tavernkeep" },
+			{ NPCID.TaxCollector, mainKey + ".TaxCollector" },
+			{ NPCID.Truffle, mainKey + ".Truffle" },
+			{ NPCID.WitchDoctor, mainKey + ".WitchDoctor" },
+			{ NPCID.Wizard, mainKey + ".Wizard" },
+			{ NPCID.BestiaryGirl, mainKey + ".Zoologist" }
+		};
+
+		[UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_currentPriceAdjustment")]
+		private static extern ref float CurrentPriceAdjustment(ShopHelper self);
+
+		[UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_currentHappiness")]
+		private static extern ref string CurrentHappiness(ShopHelper self);
+
+		private void CustomHappinessFactors(On_ShopHelper.orig_ProcessMood orig, ShopHelper self, Player player, NPC npc)
+		{
+			orig(self, player, npc);
+
+			if (ModContent.GetInstance<TerratweaksConfig>().HouseSizeAffectsHappiness)
+			{
+				// Do nothing if the NPC doesn't have a home; it makes no sense for them to complain about the home size in that case
+				// Also ignore any NPC in the blacklist (only the Princess by default)
+				if (npc.homeless || happinessFactorBlacklist.Contains(npc.type))
+					return;
+
+				bool houseHasThreeTileWidth = false;
+				bool houseHasThreeTileHeight = false;
+				
+				// Calculate the size of the current NPC's house
+				WorldGen.StartRoomCheck(npc.homeTileX, npc.homeTileY - 1);
+				Vector2 houseCorner1 = new(WorldGen.roomX1, WorldGen.roomY1);
+				Vector2 houseCorner2 = new(WorldGen.roomX2, WorldGen.roomY2);
+				int houseWidth = (int)Math.Abs(houseCorner1.X - houseCorner2.X) + 1;
+				int houseHeight = (int)Math.Abs(houseCorner1.Y - houseCorner2.Y) + 1;
+				int curHouseSize = WorldGen.numRoomTiles;
+
+				Main.NewText(houseWidth);
+				Main.NewText(houseHeight);
+
+				if (houseWidth <= 3)
+				{
+					houseHasThreeTileWidth = true;
+				}
+
+				if (houseHeight <= 3)
+				{
+					houseHasThreeTileHeight = true;
+				}
+
+				string locKey = "Mods.Terratweaks.HappinessFactors.Default";
+				bool priceAdjusted = false;
+				
+				if (npcHappinessKeys.TryGetValue(npc.type, out string value))
+				{
+					locKey = value;
+
+					if (npc.type == NPCID.BestiaryGirl && npc.ShouldBestiaryGirlBeLycantrope())
+						locKey += "_Transformed";
+				}
+
+				// Add the relevant happiness dialogue to the NPC's message and multiply their prices
+				if (houseHasThreeTileHeight || houseHasThreeTileWidth) // House is too cramped = -10 happiness
+				{
+					CurrentPriceAdjustment(self) *= 1.1f;
+					locKey += ".TinySpace";
+					priceAdjusted = true;
+				}
+				else if (curHouseSize < 75) // 50-75 tiles = -5 happiness
+				{
+					CurrentPriceAdjustment(self) *= 1.05f;
+					locKey += ".SmallSpace";
+					priceAdjusted = true;
+				}
+				else if (curHouseSize >= 150 && curHouseSize < 200) // 150-199 tiles = +5 happiness
+				{
+					CurrentPriceAdjustment(self) *= 0.95f;
+					locKey += ".BigSpace";
+					priceAdjusted = true;
+				}
+				else if (curHouseSize >= 200) // 200+ tiles = +10 happiness
+				{
+					CurrentPriceAdjustment(self) *= 0.9f;
+					locKey += ".HugeSpace";
+					priceAdjusted = true;
+				}
+
+				if (priceAdjusted)
+				{
+					string textValueWith = Language.GetTextValueWith(locKey, null);
+					CurrentHappiness(self) += textValueWith + " ";
+				}
+			}
 		}
 
 		private int DisableDamageVariance(On_Main.orig_DamageVar_float_int_float orig, float dmg, int percent, float luck)
