@@ -544,4 +544,13 @@ namespace Terratweaks
 			}
 		}
 	}
+
+	// Handles changes to fishing loot tables and fishing quest rewards
+	public class FishingPlayer : ModPlayer
+	{
+		// TODO: Put stuff here
+		//		 We can use AnglerQuestReward() to add new items to the pool of quest rewards,
+		//		 and CatchFish() or ModifyCaughtFish() to mess with what the player can fish up
+		//		 So far none of the configs need to do any of this, but it's nice to have this just in case!
+	}
 }

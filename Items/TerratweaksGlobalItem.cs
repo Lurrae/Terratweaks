@@ -1360,7 +1360,7 @@ namespace Terratweaks.Items
 	// TODO: This breaks every player in existence in its current state
 	//		 I need to figure out how to make it not do that eventually, but for now
 	//		 I'm leaving it commented out because I don't really wanna deal with it rn - Lurrae
-	/*public class ReforgeHandler : GlobalItem
+	public class ReforgeHandler : GlobalItem
 	{
 		public static readonly Dictionary<int, float> vanillaPrefixValues = new()
 		{
@@ -1450,23 +1450,30 @@ namespace Terratweaks.Items
 			{ PrefixID.Legendary2, 3.0985f }
 		};
 
+		static int OldPrefix = 0;
+
+		public override void PreReforge(Item item)
+		{
+			OldPrefix = item.prefix;
+		}
+
 		public override bool AllowPrefix(Item item, int pre)
 		{
 			// Don't force rerolls with Calamity Mod since it reworks reforging anyways
 			// TODO: Can we access Calamity's config from here? We should check if their rework is enabled,
 			//		 since it can be toggled in their config - Lurrae
-			if (!ModLoader.HasMod("CalamityMod") && GetInstance<TerratweaksConfig>().BetterHappiness)
+			if (!ModLoader.HasMod("CalamityMod") && GetInstance<TerratweaksConfig>().BetterHappiness && Main.InReforgeMenu && OldPrefix > 0)
 			{
 				float currentPrefixValue;
 				float targetPrefixValue;
 
-				if (vanillaPrefixValues.TryGetValue(item.prefix, out float value))
+				if (vanillaPrefixValues.TryGetValue(OldPrefix, out float value))
 				{
 					currentPrefixValue = value;
 				}
 				else
 				{
-					PrefixLoader.GetPrefix(item.prefix).ModifyValue(ref value);
+					PrefixLoader.GetPrefix(OldPrefix).ModifyValue(ref value);
 					currentPrefixValue = value;
 				}
 
@@ -1480,12 +1487,12 @@ namespace Terratweaks.Items
 					targetPrefixValue = value;
 				}
 
-				// Don't affect chances if tinkerer is unhappy
+				// Don't affect chances if tinkerer is unhappy (PriceAdjustment > 1.0)
 				if (Main.LocalPlayer.currentShoppingSettings.PriceAdjustment < 1.0f)
 				{
-					var chance = 1.0f - (Main.LocalPlayer.currentShoppingSettings.PriceAdjustment * 0.5f);
+					var chance = 1.0f - Main.LocalPlayer.currentShoppingSettings.PriceAdjustment;
 
-					if (targetPrefixValue < currentPrefixValue && Main.rand.NextFloat() <= chance)
+					if (targetPrefixValue < currentPrefixValue && Main.rand.NextFloat() <= chance * 3)
 					{
 						// Force a reroll because this would've been a worse prefix
 						return false;
@@ -1495,5 +1502,5 @@ namespace Terratweaks.Items
 
 			return base.AllowPrefix(item, pre);
 		}
-	}*/
+	}
 }

@@ -54,8 +54,8 @@ namespace Terratweaks
 		public bool BetterCrackedBricks { get; set; }
 
 		// TODO: Enable this when I actually implement it - Lurrae
-		//[DefaultValue(true)]
-		//public bool BetterHappiness { get; set; }
+		[DefaultValue(true)]
+		public bool BetterHappiness { get; set; }
 
 		[DefaultValue(1)]
 		[Range(0f, 10f)]

@@ -115,6 +115,7 @@ namespace Terratweaks
 								"BannersDontSpamChat" => ModContent.GetInstance<TerratweaksConfig>().BannersDontSpamChat,
 								"BetterBestiary" => ModContent.GetInstance<TerratweaksConfig>().BetterBestiary,
 								"BetterCrackedBricks" => ModContent.GetInstance<TerratweaksConfig>().BetterCrackedBricks,
+								"BetterHappiness" => ModContent.GetInstance<TerratweaksConfig>().BetterHappiness,
 								"BossesLowerSpawnRates" => ModContent.GetInstance<TerratweaksConfig>().BossesLowerSpawnRates,
 								"PlayerDeathsToCallOffInvasion" => ModContent.GetInstance<TerratweaksConfig>().PlayerDeathsToCallOffInvasion,
 								"NPCDeathsToCallOffInvasion" => ModContent.GetInstance<TerratweaksConfig>().NPCDeathsToCallOffInvasion,
@@ -489,9 +490,6 @@ namespace Terratweaks
 				int houseWidth = (int)Math.Abs(houseCorner1.X - houseCorner2.X) + 1;
 				int houseHeight = (int)Math.Abs(houseCorner1.Y - houseCorner2.Y) + 1;
 				int curHouseSize = WorldGen.numRoomTiles;
-
-				Main.NewText(houseWidth);
-				Main.NewText(houseHeight);
 
 				if (houseWidth <= 3)
 				{
