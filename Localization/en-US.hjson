@@ -311,6 +311,11 @@ Mods: {
 						'''
 				}
 
+				ReaverSharkTweaks: {
+					Label: "[i:ReaverShark] Reaver Shark tweaks"
+					Tooltip: The Reaver Shark's pickaxe power is increased back to 100%, but can only be fished up if you have defeated an evil boss or Skeletron
+				}
+
 				SIRework: {
 					Label: "[i:EmpressFlightBooster] Soaring Insignia rework"
 					Tooltip:

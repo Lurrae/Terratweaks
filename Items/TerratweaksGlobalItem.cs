@@ -848,6 +848,11 @@ namespace Terratweaks.Items
 				}
 			}
 
+			if (config.ReaverSharkTweaks && item.type == ItemID.ReaverShark)
+			{
+				item.pick = 100;
+			}
+
 			if (config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
 			{
 				if (proj.minion || proj.sentry)

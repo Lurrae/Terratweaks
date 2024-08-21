@@ -147,6 +147,10 @@ namespace Terratweaks
 		public bool PostEyeSandstorms { get; set; }
 
 		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ReaverSharkTweaks { get; set; }
+
+		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool SIRework { get; set; }
 

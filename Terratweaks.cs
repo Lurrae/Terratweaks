@@ -142,6 +142,7 @@ namespace Terratweaks
 								"OasisCrateBuff" => ModContent.GetInstance<TerratweaksConfig>().OasisCrateBuff,
 								"OreUnification" => ModContent.GetInstance<TerratweaksConfig>().OreUnification,
 								"PostEyeSandstorms" => ModContent.GetInstance<TerratweaksConfig>().PostEyeSandstorms,
+								"ReaverSharkTweaks" or "ReaverTweaks" => ModContent.GetInstance<TerratweaksConfig>().ReaverSharkTweaks,
 								"SIRework" or "SoaringInsigniaRework" => ModContent.GetInstance<TerratweaksConfig>().SIRework,
 								"SmartMimics" => ModContent.GetInstance<TerratweaksConfig>().SmartMimics,
 								"SmartNymphs" => ModContent.GetInstance<TerratweaksConfig>().SmartNymphs,
