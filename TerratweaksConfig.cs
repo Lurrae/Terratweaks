@@ -43,6 +43,8 @@ namespace Terratweaks
 
 		public CalTweaks calamitweaks = new();
 
+		public ThorTweaks thoritweaks = new();
+
 		[DefaultValue(true)]
 		public bool BannersDontSpamChat { get; set; }
 
@@ -393,5 +395,12 @@ namespace Terratweaks
 
 		[DefaultValue(false)]
 		public bool SummonerAccBuffs { get; set; }
+	}
+
+	[SeparatePage]
+	public class ThorTweaks
+	{
+		[DefaultValue(false)]
+		public bool EatCooksFoodInCombat { get; set; }
 	}
 }

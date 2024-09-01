@@ -1,5 +1,5 @@
 displayName = Terratweaks
 author = Lurrae & Skulgan
-version = 1.5.3
+version = 1.5.4
 modReferences = TepigCore
 weakReferences = CalamityMod, ThoriumMod, EfficientNohits

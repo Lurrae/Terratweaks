@@ -69,6 +69,15 @@ Mods: {
 						'''
 				}
 
+				thoritweaks: {
+					Label: Thoritweaks
+					Tooltip:
+						'''
+						Contains toggles that change various things about the Thorium Mod, if it's enabled
+						These options do nothing if the Thorium Mod is not enabled
+						'''
+				}
+
 				BannersDontSpamChat: {
 					Label: "[i:GreenSlimeBanner] [i:Megaphone] Banner announcements appear in the world"
 					Tooltip: When a player kills enough enemies to obtain a banner, text appears in the world below all players instead of printing a message in chat
@@ -721,6 +730,19 @@ Mods: {
 				SummonerAccBuffs: {
 					Label: "[i:PygmyNecklace] More Minion Slots"
 					Tooltip: Increases the number of minion slots provided by the Star-Tainted Generator and Nucleogenesis to equal the number of combined slots provided by their components
+				}
+
+				Tooltip: ""
+			}
+
+			ThorTweaks: {
+				EatCooksFoodInCombat: {
+					Label: "[i:ChefHat] Eat Cook's Food In Combat"
+					Tooltip:
+						'''
+						Disables the mechanic where most of the Cook's food items cannot be eaten if the player is in combat
+						Does not affect any other mechanics that rely on being in/out of combat
+						'''
 				}
 
 				Tooltip: ""
