@@ -2,6 +2,7 @@ using CalamityMod;
 using CalamityMod.Items.Placeables;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.SunkenSea;
+using CalamityMod.World;
 using System.Reflection;
 using Terraria;
 using Terraria.GameContent.Bestiary;
@@ -45,11 +46,22 @@ namespace Terratweaks.Calamitweaks
 
 		public override bool PreAI(NPC npc)
 		{
-			// Set EoW/Destroyer's DR increase timer so that they won't be invincible
-			if ((npc.type >= NPCID.TheDestroyer && npc.type <= NPCID.TheDestroyerTail) || (npc.type >= NPCID.EaterofWorldsHead && npc.type <= NPCID.EaterofWorldsTail))
+			// First, check if the boss AI changes are even disabled
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+			if (calamitweaks.RevertVanillaBossAIChanges)
 			{
-				CalamityGlobalNPC calNpc = npc.Calamity();
-				calNpc.newAI[1] = 600f;
+				// Check for Revengeance, Death, or Infernum Mode being active, since those three should not be affected by this config option
+				if (CalamityWorld.revenge || CalamityWorld.death || (ModLoader.TryGetMod("InfernumMod", out Mod infernum) && (bool)infernum.Call("GetInfernumActive")))
+				{
+					return base.PreAI(npc);
+				}
+
+				// Set EoW/Destroyer's DR increase timer so that they won't be invincible
+				if ((npc.type >= NPCID.TheDestroyer && npc.type <= NPCID.TheDestroyerTail) || (npc.type >= NPCID.EaterofWorldsHead && npc.type <= NPCID.EaterofWorldsTail))
+				{
+					CalamityGlobalNPC calNpc = npc.Calamity();
+					calNpc.newAI[1] = 600f;
+				}
 			}
 
 			return base.PreAI(npc);

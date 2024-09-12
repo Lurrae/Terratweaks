@@ -198,6 +198,8 @@ namespace Terratweaks
 								"Calamitweaks_RevertVanillaBossAIChanges" or "VanillaBossAICalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertVanillaBossAIChanges,
 								"Calamitweaks_SummonerAccBuffs" or "CalSummonerAccBuffs" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.SummonerAccBuffs,
 
+								"Thoritweaks_EatCooksFoodInCombat" or "Thoritweaks_CookBuff" or "EatCooksFoodInCombat" or "CookBuff" => ModContent.GetInstance<TerratweaksConfig>().thoritweaks.EatCooksFoodInCombat,
+
 								_ => throw new Exception($"Could not find Terratweaks config option named {args[1]}."),
 								#endregion
 							};
