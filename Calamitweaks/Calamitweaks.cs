@@ -1,11 +1,11 @@
 using CalamityMod;
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables;
 using CalamityMod.NPCs;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
@@ -19,6 +19,7 @@ namespace Terratweaks.Calamitweaks
 	{
 		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("CalamityMod");
 
+		private static readonly MethodInfo _addNewNames = typeof(CalamityGlobalNPC).GetMethod("AddNewNames", BindingFlags.Instance | BindingFlags.NonPublic);
 		private static readonly MethodInfo _pillarEventProgressionEdit = typeof(CalamityGlobalNPC).GetMethod("PillarEventProgressionEdit", BindingFlags.Instance | BindingFlags.NonPublic);
 		private static readonly MethodInfo _blockDrops = typeof(DropHelper).GetMethod("BlockDrops", BindingFlags.Static | BindingFlags.Public);
 		private static readonly MethodInfo _canUseOnion = typeof(CelestialOnion).GetMethod("CanUseItem", BindingFlags.Instance | BindingFlags.Public);
@@ -41,10 +42,23 @@ namespace Terratweaks.Calamitweaks
 				CalamityMod.CalamityMod.ExternalFlag_DisableNonRevBossAI = true;
 			}
 
+			MonoModHooks.Add(_addNewNames, DisablePatreonNames);
 			MonoModHooks.Add(_pillarEventProgressionEdit, ProgressionEditRemover);
 			MonoModHooks.Add(_blockDrops, PreventFoodDropBlocking);
 			MonoModHooks.Add(_onionSlotIsEnabled, EnableOnionSlotInMasterMode);
 			MonoModHooks.Add(_canUseOnion, EnableOnionUseInMasterMode);
+		}
+
+		private static void DisablePatreonNames(Action<CalamityGlobalNPC, List<string>, string[]> orig, CalamityGlobalNPC self, List<string> nameList, string[] patreonNames)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+
+			// By not calling the original function, it never runs, which should mean no patreon names!
+			// This likely won't change the names of NPCs already in the world but-
+			if (calamitweaks.NoPatreonNPCNames)
+				return;
+
+			orig(self, nameList, patreonNames);
 		}
 
 		private static void ProgressionEditRemover(Action<CalamityGlobalNPC, NPC> orig, CalamityGlobalNPC self, NPC npc)

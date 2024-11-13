@@ -708,6 +708,15 @@ Mods: {
 					Tooltip: Disables enemies/bosses and projectiles applying defense damage, effectively removing it as a mechanic outright
 				}
 
+				NoPatreonNPCNames: {
+					Label: "[i:GuideVoodooDoll] No Patreon Names for Town NPCs"
+					Tooltip:
+						'''
+						Removes Calamity Patreon supporter names from the pool for newly-spawned town NPCs
+						Editing this config will not automatically update pre-existing NPCs; you'll have to have them get a new name from respawning
+						'''
+				}
+
 				NoSellingRoD: {
 					Label: "[i:RodofDiscord] Rod of Discord Shop Removal"
 					Tooltip: Removes the Rod of Discord from the Wizard's shop

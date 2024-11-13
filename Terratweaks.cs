@@ -192,6 +192,8 @@ namespace Terratweaks
 								"Calamitweaks_EnragedEoLInstakills" or "Calamitweaks_DayEoLInstakills" or "EnragedEoLInstakills" or "DayEoLInstakills" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.EnragedEoLInstakills,
 								"Calamitweaks_EzCalBanners" or "EzCalBanners" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.EzCalBanners,
 								"Calamitweaks_NoDefenseDamage" or "NoDefenseDamage" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.NoDefenseDamage,
+								"Calamitweaks_NoPatreonNPCNames" or "NoCalPatreonNPCNames" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.NoPatreonNPCNames,
+								"Calamitweaks_NoSellingRoD" or "NoSellingRoD" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.NoSellingRoD,
 								"Calamitweaks_OnionMasterMode" or "OnionMasterMode" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.OnionMasterMode,
 								"Calamitweaks_RadiantInsigniaUpgradesFromAscendant" or "RadiantInsigniaUpgradesFromAscendant" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RadiantInsigniaUpgradesFromAscendant,
 								"Calamitweaks_RevertGraveyards" or "GraveyardCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertGraveyards,

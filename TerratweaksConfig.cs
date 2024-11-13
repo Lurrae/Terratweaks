@@ -388,6 +388,10 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(false)]
+		public bool NoPatreonNPCNames { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
 		public bool NoSellingRoD { get; set; }
 
 		[ReloadRequired]
