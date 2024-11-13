@@ -45,6 +45,8 @@ namespace Terratweaks
 
 		public ThorTweaks thoritweaks = new();
 
+		public AlchTweaks alchemitweaks = new();
+
 		[DefaultValue(true)]
 		public bool BannersDontSpamChat { get; set; }
 
@@ -214,11 +216,19 @@ namespace Terratweaks
 					calamitweaks.DryadSellsSeeds != pendingTtConfig.calamitweaks.DryadSellsSeeds ||
 					calamitweaks.EnemyFoodDrops != pendingTtConfig.calamitweaks.EnemyFoodDrops ||
 					calamitweaks.EzCalBanners != pendingTtConfig.calamitweaks.EzCalBanners ||
+					calamitweaks.NoSellingRoD != pendingTtConfig.calamitweaks.NoSellingRoD ||
 					calamitweaks.OnionMasterMode != pendingTtConfig.calamitweaks.OnionMasterMode ||
 					calamitweaks.RevertGraveyards != pendingTtConfig.calamitweaks.RevertGraveyards ||
 					calamitweaks.RevertPillars != pendingTtConfig.calamitweaks.RevertPillars ||
 					calamitweaks.RevertTerraprisma != pendingTtConfig.calamitweaks.RevertTerraprisma ||
 					calamitweaks.RevertVanillaBossAIChanges != pendingTtConfig.calamitweaks.RevertVanillaBossAIChanges)
+				{
+					return true;
+				}
+
+				// Check all Alchemitweaks configs for forced reloads
+				// TODO: Once again, ditto the above todos
+				if (alchemitweaks.DisableCustomPotions != pendingTtConfig.alchemitweaks.DisableCustomPotions)
 				{
 					return true;
 				}
@@ -378,6 +388,10 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(false)]
+		public bool NoSellingRoD { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
 		public bool OnionMasterMode { get; set; }
 
 		[DefaultValue(true)]
@@ -408,5 +422,13 @@ namespace Terratweaks
 	{
 		[DefaultValue(false)]
 		public bool EatCooksFoodInCombat { get; set; }
+	}
+
+	[SeparatePage]
+	public class AlchTweaks
+	{
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool DisableCustomPotions { get; set; }
 	}
 }

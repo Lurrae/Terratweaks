@@ -82,6 +82,14 @@ namespace Terratweaks.Calamitweaks
 					shop.Add(ModContent.ItemType<CinderBlossomSeeds>(), inCrags);
 				}
 			}
+
+			if (calamitweaks.NoSellingRoD)
+			{
+				if (shop.NpcType == NPCID.Wizard && shop.TryGetEntry(ItemID.RodofDiscord, out NPCShop.Entry entry))
+				{
+					entry.Disable();
+				}
+			}
 		}
 	}
 }

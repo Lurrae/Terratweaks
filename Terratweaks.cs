@@ -202,6 +202,8 @@ namespace Terratweaks
 
 								"Thoritweaks_EatCooksFoodInCombat" or "Thoritweaks_CookBuff" or "EatCooksFoodInCombat" or "CookBuff" => ModContent.GetInstance<TerratweaksConfig>().thoritweaks.EatCooksFoodInCombat,
 
+								"Alchemitweaks_DisableCustomPotions" or "DisableCustomAlchPotions" => ModContent.GetInstance<TerratweaksConfig>().alchemitweaks.DisableCustomPotions,
+
 								_ => throw new Exception($"Could not find Terratweaks config option named {args[1]}."),
 								#endregion
 							};
