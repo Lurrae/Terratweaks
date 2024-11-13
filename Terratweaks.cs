@@ -189,6 +189,7 @@ namespace Terratweaks
 								"Calamitweaks_DRBuffs" or "CalDRBuffs" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.DRBuffs,
 								"Calamitweaks_DryadSellsSeeds" or "DryadSellsCalSeeds" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.DryadSellsSeeds,
 								"Calamitweaks_EnemyFoodDrops" or "EnemyFoodDrops" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.EnemyFoodDrops,
+								"Calamitweaks_EnragedEoLInstakills" or "Calamitweaks_DayEoLInstakills" or "EnragedEoLInstakills" or "DayEoLInstakills" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.EnragedEoLInstakills,
 								"Calamitweaks_EzCalBanners" or "EzCalBanners" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.EzCalBanners,
 								"Calamitweaks_NoDefenseDamage" or "NoDefenseDamage" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.NoDefenseDamage,
 								"Calamitweaks_OnionMasterMode" or "OnionMasterMode" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.OnionMasterMode,

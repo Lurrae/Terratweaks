@@ -366,6 +366,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool EnemyFoodDrops { get; set; }
 
+		[DefaultValue(true)]
+		public bool EnragedEoLInstakills { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool EzCalBanners { get; set; }

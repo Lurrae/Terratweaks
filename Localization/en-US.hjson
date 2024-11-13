@@ -672,6 +672,15 @@ Mods: {
 						'''
 				}
 
+				EnragedEoLInstakills: {
+					Label: "[i:FairyQueenTrophy] Daytime Empress of Light Instakills"
+					Tooltip:
+						'''
+						In Revengeance Mode and above, Empress of Light is ordinarily stripped of her instakilling capabilities in favor of a mere double damage
+						This config option reverts that change, making it so that daytime EoL will instantly kill players once more
+						'''
+				}
+
 				EzCalBanners: {
 					Label: "[i:PinkyBanner] Reduced Banner Kill Counts"
 					Tooltip:

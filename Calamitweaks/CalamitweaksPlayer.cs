@@ -1,5 +1,6 @@
 using CalamityMod;
 using CalamityMod.CalPlayer;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -99,6 +100,33 @@ namespace Terratweaks.Calamitweaks
 			else
 			{
 				aquaticBoostMounted = calPlr.aquaticBoostMax;
+			}
+		}
+
+		// Force enraged (daytime) EoL to insta-kill if the config setting is enabled
+		public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+
+			if (calamitweaks.EnragedEoLInstakills && npc.type == NPCID.HallowBoss && npc.Calamity().CurrentlyEnraged)
+			{
+				modifiers.FinalDamage.Base = 9999;
+				modifiers.ModifyHurtInfo += (ref Player.HurtInfo info) => info.Dodgeable = false; // Ensures you can't dodge this attack
+			}
+		}
+
+		public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+			NPC npc = Main.npc.First(n => n.type == NPCID.HallowBoss);
+			
+			if (npc != null)
+			{
+				if (calamitweaks.EnragedEoLInstakills && npc.Calamity().CurrentlyEnraged)
+				{
+					modifiers.FinalDamage.Base = Main.masterMode ? 59994 : Main.expertMode ? 39996 : 19998;
+					modifiers.ModifyHurtInfo += (ref Player.HurtInfo info) => info.Dodgeable = false; // Ensures you can't dodge this attack
+				}
 			}
 		}
 	}
