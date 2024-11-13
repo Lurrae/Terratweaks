@@ -1184,6 +1184,7 @@ namespace Terratweaks.Items
 	public class RadiantInsigniaCutscene : GlobalItem
 	{
 		public override bool InstancePerEntity => true;
+		public static int AscendantInsigniaType = -1;
 		public bool inCutscene = false;
 		float speed = 1;
 
@@ -1192,7 +1193,9 @@ namespace Terratweaks.Items
 			Player plr = Main.player[item.playerIndexTheItemIsReservedFor];
 			CutscenePlayer cPlr = plr.GetModPlayer<CutscenePlayer>();
 
-			if (item.type == ItemID.EmpressFlightBooster && cPlr.inCutscene)
+			int targetItemType = AscendantInsigniaType > -1 ? AscendantInsigniaType : ItemID.EmpressFlightBooster;
+
+			if (item.type == targetItemType && cPlr.inCutscene)
 			{
 				if (item.shimmerTime < 0.9f)
 				{
@@ -1217,11 +1220,12 @@ namespace Terratweaks.Items
 				{
 					Item.ShimmerEffect(item.Center);
 					var prefixOld = item.prefix;
+					var nameOld = item.Name;
 					item.ChangeItemType(ItemType<RadiantInsignia>());
 					item.prefix = prefixOld;
 					item.shimmered = true;
 					cPlr.inCutscene = false;
-					CombatText.NewText(item.getRect(), Color.HotPink, "The Soaring Insignia has regained its might!");
+					CombatText.NewText(item.getRect(), Color.HotPink, $"The {nameOld} has regained its full might!");
 					SoundEngine.PlaySound(SoundID.AchievementComplete, item.position);
 				}
 			}

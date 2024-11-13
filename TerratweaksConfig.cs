@@ -380,6 +380,9 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool OnionMasterMode { get; set; }
 
+		[DefaultValue(true)]
+		public bool RadiantInsigniaUpgradesFromAscendant { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool RevertGraveyards { get; set; }

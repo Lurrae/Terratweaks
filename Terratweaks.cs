@@ -193,6 +193,7 @@ namespace Terratweaks
 								"Calamitweaks_EzCalBanners" or "EzCalBanners" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.EzCalBanners,
 								"Calamitweaks_NoDefenseDamage" or "NoDefenseDamage" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.NoDefenseDamage,
 								"Calamitweaks_OnionMasterMode" or "OnionMasterMode" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.OnionMasterMode,
+								"Calamitweaks_RadiantInsigniaUpgradesFromAscendant" or "RadiantInsigniaUpgradesFromAscendant" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RadiantInsigniaUpgradesFromAscendant,
 								"Calamitweaks_RevertGraveyards" or "GraveyardCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertGraveyards,
 								"Calamitweaks_RevertPillars" or "PillarCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertPillars,
 								"Calamitweaks_RevertTerraprisma" or "TerraprismaCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertTerraprisma,

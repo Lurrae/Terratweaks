@@ -704,6 +704,15 @@ Mods: {
 					Tooltip: Allows the Celestial Onion to be obtained and used in Master Mode
 				}
 
+				RadiantInsigniaUpgradesFromAscendant: {
+					Label: "[i:EmpressFlightBooster] Upgrade Ascendant Insignia into Radiant Insignia"
+					Tooltip:
+						'''
+						If this is enabled alongside the Soaring Insignia rework, the Ascendant Insignia is upgraded into the Radiant Insignia instead of the Soaring Insignia
+						This locks infinite flight behind Dragonfolly and Polterghast, as well as daytime Empress of Light
+						'''
+				}
+
 				RevertGraveyards: {
 					Label: "[i:Tombstone] Revert Graveyard Changes"
 					Tooltip: Lowers the number of tombstones needed to form a graveyard from Calamity's 13 to vanilla's 7

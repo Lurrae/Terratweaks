@@ -13,6 +13,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terratweaks.Items;
 using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.NPCs
@@ -371,21 +372,38 @@ namespace Terratweaks.NPCs
 							continue;
 
 						Item insignia = plr.inventory.FirstOrDefault(i => i.type == ItemID.EmpressFlightBooster);
+						int aInsigType = -1;
+
+						if (ModLoader.TryGetMod("CalamityMod", out Mod cal) && cal.TryFind("AscendantInsignia", out ModItem aInsig))
+						{
+							if (config.calamitweaks.RadiantInsigniaUpgradesFromAscendant)
+							{
+								aInsigType = aInsig.Type;
+								insignia = plr.inventory.FirstOrDefault(i => i.type == aInsigType);
+							}
+						}
 
 						if (insignia != default(Item)) // Make sure the player has a Soaring Insignia in their inventory to begin with
 						{
 							var oldPrefix = insignia.prefix;
 							plr.DropItem(new EntitySource_Loot(npc), plr.position, ref insignia);
+							RadiantInsigniaCutscene.AscendantInsigniaType = aInsigType;
 							plr.GetModPlayer<CutscenePlayer>().inCutscene = true;
 						}
 						else // Player didn't have one in their inventory... Maybe they have one equipped?
 						{
 							insignia = plr.armor.FirstOrDefault(i => i.type == ItemID.EmpressFlightBooster);
 
+							if (ModLoader.HasMod("CalamityMod") && config.calamitweaks.RadiantInsigniaUpgradesFromAscendant && aInsigType > -1)
+							{
+								insignia = plr.armor.FirstOrDefault(i => i.type == aInsigType);
+							}
+
 							if (insignia != default(Item))
 							{
 								var oldPrefix = insignia.prefix;
 								plr.DropItem(new EntitySource_Loot(npc), plr.position, ref insignia);
+								RadiantInsigniaCutscene.AscendantInsigniaType = aInsigType;
 								CutscenePlayer cPlr = plr.GetModPlayer<CutscenePlayer>();
 								cPlr.inCutscene = true;
 								cPlr.direction = plr.direction;
