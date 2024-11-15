@@ -104,7 +104,8 @@ namespace Terratweaks.Calamitweaks
 		}
 
 		// Force enraged (daytime) EoL to insta-kill if the config setting is enabled
-		public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
+		// TODO: This is broken for projectiles right now, re-implement later
+		/*public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
 
@@ -118,16 +119,20 @@ namespace Terratweaks.Calamitweaks
 		public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-			NPC npc = Main.npc.First(n => n.type == NPCID.HallowBoss);
-			
-			if (npc != null)
+
+			if (calamitweaks.EnragedEoLInstakills && Main.npc.Any(n => n.type == NPCID.HallowBoss))
 			{
-				if (calamitweaks.EnragedEoLInstakills && npc.Calamity().CurrentlyEnraged)
+				NPC npc = Main.npc.First(n => n.type == NPCID.HallowBoss);
+
+				if (npc != null && npc.Calamity() != null)
 				{
-					modifiers.FinalDamage.Base = Main.masterMode ? 59994 : Main.expertMode ? 39996 : 19998;
-					modifiers.ModifyHurtInfo += (ref Player.HurtInfo info) => info.Dodgeable = false; // Ensures you can't dodge this attack
+					if (npc.Calamity().CurrentlyEnraged)
+					{
+						modifiers.FinalDamage.Base = Main.masterMode ? 59994 : Main.expertMode ? 39996 : 19998;
+						modifiers.ModifyHurtInfo += (ref Player.HurtInfo info) => info.Dodgeable = false; // Ensures you can't dodge this attack
+					}
 				}
 			}
-		}
+		}*/
 	}
 }
