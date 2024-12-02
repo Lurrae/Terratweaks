@@ -197,6 +197,7 @@ namespace Terratweaks
 								"Calamitweaks_OnionMasterMode" or "OnionMasterMode" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.OnionMasterMode,
 								"Calamitweaks_RadiantInsigniaUpgradesFromAscendant" or "RadiantInsigniaUpgradesFromAscendant" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RadiantInsigniaUpgradesFromAscendant,
 								"Calamitweaks_RevertGraveyards" or "GraveyardCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertGraveyards,
+								"Calamitweaks_RevertPickSpeedBuffs" or "PickSpeedCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertPickSpeedBuffs,
 								"Calamitweaks_RevertPillars" or "PillarCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertPillars,
 								"Calamitweaks_RevertTerraprisma" or "TerraprismaCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertTerraprisma,
 								"Calamitweaks_RevertVanillaBossAIChanges" or "VanillaBossAICalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertVanillaBossAIChanges,

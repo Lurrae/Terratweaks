@@ -741,6 +741,16 @@ Mods: {
 					Tooltip: Lowers the number of tombstones needed to form a graveyard from Calamity's 13 to vanilla's 7
 				}
 
+				RevertPickSpeedBuffs: {
+					Label: "[i:CopperPickaxe] Disable Base Mining Speed Bonus"
+					Tooltip:
+						'''
+						Undoes all mining speed increases applied to most vanilla pickaxes
+						This should put their stats more in line with other mods' pickaxes that balance around vanilla,
+						though Calamity's own pickaxes will mine significantly faster than everything else
+						'''
+				}
+
 				RevertPillars: {
 					Label: "[i:SolarMonolith] Undo Pillar Progression Changes"
 					Tooltip:

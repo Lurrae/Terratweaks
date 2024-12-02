@@ -1,10 +1,13 @@
 using CalamityMod;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.PlaceableTurrets;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,6 +18,42 @@ namespace Terratweaks.Calamitweaks
 	public class CalamitweaksItems : GlobalItem
 	{
 		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("CalamityMod");
+
+		public override void Load()
+		{
+			if (ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertPickSpeedBuffs)
+			{
+				FieldInfo currentTweaksField = typeof(CalamityGlobalItem).GetField("currentTweaks", BindingFlags.NonPublic | BindingFlags.Static);
+				IDictionary curTweaksDict = (IDictionary)currentTweaksField.GetValue(null);
+
+				foreach (var key in curTweaksDict.Keys)
+				{
+					int itemType = (int)key;
+					if (ContentSamples.ItemsByType[itemType].pick > 0)
+					{
+						object tweaks = curTweaksDict[key];
+						IList tweaksList = (IList)tweaks;
+						int i = 0;
+
+						// Find an item tweak that edits the use time of the item
+						foreach (object tweak in tweaksList)
+						{
+							if (tweak.GetType().Name.Equals("UseTimeExactRule"))
+							{
+								break;
+							}
+							i++;
+						}
+
+						// Found a tweak to remove, remove it!
+						if (i < tweaksList.Count)
+						{
+							tweaksList.RemoveAt(i);
+						}
+					}
+				}
+			}
+		}
 
 		public override void SetStaticDefaults()
 		{

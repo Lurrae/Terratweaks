@@ -219,6 +219,7 @@ namespace Terratweaks
 					calamitweaks.NoSellingRoD != pendingTtConfig.calamitweaks.NoSellingRoD ||
 					calamitweaks.OnionMasterMode != pendingTtConfig.calamitweaks.OnionMasterMode ||
 					calamitweaks.RevertGraveyards != pendingTtConfig.calamitweaks.RevertGraveyards ||
+					calamitweaks.RevertPickSpeedBuffs != pendingTtConfig.calamitweaks.RevertPickSpeedBuffs ||
 					calamitweaks.RevertPillars != pendingTtConfig.calamitweaks.RevertPillars ||
 					calamitweaks.RevertTerraprisma != pendingTtConfig.calamitweaks.RevertTerraprisma ||
 					calamitweaks.RevertVanillaBossAIChanges != pendingTtConfig.calamitweaks.RevertVanillaBossAIChanges)
@@ -404,6 +405,10 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool RevertGraveyards { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool RevertPickSpeedBuffs { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]

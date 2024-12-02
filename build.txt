@@ -1,6 +1,6 @@
 displayName = Terratweaks
 author = Lurrae & Skulgan
-version = 1.5.5.2
+version = 1.5.6
 modReferences = TepigCore
 weakReferences = CalamityMod, ThoriumMod, EfficientNohits, AlchemistNPCLite
 homepage = https://github.com/Lurrae/Terratweaks
