@@ -4,6 +4,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.PlaceableTurrets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace Terratweaks.Calamitweaks
 		{
 			if (ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertPickSpeedBuffs)
 			{
+				Dictionary<object, Array> entriesToReplace = new();
+
 				FieldInfo currentTweaksField = typeof(CalamityGlobalItem).GetField("currentTweaks", BindingFlags.NonPublic | BindingFlags.Static);
 				IDictionary curTweaksDict = (IDictionary)currentTweaksField.GetValue(null);
 
@@ -32,7 +35,7 @@ namespace Terratweaks.Calamitweaks
 					if (ContentSamples.ItemsByType[itemType].pick > 0)
 					{
 						object tweaks = curTweaksDict[key];
-						IList tweaksList = (IList)tweaks;
+						Array tweaksList = (Array)tweaks;
 						int i = 0;
 
 						// Find an item tweak that edits the use time of the item
@@ -46,11 +49,26 @@ namespace Terratweaks.Calamitweaks
 						}
 
 						// Found a tweak to remove, remove it!
-						if (i < tweaksList.Count)
+						if (i < tweaksList.Length)
 						{
-							tweaksList.RemoveAt(i);
+							// Copy the last element over the tweak we want to remove
+							tweaksList.SetValue(tweaksList.GetValue(tweaksList.Length - 1), i);
+
+							// Make a new array containing everything except the last element
+							Type arrayType = tweaksList.GetType().GetElementType();
+							Array newArray = Array.CreateInstance(arrayType, tweaksList.Length - 1);
+							Array.Copy(tweaksList, 0, newArray, 0, newArray.Length);
+
+							// Mark this array as needing to be replaced
+							entriesToReplace.Add(key, newArray);
 						}
 					}
+				}
+
+				// Replace all the marked arrays
+				foreach (KeyValuePair<object, Array> pair in entriesToReplace)
+				{
+					curTweaksDict[pair.Key] = pair.Value;
 				}
 			}
 		}
