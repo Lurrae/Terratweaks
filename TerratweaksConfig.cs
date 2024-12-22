@@ -57,7 +57,6 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool BetterCrackedBricks { get; set; }
 
-		// TODO: Enable this when I actually implement it - Lurrae
 		[DefaultValue(true)]
 		public bool BetterHappiness { get; set; }
 
@@ -97,6 +96,12 @@ namespace Terratweaks
 
 		[DefaultValue(true)]
 		public bool DyeTraderShopExpansion { get; set; }
+
+		[DefaultValue(true)]
+		public bool DangersenseHighlightsSilt { get; set; }
+
+		[DefaultValue(true)]
+		public bool DangersenseIgnoresThinIce { get; set; }
 
 		[DefaultValue(false)]
 		public bool ForceBossContactDamage { get; set; }
@@ -147,6 +152,10 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool OreUnification { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool PillarEnemiesDropFragments { get; set; }
+
 		[DefaultValue(true)]
 		public bool PostEyeSandstorms { get; set; }
 
@@ -179,6 +188,10 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(0)]
 		public int TerraprismaDropRate { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool TownNPCsSellWeapons { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]

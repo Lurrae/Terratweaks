@@ -25,6 +25,7 @@ Mods: {
 		}
 
 		Conditions: {
+			DownedMoonlord: Defeated Moon Lord
 			DyeConfigActive: '''"Dye Trader Shop Expansion" mod config is enabled'''
 			InCalEndgame: Defeated Supreme Witch, Calamitas and the Exo Mechs
 			InPlayerInv: Item must be in the player's inventory or portable storage
@@ -145,6 +146,16 @@ Mods: {
 				CritsBypassDefense: {
 					Label: "[i:EyeoftheGolem] Crits Bypass Defense"
 					Tooltip: Critical hits ignore enemy defense entirely, making crit builds less reliant on armor piercing effects
+				}
+
+				DangersenseHighlightsSilt: {
+					Label: "[i:TrapsightPotion] [i:SiltBlock] Dangersense Highlights Silt/Slush"
+					Tooltip: Makes Dangersense Potions highlight silt and slush
+				}
+
+				DangersenseIgnoresThinIce: {
+					Label: "[i:TrapsightPotion] [i:ThinIce] Dangersense Ignores Thin Ice"
+					Tooltip: Prevents Dangersense Potions from highlighting Thin Ice like it normally would
 				}
 
 				DeerclopsRegens: {
@@ -320,6 +331,11 @@ Mods: {
 						'''
 				}
 
+				PillarEnemiesDropFragments: {
+					Label: "[i:FragmentSolar] Easy Fragment Farming"
+					Tooltip: If Moon Lord has been defeated, all pillar enemies have a 25% chance to drop their respective fragment
+				}
+
 				PostEyeSandstorms: {
 					Label: "[i:AncientBattleArmorMaterial] [i:SuspiciousLookingEye] Progression-locked sandstorms"
 					Tooltip:
@@ -387,6 +403,18 @@ Mods: {
 						Sets a percentage chance for the Empress of Light to drop the Terraprisma at night, when she otherwise would not
 						If set to 0%, vanilla behavior is retained (EoL will only drop the Terraprisma if all damage was dealt during the day)
 						This config option will do nothing if the Calamity Mod is enabled and Calamitweaks > Revert Terraprisma Drop is not enabled
+						'''
+				}
+
+				TownNPCsSellWeapons: {
+					Label: "[i:StylistKilLaKillScissorsIWish] Town NPCs Sell Their Weapons"
+					Tooltip:
+						'''
+						Enables all town NPCs to sell the weapon they normally drop on death, provided they are happy enough to sell Pylons
+						The Princess will only sell the Resonance Scepter once Plantera has been defeated, to account for her being available early in certain secret seeds
+						Because the Tax Collector does not sell items, the Clothier will sell the Classy Cane if the Tax Collector is present and the Clothier is happy
+						Additionally, due to the amount of items in the Tavernkeep's shop normally, additional items do not appear even if there would be room for them
+						Instead, the Ale Tosser can be bought from the Demolitionist if the Tavernkeep is present and the Demolitionist is happy enough
 						'''
 				}
 

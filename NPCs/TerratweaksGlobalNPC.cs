@@ -453,6 +453,50 @@ namespace Terratweaks.NPCs
 					npcLoot.Add(new ItemDropWithConditionRule(ItemID.EmpressBlade, 100, 1, 1, nightEol, config.TerraprismaDropRate));
 				}
 			}
+
+			// All enemies from the celestial pillars need to have an option to drop fragments once Moon Lord has been downed
+			if (config.PillarEnemiesDropFragments)
+			{
+				int fragmentID = -1;
+
+				switch (npc.type)
+				{
+					case NPCID.SolarCorite:
+					case NPCID.SolarCrawltipedeTail:
+					case NPCID.SolarDrakomire:
+					case NPCID.SolarDrakomireRider:
+					case NPCID.SolarSolenian:
+					case NPCID.SolarSpearman:
+					case NPCID.SolarSroller:
+						fragmentID = ItemID.FragmentSolar;
+						break;
+					case NPCID.VortexHornet:
+					case NPCID.VortexHornetQueen:
+					case NPCID.VortexLarva:
+					case NPCID.VortexRifleman:
+					case NPCID.VortexSoldier:
+						fragmentID = ItemID.FragmentVortex;
+						break;
+					case NPCID.NebulaBeast:
+					case NPCID.NebulaBrain:
+					case NPCID.NebulaHeadcrab:
+					case NPCID.NebulaSoldier:
+						fragmentID = ItemID.FragmentNebula;
+						break;
+					case NPCID.StardustCellSmall:
+					case NPCID.StardustJellyfishBig:
+					case NPCID.StardustSoldier:
+					case NPCID.StardustSpiderBig:
+					case NPCID.StardustWormHead:
+						fragmentID = ItemID.FragmentStardust;
+						break;
+				}
+
+				if (fragmentID > -1)
+				{
+					npcLoot.Add(new ItemDropWithConditionRule(fragmentID, 4, 1, 1, new TerratweaksDropConditions.DownedMoonlord()));
+				}
+			}
 		}
 
 		private static void HandleCalamityEoLChanges(IItemDropRule rule)
@@ -503,6 +547,24 @@ namespace Terratweaks.NPCs
 	// Modify shops here
 	public class ShopHandler : GlobalNPC
 	{
+		public static readonly Dictionary<int, int> SellableWeapons = new()
+		{
+			{ ItemID.AleThrowingGlove, NPCID.Demolitionist },
+			{ ItemID.DyeTradersScimitar, NPCID.DyeTrader },
+			{ ItemID.PainterPaintballGun, NPCID.Painter },
+			{ ItemID.StylistKilLaKillScissorsIWish, NPCID.Stylist },
+			{ ItemID.CombatWrench, NPCID.Mechanic },
+			{ ItemID.TaxCollectorsStickOfDoom, NPCID.Clothier },
+			{ ItemID.PrincessWeapon, NPCID.Princess }
+		};
+
+		public static readonly Dictionary<int, List<Condition>> SellableWeaponConditions = new()
+		{
+			{ ItemID.AleThrowingGlove, new List<Condition>() { Condition.NpcIsPresent(NPCID.DD2Bartender) } },
+			{ ItemID.TaxCollectorsStickOfDoom, new List<Condition>() { Condition.NpcIsPresent(NPCID.TaxCollector) } },
+			{ ItemID.PrincessWeapon, new List<Condition>() { Condition.DownedPlantera } }
+		};
+
 		public override void ModifyShop(NPCShop shop)
 		{
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
@@ -636,6 +698,30 @@ namespace Terratweaks.NPCs
 				if (config.NPCsSellMinecarts)
 				{
 					shop.Add(ItemID.DesertMinecart, Condition.InDesert);
+				}
+			}
+
+			if (config.TownNPCsSellWeapons)
+			{
+				// Make sure the NPC whose shop we're editing actually has a weapon to sell
+				if (SellableWeapons.Any(pair => pair.Value == shop.NpcType))
+				{
+					// Foreach loop to ensure that if an NPC needs to sell multiple weapons, they can do so without issue
+					foreach (KeyValuePair<int, int> pair in SellableWeapons.Where(p => p.Value == shop.NpcType))
+					{
+						int weaponType = pair.Key;
+						List<Condition> conditions = new() { Condition.HappyEnoughToSellPylons }; // Ensures all NPCs must be happy to sell weapons, unless it's remix seed
+
+						// Some NPCs will have additional conditions- like the Demolitionist and Clothier requiring the NPC whose weapon they're selling,
+						// and the Princess requiring Plantera to be defeated- which will be handled by this code
+						if (SellableWeaponConditions.TryGetValue(weaponType, out List<Condition> bonusConditions))
+						{
+							conditions.AddRange(bonusConditions);
+						}
+
+						// Finally, add the item to the shop with whatever conditions we're given!
+						shop.Add(weaponType, conditions.ToArray());
+					}
 				}
 			}
 		}

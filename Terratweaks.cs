@@ -41,6 +41,24 @@ namespace Terratweaks
 				return Language.GetTextValue("Mods.Terratweaks.Conditions.NightEoL");
 			}
 		}
+
+		public class DownedMoonlord : IItemDropRuleCondition, IProvideItemConditionDescription
+		{
+			public bool CanDrop(DropAttemptInfo info)
+			{
+				return NPC.downedMoonlord;
+			}
+
+			public bool CanShowItemDropInUI()
+			{
+				return true;
+			}
+
+			public string GetConditionDescription()
+			{
+				return Language.GetTextValue("Mods.Terratweaks.Conditions.DownedMoonlord");
+			}
+		}
 	}
 
 	public class Terratweaks : Mod
@@ -121,6 +139,8 @@ namespace Terratweaks
 								"NPCDeathsToCallOffInvasion" => ModContent.GetInstance<TerratweaksConfig>().NPCDeathsToCallOffInvasion,
 								"ChesterRework" => ModContent.GetInstance<TerratweaksConfig>().ChesterRework,
 								"CritsBypassDefense" => ModContent.GetInstance<TerratweaksConfig>().CritsBypassDefense,
+								"DangersenseHighlightsSilt" => ModContent.GetInstance<TerratweaksConfig>().DangersenseHighlightsSilt,
+								"DangersenseIgnoresThinIce" => ModContent.GetInstance<TerratweaksConfig>().DangersenseIgnoresThinIce,
 								"DeerclopsRegens" => ModContent.GetInstance<TerratweaksConfig>().DeerclopsRegens,
 								"DeerRegenAmt" => ModContent.GetInstance<TerratweaksConfig>().DeerRegenAmt,
 								"DeerWeaponsRework" => ModContent.GetInstance<TerratweaksConfig>().DeerWeaponsRework,
@@ -141,6 +161,7 @@ namespace Terratweaks
 								"NPCsSellMinecarts" => ModContent.GetInstance<TerratweaksConfig>().NPCsSellMinecarts,
 								"OasisCrateBuff" => ModContent.GetInstance<TerratweaksConfig>().OasisCrateBuff,
 								"OreUnification" => ModContent.GetInstance<TerratweaksConfig>().OreUnification,
+								"PillarEnemiesDropFragments" => ModContent.GetInstance<TerratweaksConfig>().PillarEnemiesDropFragments,
 								"PostEyeSandstorms" => ModContent.GetInstance<TerratweaksConfig>().PostEyeSandstorms,
 								"ReaverSharkTweaks" or "ReaverTweaks" => ModContent.GetInstance<TerratweaksConfig>().ReaverSharkTweaks,
 								"SIRework" or "SoaringInsigniaRework" => ModContent.GetInstance<TerratweaksConfig>().SIRework,
@@ -150,6 +171,7 @@ namespace Terratweaks
 								"SolutionsOnGFB" => ModContent.GetInstance<TerratweaksConfig>().SolutionsOnGFB,
 								"StackableDD2Accs" => (int)ModContent.GetInstance<TerratweaksConfig>().StackableDD2Accs,
 								"TerraprismaDropRate" => ModContent.GetInstance<TerratweaksConfig>().TerraprismaDropRate,
+								"TownNPCsSellWeapons" => ModContent.GetInstance<TerratweaksConfig>().TownNPCsSellWeapons,
 								"UmbrellaHatRework" => ModContent.GetInstance<TerratweaksConfig>().UmbrellaHatRework,
 
 								"Client_EstimatedDPS" or "EstimatedDPS" => ModContent.GetInstance<TerratweaksConfig_Client>().EstimatedDPS,
@@ -213,22 +235,24 @@ namespace Terratweaks
 						}
 						throw new ArgumentException($"Expected an argument of type string for 'Query', but got type {args[1].GetType().Name} instead.");
 					case "AddPermConsumable":
-						if (args[1] is int itemType)
+						try
 						{
+							int itemID = Convert.ToInt32(args[1]);
+
 							if (args[2] is Func<Player, bool> hasBeenUsed)
 							{
-								if (!TooltipChanges.PermBuffBools.TryAdd(itemType, hasBeenUsed))
+								if (!TooltipChanges.PermBuffBools.TryAdd(itemID, hasBeenUsed))
 								{
-									TooltipChanges.PermBuffBools[itemType] = hasBeenUsed;
+									TooltipChanges.PermBuffBools[itemID] = hasBeenUsed;
 								}
 								
 								return true;
 							}
 							else if (args[2] is Func<Player, Vector2> amtConsumed)
 							{
-								if (!TooltipChanges.MultiPermBuffs.TryAdd(itemType, amtConsumed))
+								if (!TooltipChanges.MultiPermBuffs.TryAdd(itemID, amtConsumed))
 								{
-									TooltipChanges.MultiPermBuffs[itemType] = amtConsumed;
+									TooltipChanges.MultiPermBuffs[itemID] = amtConsumed;
 								}
 								
 								return true;
@@ -238,24 +262,34 @@ namespace Terratweaks
 								throw new ArgumentException($"Expected a second argument of type Func<Player, bool> or Func<Player, Vector2> for 'AddPermConsumable', but got type {args[2].GetType().Name} instead.");
 							}
 						}
-						throw new ArgumentException($"Expected a first argument of type int for 'AddPermConsumable', but got type {args[1].GetType().Name} instead.");
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected a first argument of type int for 'AddPermConsumable', but got type {args[1].GetType().Name} instead.");
+						}
 					case "AddDefensiveEnemy":
 						if (args[1] is string type)
 						{
 							switch (type)
 							{
 								case "DamageResistant":
-									if (args[2] is int npcID && args[3] is float dmgResist && args[4] is float kbResist && args[5] is Func<NPC, bool> defensiveState)
+									try
 									{
-										StatChangeHandler.DREnemy drEnemyStats = new(dmgResist, kbResist, defensiveState);
-										if (!StatChangeHandler.damageResistantEnemies.TryAdd(npcID, drEnemyStats))
+										int npcID = Convert.ToInt32(args[2]);
+
+										if (args[3] is float dmgResist && args[4] is float kbResist && args[5] is Func<NPC, bool> defensiveState)
 										{
-											StatChangeHandler.damageResistantEnemies[npcID] = drEnemyStats;
+											StatChangeHandler.DREnemy drEnemyStats = new(dmgResist, kbResist, defensiveState);
+											if (!StatChangeHandler.damageResistantEnemies.TryAdd(npcID, drEnemyStats))
+											{
+												StatChangeHandler.damageResistantEnemies[npcID] = drEnemyStats;
+											}
+
+											return true;
 										}
 
-										return true;
+										throw new ArgumentException($"Expected arguments of type int, float, float, and Func<NPC, bool> for 'AddDefensiveEnemy', but got types {args[2].GetType().Name}, {args[3].GetType().Name}, {args[4].GetType().Name}, and {args[5].GetType().Name} instead.");
 									}
-									else
+									catch (OverflowException)
 									{
 										throw new ArgumentException($"Expected arguments of type int, float, float, and Func<NPC, bool> for 'AddDefensiveEnemy', but got types {args[2].GetType().Name}, {args[3].GetType().Name}, {args[4].GetType().Name}, and {args[5].GetType().Name} instead.");
 									}
@@ -269,13 +303,15 @@ namespace Terratweaks
 							switch (type2)
 							{
 								case "DamageResistant":
-									if (args[2] is int npcID)
+									try
 									{
+										int npcID = Convert.ToInt32(args[2]);
+										
 										StatChangeHandler.damageResistantEnemies.Remove(npcID);
 
 										return true;
 									}
-									else
+									catch (OverflowException)
 									{
 										throw new ArgumentException($"Expected a second argument of type int for 'RemoveDefensiveEnemy', but got type {args[2].GetType().Name} instead.");
 									}
@@ -283,68 +319,110 @@ namespace Terratweaks
 						}
 						throw new ArgumentException($"Expected a first argument of type string for 'RemoveDefensiveEnemy', but got type {args[1].GetType().Name} instead.");
 					case "AddNoContactDamageEnemy":
-						if (args[1] is int npcType)
+						try
 						{
-							if (!StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Contains(npcType))
-								StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Add(npcType);
-							
-							return true;
-						}
-						throw new ArgumentException($"Expected an argument of type int for 'AddNoContactDamageEnemy', but got type {args[1].GetType().Name} instead.");
-					case "RemoveNoContactDamageEnemy":
-						if (args[1] is int npcType2)
-						{
-							StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Remove(npcType2);
-							StatChangeHandler.ignoreNoContactDmg.Add(npcType2);
-							return true;
-						}
-						throw new ArgumentException($"Expected an argument of type int for 'RemoveNoContactDamageEnemy', but got type {args[1].GetType().Name} instead.");
-					case "AddIgnoredSummonWeapon":
-						if (args[1] is int summonWeaponType)
-						{
-							if (!ItemChanges.IgnoredSummonWeapons.Contains(summonWeaponType))
-								ItemChanges.IgnoredSummonWeapons.Add(summonWeaponType);
+							int npcID = Convert.ToInt32(args[1]);
+
+							if (!StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Contains(npcID))
+								StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Add(npcID);
 
 							return true;
 						}
-						throw new ArgumentException($"Expected an argument of type int for 'AddIgnoredSummonWeapon', but got type {args[1].GetType().Name} instead.");
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected an argument of type int for 'AddNoContactDamageEnemy', but got type {args[1].GetType().Name} instead.");
+						}
+					case "RemoveNoContactDamageEnemy":
+						try
+						{
+							int npcID = Convert.ToInt32(args[1]);
+
+							StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Remove(npcID);
+							StatChangeHandler.ignoreNoContactDmg.Add(npcID);
+
+							return true;
+						}
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected an argument of type int for 'RemoveNoContactDamageEnemy', but got type {args[1].GetType().Name} instead.");
+						}
+					case "AddIgnoredSummonWeapon":
+						try
+						{
+							int itemID = Convert.ToInt32(args[1]);
+
+							if (!ItemChanges.IgnoredSummonWeapons.Contains(itemID))
+								ItemChanges.IgnoredSummonWeapons.Add(itemID);
+
+							return true;
+						}
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected an argument of type int for 'AddIgnoredSummonWeapon', but got type {args[1].GetType().Name} instead.");
+						}
 					case "RemoveIgnoredSummonWeapon":
-						if (args[1] is int summonWeaponType2)
+						try
 						{
-							ItemChanges.IgnoredSummonWeapons.Remove(summonWeaponType2);
+							int itemID = Convert.ToInt32(args[1]);
+
+							ItemChanges.IgnoredSummonWeapons.Remove(itemID);
+
 							return true;
 						}
-						throw new ArgumentException($"Expected an argument of type int for 'RemoveIgnoredSummonWeapon', but got type {args[1].GetType().Name} instead.");
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected an argument of type int for 'RemoveIgnoredSummonWeapon', but got type {args[1].GetType().Name} instead.");
+						}
 					case "AddHotDebuff":
-						if (args[1] is int hotDebuffID)
+						try
 						{
-							if (!TerratweaksPlayer.HotDebuffs.Contains(hotDebuffID))
-								TerratweaksPlayer.HotDebuffs.Add(hotDebuffID);
+							int buffID = Convert.ToInt32(args[1]);
+
+							if (!TerratweaksPlayer.HotDebuffs.Contains(buffID))
+								TerratweaksPlayer.HotDebuffs.Add(buffID);
 							return true;
 						}
-						throw new ArgumentException($"Expected an argument of type int for 'AddHotDebuff', but got type {args[1].GetType().Name} instead.");
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected an argument of type int for 'AddHotDebuff', but got type {args[1].GetType().Name} instead.");
+						}
 					case "RemoveHotDebuff":
-						if (args[1] is int hotDebuffID2)
+						try
 						{
-							TerratweaksPlayer.HotDebuffs.Remove(hotDebuffID2);
+							int buffID = Convert.ToInt32(args[1]);
+
+							TerratweaksPlayer.HotDebuffs.Remove(buffID);
 							return true;
 						}
-						throw new ArgumentException($"Expected an argument of type int for 'RemoveHotDebuff', but got type {args[1].GetType().Name} instead.");
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected an argument of type int for 'RemoveHotDebuff', but got type {args[1].GetType().Name} instead.");
+						}
 					case "AddColdDebuff":
-						if (args[1] is int coldDebuffID)
+						try
 						{
-							if (!TerratweaksPlayer.ColdDebuffs.Contains(coldDebuffID))
-								TerratweaksPlayer.ColdDebuffs.Add(coldDebuffID);
+							int buffID = Convert.ToInt32(args[1]);
+
+							if (!TerratweaksPlayer.ColdDebuffs.Contains(buffID))
+								TerratweaksPlayer.ColdDebuffs.Add(buffID);
 							return true;
 						}
-						throw new ArgumentException($"Expected an argument of type int for 'AddColdDebuff', but got type {args[1].GetType().Name} instead.");
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected an argument of type int for 'AddColdDebuff', but got type {args[1].GetType().Name} instead.");
+						}
 					case "RemoveColdDebuff":
-						if (args[1] is int coldDebuffID2)
+						try
 						{
-							TerratweaksPlayer.ColdDebuffs.Remove(coldDebuffID2);
+							int buffID = Convert.ToInt32(args[1]);
+
+							TerratweaksPlayer.ColdDebuffs.Remove(buffID);
 							return true;
 						}
-						throw new ArgumentException($"Expected an argument of type int for 'RemoveColdDebuff', but got type {args[1].GetType().Name} instead.");
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected an argument of type int for 'RemoveColdDebuff', but got type {args[1].GetType().Name} instead.");
+						}
 					case "AddShimmerableBossDrop":
 						if (args[1] is string listToEdit && args[2] is List<int> items)
 						{
@@ -373,35 +451,73 @@ namespace Terratweaks
 						}
 						throw new ArgumentException($"Expected arguments of type string and List<int> for 'RemoveShimmerableBossDrop', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
 					case "AddHappinessFactorBlacklistedNPC":
-						if (args[1] is int blacklistNpcID)
+						try
 						{
-							happinessFactorBlacklist.Add(blacklistNpcID);
+							int npcID = Convert.ToInt32(args[1]);
+
+							happinessFactorBlacklist.Add(npcID);
 
 							return true;
 						}
-						else if (args[1] is List<int> blacklistNpcIDs)
+						catch (OverflowException)
 						{
-							foreach (int blacklistNpcID2 in blacklistNpcIDs)
-								happinessFactorBlacklist.Add(blacklistNpcID2);
-
-							return true;
-						}
-						throw new ArgumentException($"Expected argument of type int or List<int> for 'AddHappinessFactorBlacklistedNPC', but got type {args[1].GetType().Name} instead.");
-					case "AddHappinessFactorLocalization":
-						if (args[1] is int npcType3 && args[2] is string npcLocKey)
-						{
-							if (!npcHappinessKeys.TryAdd(npcType3, npcLocKey))
+							if (args[1] is List<int> blacklistNpcIDs)
 							{
-								npcHappinessKeys[npcType3] = npcLocKey;
+								foreach (int npcID in blacklistNpcIDs)
+									happinessFactorBlacklist.Add(npcID);
+
+								return true;
+							}
+							throw new ArgumentException($"Expected argument of type int or List<int> for 'AddHappinessFactorBlacklistedNPC', but got type {args[1].GetType().Name} instead.");
+						}
+					case "AddHappinessFactorLocalization":
+						try
+						{
+							int npcID = Convert.ToInt32(args[1]);
+
+							if (args[2] is string npcLocKey)
+							{
+								if (!npcHappinessKeys.TryAdd(npcID, npcLocKey))
+								{
+									npcHappinessKeys[npcID] = npcLocKey;
+								}
+
+								return true;
 							}
 
+							throw new ArgumentException($"Expected arguments of type int and string for 'AddHappinessFactorLocalization', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
+						}
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected arguments of type int and string for 'AddHappinessFactorLocalization', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
+						}
+					case "AddSellableWeapon":
+						try
+						{
+							int itemID = Convert.ToInt32(args[1]);
+							int npcID = Convert.ToInt32(args[2]);
+
+							if (args.Length > 3 && args[3] is List<Condition>)
+							{
+								ShopHandler.SellableWeaponConditions.Add(itemID, args[3] as List<Condition>);
+							}
+							else if (args.Length > 3)
+							{
+								Logger.Warn($"Expected third argument of 'AddSellableWeapon' to be a List<Condition>, but got type {args[3].GetType().Name} instead. The additional conditions for this weapon will be ignored, and loading will proceed as normal.");
+							}
+
+							ShopHandler.SellableWeapons.Add(itemID, npcID);
+
 							return true;
 						}
-						throw new ArgumentException($"Expected arguments of type int and string for 'AddHappinessFactorLocalization', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected arguments of type int and int for 'AddSellableWeapon', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
+						}
 				}
 			}
 
-			return true;
+			throw new ArgumentException($"Expected argument of type string for Terratweaks mod call, but got type {args[0].GetType().Name} instead.");
 		}
 
 		public override void HandlePacket(BinaryReader reader, int fromWho)

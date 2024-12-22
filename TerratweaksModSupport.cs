@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using ThoriumMod;
 using ThoriumMod.Buffs;
@@ -80,6 +81,12 @@ namespace Terratweaks
 			Mod.Call("AddShimmerableBossDrop", "Yharon", new List<int> { ModContent.ItemType<TheBurningSky>(), ModContent.ItemType<DragonRage>(), ModContent.ItemType<DragonsBreath>(), ModContent.ItemType<ChickenCannon>(), ModContent.ItemType<PhoenixFlameBarrage>(), ModContent.ItemType<YharonsKindleStaff>(), ModContent.ItemType<Wrathwing>(), ModContent.ItemType<TheFinalDawn>() });
 			// Exo Mechs are skipped because the weapons are dropped at a 100% chance based on which mech was killed last, rather than a random chance to get each one
 			Mod.Call("AddShimmerableBossDrop", "SCal", new List<int> { ModContent.ItemType<Violence>(), ModContent.ItemType<Condemnation>(), ModContent.ItemType<Vehemence>(), ModContent.ItemType<Heresy>(), ModContent.ItemType<Perdition>(), ModContent.ItemType<Vigilance>(), ModContent.ItemType<Sacrifice>() });
+
+			// Town NPC weapon drops
+			Mod.Call("AddSellableWeapon", ModContent.ItemType<ClothiersWrath>(), NPCID.Clothier, new List<Condition>() { Condition.Hardmode });
+
+			// Test entry to ensure that adding an item with no bonus conditions still works lol
+			Mod.Call("AddSellableWeapon", ItemID.MusicBox, NPCID.ArmsDealer);
 		}
 
 		public override void PostSetupContent()
