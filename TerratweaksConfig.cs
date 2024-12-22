@@ -228,6 +228,7 @@ namespace Terratweaks
 					calamitweaks.DeificAmuletBuff != pendingTtConfig.calamitweaks.DeificAmuletBuff ||
 					calamitweaks.DryadSellsSeeds != pendingTtConfig.calamitweaks.DryadSellsSeeds ||
 					calamitweaks.EnemyFoodDrops != pendingTtConfig.calamitweaks.EnemyFoodDrops ||
+					calamitweaks.ForceWormContactDamage != pendingTtConfig.calamitweaks.ForceWormContactDamage ||
 					calamitweaks.EzCalBanners != pendingTtConfig.calamitweaks.EzCalBanners ||
 					calamitweaks.NoSellingRoD != pendingTtConfig.calamitweaks.NoSellingRoD ||
 					calamitweaks.OnionMasterMode != pendingTtConfig.calamitweaks.OnionMasterMode ||
@@ -397,6 +398,10 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool EzCalBanners { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ForceWormContactDamage { get; set; }
+
 		[DefaultValue(false)]
 		public bool NoDefenseDamage { get; set; }
 
@@ -404,9 +409,15 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool NoPatreonNPCNames { get; set; }
 
+		[DefaultValue(true)]
+		public bool NoPlantParticles { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool NoSellingRoD { get; set; }
+
+		[DefaultValue(true)]
+		public bool NoWormParticles { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(false)]

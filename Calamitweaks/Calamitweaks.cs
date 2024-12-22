@@ -4,6 +4,8 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables;
 using CalamityMod.NPCs;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +49,43 @@ namespace Terratweaks.Calamitweaks
 			MonoModHooks.Add(_blockDrops, PreventFoodDropBlocking);
 			MonoModHooks.Add(_onionSlotIsEnabled, EnableOnionSlotInMasterMode);
 			MonoModHooks.Add(_canUseOnion, EnableOnionUseInMasterMode);
+
+			IL.CalamityMod.NPCs.CalamityGlobalNPC.PostAI += DisableEnemyParticles;
+		}
+
+		public static bool CheckNoWormParticles(bool calamityResult)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+			return calamityResult && !calamitweaks.NoWormParticles;
+		}
+
+		public static bool CheckNoPlantParticles(bool calamityResult)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+			return calamityResult && !calamitweaks.NoPlantParticles;
+		}
+
+		private void DisableEnemyParticles(ILContext il)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+
+			var c = new ILCursor(il);
+
+			for (int i = 0; i < 3; i++)
+			{
+				if (!c.TryGotoNext(i => i.MatchCall("Terraria.Utils", "NextBool")))
+				{
+					Mod.Logger.Warn($"Calamitweaks IL edit failed when trying to disable {(i == 0 ? "worm" : "plant")} particles! Dumping IL logs...");
+					MonoModHooks.DumpIL(Mod, il);
+					return;
+				}
+
+				c.Index++;
+				if (i == 0)
+					c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoWormParticles), BindingFlags.Public | BindingFlags.Static));
+				else
+					c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoPlantParticles), BindingFlags.Public | BindingFlags.Static));
+			}
 		}
 
 		private static void DisablePatreonNames(Action<CalamityGlobalNPC, List<string>, string[]> orig, CalamityGlobalNPC self, List<string> nameList, string[] patreonNames)

@@ -731,6 +731,11 @@ Mods: {
 						'''
 				}
 
+				ForceWormContactDamage: {
+					Label: "[i:WormBanner] Force Worm Contact Damage"
+					Tooltip: Disables a change made by Calamity which causes the bodies and tails of all worms to deal no damage
+				}
+
 				NoDefenseDamage: {
 					Label: "[i:ArmorPolish] No Defense Damage"
 					Tooltip: Disables enemies/bosses and projectiles applying defense damage, effectively removing it as a mechanic outright
@@ -745,9 +750,19 @@ Mods: {
 						'''
 				}
 
+				NoPlantParticles: {
+					Label: "[i:ManEaterBanner] No Plant Particles"
+					Tooltip: Prevents Man Eaters, Snatchers, and Angry Trappers from emitting spore particles (and Clingers from emitting Cursed Flame particles) to telegraph their location
+				}
+
 				NoSellingRoD: {
 					Label: "[i:RodofDiscord] Rod of Discord Shop Removal"
 					Tooltip: Removes the Rod of Discord from the Wizard's shop
+				}
+
+				NoWormParticles: {
+					Label: "[i:WormBanner] No Worm Particles"
+					Tooltip: Prevents the heads of worms from emitting sparkly particles to telegraph their location (it feels far too obvious and defeats the purpose of worms tunneling through the ground)
 				}
 
 				OnionMasterMode: {

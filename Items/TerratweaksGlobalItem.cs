@@ -15,7 +15,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
-using Terraria.Utilities;
 using Terratweaks.Buffs;
 using static Terraria.ModLoader.ModContent;
 

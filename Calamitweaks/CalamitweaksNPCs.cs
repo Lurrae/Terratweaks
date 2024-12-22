@@ -3,6 +3,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.World;
+using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.GameContent.Bestiary;
@@ -15,6 +16,18 @@ namespace Terratweaks.Calamitweaks
 	public class CalamitweaksNPCs : GlobalNPC
 	{
 		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("CalamityMod");
+
+		public override void Load()
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+			if (calamitweaks.ForceWormContactDamage)
+			{
+				short[] worms = [ NPCID.DevourerBody, NPCID.DevourerTail, NPCID.DiggerBody, NPCID.DiggerTail, NPCID.TombCrawlerBody, NPCID.TombCrawlerTail, NPCID.DuneSplicerBody, NPCID.DuneSplicerTail, NPCID.GiantWormBody, NPCID.GiantWormTail, NPCID.LeechBody, NPCID.LeechTail, NPCID.StardustWormBody, NPCID.StardustWormTail, NPCID.SeekerBody, NPCID.SeekerTail, NPCID.BoneSerpentBody, NPCID.BoneSerpentTail, NPCID.WyvernBody, NPCID.WyvernTail, NPCID.WyvernBody2, NPCID.WyvernBody3, NPCID.WyvernLegs, NPCID.CultistDragonBody1, NPCID.CultistDragonBody2, NPCID.CultistDragonBody3, NPCID.CultistDragonBody4, NPCID.CultistDragonTail, NPCID.BloodEelBody, NPCID.BloodEelTail ];
+				// Remove all worm-type NPCs from the list of NPCs who don't deal contact damage
+				// This list only ever contains vanilla NPCs afaik, so there's no reason to check for modded NPCs
+				CalamityLists.ZeroContactDamageNPCList.RemoveAll(n => worms.Any(n2 => n2 == n));
+			}
+		}
 
 		public override void SetBestiary(NPC npc, BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
