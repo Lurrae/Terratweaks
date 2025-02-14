@@ -2,7 +2,6 @@ displayName = Terratweaks
 author = Lurrae & Skulgan
 version = 1.5.6.1
 modReferences = TepigCore
-dllReferences = MMHOOK_CalamityMod
 weakReferences = CalamityMod, ThoriumMod, EfficientNohits, AlchemistNPCLite
 sortAfter = CalamityMod
 homepage = https://github.com/Lurrae/Terratweaks

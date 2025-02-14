@@ -1,4 +1,4 @@
-A highly-configurable collection of vanilla changes brought to you by the developers of Terrarmory! Most of these changes are quite minor, but there are some additional features which significantly alter the balance of vanilla Terraria. These are disabled by default. Terratweaks also has numerous mod calls, which are listed below.
+A highly-configurable collection of vanilla changes! Most of these changes are quite minor, but there are some additional features which significantly alter the balance of vanilla Terraria. These are disabled by default. Terratweaks also has numerous mod calls, which are listed below.
 This mod currently implements too many changes to list in the mod description, so you'll have to browse the mod's config to see them all.
 
 [h3][u]MOD CALLS:[/u][/h3]

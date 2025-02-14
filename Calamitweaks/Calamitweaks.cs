@@ -26,6 +26,7 @@ namespace Terratweaks.Calamitweaks
 		private static readonly MethodInfo _blockDrops = typeof(DropHelper).GetMethod("BlockDrops", BindingFlags.Static | BindingFlags.Public);
 		private static readonly MethodInfo _canUseOnion = typeof(CelestialOnion).GetMethod("CanUseItem", BindingFlags.Instance | BindingFlags.Public);
 		private static readonly MethodInfo _onionSlotIsEnabled = typeof(CelestialOnionAccessorySlot).GetMethod("IsEnabled", BindingFlags.Instance | BindingFlags.Public);
+		private static readonly MethodInfo _calGlobalNpcPostAi = typeof(CalamityGlobalNPC).GetMethod("PostAI", BindingFlags.Instance | BindingFlags.Public);
 		public override void Load()
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
@@ -50,7 +51,8 @@ namespace Terratweaks.Calamitweaks
 			MonoModHooks.Add(_onionSlotIsEnabled, EnableOnionSlotInMasterMode);
 			MonoModHooks.Add(_canUseOnion, EnableOnionUseInMasterMode);
 
-			IL.CalamityMod.NPCs.CalamityGlobalNPC.PostAI += DisableEnemyParticles;
+			//IL.CalamityMod.NPCs.CalamityGlobalNPC.PostAI += DisableEnemyParticles;
+			MonoModHooks.Modify(_calGlobalNpcPostAi, DisableEnemyParticles);
 		}
 
 		public static bool CheckNoWormParticles(bool calamityResult)
