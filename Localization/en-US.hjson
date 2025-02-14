@@ -481,14 +481,9 @@ Mods: {
 			}
 
 			CraftableUncraftables: {
-				PlanterBoxes: {
-					Label: "[i:DayBloomPlanterBox] Planter Boxes"
-					Tooltip: Enables recipes for every type of planter box- 25 of a relevant soil, 25 of a relevant wood, and one seed makes 25 planter boxes for that seed!
-				}
-
-				GemCritters: {
-					Label: "[i:GemBunnyAmethyst] [i:GemSquirrelAmethyst] Gem Critters"
-					Tooltip: Enables recipes for all gem bunnies and squirrels- 1 of the base critter and 5 of the relevant gem!
+				ClothierVoodooDoll: {
+					Label: "[i:ClothierVoodooDoll] Clothier Voodoo Doll"
+					Tooltip: Enables a recipe to turn a Guide Voodoo Doll and Red Hat into a Clothier Voodoo Doll at a Demon/Crimson Altar
 				}
 
 				DungeonFurniture: {
@@ -496,22 +491,48 @@ Mods: {
 					Tooltip: Enables recipes for all furniture items generated in the dungeon, and adds Dungeon paintings to the Painter's decor shop when he's located in the Dungeon
 				}
 
+				GemCritters: {
+					Label: "[i:GemBunnyAmethyst] [i:GemSquirrelAmethyst] Gem Critters"
+					Tooltip: Enables recipes for all gem bunnies and squirrels- 1 of the base critter and 5 of the relevant gem!
+				}
+
+				GeyserTraps: {
+					Label: "[i:GeyserTrap] Geysers"
+					Tooltip: Enables a recipe to craft Geyser traps with 25 Stone and 5 Living Fire Blocks at a Heavy Work Bench
+				}
+
+				TempleTraps: {
+					Label: "[i:SuperDartTrap] [i:SpearTrap] [i:SpikyBallTrap] [i:FlameTrap] Jungle Temple Traps"
+					Tooltip: Enables recipes to craft the Jungle Temple's various traps using some Lihzahrd Bricks and other relevant materials
+				}
+
 				ObsidianFurniture: {
 					Label: "[i:ObsidianVase] Obsidian Furniture"
 					Tooltip: Enables recipes for all furniture items generated in the Underworld's ruined houses, and adds their paintings to the Painter's decor shop when he's located in the Underworld
 				}
 
-				StructureBanners: {
-					Label: "[i:WorldBanner] [i:AnkhBanner] [i:NecromanticSign] [i:HellHammerBanner] Structure Banners"
-					Tooltip: Enables recipes for all banners generated in a structure
+				PlanterBoxes: {
+					Label: "[i:DayBloomPlanterBox] Planter Boxes"
+					Tooltip: Enables recipes for every type of planter box- 25 of a relevant soil, 25 of a relevant wood, and one seed makes 25 planter boxes for that seed!
 				}
 
-				Moss: {
-					Label: "[i:RedMoss] [i:LavaMoss] Shimmerable Mosses"
+				ShimmerBossDrops: {
+					Label: "[i:NinjaHood] [i:NinjaShirt] [i:NinjaPants] Shimmerable Boss Drops"
 					Tooltip:
 						'''
-						Enables Shimmer transmutations to unlock access to all types of moss in a given world
-						Regular mosses cycle through each other in rainbow order, while glowing mosses have a chain of transmutations similar to ores
+						Enables Shimmer transmutations to cycle through mutually-exclusive boss drops
+						This uses the same functionality/logic as Wall of Flesh's weapons and emblems, just applied to other bosses' drops (mostly weapons, but also armor/vanity sets)
+						By default, Thorium and Calamity boss drops are supported, but other mods' boss drops are not natively supported
+						Note: Due to limitations with how Shimmer works, some items (consumable Rogue/Thrower weapons and Whispering armor) cannot be obtained through Shimmer transmutations
+						'''
+				}
+
+				ShimmerBottomlessAndSponges: {
+					Label: "[i:BottomlessLavaBucket] [i:LavaAbsorbantSponge] Shimmerable Bottomless Buckets and Sponges"
+					Tooltip:
+						'''
+						Enables Shimmer transmutations to turn the Bottomless Lava/Honey Buckets into the Lava/Honey Absorbant Sponges, and vice-versa
+						The Bottomless Water Bucket and Super Absorbant Sponge are unaffected because the Bottomless Water Bucket already shimmers into the Bottomless Shimmer Bucket post-Moonlord
 						'''
 				}
 
@@ -524,39 +545,6 @@ Mods: {
 						'''
 				}
 
-				Trophies: {
-					Label: "[i:RetinazerTrophy] [i:SpazmatismTrophy] Shimmerable Trophies"
-					Tooltip:
-						'''
-						Enables Shimmer transmutations to cycle through trophies for bosses with multiple (i.e, Twins)
-						Currently supports vanilla and Calamity Mod bosses
-						'''
-				}
-
-				ClothierVoodooDoll: {
-					Label: "[i:ClothierVoodooDoll] Clothier Voodoo Doll"
-					Tooltip: Enables a recipe to turn a Guide Voodoo Doll and Red Hat into a Clothier Voodoo Doll at a Demon/Crimson Altar
-				}
-
-				TempleTraps: {
-					Label: "[i:SuperDartTrap] [i:SpearTrap] [i:SpikyBallTrap] [i:FlameTrap] Jungle Temple Traps"
-					Tooltip: Enables recipes to craft the Jungle Temple's various traps using some Lihzahrd Bricks and other relevant materials
-				}
-
-				TeamBlocks: {
-					Label: "[i:TeamBlockRed] [i:TeamBlockRedPlatform] Team Blocks"
-					Tooltip: Enables recipes to turn 25 Stone and a dye into 25 Team Blocks of the dye's color, as well as crafting Team Platforms in the same way as normal platforms
-				}
-
-				ShimmerBottomlessAndSponges: {
-					Label: "[i:BottomlessLavaBucket] [i:LavaAbsorbantSponge] Shimmerable Bottomless Buckets and Sponges"
-					Tooltip:
-						'''
-						Enables Shimmer transmutations to turn the Bottomless Lava/Honey Buckets into the Lava/Honey Absorbant Sponges, and vice-versa
-						The Bottomless Water Bucket and Super Absorbant Sponge are unaffected because the Bottomless Water Bucket already shimmers into the Bottomless Shimmer Bucket post-Moonlord
-						'''
-				}
-
 				PrehardUnobtainables: {
 					Label: "[i:HelFire] [i:ZapinatorOrange] Shimmerable Hel-Fire and Orange Zapinator"
 					Tooltip:
@@ -566,15 +554,32 @@ Mods: {
 						'''
 				}
 
-				ShimmerBossDrops: {
-					Label: "[i:NinjaHood] [i:NinjaShirt] [i:NinjaPants] Shimmerable Boss Drops"
+				Moss: {
+					Label: "[i:RedMoss] [i:LavaMoss] Shimmerable Mosses"
 					Tooltip:
 						'''
-						Enables Shimmer transmutations to cycle through mutually-exclusive boss drops
-						This uses the same functionality/logic as Wall of Flesh's weapons and emblems, just applied to other bosses' drops (mostly weapons, but also armor/vanity sets)
-						By default, Thorium and Calamity boss drops are supported, but other mods' boss drops are not natively supported
-						Note: Due to limitations with how Shimmer works, some items (consumable Rogue/Thrower weapons and Whispering armor) cannot be obtained through Shimmer transmutations
+						Enables Shimmer transmutations to unlock access to all types of moss in a given world
+						Regular mosses cycle through each other in rainbow order, while glowing mosses have a chain of transmutations similar to ores
 						'''
+				}
+
+				Trophies: {
+					Label: "[i:RetinazerTrophy] [i:SpazmatismTrophy] Shimmerable Trophies"
+					Tooltip:
+						'''
+						Enables Shimmer transmutations to cycle through trophies for bosses with multiple (i.e, Twins)
+						Currently supports vanilla and Calamity Mod bosses
+						'''
+				}
+
+				StructureBanners: {
+					Label: "[i:WorldBanner] [i:AnkhBanner] [i:NecromanticSign] [i:HellHammerBanner] Structure Banners"
+					Tooltip: Enables recipes for all banners generated in a structure
+				}
+
+				TeamBlocks: {
+					Label: "[i:TeamBlockRed] [i:TeamBlockRedPlatform] Team Blocks"
+					Tooltip: Enables recipes to turn 25 Stone and a dye into 25 Team Blocks of the dye's color, as well as crafting Team Platforms in the same way as normal platforms
 				}
 
 				Tooltip: ""

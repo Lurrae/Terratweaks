@@ -196,6 +196,7 @@ namespace Terratweaks
 								"CraftableUncraftables_StructureBanners" or "StructureBannersRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.StructureBanners,
 								"CraftableUncraftables_Moss" or "MossRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.Moss,
 								"CraftableUncraftables_Gravestones" or "GravestonesRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.Gravestones,
+								"CraftableUncraftables_GeyserTraps" or "GeyserTrapsRecipe" or "CraftableUncraftables_Geysers" or "GeysersRecipe" or "CraftableUncraftables_GeyserTrap" or "GeyserTrapRecipe" or "CraftableUncraftables_Geyser" or "GeyserRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.GeyserTraps,
 								"CraftableUncraftables_Trophies" or "TrophiesRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.Trophies,
 								"CraftableUncraftables_ClothierVoodooDoll" or "ClothierVoodooDollRecipe" or "ClothierDollRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.ClothierVoodooDoll,
 								"CraftableUncraftables_TempleTraps" or "TempleTrapsRecipe" => ModContent.GetInstance<TerratweaksConfig>().craftableUncraftables.TempleTraps,

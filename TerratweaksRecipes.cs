@@ -127,6 +127,15 @@ namespace Terratweaks
 			
 			if (enabledRecipes.StructureBanners)
 				AddUncraftableBannerRecipes();
+
+			if (enabledRecipes.GeyserTraps)
+			{
+				Recipe.Create(ItemID.GeyserTrap)
+					.AddIngredient(ItemID.StoneBlock, 25)
+					.AddIngredient(ItemID.LivingFireBlock, 5)
+					.AddTile(TileID.HeavyWorkBench)
+					.Register();
+			}
 		}
 
 		public override void AddRecipeGroups()

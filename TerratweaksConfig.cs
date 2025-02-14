@@ -216,7 +216,8 @@ namespace Terratweaks
 					craftableUncraftables.ShimmerBottomlessAndSponges != pendingTtConfig.craftableUncraftables.ShimmerBottomlessAndSponges ||
 					craftableUncraftables.TeamBlocks != pendingTtConfig.craftableUncraftables.TeamBlocks ||
 					craftableUncraftables.PrehardUnobtainables != pendingTtConfig.craftableUncraftables.PrehardUnobtainables ||
-					craftableUncraftables.ShimmerBossDrops != pendingTtConfig.craftableUncraftables.ShimmerBossDrops)
+					craftableUncraftables.ShimmerBossDrops != pendingTtConfig.craftableUncraftables.ShimmerBossDrops ||
+					craftableUncraftables.GeyserTraps != pendingTtConfig.craftableUncraftables.GeyserTraps)
 				{
 					return true;
 				}
@@ -307,11 +308,7 @@ namespace Terratweaks
 	{
 		[ReloadRequired]
 		[DefaultValue(true)]
-		public bool GemCritters { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool PlanterBoxes { get; set; }
+		public bool ClothierVoodooDoll { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -319,27 +316,11 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
-		public bool ObsidianFurniture { get; set; }
+		public bool GemCritters { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
-		public bool StructureBanners { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool Moss { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool Gravestones { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool Trophies { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool ClothierVoodooDoll { get; set; }
+		public bool GeyserTraps { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -347,11 +328,23 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool ObsidianFurniture { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool PlanterBoxes { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ShimmerBossDrops { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool ShimmerBottomlessAndSponges { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
-		public bool TeamBlocks { get; set; }
+		public bool Gravestones { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -359,7 +352,19 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
-		public bool ShimmerBossDrops { get; set; }
+		public bool Moss { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool Trophies { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool StructureBanners { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool TeamBlocks { get; set; }
 	}
 
 	[SeparatePage]
