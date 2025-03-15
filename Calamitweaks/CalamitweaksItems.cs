@@ -253,15 +253,16 @@ namespace Terratweaks.Calamitweaks
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
 
-			if (calamitweaks.RevertGraveyards)
+			if (ModContent.GetInstance<TerratweaksConfig>().OverrideGraveyardRequirements)
 			{
-				// Tombstones - Only requires 7 to create a graveyard now
+				// Tombstones - Number required varies now
 				if (item.type == ItemID.Tombstone || (item.type >= ItemID.GraveMarker && item.type <= ItemID.Obelisk) || (item.type >= ItemID.RichGravestone1 && item.type <= ItemID.RichGravestone5))
 				{
 					if (tooltips.Any(t => t.Text.Contains("20 of any tombstone")))
 					{
+						int numTombstones = ModContent.GetInstance<TerratweaksConfig>().GraveyardFunctionality;
 						TooltipLine line = tooltips.First(t => t.Text.Contains("20 of any tombstone"));
-						line.Text = line.Text.Replace("20 of any tombstone", "7 of any tombstone");
+						line.Text = line.Text.Replace("20 of any tombstone", numTombstones + " of any tombstone");
 					}
 				}
 			}

@@ -331,6 +331,26 @@ Mods: {
 						'''
 				}
 
+				OverrideGraveyardRequirements: {
+					Label: "[i:Tombstone] Override Graveyard Requirements"
+					Tooltip: If enabled, allows you to use the three config options below to customize the number of tombstones it takes to form a Graveyard
+				}
+
+				GraveyardVisuals: {
+					Label: "[i:Tombstone] Graveyard Visual Threshold"
+					Tooltip: Does nothing if "Override Graveyard Requirements" is disabled. Sets the number of tombstones needed for a graveyard's visuals to start appearing (vanilla value is 4)
+				}
+
+				GraveyardFunctionality: {
+					Label: "[i:Tombstone] [i:Tombstone] Graveyard Functional Threshold"
+					Tooltip: Does nothing if "Override Graveyard Requirements" is disabled. Sets the number of tombstones needed for a location to be considered a graveyard (vanilla value is 7)
+				}
+
+				GraveyardMax: {
+					Label: "[i:Tombstone] [i:Tombstone] [i:Tombstone] Graveyard Visual Limit"
+					Tooltip: Does nothing if "Override Graveyard Requirements" is disabled. Even after a graveyard becomes active, placing more tombstones will increase the intensity of the visuals, up to this amount (vanilla value is 9)
+				}
+
 				PillarEnemiesDropFragments: {
 					Label: "[i:FragmentSolar] Easy Fragment Farming"
 					Tooltip: If Moon Lord has been defeated, all pillar enemies have a 25% chance to drop their respective fragment

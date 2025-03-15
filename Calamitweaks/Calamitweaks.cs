@@ -31,15 +31,6 @@ namespace Terratweaks.Calamitweaks
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
 
-			// Calamity changes how many tiles are needed to form a graveyard
-			// These values are the vanilla amounts
-			if (calamitweaks.RevertGraveyards)
-			{
-				SceneMetrics.GraveyardTileMax = 36;
-				SceneMetrics.GraveyardTileMin = 16;
-				SceneMetrics.GraveyardTileThreshold = 28;
-			}
-
 			if (calamitweaks.RevertVanillaBossAIChanges)
 			{
 				CalamityMod.CalamityMod.ExternalFlag_DisableNonRevBossAI = true;

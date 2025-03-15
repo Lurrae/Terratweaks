@@ -1,5 +1,7 @@
 ﻿using Terraria.ModLoader.Config;
 using System.ComponentModel;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace Terratweaks
 {
@@ -152,6 +154,27 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool OreUnification { get; set; }
 
+		[DefaultValue(false)]
+		public bool OverrideGraveyardRequirements { get; set; }
+
+		[Increment(1)]
+		[Range(1, 18)]
+		[DefaultValue(4)]
+		[Slider]
+		public int GraveyardVisuals { get; set; }
+
+		[Increment(1)]
+		[Range(1, 18)]
+		[DefaultValue(7)]
+		[Slider]
+		public int GraveyardFunctionality { get; set; }
+
+		[Increment(1)]
+		[Range(1, 18)]
+		[DefaultValue(9)]
+		[Slider]
+		public int GraveyardMax { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool PillarEnemiesDropFragments { get; set; }
@@ -233,7 +256,6 @@ namespace Terratweaks
 					calamitweaks.EzCalBanners != pendingTtConfig.calamitweaks.EzCalBanners ||
 					calamitweaks.NoSellingRoD != pendingTtConfig.calamitweaks.NoSellingRoD ||
 					calamitweaks.OnionMasterMode != pendingTtConfig.calamitweaks.OnionMasterMode ||
-					calamitweaks.RevertGraveyards != pendingTtConfig.calamitweaks.RevertGraveyards ||
 					calamitweaks.RevertPickSpeedBuffs != pendingTtConfig.calamitweaks.RevertPickSpeedBuffs ||
 					calamitweaks.RevertPillars != pendingTtConfig.calamitweaks.RevertPillars ||
 					calamitweaks.RevertTerraprisma != pendingTtConfig.calamitweaks.RevertTerraprisma ||
@@ -251,6 +273,31 @@ namespace Terratweaks
 			}
 
 			return base.NeedsReload(pendingConfig);
+		}
+
+		public override void OnChanged()
+		{
+			if (OverrideGraveyardRequirements)
+			{
+				SceneMetrics.GraveyardTileMax = GraveyardMax * 4;
+				SceneMetrics.GraveyardTileMin = GraveyardVisuals * 4;
+				SceneMetrics.GraveyardTileThreshold = GraveyardFunctionality * 4;
+			}
+			else
+			{
+				if (ModLoader.HasMod("CalamityMod"))
+				{
+					SceneMetrics.GraveyardTileMax = 15 * 4;
+					SceneMetrics.GraveyardTileMin = 10 * 4;
+					SceneMetrics.GraveyardTileThreshold = 13 * 4;
+				}
+				else
+				{
+					SceneMetrics.GraveyardTileMax = 7 * 4;
+					SceneMetrics.GraveyardTileMin = 4 * 4;
+					SceneMetrics.GraveyardTileThreshold = 9 * 4;
+				}
+			}
 		}
 	}
 
@@ -430,10 +477,6 @@ namespace Terratweaks
 
 		[DefaultValue(true)]
 		public bool RadiantInsigniaUpgradesFromAscendant { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(false)]
-		public bool RevertGraveyards { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(false)]

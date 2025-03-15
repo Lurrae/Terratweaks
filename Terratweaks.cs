@@ -12,6 +12,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terratweaks.Calamitweaks;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
 
@@ -161,6 +162,10 @@ namespace Terratweaks
 								"NPCsSellMinecarts" => ModContent.GetInstance<TerratweaksConfig>().NPCsSellMinecarts,
 								"OasisCrateBuff" => ModContent.GetInstance<TerratweaksConfig>().OasisCrateBuff,
 								"OreUnification" => ModContent.GetInstance<TerratweaksConfig>().OreUnification,
+								"OverrideGraveyardRequirements" => ModContent.GetInstance<TerratweaksConfig>().OverrideGraveyardRequirements,
+								"GraveyardVisuals" => ModContent.GetInstance<TerratweaksConfig>().GraveyardVisuals,
+								"GraveyardFunctionality" => ModContent.GetInstance<TerratweaksConfig>().GraveyardFunctionality,
+								"GraveyardMax" => ModContent.GetInstance<TerratweaksConfig>().GraveyardMax,
 								"PillarEnemiesDropFragments" => ModContent.GetInstance<TerratweaksConfig>().PillarEnemiesDropFragments,
 								"PostEyeSandstorms" => ModContent.GetInstance<TerratweaksConfig>().PostEyeSandstorms,
 								"ReaverSharkTweaks" or "ReaverTweaks" => ModContent.GetInstance<TerratweaksConfig>().ReaverSharkTweaks,
@@ -222,7 +227,6 @@ namespace Terratweaks
 								"Calamitweaks_NoWormParticles" or "NoWormParticles" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.NoWormParticles,
 								"Calamitweaks_OnionMasterMode" or "OnionMasterMode" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.OnionMasterMode,
 								"Calamitweaks_RadiantInsigniaUpgradesFromAscendant" or "RadiantInsigniaUpgradesFromAscendant" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RadiantInsigniaUpgradesFromAscendant,
-								"Calamitweaks_RevertGraveyards" or "GraveyardCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertGraveyards,
 								"Calamitweaks_RevertPickSpeedBuffs" or "PickSpeedCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertPickSpeedBuffs,
 								"Calamitweaks_RevertPillars" or "PillarCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertPillars,
 								"Calamitweaks_RevertTerraprisma" or "TerraprismaCalReversion" => ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertTerraprisma,
