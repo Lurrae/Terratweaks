@@ -20,6 +20,135 @@ using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.Items
 {
+	// Handles adding items to Item.StatsModifiedBy(Mod) so they show an "item edited by Terratweaks" tooltip
+	public class ModifiedStatsTip : GlobalItem
+	{
+		public static readonly List<int> DiminishingReturnItems = new()
+		{
+			ItemID.DestroyerEmblem,
+			ItemID.AvengerEmblem,
+			ItemID.LightningBoots,
+			ItemID.FrostsparkBoots,
+			ItemID.TerrasparkBoots,
+			ItemID.ReconScope,
+			ItemID.StalkersQuiver,
+			ItemID.ArcaneFlower
+		};
+
+		public static readonly List<int> EarlyOreTools = new()
+		{
+			ItemID.CopperShortsword,
+			ItemID.CopperBroadsword,
+			ItemID.CopperBow,
+			ItemID.AmethystStaff,
+			ItemID.CopperHelmet,
+			ItemID.CopperChainmail,
+			ItemID.CopperGreaves,
+			ItemID.CopperAxe,
+			ItemID.CopperHammer,
+			ItemID.TinHammer,
+			ItemID.CopperPickaxe,
+			ItemID.IronShortsword,
+			ItemID.IronBroadsword,
+			ItemID.IronBow,
+			ItemID.IronHelmet,
+			ItemID.AncientIronHelmet,
+			ItemID.IronChainmail,
+			ItemID.IronGreaves,
+			ItemID.IronAxe,
+			ItemID.IronHammer,
+			ItemID.LeadHammer,
+			ItemID.IronPickaxe,
+			ItemID.LeadPickaxe,
+			ItemID.SilverShortsword,
+			ItemID.SilverBroadsword,
+			ItemID.SilverBow,
+			ItemID.SapphireStaff,
+			ItemID.SilverHelmet,
+			ItemID.SilverChainmail,
+			ItemID.SilverGreaves,
+			ItemID.SilverAxe,
+			ItemID.SilverHammer,
+			ItemID.SilverPickaxe,
+			ItemID.GoldShortsword,
+			ItemID.GoldBroadsword,
+			ItemID.GoldBow,
+			ItemID.RubyStaff,
+			ItemID.GoldHelmet,
+			ItemID.AncientGoldHelmet,
+			ItemID.GoldChainmail,
+			ItemID.GoldGreaves,
+			ItemID.GoldAxe,
+			ItemID.GoldHammer,
+			ItemID.PlatinumHammer,
+			ItemID.GoldPickaxe,
+			ItemID.PlatinumPickaxe,
+			ItemID.CactusPickaxe,
+			ItemID.ReaverShark
+		};
+
+		public override void SetDefaults(Item item)
+		{
+			bool itemIsModified = false;
+
+			var config = GetInstance<TerratweaksConfig>();
+			var clientConfig = GetInstance<TerratweaksConfig_Client>();
+			var armorBonuses = config.armorBonuses;
+			var expertTweaks = config.expertAccBuffs;
+
+			#region Main Config
+			if (config.ChesterRework && item.type == ItemID.ChesterPetItem)
+				itemIsModified = true;
+
+			if (config.DeerWeaponsRework && (item.type == ItemID.LucyTheAxe || item.type == ItemID.PewMaticHorn || item.type == ItemID.WeatherPain || item.type == ItemID.HoundiusShootius))
+				itemIsModified = true;
+
+			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out _))
+				itemIsModified = true;
+
+			if (config.NoDiminishingReturns && DiminishingReturnItems.Contains(item.type))
+				itemIsModified = true;
+
+			if (config.OreUnification && EarlyOreTools.Contains(item.type))
+				itemIsModified = true;
+
+			if (config.ReaverSharkTweaks && item.type == ItemID.ReaverShark)
+				itemIsModified = true;
+
+			if (config.SIRework && item.type == ItemID.EmpressFlightBooster)
+				itemIsModified = true;
+
+			if (config.StackableDD2Accs != SentryAccSetting.Off && item.type >= ItemID.ApprenticeScarf && item.type <= ItemID.MonkBelt)
+				itemIsModified = true;
+
+			if (config.UmbrellaHatRework && item.type == ItemID.UmbrellaHat)
+				itemIsModified = true;
+			#endregion
+
+			#region Expert Tweaks & Armor Tweaks
+			if ((expertTweaks.RoyalGel && item.type == ItemID.RoyalGel) ||
+				(expertTweaks.HivePack && item.type == ItemID.HiveBackpack) ||
+				(expertTweaks.BoneHelm && item.type == ItemID.BoneHelm))
+				itemIsModified = true;
+
+			if ((armorBonuses.Spider && item.type >= ItemID.SpiderMask && item.type <= ItemID.SpiderGreaves) ||
+				(armorBonuses.Cobalt && item.type >= ItemID.CobaltHat && item.type <= ItemID.CobaltLeggings) ||
+				(armorBonuses.Mythril && item.type >= ItemID.MythrilHood && item.type <= ItemID.MythrilGreaves) ||
+				(armorBonuses.Adamantite && item.type >= ItemID.AdamantiteHeadgear && item.type <= ItemID.AdamantiteLeggings) ||
+				(armorBonuses.Spooky && item.type >= ItemID.SpookyHelmet && item.type <= ItemID.SpookyLeggings))
+				itemIsModified = true;
+			#endregion
+
+			#region Client Tweaks
+			if (clientConfig.PermBuffTips && TooltipChanges.PermBuffBools.ContainsKey(item.type))
+				itemIsModified = true;
+			#endregion
+
+			if (itemIsModified)
+				item.StatsModifiedBy.Add(Mod);
+		}
+	}
+
 	// Anything that's done specifically for cross-mod compatibility can be done with this GlobalItem
 	public class ModCompatChanges : GlobalItem
 	{

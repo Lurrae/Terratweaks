@@ -1,6 +1,7 @@
 using CalamityMod;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.GemTech;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.PlaceableTurrets;
@@ -124,6 +125,46 @@ namespace Terratweaks.Calamitweaks
 				ItemID.Sets.DrawUnsafeIndicator[ModContent.ItemType<HostilePlagueTurret>()] = true;
 				ItemID.Sets.DrawUnsafeIndicator[ModContent.ItemType<HostileWaterTurret>()] = true;
 			}
+		}
+
+		public static readonly List<int> DRItems = new()
+		{
+			ItemID.WormScarf,
+			ModContent.ItemType<BloodyWormScarf>(),
+			ModContent.ItemType<OldDukeScales>(),
+			ModContent.ItemType<TheSponge>(),
+			ModContent.ItemType<BloodyWormScarf>(),
+			ModContent.ItemType<GemTechHeadgear>(),
+			ModContent.ItemType<GemTechBodyArmor>(),
+			ModContent.ItemType<GemTechSchynbaulds>()
+		};
+
+		public override void SetDefaults(Item item)
+		{
+			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
+
+			// Add a tooltip specifying that certain items were modified by Terratweaks while the corresponding configs are active
+			#region StatsModifiedBy stuff
+			bool itemIsModified = false;
+
+			if (calamitweaks.AsgardsValorBuff && (item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>()))
+				itemIsModified = true;
+
+			if (calamitweaks.AquaticEmblemBuff && item.type == ModContent.ItemType<AquaticEmblem>())
+				itemIsModified = true;
+
+			if (calamitweaks.DeificAmuletBuff && (item.type == ModContent.ItemType<DeificAmulet>() || item.type == ModContent.ItemType<RampartofDeities>()))
+				itemIsModified = true;
+
+			if (calamitweaks.DRBuffs && DRItems.Contains(item.type))
+				itemIsModified = true;
+
+			if (calamitweaks.SummonerAccBuffs && (item.type == ModContent.ItemType<StarTaintedGenerator>() || item.type == ModContent.ItemType<Nucleogenesis>()))
+				itemIsModified = true;
+
+			if (itemIsModified)
+				item.StatsModifiedBy.Add(Mod);
+			#endregion
 		}
 
 		public override bool CanUseItem(Item item, Player player)
