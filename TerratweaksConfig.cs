@@ -176,6 +176,10 @@ namespace Terratweaks
 		public int GraveyardMax { get; set; }
 
 		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool LunarWingsPreML { get; set; }
+
+		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool PillarEnemiesDropFragments { get; set; }
 

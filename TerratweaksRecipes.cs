@@ -817,5 +817,27 @@ namespace Terratweaks
 				.AddIngredient(ItemID.Hellstone, 2)
 				.Register();
 		}
+
+		public override void PostAddRecipes()
+		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+
+			for (int i = 0; i < Recipe.numRecipes; i++)
+			{
+				if (config.LunarWingsPreML)
+				{
+					Recipe recipe = Main.recipe[i];
+
+					if (recipe.HasResult(ItemID.WingsSolar) ||
+						recipe.HasResult(ItemID.WingsVortex) ||
+						recipe.HasResult(ItemID.WingsNebula) ||
+						recipe.HasResult(ItemID.WingsStardust))
+					{
+						recipe.RemoveIngredient(ItemID.LunarBar);
+						recipe.AddIngredient(ItemID.SoulofFlight, 20);
+					}
+				}
+			}
+		}
 	}
 }

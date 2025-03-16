@@ -169,6 +169,7 @@ namespace Terratweaks
 								"GraveyardVisuals" => config.GraveyardVisuals,
 								"GraveyardFunctionality" => config.GraveyardFunctionality,
 								"GraveyardMax" => config.GraveyardMax,
+								"LunarWingsPreML" or "EarlyLunarWings" => config.LunarWingsPreML,
 								"PillarEnemiesDropFragments" => config.PillarEnemiesDropFragments,
 								"PostEyeSandstorms" => config.PostEyeSandstorms,
 								"ReaverSharkTweaks" or "ReaverTweaks" => config.ReaverSharkTweaks,

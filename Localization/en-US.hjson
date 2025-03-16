@@ -442,6 +442,11 @@ Mods: {
 					Label: "[i:UmbrellaHat] Umbrella Hat rework"
 					Tooltip: Reworks the Umbrella Hat vanity item into an accessory which grants fall damage immunity and lets you hold jump in midair to slow your descent
 				}
+
+				LunarWingsPreML: {
+					Tooltip: ""
+					Label: Lunar Wings Pre M L
+				}
 			}
 
 			ExpertAccBuffs: {
