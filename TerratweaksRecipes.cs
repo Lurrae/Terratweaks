@@ -822,6 +822,11 @@ namespace Terratweaks
 		{
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 
+			// Don't iterate over recipes if no configs that change recipes are active
+			// This is meant to help cut down on performance costs
+			if (!config.LunarWingsPreML)
+				return;
+
 			for (int i = 0; i < Recipe.numRecipes; i++)
 			{
 				if (config.LunarWingsPreML)
