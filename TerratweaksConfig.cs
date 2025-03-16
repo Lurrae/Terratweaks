@@ -309,6 +309,9 @@ namespace Terratweaks
 		public bool EstimatedDPS { get; set; }
 
 		[DefaultValue(true)]
+		public bool GrammarCorrections { get; set; }
+
+		[DefaultValue(true)]
 		public bool NoRandomCrit { get; set; }
 
 		[DefaultValue(true)]
@@ -316,6 +319,9 @@ namespace Terratweaks
 
 		[DefaultValue(true)]
 		public bool StatsInTip { get; set; }
+
+		[DefaultValue(true)]
+		public bool WingStatsInTip { get; set; }
 	}
 
 	[SeparatePage]

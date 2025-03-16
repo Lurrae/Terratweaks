@@ -646,6 +646,16 @@ Mods: {
 						'''
 				}
 
+				GrammarCorrections: {
+					Label: "[i:TheUndertaker] Corrected Grammar"
+					Tooltip:
+						'''
+						Items with "The" at the start of their name (like "The Undertaker") will have their prefix displayed after "The" instead of before it, as that is grammatically correct
+						For example, this changes the vanilla phrasing "Unreal The Undertaker" into the grammatically correct "The Unreal Undertaker"
+						This config option only does anything when playing the game in English, as I'm not familiar enough with other languages to know if the grammer is incorrect outside of English, or how best to fix it if it is
+						'''
+				}
+
 				NoRandomCrit: {
 					Label: "[i:GalaxyPearl] Consistent critical hits"
 					Tooltip:
@@ -672,6 +682,17 @@ Mods: {
 						'''
 						Weapons (and any other item which lists knockback and use time) will list an exact value
 						This also enables items which fire a projectile to list their projectile's velocity
+						'''
+				}
+
+				WingStatsInTip: {
+					Label: "[i:AngelWings] Improved wing tooltips"
+					Tooltip:
+						'''
+						Wings will directly list their stats in their tooltip, like flight time, horizontal speed, etc.
+						This shows only the BASE stats of the wings, so any flight time increases like Rocket Boots or Calamity's Harpy Ring won't affect the tooltip
+						However, if a pair of wings are given a higher base flight time by a particular mod, that change should be reflected in the tooltip!
+						If the Calamity Mod is installed, this config option only applies to modded wings not from Calamity, as Calamity already adds wing stat tooltips
 						'''
 				}
 			}
@@ -927,6 +948,21 @@ Mods: {
 			PermBuffTip: You have already consumed the {0}
 			# Estimated DPS tooltips for weapons while using a DPS Meter
 			EstDPS: Estimated DPS: {0} damage per second
+			# Wing stats tooltip
+			WingStats:
+				'''
+				Flight time: {0} seconds
+				Max horizontal speed: {1}
+				Horizontal acceleration multiplier: {2}%
+				'''
+			WingStats_Hover:
+				'''
+				Flight time: {0} seconds
+				Max horizontal speed: {1}
+				Horizontal acceleration multiplier: {2}%
+				Hovering max speed: {3}
+				Hovering acceleration multiplier: {4}%
+				'''
 		}
 
 		Items: {

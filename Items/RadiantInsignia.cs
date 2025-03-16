@@ -22,6 +22,9 @@ namespace Terratweaks.Items
 			Item.CloneDefaults(ItemID.EmpressFlightBooster);
 			Item.width = 34;
 			Item.height = 42;
+
+			// Remove R.Insignia from the list of items that should display a "modified by Terratweaks" tooltip
+			Item.StatsModifiedBy.Remove(Mod);
 		}
 		
 		public override void UpdateAccessory(Player player, bool hideVisual)

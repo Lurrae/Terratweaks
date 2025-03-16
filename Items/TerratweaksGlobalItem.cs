@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,7 +93,6 @@ namespace Terratweaks.Items
 			bool itemIsModified = false;
 
 			var config = GetInstance<TerratweaksConfig>();
-			var clientConfig = GetInstance<TerratweaksConfig_Client>();
 			var armorBonuses = config.armorBonuses;
 			var expertTweaks = config.expertAccBuffs;
 
@@ -115,7 +115,7 @@ namespace Terratweaks.Items
 			if (config.ReaverSharkTweaks && item.type == ItemID.ReaverShark)
 				itemIsModified = true;
 
-			if (config.SIRework && item.type == ItemID.EmpressFlightBooster)
+			if (config.SIRework && item.type == ItemID.EmpressFlightBooster && !ModLoader.HasMod("CalamityMod"))
 				itemIsModified = true;
 
 			if (config.StackableDD2Accs != SentryAccSetting.Off && item.type >= ItemID.ApprenticeScarf && item.type <= ItemID.MonkBelt)
@@ -136,11 +136,6 @@ namespace Terratweaks.Items
 				(armorBonuses.Mythril && item.type >= ItemID.MythrilHood && item.type <= ItemID.MythrilGreaves) ||
 				(armorBonuses.Adamantite && item.type >= ItemID.AdamantiteHeadgear && item.type <= ItemID.AdamantiteLeggings) ||
 				(armorBonuses.Spooky && item.type >= ItemID.SpookyHelmet && item.type <= ItemID.SpookyLeggings))
-				itemIsModified = true;
-			#endregion
-
-			#region Client Tweaks
-			if (clientConfig.PermBuffTips && TooltipChanges.PermBuffBools.ContainsKey(item.type))
 				itemIsModified = true;
 			#endregion
 
@@ -274,8 +269,64 @@ namespace Terratweaks.Items
 				if (item.shoot > -1 && item.shootSpeed > 0 && idx != -1)
 				{
 					float realShootSpeed = item.shootSpeed * (ContentSamples.ProjectilesByType[item.shoot].extraUpdates + 1);
+					realShootSpeed = (float)Math.Round(realShootSpeed, 2); // Round velocity to 2 digits
 					tooltips.Insert(idx + 1, new TooltipLine(Mod, "Velocity", Language.GetTextValue("Mods.Terratweaks.LegacyTooltip.V", realShootSpeed)));
 					velIdx = idx + 1;
+				}
+			}
+
+			// Grammar corrections option only applies when playing with English localization,
+			// since I don't know enough about other languages to even know if the incorrect grammar from vanilla
+			// still applies in other languages, let alone how best to correct it
+			if (clientConfig.GrammarCorrections && Language.ActiveCulture.Name == "en-US" && item.Name.Contains("The") && item.prefix > 0)
+			{
+				idx = tooltips.IndexOf(tooltips.First(t => t.Name == "ItemName"));
+				string baseItemName = item.Name;
+				string prefixName = item.AffixName().Replace(" " + baseItemName, ""); // Gets just the prefix name
+				string itemNameWithoutThe = baseItemName.Replace("The ", ""); // Removes "The" from the name (so "The Undertaker" will just be "Undertaker")
+
+				tooltips[idx].Text = $"The {prefixName} {itemNameWithoutThe}";
+			}
+
+			if (clientConfig.WingStatsInTip)
+			{
+				idx = -1;
+
+				// Place the wing stats directly after the "Allows flight and slow fall" text
+				// Using GetTextValue ensures that this should find the tooltip even in other languages
+				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && t.Text.Equals(Language.GetTextValue("CommonItemTooltip.FlightAndSlowfall"))))
+				{
+					idx = tooltips.IndexOf(tooltip);
+				}
+
+				if (idx != -1 && item.wingSlot > 0)
+				{
+					// Ignore vanilla wings if Calamity is enabled, and ignore modded wings from Calamity Mod
+					if ((item.ModItem == null && !ModLoader.HasMod("CalamityMod")) || (item.ModItem != null && item.ModItem.Mod.Name != "CalamityMod"))
+					{
+						WingStats wingStats = ArmorIDs.Wing.Sets.Stats[item.wingSlot];
+						float flyTime = (float)Math.Round(Conversions.ToSeconds(wingStats.FlyTime), 2);
+						float horiSpdMult = wingStats.AccRunSpeedOverride < 0 ? Main.LocalPlayer.accRunSpeed : wingStats.AccRunSpeedOverride;
+						string maxHoriSpd = $"{Math.Round(horiSpdMult * (216000 / 42240), 2)} mph";
+						float horiAccel = wingStats.AccRunAccelerationMult * 100;
+
+						if (wingStats.HasDownHoverStats)
+						{
+							float hoverHoriSpdMult = wingStats.DownHoverSpeedOverride < 0 ? Main.LocalPlayer.accRunSpeed : wingStats.DownHoverSpeedOverride;
+							string hoverHoriSpd = $"{Math.Round(hoverHoriSpdMult * (216000 / 42240), 2)} mph";
+							float hoverHoriAccel = wingStats.DownHoverAccelerationMult * 100;
+
+							TooltipLine wingStatsTip = new(Mod, "WingStats", Language.GetTextValue("Mods.Terratweaks.Common.WingStats_Hover", flyTime, maxHoriSpd, horiAccel, hoverHoriSpd, hoverHoriAccel));
+
+							tooltips.Insert(idx + 1, wingStatsTip);
+						}
+						else
+						{
+							TooltipLine wingStatsTip = new(Mod, "WingStats", Language.GetTextValue("Mods.Terratweaks.Common.WingStats", flyTime, maxHoriSpd, horiAccel));
+
+							tooltips.Insert(idx + 1, wingStatsTip);
+						}
+					}
 				}
 			}
 
