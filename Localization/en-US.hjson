@@ -358,6 +358,16 @@ Mods: {
 					Tooltip: Does nothing if "Override Graveyard Requirements" is disabled. Even after a graveyard becomes active, placing more tombstones will increase the intensity of the visuals, up to this amount (vanilla value is 9)
 				}
 
+				MoreOOAMedals: {
+					Label: "[i:DefenderMedal] Less Grindy Defender Medals"
+					Tooltip:
+						'''
+						Adjusts the number of Defender Medals awarded by each tier of the Old One's Army
+						Every wave awards at least one medal, unlike in vanilla where waves 1 and 2 never award any medals (and wave 3 doesn't award any on tier 2)
+						Additionally, the total number of medals granted by the event is increased by 5-15 depending on the tier, meaning you don't need to beat it as many times to afford everything!
+						'''
+				}
+
 				OldChestDungeon: {
 					Label: "[i:Chest] Old Shaking Chest only spawns in the Dungeon"
 					Tooltip: Prevents the Old Shaking Chest spawning outside of the Dungeon. After all, it can only be unlocked if you have a Golden Key, and you probably won't have those on hand outside of the Dungeon

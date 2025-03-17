@@ -185,6 +185,9 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool ForceBossContactDamage { get; set; }
 
+		[DefaultValue(false)]
+		public bool MoreOOAMedals { get; set; }
+
 		[DefaultValue(true)]
 		public bool PostEyeSandstorms { get; set; }
 

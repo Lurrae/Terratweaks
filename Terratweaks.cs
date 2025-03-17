@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.Events;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.Graphics;
 using Terraria.ID;
@@ -114,6 +115,77 @@ namespace Terratweaks
 			On_NPC.CountKillForBannersAndDropThem += BannerCombatText;
 			On_NPC.HitModifiers.GetDamage += CritsBypassDefense;
 			On_ShopHelper.ProcessMood += CustomHappinessFactors;
+			On_DD2Event.CheckProgress += DropMoreDefenderMedals;
+			On_DD2Event.WinInvasionInternal += DropMoreDefenderMedals_Victory;
+		}
+
+		private void DropMoreDefenderMedals_Victory(On_DD2Event.orig_WinInvasionInternal orig)
+		{
+			// Let the original method run on its own, that way we don't interrupt any standard vanilla behavior
+			orig();
+
+			// If the config option to drop extra medals is enabled,
+			// drop two extra medals if the player just beat the tier 1 event, or three extra medals for tier 2
+			// (they'll drop separately from vanilla's amount, but should still stack since they spawn on top of each other)
+			// Tier 3 doesn't drop extra medals from the final wave
+			if (ModContent.GetInstance<TerratweaksConfig>().MoreOOAMedals)
+			{
+				if (DD2Event.OngoingDifficulty == 1)
+					DD2Event.DropMedals(2);
+				else if (DD2Event.OngoingDifficulty == 2)
+					DD2Event.DropMedals(3);
+			}
+		}
+
+		private bool spawnedMedalsThisWave = false;
+
+		private void DropMoreDefenderMedals(On_DD2Event.orig_CheckProgress orig, int slainMonsterID)
+		{
+			// Let the original method run on its own, that way we don't interrupt any standard vanilla behavior
+			orig(slainMonsterID);
+
+			// If we just killed the first enemy in a wave, reset the variable for spawning medals so we can spawn more when the wave's done
+			if (!DD2Event.EnemySpawningIsOnHold && spawnedMedalsThisWave)
+				spawnedMedalsThisWave = false;
+
+			// If the config option to drop extra medals is enabled, drop extra medals based on the current wave
+			// (they'll drop separately from vanilla's amount, but should still stack since they spawn on top of each other)
+			if (ModContent.GetInstance<TerratweaksConfig>().MoreOOAMedals && DD2Event.EnemySpawningIsOnHold && !spawnedMedalsThisWave)
+			{
+				spawnedMedalsThisWave = true;
+
+				// Note that this variable is NOT the number of the wave the player just cleared, but the number of the next wave to spawn!
+				// So if the player just cleared wave 1, this value will be 2
+				int upcomingWave = NPC.waveNumber;
+				int bonusMedals = 1;
+
+				switch (DD2Event.OngoingDifficulty)
+				{
+					// Tier 1 drops 1 extra medal on every wave except wave 3, which drops no extra
+					case 1:
+						if (upcomingWave == 4)
+							bonusMedals = 0;
+						break;
+					// Tier 2 drops 1 extra medal on every wave except wave 6, which drops two extra
+					case 2:
+						if (upcomingWave == 7)
+							bonusMedals = 2;
+						break;
+					// Tier 3 drops 1 extra medal on wave 1, 3 extra medals on waves 2 and 5, 4 extra medals on waves 3 and 4, and no extra medals on wave 6
+					case 3:
+						if (upcomingWave == 3 || upcomingWave == 6)
+							bonusMedals = 3;
+						else if (upcomingWave == 4 || upcomingWave == 5)
+							bonusMedals = 4;
+						else if (upcomingWave == 7)
+							bonusMedals = 0;
+						break;
+				}
+
+				// Medals don't drop on final wave since the DropMoreDefenderMedals_Victory method handles that
+				if (bonusMedals > 0 && (upcomingWave <= 5 || (DD2Event.OngoingDifficulty > 1 && upcomingWave <= 7)))
+					DD2Event.DropMedals(bonusMedals);
+			}
 		}
 
 		public override void PostSetupContent()
@@ -222,6 +294,7 @@ namespace Terratweaks
 								"ArmorReworks_Stardust" or "StardustArmorBuff" or "BuffStardustArmor" => config.StardustArmorBuff,
 								"OldChestDungeon" => config.OldChestDungeon,
 								"BoundNPCsImmune" or "BoundNPCsNoDamage" or "InvulnerableBoundNPCs" => config.BoundNPCsImmune,
+								"LessGrindyDefenderMedals" or "LessGrindyOOA" or "MoreOOAMedals" or "MoreDefenderMedals" => config.MoreOOAMedals,
 
 								"Client_EstimatedDPS" or "EstimatedDPS" => clientConfig.EstimatedDPS,
 								"Client_GrammarCorrections" or "GrammarCorrections" => clientConfig.GrammarCorrections,
