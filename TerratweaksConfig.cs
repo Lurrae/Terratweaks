@@ -141,19 +141,25 @@ namespace Terratweaks
 		[Header("ArmorTweaks")]
 
 		[DefaultValue(true)]
-		public bool SpiderSetBonus { get; set; }
+		public bool AdamantiteSetBonus { get; set; }
 
 		[DefaultValue(true)]
 		public bool CobaltSetBonus { get; set; }
 
 		[DefaultValue(true)]
+		public bool ConvertMonkArmor { get; set; }
+
+		[DefaultValue(true)]
 		public bool MythrilSetBonus { get; set; }
 
 		[DefaultValue(true)]
-		public bool AdamantiteSetBonus { get; set; }
+		public bool SpiderSetBonus { get; set; }
 
 		[DefaultValue(true)]
 		public bool SpookySetBonus { get; set; }
+
+		[DefaultValue(true)]
+		public bool StardustArmorBuff { get; set; }
 
 		// Boss/event tweaks
 		[Header("BossTweaks")]

@@ -218,6 +218,8 @@ namespace Terratweaks
 								"ArmorReworks_Mythril" or "MythrilArmorSetBonus" or "MythrilSetBonus" => config.MythrilSetBonus,
 								"ArmorReworks_Adamantite" or "AdamantiteArmorSetBonus" or "AdamantiteSetBonus" => config.AdamantiteSetBonus,
 								"ArmorReworks_Spooky" or "SpookyArmorSetBonus" or "SpookySetBonus" => config.SpookySetBonus,
+								"ArmorReworks_Monk" or "WhipMonkArmor" or "ConvertMonkArmor" => config.ConvertMonkArmor,
+								"ArmorReworks_Stardust" or "StardustArmorBuff" or "BuffStardustArmor" => config.StardustArmorBuff,
 								"OldChestDungeon" => config.OldChestDungeon,
 								"BoundNPCsImmune" or "BoundNPCsNoDamage" or "InvulnerableBoundNPCs" => config.BoundNPCsImmune,
 

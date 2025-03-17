@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,7 +132,10 @@ namespace Terratweaks.Items
 				(config.CobaltSetBonus && item.type >= ItemID.CobaltHat && item.type <= ItemID.CobaltLeggings) ||
 				(config.MythrilSetBonus && item.type >= ItemID.MythrilHood && item.type <= ItemID.MythrilGreaves) ||
 				(config.AdamantiteSetBonus && item.type >= ItemID.AdamantiteHeadgear && item.type <= ItemID.AdamantiteLeggings) ||
-				(config.SpookySetBonus && item.type >= ItemID.SpookyHelmet && item.type <= ItemID.SpookyLeggings))
+				(config.SpookySetBonus && item.type >= ItemID.SpookyHelmet && item.type <= ItemID.SpookyLeggings) ||
+				(config.ConvertMonkArmor && item.type >= ItemID.MonkBrows && item.type <= ItemID.MonkPants) ||
+				(config.ConvertMonkArmor && item.type >= ItemID.MonkAltHead && item.type <= ItemID.MonkAltPants) ||
+				(config.StardustArmorBuff && item.type >= ItemID.StardustHelmet && item.type <= ItemID.StardustLeggings))
 				itemIsModified = true;
 			#endregion
 
@@ -1191,12 +1193,59 @@ namespace Terratweaks.Items
 					}
 					break;
 
+				// Monk armor
+				case ItemID.MonkBrows:
+					if (config.ConvertMonkArmor)
+					{
+						player.GetAttackSpeed(DamageClass.Melee) -= 0.2f; // Remove vanilla melee speed increase
+						player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += 0.2f; // Increase whip speed by 20%
+					}
+					break;
+				case ItemID.MonkShirt:
+					if (config.ConvertMonkArmor)
+					{
+						player.GetDamage(DamageClass.Melee) -= 0.2f; // Remove vanilla melee damage increase
+					}
+					break;
+				case ItemID.MonkPants:
+					if (config.ConvertMonkArmor)
+					{
+						player.GetCritChance(DamageClass.Melee) -= 15; // Remove vanilla melee crit increase
+						player.whipRangeMultiplier += 0.15f; // Increase whip range by 15%
+					}
+					break;
+
 				//Spooky armor
 				case ItemID.SpookyHelmet:
 				case ItemID.SpookyBreastplate:
 				case ItemID.SpookyLeggings:
 					if (config.SpookySetBonus)
 						player.GetDamage(DamageClass.Summon) += 0.06f;
+					break;
+
+				// Shinobi Infiltrator armor
+				case ItemID.MonkAltHead:
+					if (config.ConvertMonkArmor)
+					{
+						player.GetDamage(DamageClass.Melee) -= 0.2f; // Remove vanilla melee damage increase
+					}
+					break;
+				case ItemID.MonkAltShirt:
+					if (config.ConvertMonkArmor)
+					{
+						player.GetAttackSpeed(DamageClass.Melee) -= 0.2f; // Remove vanilla melee speed increase
+						player.GetCritChance(DamageClass.Melee) -= 5; // Remove vanilla melee crit increase
+						player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += 0.2f; // Increase whip speed by 20%
+						player.whipRangeMultiplier += 0.15f; // Increase whip range by 15%
+					}
+					break;
+				case ItemID.MonkAltPants:
+					if (config.ConvertMonkArmor)
+					{
+						player.GetCritChance(DamageClass.Melee) -= 20; // Remove vanilla melee crit increase
+						player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += 0.15f; // Increase whip speed by 15%
+						player.whipRangeMultiplier += 0.2f; // Increase whip range by 20%
+					}
 					break;
 			}
 		}
@@ -1207,6 +1256,36 @@ namespace Terratweaks.Items
 
 			foreach (TooltipLine tooltip in tooltips)
 			{
+				if (tooltip.Name == "Tooltip0")
+				{
+					switch (item.type)
+					{
+						case ItemID.MonkBrows:
+							if (config.ConvertMonkArmor)
+								tooltip.Text = $"{Language.GetTextValue("CommonItemTooltip.IncreasesMaxSentriesBy", 1)} and {Language.GetTextValue("Mods.Terratweaks.CommonItemTooltip.WhipSpeed", 20)}";
+							break;
+						case ItemID.MonkShirt:
+							if (config.ConvertMonkArmor)
+								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 20);
+							break;
+						case ItemID.MonkAltHead:
+							if (config.ConvertMonkArmor)
+								tooltip.Text = $"{Language.GetTextValue("CommonItemTooltip.IncreasesMaxSentriesBy", 2)} and {Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 20)}";
+							break;
+						case ItemID.MonkAltShirt:
+							if (config.ConvertMonkArmor)
+								tooltip.Text = $"{Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 20)} and whip speed";
+							break;
+						case ItemID.MonkAltPants:
+							if (config.ConvertMonkArmor)
+							{
+								tooltip.Text = $"{Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 20)} and whip range";
+								tooltip.Text += "\n" + Language.GetTextValue("Mods.Terratweaks.CommonItemTooltip.WhipSpeed", 15);
+							}
+							break;
+					}
+				}
+
 				if (tooltip.Name == "Tooltip1")
 				{
 					switch (item.type)
@@ -1226,11 +1305,19 @@ namespace Terratweaks.Items
 							if (config.SpiderSetBonus)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 8);
 							break;
+						case ItemID.MonkPants:
+							if (config.ConvertMonkArmor)
+								tooltip.Text = $"{Language.GetTextValue("CommonItemTooltip.IncreasesWhipRangeByPercent", 15)} and {Language.GetTextValue("CommonItemTooltip.PercentIncreasedMovementSpeed", 20)}";
+							break;
 						case ItemID.SpookyHelmet:
 						case ItemID.SpookyBreastplate:
 						case ItemID.SpookyLeggings:
 							if (config.SpookySetBonus)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 17);
+							break;
+						case ItemID.MonkAltShirt:
+							if (config.ConvertMonkArmor)
+								tooltip.Text = Language.GetTextValue("CommonItemTooltip.IncreasesWhipRangeByPercent", 15);
 							break;
 					}
 				}
@@ -1245,37 +1332,29 @@ namespace Terratweaks.Items
 			if (config.OreUnification)
 			{
 				if ((head.type == ItemID.IronHelmet || head.type == ItemID.AncientIronHelmet) && body.type == ItemID.IronChainmail && legs.type == ItemID.IronGreaves)
-				{
 					return "Iron";
-				}
+
 				if ((head.type == ItemID.GoldHelmet || head.type == ItemID.AncientGoldHelmet) && body.type == ItemID.GoldChainmail && legs.type == ItemID.GoldGreaves)
-				{
 					return "Gold";
-				}
 			}
 
 			if (head.type == ItemID.SpiderMask && body.type == ItemID.SpiderBreastplate && legs.type == ItemID.SpiderGreaves && config.SpiderSetBonus)
-			{
 				return "Spider";
-			}
 
 			if (CobaltHeads.Contains(head.type) && body.type == ItemID.CobaltBreastplate && legs.type == ItemID.CobaltLeggings && config.CobaltSetBonus)
-			{
 				return "Cobalt";
-			}
+
 			if (MythrilHeads.Contains(head.type) && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves && config.MythrilSetBonus)
-			{
 				return "Mythril";
-			}
+
 			if (AdamantiteHeads.Contains(head.type) && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings && config.AdamantiteSetBonus)
-			{
 				return "Adamantite";
-			}
 
 			if (head.type == ItemID.SpookyHelmet && body.type == ItemID.SpookyBreastplate && legs.type == ItemID.SpookyLeggings && config.SpookySetBonus)
-			{
 				return "Spooky";
-			}
+
+			if (head.type == ItemID.StardustHelmet && body.type == ItemID.StardustBreastplate && legs.type == ItemID.StardustLeggings && config.StardustArmorBuff)
+				return "Stardust";
 
 			return base.IsArmorSet(head, body, legs);
 		}
@@ -1305,7 +1384,6 @@ namespace Terratweaks.Items
 					// This is done to remove vanilla's bonus, since without this the player would have 12% more summon damage than they should
 					player.GetDamage(DamageClass.Summon) -= 0.12f;
 					break;
-
 				case "Cobalt":
 					player.setBonus = Language.GetTextValue("Mods.Terratweaks.SetBonus.Cobalt");
 					tPlr.cobaltDefense = true;
@@ -1345,13 +1423,19 @@ namespace Terratweaks.Items
 					else if (headType == ItemID.AdamantiteHeadgear)
 						player.manaCost += 0.19f;
 					break;
-
 				case "Spooky":
 					player.setBonus = Language.GetTextValue("Mods.Terratweaks.SetBonus.Spooky");
 					tPlr.spookyShots = true;
 
 					// Negate vanilla bonuses
 					player.GetDamage(DamageClass.Summon) -= 0.25f;
+					break;
+				case "Stardust":
+					player.setBonus += "\n" + Language.GetTextValue("Mods.Terratweaks.CommonItemTooltip.WhipSpeedRangeDiff",35,20);
+
+					// Increase whip speed and range
+					player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += 0.35f;
+					player.whipRangeMultiplier += 0.2f;
 					break;
 			}
 		}

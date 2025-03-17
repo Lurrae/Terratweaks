@@ -24,6 +24,12 @@ Mods: {
 			C: Crits {0} times every 100 hits
 		}
 
+		CommonItemTooltip: {
+			WhipSpeed: Increases whip speed by {0}%
+			WhipSpeedRange: Increases whip speed and range by {0}%
+			WhipSpeedRangeDiff: Increases whip speed by {0}% and whip range by {1}%
+		}
+
 		Conditions: {
 			DownedMoonlord: Defeated Moon Lord
 			DyeConfigActive: '''"Dye Trader Shop Expansion" mod config is enabled'''
@@ -494,6 +500,25 @@ Mods: {
 						'''
 						Each piece increases summon damage by 6% more than vanilla (so the total damage is 7% less than with vanilla's set bonus)
 						New set bonus: Flaming nettles automatically fire at nearby foes
+						'''
+				}
+
+				StardustArmorBuff: {
+					Label: "[i:StardustHelmet] [i:StardustBreastplate] [i:StardustLeggings] Stardust Armor Buff"
+					Tooltip:
+						'''
+						Stardust armor's set bonus now provides an additional 20% whip range and 35% whip speed
+						This means the full set provides 35% whip speed and 50% whip range, the same stats as pre-nerf Obsidian armor
+						'''
+				}
+
+				ConvertMonkArmor: {
+					Label: "[i:MonkBrows] [i:MonkShirt] [i:MonkPants] [i:MonkAltHead] [i:MonkAltShirt] [i:MonkAltPants] Convert Monk Armor to Whip Set"
+					Tooltip:
+						'''
+						Converts the melee bonuses of Monk armor and Shinobi Infiltrator armor into whip bonuses
+						Melee speed becomes whip speed, and melee crit chance becomes whip range
+						Shinobi Infiltrator armor also provides stronger whip bonuses than its former melee bonuses
 						'''
 				}
 
