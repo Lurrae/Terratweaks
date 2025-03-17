@@ -93,8 +93,6 @@ namespace Terratweaks.Items
 			bool itemIsModified = false;
 
 			var config = GetInstance<TerratweaksConfig>();
-			var armorBonuses = config.armorBonuses;
-			var expertTweaks = config.expertAccBuffs;
 
 			#region Main Config
 			if (config.ChesterRework && item.type == ItemID.ChesterPetItem)
@@ -125,17 +123,17 @@ namespace Terratweaks.Items
 				itemIsModified = true;
 			#endregion
 
-			#region Expert Tweaks & Armor Tweaks
-			if ((expertTweaks.RoyalGel && item.type == ItemID.RoyalGel) ||
-				(expertTweaks.HivePack && item.type == ItemID.HiveBackpack) ||
-				(expertTweaks.BoneHelm && item.type == ItemID.BoneHelm))
+			#region Expert Accessory & Armor Tweaks
+			if ((config.RoyalGel && item.type == ItemID.RoyalGel) ||
+				(config.HivePack && item.type == ItemID.HiveBackpack) ||
+				(config.BoneHelm && item.type == ItemID.BoneHelm))
 				itemIsModified = true;
 
-			if ((armorBonuses.Spider && item.type >= ItemID.SpiderMask && item.type <= ItemID.SpiderGreaves) ||
-				(armorBonuses.Cobalt && item.type >= ItemID.CobaltHat && item.type <= ItemID.CobaltLeggings) ||
-				(armorBonuses.Mythril && item.type >= ItemID.MythrilHood && item.type <= ItemID.MythrilGreaves) ||
-				(armorBonuses.Adamantite && item.type >= ItemID.AdamantiteHeadgear && item.type <= ItemID.AdamantiteLeggings) ||
-				(armorBonuses.Spooky && item.type >= ItemID.SpookyHelmet && item.type <= ItemID.SpookyLeggings))
+			if ((config.SpiderSetBonus && item.type >= ItemID.SpiderMask && item.type <= ItemID.SpiderGreaves) ||
+				(config.CobaltSetBonus && item.type >= ItemID.CobaltHat && item.type <= ItemID.CobaltLeggings) ||
+				(config.MythrilSetBonus && item.type >= ItemID.MythrilHood && item.type <= ItemID.MythrilGreaves) ||
+				(config.AdamantiteSetBonus && item.type >= ItemID.AdamantiteHeadgear && item.type <= ItemID.AdamantiteLeggings) ||
+				(config.SpookySetBonus && item.type >= ItemID.SpookyHelmet && item.type <= ItemID.SpookyLeggings))
 				itemIsModified = true;
 			#endregion
 
@@ -202,20 +200,20 @@ namespace Terratweaks.Items
 
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Hardmode = new()
 		{
-			{ ItemID.BoneHelm, () => GetInstance<TerratweaksConfig>().expertAccBuffs.BoneHelm }
+			{ ItemID.BoneHelm, () => GetInstance<TerratweaksConfig>().BoneHelm }
 		};
 
 		// TODO: Add configs for items that scale at other progression points too
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_QS = new()
 		{
-			{ ItemID.RoyalGel, () => GetInstance<TerratweaksConfig>().expertAccBuffs.RoyalGel }
+			{ ItemID.RoyalGel, () => GetInstance<TerratweaksConfig>().RoyalGel }
 		};
 
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Mechs = new() { };
 
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Plant = new()
 		{
-			{ ItemID.HiveBackpack, () => GetInstance<TerratweaksConfig>().expertAccBuffs.HivePack }
+			{ ItemID.HiveBackpack, () => GetInstance<TerratweaksConfig>().HivePack }
 		};
 
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_ML = new() { };
@@ -1175,18 +1173,18 @@ namespace Terratweaks.Items
 
 		public override void UpdateEquip(Item item, Player player)
 		{
-			ArmorReworks armorToggles = GetInstance<TerratweaksConfig>().armorBonuses;
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 
 			switch (item.type)
 			{
 				//Spider armor
 				case ItemID.SpiderMask:
 				case ItemID.SpiderGreaves:
-					if (armorToggles.Spider)
+					if (config.SpiderSetBonus)
 						player.GetDamage(DamageClass.Summon) += 0.02f;
 					break;
 				case ItemID.SpiderBreastplate:
-					if (armorToggles.Spider)
+					if (config.SpiderSetBonus)
 					{
 						player.GetDamage(DamageClass.Summon) += 0.02f;
 						player.maxTurrets += 1;
@@ -1197,7 +1195,7 @@ namespace Terratweaks.Items
 				case ItemID.SpookyHelmet:
 				case ItemID.SpookyBreastplate:
 				case ItemID.SpookyLeggings:
-					if (armorToggles.Spooky)
+					if (config.SpookySetBonus)
 						player.GetDamage(DamageClass.Summon) += 0.06f;
 					break;
 			}
@@ -1205,7 +1203,7 @@ namespace Terratweaks.Items
 
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
-			ArmorReworks armorToggles = GetInstance<TerratweaksConfig>().armorBonuses;
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 
 			foreach (TooltipLine tooltip in tooltips)
 			{
@@ -1214,24 +1212,24 @@ namespace Terratweaks.Items
 					switch (item.type)
 					{
 						case ItemID.SpiderMask:
-							if (armorToggles.Spider)
+							if (config.SpiderSetBonus)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 7);
 							break;
 						case ItemID.SpiderBreastplate:
-							if (armorToggles.Spider)
+							if (config.SpiderSetBonus)
 							{
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 7);
 								tooltip.Text += "\n" + Language.GetTextValue("CommonItemTooltip.IncreasesMaxSentriesBy", 1);
 							}
 							break;
 						case ItemID.SpiderGreaves:
-							if (armorToggles.Spider)
+							if (config.SpiderSetBonus)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 8);
 							break;
 						case ItemID.SpookyHelmet:
 						case ItemID.SpookyBreastplate:
 						case ItemID.SpookyLeggings:
-							if (armorToggles.Spooky)
+							if (config.SpookySetBonus)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 17);
 							break;
 					}
@@ -1243,7 +1241,6 @@ namespace Terratweaks.Items
 		public override string IsArmorSet(Item head, Item body, Item legs)
 		{
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-			ArmorReworks armorToggles = config.armorBonuses;
 
 			if (config.OreUnification)
 			{
@@ -1257,25 +1254,25 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (head.type == ItemID.SpiderMask && body.type == ItemID.SpiderBreastplate && legs.type == ItemID.SpiderGreaves && armorToggles.Spider)
+			if (head.type == ItemID.SpiderMask && body.type == ItemID.SpiderBreastplate && legs.type == ItemID.SpiderGreaves && config.SpiderSetBonus)
 			{
 				return "Spider";
 			}
 
-			if (CobaltHeads.Contains(head.type) && body.type == ItemID.CobaltBreastplate && legs.type == ItemID.CobaltLeggings && armorToggles.Cobalt)
+			if (CobaltHeads.Contains(head.type) && body.type == ItemID.CobaltBreastplate && legs.type == ItemID.CobaltLeggings && config.CobaltSetBonus)
 			{
 				return "Cobalt";
 			}
-			if (MythrilHeads.Contains(head.type) && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves && armorToggles.Mythril)
+			if (MythrilHeads.Contains(head.type) && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves && config.MythrilSetBonus)
 			{
 				return "Mythril";
 			}
-			if (AdamantiteHeads.Contains(head.type) && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings && armorToggles.Adamantite)
+			if (AdamantiteHeads.Contains(head.type) && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings && config.AdamantiteSetBonus)
 			{
 				return "Adamantite";
 			}
 
-			if (head.type == ItemID.SpookyHelmet && body.type == ItemID.SpookyBreastplate && legs.type == ItemID.SpookyLeggings && armorToggles.Spooky)
+			if (head.type == ItemID.SpookyHelmet && body.type == ItemID.SpookyBreastplate && legs.type == ItemID.SpookyLeggings && config.SpookySetBonus)
 			{
 				return "Spooky";
 			}

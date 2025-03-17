@@ -44,18 +44,18 @@ Mods: {
 			TerratweaksConfig: {
 				DisplayName: Terratweaks Config
 
-				armorBonuses: {
-					Label: Vanilla Armorset Reworks
-					Tooltip: Contains toggles that enable new set bonuses for certain vanilla sets
-				}
-
-				expertAccBuffs: {
-					Label: Expert Accessory Buffs
-					Tooltip:
-						'''
-						Contains toggles to buff certain Expert-exclusive accessories and/or enable to scale through progression
-						All changes made by these toggles should apply to modded upgrades/tinkers of the accessories, unless otherwise stated
-						'''
+				Headers: {
+					Categories: Additional Categories
+					ExpertTweaks: Expert Mode Tweaks
+					FtwTweaks: For the Worthy Tweaks
+					ItemTweaks: General Item Tweaks
+					ExpertAccTweaks: Expert Mode Accessory Buffs
+					ArmorTweaks: Vanilla Armorset Reworks
+					BossTweaks: Boss and Event Tweaks
+					EnemyTweaks: Enemy Tweaks
+					TownNpcTweaks: Town NPC Tweaks
+					BlockBiomeTweaks: Block and Biome Tweaks
+					MiscTweaks: Misc. Tweaks
 				}
 
 				craftableUncraftables: {
@@ -233,6 +233,15 @@ Mods: {
 						'''
 				}
 
+				LunarWingsPreML: {
+					Label: "[i:WingsSolar] Lunar Wings Pre-Moonlord"
+					Tooltip:
+						'''
+						Replaces the Luminite Bars in the Solar Wings, Vortex Booster, Nebula Mantle, and Stardust Wings' recipes with 20 Souls of Flight, making them accessible prior to Moon Lord
+						The corresponding armor remains locked behind Moon Lord
+						'''
+				}
+
 				ManaFreeSummoner: {
 					Label: "[i:SlimeStaff] [i:ManaCrystal] Summoners don't use mana"
 					Tooltip:
@@ -264,15 +273,6 @@ Mods: {
 						'''
 				}
 
-				NoCoinTheft: {
-					Label: "[i:GoldCoin] No Coin Theft"
-					Tooltip:
-						'''
-						Disables the Expert+ mechanic where enemies can pick up coins dropped on the ground
-						Can choose between vanilla behavior, disabling only bosses picking up coins, or disabling all enemies picking up coins
-						'''
-				}
-
 				NoDamageVariance: {
 					Label: "[i:DPSMeter] Consistent damage"
 					Tooltip:
@@ -292,21 +292,6 @@ Mods: {
 						but it gives a +10% buff instead of +5% to balance this out
 						{$Mods.Terratweaks.Configs.Common.Warn_NoCrossmod}
 						'''
-				}
-
-				NoExpertDebuffTimes: {
-					Label: "[i:AnkhCharm] Remove Expert Mode Extended Debuff Duration"
-					Tooltip: Disables debuffs getting an increased duration in Expert Mode and Master Mode
-				}
-
-				NoExpertFreezingWater: {
-					Label: "[i:ArcticDivingGear] Remove Expert Mode Freezing Water"
-					Tooltip: Water in the ice biome no longer inflicts Chilled in Expert+
-				}
-
-				NoExpertScaling: {
-					Label: "[i:GreenSlimeBanner] Remove Expert Mode Enemy Stat Scaling"
-					Tooltip: Removes the ridiculous stat scaling Expert/Master Mode applies to certain enemies in Hardmode and post-Plantera
 				}
 
 				NPCsSellMinecarts: {
@@ -433,7 +418,7 @@ Mods: {
 				}
 
 				TownNPCsSellWeapons: {
-					Label: "[i:StylistKilLaKillScissorsIWish] Town NPCs Sell Their Weapons"
+					Label: "[i:StylistKilLaKillScissorsIWish] NPCs Sell Their Weapons"
 					Tooltip:
 						'''
 						Enables all town NPCs to sell the weapon they normally drop on death, provided they are happy enough to sell Pylons
@@ -449,34 +434,23 @@ Mods: {
 					Tooltip: Reworks the Umbrella Hat vanity item into an accessory which grants fall damage immunity and lets you hold jump in midair to slow your descent
 				}
 
-				LunarWingsPreML: {
-					Tooltip: ""
-					Label: Lunar Wings Pre M L
-				}
-			}
-
-			ExpertAccBuffs: {
 				RoyalGel: {
-					Label: "[i:RoyalGel] Royal Gel"
+					Label: "[i:RoyalGel] Royal Gel buff"
 					Tooltip: If Queen Slime has been defeated, the Royal Gel pacifies the King and Queen Slime's minions
 				}
 
 				HivePack: {
-					Label: "[i:HiveBackpack] Hive Pack"
+					Label: "[i:HiveBackpack] Hive Pack buff"
 					Tooltip: If Plantera has been defeated, the Hive Pack makes affected weapons inflict Acid Venom!
 				}
 
 				BoneHelm: {
-					Label: "[i:BoneHelm] Bone Helm"
+					Label: "[i:BoneHelm] Bone Helm buff"
 					Tooltip: Increases the base damage of the Bone Helm's projectiles from 18 to 24, and its projectiles gain numerous buffs in Hardmode
 				}
 
-				Tooltip: ""
-			}
-
-			ArmorReworks: {
-				Spider: {
-					Label: "[i:SpiderMask] [i:SpiderBreastplate] [i:SpiderGreaves] Spider armor"
+				SpiderSetBonus: {
+					Label: "[i:SpiderMask] [i:SpiderBreastplate] [i:SpiderGreaves] Spider Set Bonus"
 					Tooltip:
 						'''
 						Each piece increases summon damage by 2% more than vanilla (so the total damage is 6% less than with vanilla's set bonus), and the breastplate gives one extra sentry slot
@@ -484,23 +458,23 @@ Mods: {
 						'''
 				}
 
-				Cobalt: {
-					Label: "[i:CobaltHat] [i:CobaltHelmet] [i:CobaltMask] [i:CobaltBreastplate] [i:CobaltLeggings] Cobalt armor"
+				CobaltSetBonus: {
+					Label: "[i:CobaltHat] [i:CobaltHelmet] [i:CobaltMask] [i:CobaltBreastplate] [i:CobaltLeggings] Cobalt Set Bonus"
 					Tooltip: New set bonus: Dealing damage increases your defense and provides knockback immunity
 				}
 
-				Mythril: {
-					Label: "[i:MythrilHood] [i:MythrilHelmet] [i:MythrilHat] [i:MythrilChainmail] [i:MythrilGreaves] Mythril armor"
+				MythrilSetBonus: {
+					Label: "[i:MythrilHood] [i:MythrilHelmet] [i:MythrilHat] [i:MythrilChainmail] [i:MythrilGreaves] Mythril Set Bonus"
 					Tooltip: New set bonus: Columns of flames shoot up from hit enemies
 				}
 
-				Adamantite: {
-					Label: "[i:AdamantiteHeadgear] [i:AdamantiteHelmet] [i:AdamantiteMask] [i:AdamantiteBreastplate] [i:AdamantiteLeggings] Adamantite armor"
+				AdamantiteSetBonus: {
+					Label: "[i:AdamantiteHeadgear] [i:AdamantiteHelmet] [i:AdamantiteMask] [i:AdamantiteBreastplate] [i:AdamantiteLeggings] Adamantite Set Bonus"
 					Tooltip: New set bonus: Hearts circle around you, kill them to get a small bit of healing
 				}
 
-				Spooky: {
-					Label: "[i:SpookyHelmet] [i:SpookyBreastplate] [i:SpookyLeggings] Spooky armor"
+				SpookySetBonus: {
+					Label: "[i:SpookyHelmet] [i:SpookyBreastplate] [i:SpookyLeggings] Spooky Set Bonus"
 					Tooltip:
 						'''
 						Each piece increases summon damage by 6% more than vanilla (so the total damage is 7% less than with vanilla's set bonus)
@@ -508,7 +482,29 @@ Mods: {
 						'''
 				}
 
-				Tooltip: ""
+				NoCoinTheft: {
+					Label: "[i:GoldCoin] No Coin Theft"
+					Tooltip:
+						'''
+						Disables the Expert+ mechanic where enemies can pick up coins dropped on the ground
+						Can choose between vanilla behavior, disabling only bosses picking up coins, or disabling all enemies picking up coins
+						'''
+				}
+
+				NoExpertDebuffTimes: {
+					Label: "[i:AnkhCharm] Remove Expert Mode Extended Debuff Duration"
+					Tooltip: Disables debuffs getting an increased duration in Expert Mode and Master Mode
+				}
+
+				NoExpertFreezingWater: {
+					Label: "[i:ArcticDivingGear] Remove Expert Mode Freezing Water"
+					Tooltip: Water in the ice biome no longer inflicts Chilled in Expert+
+				}
+
+				NoExpertScaling: {
+					Label: "[i:GreenSlimeBanner] Remove Expert Mode Enemy Stat Scaling"
+					Tooltip: Removes the ridiculous stat scaling Expert/Master Mode applies to certain enemies in Hardmode and post-Plantera
+				}
 			}
 
 			CraftableUncraftables: {

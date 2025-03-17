@@ -36,10 +36,9 @@ namespace Terratweaks
 	public class TerratweaksConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide;
-		
-		public ArmorReworks armorBonuses = new();
 
-		public ExpertAccBuffs expertAccBuffs = new();
+		// Extra tweak categories
+		[Header("Categories")]
 
 		public CraftableUncraftables craftableUncraftables = new();
 
@@ -49,38 +48,125 @@ namespace Terratweaks
 
 		public AlchTweaks alchemitweaks = new();
 
-		[DefaultValue(true)]
-		public bool BannersDontSpamChat { get; set; }
+		// Expert Mode tweaks
+		[Header("ExpertTweaks")]
 
 		[ReloadRequired]
+		[DefaultValue(CoinTheftSetting.Limited)]
+		public CoinTheftSetting NoCoinTheft { get; set; }
+
 		[DefaultValue(false)]
-		public bool BetterBestiary { get; set; }
+		public bool NoExpertScaling { get; set; }
 
-		[DefaultValue(true)]
-		public bool BetterCrackedBricks { get; set; }
+		[DefaultValue(false)]
+		public bool NoExpertDebuffTimes { get; set; }
 
-		[DefaultValue(true)]
-		public bool BetterHappiness { get; set; }
+		[DefaultValue(false)]
+		public bool NoExpertFreezingWater { get; set; }
 
-		[DefaultValue(1)]
-		[Range(0f, 10f)]
-		[Increment(0.25f)]
-		public float BossesLowerSpawnRates { get; set; }
+		// For The Worthy tweaks (coming soon!)
+		//[Header("FtwTweaks")]
 
-		[DefaultValue(0)]
-		[Range(0, 10)]
-		public int PlayerDeathsToCallOffInvasion { get; set; }
-
-		[DefaultValue(0)]
-		[Range(0, 10)]
-		public int NPCDeathsToCallOffInvasion { get; set; }
+		// General item tweaks
+		[Header("ItemTweaks")]
 
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ChesterRework { get; set; }
 
+		[DefaultValue(DamageVarianceSetting.Off)]
+		public DamageVarianceSetting NoDamageVariance { get; set; }
+
 		[DefaultValue(false)]
 		public bool CritsBypassDefense { get; set; }
+
+		[DefaultValue(true)]
+		public bool DangersenseHighlightsSilt { get; set; }
+
+		[DefaultValue(true)]
+		public bool DangersenseIgnoresThinIce { get; set; }
+
+		[DefaultValue(true)]
+		public bool DeerWeaponsRework { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool LunarWingsPreML { get; set; }
+
+		[DefaultValue(false)]
+		public bool NoDiminishingReturns { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool OasisCrateBuff { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ReaverSharkTweaks { get; set; }
+
+		[DefaultValue(true)]
+		public bool KillSentries { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool SIRework { get; set; }
+
+		[DefaultValue(SentryAccSetting.Limited)]
+		public SentryAccSetting StackableDD2Accs { get; set; }
+
+		[DefaultValue(true)]
+		public bool ManaFreeSummoner { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool UmbrellaHatRework { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool OreUnification { get; set; }
+
+		// Expert Mode accessory tweaks
+		[Header("ExpertAccTweaks")]
+
+		[DefaultValue(true)]
+		public bool BoneHelm { get; set; }
+
+		[DefaultValue(true)]
+		public bool HivePack { get; set; }
+
+		[DefaultValue(true)]
+		public bool RoyalGel { get; set; }
+
+		// Armorset tweaks
+		[Header("ArmorTweaks")]
+
+		[DefaultValue(true)]
+		public bool SpiderSetBonus { get; set; }
+
+		[DefaultValue(true)]
+		public bool CobaltSetBonus { get; set; }
+
+		[DefaultValue(true)]
+		public bool MythrilSetBonus { get; set; }
+
+		[DefaultValue(true)]
+		public bool AdamantiteSetBonus { get; set; }
+
+		[DefaultValue(true)]
+		public bool SpookySetBonus { get; set; }
+
+		// Boss/event tweaks
+		[Header("BossTweaks")]
+
+		[DefaultValue(0)]
+		[Range(0, 10)]
+		[Slider]
+		public int NPCDeathsToCallOffInvasion { get; set; }
+
+		[DefaultValue(0)]
+		[Range(0, 10)]
+		[Slider]
+		public int PlayerDeathsToCallOffInvasion { get; set; }
 
 		[DefaultValue(true)]
 		public bool DeerclopsRegens { get; set; }
@@ -90,57 +176,59 @@ namespace Terratweaks
 		[DefaultValue(600)]
 		public int DeerRegenAmt { get; set; }
 
-		[DefaultValue(true)]
-		public bool DeerWeaponsRework { get; set; }
-
-		[DefaultValue(DummySetting.Limited)]
-		public DummySetting DummyFix { get; set; }
-
-		[DefaultValue(true)]
-		public bool DyeTraderShopExpansion { get; set; }
-
-		[DefaultValue(true)]
-		public bool DangersenseHighlightsSilt { get; set; }
-
-		[DefaultValue(true)]
-		public bool DangersenseIgnoresThinIce { get; set; }
-
 		[DefaultValue(false)]
 		public bool ForceBossContactDamage { get; set; }
 
-		[DefaultValue(false)]
-		public bool HouseSizeAffectsHappiness { get; set; }
-
 		[DefaultValue(true)]
-		public bool KillSentries { get; set; }
+		public bool PostEyeSandstorms { get; set; }
 
-		[DefaultValue(true)]
-		public bool ManaFreeSummoner { get; set; }
-
-		[DefaultValue(false)]
-		public bool NoCasterContactDamage { get; set; }
+		[DefaultValue(1)]
+		[Range(0f, 10f)]
+		[Increment(0.25f)]
+		public float BossesLowerSpawnRates { get; set; }
 
 		[ReloadRequired]
-		[DefaultValue(CoinTheftSetting.On)]
-		public CoinTheftSetting NoCoinTheft { get; set; }
+		[DefaultValue(0)]
+		public int TerraprismaDropRate { get; set; }
 
-		[DefaultValue(DamageVarianceSetting.On)]
-		public DamageVarianceSetting NoDamageVariance { get; set; }
+		// Enemy tweaks
+		[Header("EnemyTweaks")]
 
-		[DefaultValue(false)]
-		public bool NoDiminishingReturns { get; set; }
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool PillarEnemiesDropFragments { get; set; }
 
 		[DefaultValue(true)]
 		public bool NoEnemyInvulnerability { get; set; }
 
 		[DefaultValue(false)]
-		public bool NoExpertDebuffTimes { get; set; }
+		public bool NoCasterContactDamage { get; set; }
 
 		[DefaultValue(false)]
-		public bool NoExpertFreezingWater { get; set; }
+		public bool SmartMimics { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool SmartNymphs { get; set; }
+
+		[DefaultValue(DummySetting.Limited)]
+		public DummySetting DummyFix { get; set; }
+
+		// Town NPC tweaks
+		[Header("TownNpcTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool SolutionsOnGFB { get; set; }
+
+		[DefaultValue(true)]
+		public bool DyeTraderShopExpansion { get; set; }
 
 		[DefaultValue(false)]
-		public bool NoExpertScaling { get; set; }
+		public bool HouseSizeAffectsHappiness { get; set; }
+
+		[DefaultValue(true)]
+		public bool BetterHappiness { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -148,11 +236,17 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
-		public bool OasisCrateBuff { get; set; }
+		public bool TownNPCsSellWeapons { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
-		public bool OreUnification { get; set; }
+		public bool SoilSolutionsPreML { get; set; }
+
+		// Block & biome tweaks
+		[Header("BlockBiomeTweaks")]
+
+		[DefaultValue(true)]
+		public bool BetterCrackedBricks { get; set; }
 
 		[DefaultValue(false)]
 		public bool OverrideGraveyardRequirements { get; set; }
@@ -175,54 +269,15 @@ namespace Terratweaks
 		[Slider]
 		public int GraveyardMax { get; set; }
 
-		[ReloadRequired]
-		[DefaultValue(false)]
-		public bool LunarWingsPreML { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool PillarEnemiesDropFragments { get; set; }
+		// Misc. tweaks
+		[Header("MiscTweaks")]
 
 		[DefaultValue(true)]
-		public bool PostEyeSandstorms { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool ReaverSharkTweaks { get; set; }
+		public bool BannersDontSpamChat { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(false)]
-		public bool SIRework { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool SoilSolutionsPreML { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool SolutionsOnGFB { get; set; }
-
-		[DefaultValue(false)]
-		public bool SmartMimics { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(false)]
-		public bool SmartNymphs { get; set; }
-
-		[DefaultValue(SentryAccSetting.Limited)]
-		public SentryAccSetting StackableDD2Accs { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(0)]
-		public int TerraprismaDropRate { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool TownNPCsSellWeapons { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool UmbrellaHatRework { get; set; }
+		public bool BetterBestiary { get; set; }
 
 		public override bool NeedsReload(ModConfig pendingConfig)
 		{
@@ -326,38 +381,6 @@ namespace Terratweaks
 
 		[DefaultValue(true)]
 		public bool WingStatsInTip { get; set; }
-	}
-
-	[SeparatePage]
-	public class ExpertAccBuffs
-	{
-		[DefaultValue(true)]
-		public bool RoyalGel { get; set; }
-
-		[DefaultValue(true)]
-		public bool HivePack { get; set; }
-
-		[DefaultValue(true)]
-		public bool BoneHelm { get; set; }
-	}
-
-	[SeparatePage]
-	public class ArmorReworks
-	{
-		[DefaultValue(true)]
-		public bool Spider { get; set; }
-
-		[DefaultValue(true)]
-		public bool Cobalt { get; set; }
-
-		[DefaultValue(true)]
-		public bool Mythril { get; set; }
-
-		[DefaultValue(true)]
-		public bool Adamantite { get; set; }
-
-		[DefaultValue(true)]
-		public bool Spooky { get; set; }
 	}
 
 	[SeparatePage]

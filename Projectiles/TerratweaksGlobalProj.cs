@@ -27,7 +27,7 @@ namespace Terratweaks.Projectiles
 			}
 
 			// Increase Bone Helm damage, increase it further and increase armor pen and pierce in Hardmode
-			if (GetInstance<TerratweaksConfig>().expertAccBuffs.BoneHelm && projectile.type == ProjectileID.InsanityShadowFriendly)
+			if (GetInstance<TerratweaksConfig>().BoneHelm && projectile.type == ProjectileID.InsanityShadowFriendly)
 			{
 				projectile.damage += 6;
 

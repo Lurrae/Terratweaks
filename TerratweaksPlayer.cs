@@ -236,9 +236,9 @@ namespace Terratweaks
 			}
 
 			// Royal Gel buff - If Queen Slime is dead, it protects against Spiked Slimes and Queen Slime's three minions
-			var expertAccBuffs = GetInstance<TerratweaksConfig>().expertAccBuffs;
+			var config = GetInstance<TerratweaksConfig>();
 
-			if (expertAccBuffs.RoyalGel && NPC.downedQueenSlime)
+			if (config.RoyalGel && NPC.downedQueenSlime)
 			{
 				if (Player.npcTypeNoAggro[NPCID.BlueSlime]) // Player has an accessory that gives Royal Gel's effects
 				{
@@ -250,7 +250,7 @@ namespace Terratweaks
 			}
 
 			// Hive Pack buff - If Plantera is dead, buff damage of all bee/wasp weapons and sometimes spawn a swarm of large bees
-			if (expertAccBuffs.HivePack && NPC.downedPlantBoss)
+			if (config.HivePack && NPC.downedPlantBoss)
 			{
 				if (Player.strongBees)
 					buffedHivePack = true;

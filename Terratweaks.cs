@@ -210,6 +210,14 @@ namespace Terratweaks
 								"TerraprismaDropRate" => config.TerraprismaDropRate,
 								"TownNPCsSellWeapons" => config.TownNPCsSellWeapons,
 								"UmbrellaHatRework" => config.UmbrellaHatRework,
+								"ExpertAccBuffs_RoyalGel" or "RoyalGelBuff" => config.RoyalGel,
+								"ExpertAccBuffs_HivePack" or "HivePackBuff" => config.HivePack,
+								"ExpertAccBuffs_BoneHelm" or "BoneHelmBuff" => config.BoneHelm,
+								"ArmorReworks_Spider" or "SpiderArmorSetBonus" or "SpiderSetBonus" => config.SpiderSetBonus,
+								"ArmorReworks_Cobalt" or "CobaltArmorSetBonus" or "CobaltSetBonus" => config.CobaltSetBonus,
+								"ArmorReworks_Mythril" or "MythrilArmorSetBonus" or "MythrilSetBonus" => config.MythrilSetBonus,
+								"ArmorReworks_Adamantite" or "AdamantiteArmorSetBonus" or "AdamantiteSetBonus" => config.AdamantiteSetBonus,
+								"ArmorReworks_Spooky" or "SpookyArmorSetBonus" or "SpookySetBonus" => config.SpookySetBonus,
 
 								"Client_EstimatedDPS" or "EstimatedDPS" => clientConfig.EstimatedDPS,
 								"Client_GrammarCorrections" or "GrammarCorrections" => clientConfig.GrammarCorrections,
@@ -217,16 +225,6 @@ namespace Terratweaks
 								"Client_PermBuffTips" or "PermBuffTips" => clientConfig.PermBuffTips,
 								"Client_StatsInTip" or "StatsInTip" => clientConfig.StatsInTip,
 								"Client_WingStatsInTip" or "WingStatsInTip" => clientConfig.WingStatsInTip,
-
-								"ExpertAccBuffs_RoyalGel" or "RoyalGelBuff" => config.expertAccBuffs.RoyalGel,
-								"ExpertAccBuffs_HivePack" or "HivePackBuff" => config.expertAccBuffs.HivePack,
-								"ExpertAccBuffs_BoneHelm" or "BoneHelmBuff" => config.expertAccBuffs.BoneHelm,
-
-								"ArmorReworks_Spider" or "SpiderArmorSetBonus" => config.armorBonuses.Spider,
-								"ArmorReworks_Cobalt" or "CobaltArmorSetBonus" => config.armorBonuses.Cobalt,
-								"ArmorReworks_Mythril" or "MythrilArmorSetBonus" => config.armorBonuses.Mythril,
-								"ArmorReworks_Adamantite" or "AdamantiteArmorSetBonus" => config.armorBonuses.Adamantite,
-								"ArmorReworks_Spooky" or "SpookyArmorSetBonus" => config.armorBonuses.Spooky,
 
 								"CraftableUncraftables_PlanterBoxes" or "PlanterBoxesRecipe" => config.craftableUncraftables.PlanterBoxes,
 								"CraftableUncraftables_GemCritters" or "GemCrittersRecipe" => config.craftableUncraftables.GemCritters,
