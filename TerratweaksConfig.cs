@@ -238,6 +238,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool TownNPCsSellWeapons { get; set; }
 
+		[DefaultValue(true)]
+		public bool OldChestDungeon { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool SoilSolutionsPreML { get; set; }

@@ -924,4 +924,20 @@ namespace Terratweaks.NPCs
 			maxSpawns = (int)Math.Round(maxSpawns * config.BossesLowerSpawnRates);
 		}
 	}
+
+	public class BlockSpawns : GlobalNPC
+	{
+		public override void OnSpawn(NPC npc, IEntitySource source)
+		{
+			if (GetInstance<TerratweaksConfig>().OldChestDungeon && npc.type == NPCID.BoundTownSlimeOld && source is EntitySource_SpawnNPC)
+			{
+				Tile tile = Main.tile[(int)Math.Round(npc.position.X / 16), (int)Math.Round(npc.position.Y / 16)];
+
+				if (!Main.wallDungeon[tile.WallType])
+				{
+					npc.active = false;
+				}
+			}
+		}
+	}
 }

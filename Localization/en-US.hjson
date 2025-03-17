@@ -342,6 +342,11 @@ Mods: {
 					Tooltip: Does nothing if "Override Graveyard Requirements" is disabled. Even after a graveyard becomes active, placing more tombstones will increase the intensity of the visuals, up to this amount (vanilla value is 9)
 				}
 
+				OldChestDungeon: {
+					Label: "[i:Chest] Old Shaking Chest only spawns in the Dungeon"
+					Tooltip: Prevents the Old Shaking Chest spawning outside of the Dungeon. After all, it can only be unlocked if you have a Golden Key, and you probably won't have those on hand outside of the Dungeon
+				}
+
 				PillarEnemiesDropFragments: {
 					Label: "[i:FragmentSolar] Easy Fragment Farming"
 					Tooltip: If Moon Lord has been defeated, all pillar enemies have a 25% chance to drop their respective fragment
