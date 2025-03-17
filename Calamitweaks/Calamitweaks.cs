@@ -8,7 +8,6 @@ using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using MonoMod.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +32,6 @@ namespace Terratweaks.Calamitweaks
 		private static readonly MethodInfo _onionSlotIsEnabled = typeof(CelestialOnionAccessorySlot).GetMethod("IsEnabled", BindingFlags.Instance | BindingFlags.Public);
 		private static readonly MethodInfo _calGlobalNpcPostAi = typeof(CalamityGlobalNPC).GetMethod("PostAI", BindingFlags.Instance | BindingFlags.Public);
 		
-
 		public override void Load()
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
@@ -88,12 +86,6 @@ namespace Terratweaks.Calamitweaks
 			profiles.Add(ItemID.AshWoodSword, new FinalFractalHelper.FinalFractalProfile(32f, new Color(255, 255, 255)));
 			#endregion
 
-			#region Neptune's Bounty crafting tree
-			profiles.Add(ModContent.ItemType<NeptunesBounty>(), new FinalFractalHelper.FinalFractalProfile(122f, new Color(0, 18, 32)));
-			profiles.Add(ModContent.ItemType<AbyssBlade>(), new FinalFractalHelper.FinalFractalProfile(74f, new Color(0, 18, 32)));
-			profiles.Add(ModContent.ItemType<DepthCrusher>(), new FinalFractalHelper.FinalFractalProfile(56f, new Color(0, 18, 32)));
-			#endregion
-
 			#region Plague Keeper crafting tree
 			profiles.Add(ModContent.ItemType<PlagueKeeper>(), new FinalFractalHelper.FinalFractalProfile(90f, new Color(80, 222, 122)));
 			profiles.Add(ModContent.ItemType<Virulence>(), new FinalFractalHelper.FinalFractalProfile(62f, new Color(80, 222, 122)));
@@ -102,6 +94,7 @@ namespace Terratweaks.Calamitweaks
 			#region Swords that are not part of any grand crafting tree
 			profiles.Add(ModContent.ItemType<Excelsus>(), new FinalFractalHelper.FinalFractalProfile(78f, new Color(255, 231, 255)));
 			profiles.Add(ModContent.ItemType<GalactusBlade>(), new FinalFractalHelper.FinalFractalProfile(60f, new Color(236, 62, 152)));
+			profiles.Add(ModContent.ItemType<VoidEdge>(), new FinalFractalHelper.FinalFractalProfile(122f, new Color(62, 0, 66)));
 			profiles.Add(ModContent.ItemType<HolyCollider>(), new FinalFractalHelper.FinalFractalProfile(140f, new Color(255, 231, 69)));
 			profiles.Add(ModContent.ItemType<AstralBlade>(), new FinalFractalHelper.FinalFractalProfile(80f, new Color(255, 231, 255)));
 			profiles.Add(ModContent.ItemType<Greentide>(), new FinalFractalHelper.FinalFractalProfile(62f, new Color(80, 222, 122)));

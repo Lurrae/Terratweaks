@@ -899,7 +899,7 @@ namespace Terratweaks
 				calamity.TryFind("Terratomere", out ModItem terratomere);
 				calamity.TryFind("ArkoftheCosmos", out ModItem cosmosArk);
 				calamity.TryFind("Excelsus", out ModItem excelsus);
-				calamity.TryFind("NeptunesBounty", out ModItem neptuneBounty);
+				calamity.TryFind("VoidEdge", out ModItem voidEdge);
 				calamity.TryFind("GalactusBlade", out ModItem galactusBlade);
 				calamity.TryFind("HolyCollider", out ModItem holyCollider);
 				// Star Wrath (3.0)
@@ -923,7 +923,7 @@ namespace Terratweaks
 				// Add all of the Calamity swords at their respective progression stages using floats to represent progression stages
 				ingredients.Add(1.01f, cosmosArk.Type);
 				ingredients.Add(1.15f, excelsus.Type);
-				ingredients.Add(1.25f, neptuneBounty.Type);
+				ingredients.Add(1.25f, voidEdge.Type);
 				ingredients.Add(1.5f, galactusBlade.Type);
 				ingredients.Add(1.51f, holyCollider.Type);
 				ingredients.Add(2.1f, plagueKeeper.Type);
