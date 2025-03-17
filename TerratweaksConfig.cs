@@ -506,6 +506,10 @@ namespace Terratweaks
 
 		[DefaultValue(false)]
 		public bool SummonerAccBuffs { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ZenithRecipeOverhaul { get; set; }
 	}
 
 	[SeparatePage]
@@ -513,6 +517,10 @@ namespace Terratweaks
 	{
 		[DefaultValue(false)]
 		public bool EatCooksFoodInCombat { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ZenithRecipeOverhaul { get; set; }
 	}
 
 	[SeparatePage]

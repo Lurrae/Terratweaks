@@ -140,7 +140,26 @@ namespace Terratweaks
 
 		public override void AddRecipeGroups()
 		{
-			RecipeGroup.RegisterGroup("DungeonBricks", new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} Dungeon Brick", ItemID.BlueBrick, ItemID.GreenBrick, ItemID.PinkBrick));
+			string anyDungeonBrick = Language.GetTextValue("Mods.Terratweaks.RecipeGroups.DungeonBricks"); // "Any Dungeon Brick"
+			RecipeGroup.RegisterGroup("DungeonBricks", new RecipeGroup(() => anyDungeonBrick, ItemID.BlueBrick, ItemID.GreenBrick, ItemID.PinkBrick));
+
+			if (ModLoader.TryGetMod("CalamityMod", out Mod calamity))
+			{
+				if (calamity.TryFind("PerfectDark", out ModItem pDark) && calamity.TryFind("VeinBurster", out ModItem vBurster))
+				{
+					string anyEvilSword = Language.GetTextValue("Mods.Terratweaks.RecipeGroups.CalEvilSwords"); // "Perfect Dark or Vein Burster"
+					RecipeGroup.RegisterGroup("CalEvilSwords", new RecipeGroup(() => anyEvilSword, pDark.Type, vBurster.Type));
+				}
+			}
+
+			if (ModLoader.TryGetMod("ThoriumMod", out Mod thorium))
+			{
+				if (thorium.TryFind("ValadiumSlicer", out ModItem vSlicer) && thorium.TryFind("LodeStoneClaymore", out ModItem lClaymore))
+				{
+					string anyThorSword = Language.GetTextValue("Mods.Terratweaks.RecipeGroups.ThorSwords"); // "Lodestone Claymore or Valadium Slicer"
+					RecipeGroup.RegisterGroup("ThorSwords", new RecipeGroup(() => anyThorSword, vSlicer.Type, lClaymore.Type));
+				}
+			}
 		}
 
 		private static void AddTeamBlockRecipe(int teamBlockType, int dyeType)
@@ -822,6 +841,8 @@ namespace Terratweaks
 		{
 			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 
+			HandleModZenithRecipes();
+
 			// Don't iterate over recipes if no configs that change recipes are active
 			// This is meant to help cut down on performance costs
 			if (!config.LunarWingsPreML)
@@ -841,6 +862,142 @@ namespace Terratweaks
 						recipe.RemoveIngredient(ItemID.LunarBar);
 						recipe.AddIngredient(ItemID.SoulofFlight, 20);
 					}
+				}
+			}
+		}
+
+		private static void HandleModZenithRecipes()
+		{
+			CalTweaks calamitweaks = GetInstance<TerratweaksConfig>().calamitweaks;
+			ThorTweaks thoritweaks = GetInstance<TerratweaksConfig>().thoritweaks;
+
+			bool addCalSwords = ModLoader.HasMod("CalamityMod") && calamitweaks.ZenithRecipeOverhaul;
+			bool addThorSwords = ModLoader.HasMod("ThoriumMod") && thoritweaks.ZenithRecipeOverhaul;
+
+			// Don't waste time doing any funky calculations if we know we don't need to
+			if (!addCalSwords && !addThorSwords)
+				return;
+
+			SortedDictionary<float, int> ingredients = new()
+			{
+				{ 1.0f, ItemID.TerraBlade },
+				{ 2.0f, ItemID.Meowmere },
+				{ 3.0f, ItemID.StarWrath },
+				{ 4.0f, ItemID.InfluxWaver },
+				{ 5.0f, ItemID.TheHorsemansBlade },
+				{ 6.0f, ItemID.Seedler },
+				{ 7.0f, ItemID.Starfury },
+				{ 8.0f, ItemID.BeeKeeper },
+				{ 9.0f, ItemID.EnchantedSword },
+				{ 10.0f, ItemID.CopperShortsword }
+			};
+
+			Dictionary<float, string> recipeGroups = new() {};
+
+			if (addCalSwords && ModLoader.TryGetMod("CalamityMod", out Mod calamity))
+			{
+				calamity.TryFind("Terratomere", out ModItem terratomere);
+				calamity.TryFind("ArkoftheCosmos", out ModItem cosmosArk);
+				calamity.TryFind("Excelsus", out ModItem excelsus);
+				calamity.TryFind("NeptunesBounty", out ModItem neptuneBounty);
+				calamity.TryFind("GalactusBlade", out ModItem galactusBlade);
+				calamity.TryFind("HolyCollider", out ModItem holyCollider);
+				// Star Wrath (3.0)
+				calamity.TryFind("AstralBlade", out ModItem astralBlade);
+				// Influx Waver (7.0)
+				calamity.TryFind("PlagueKeeper", out ModItem plagueKeeper);
+				// The Horseman's Blade (6.0)
+				calamity.TryFind("Greentide", out ModItem greentide);
+				// Seedler (5.0)
+				calamity.TryFind("BrimstoneSword", out ModItem brimstoneSword);
+				// Perfect Dark / Vein Burster
+				calamity.TryFind("SeashineSword", out ModItem seashineSword);
+				// Copper Shortsword (10.0)
+
+				ingredients[1.0f] = terratomere.Type; // Replace Terra Blade with Terratomere
+				// Remove Star Wrath, Starfury, Bee Keeper, and Enchanted Sword, as they all have been replaced with swords at different progression points
+				ingredients.Remove(3.0f);
+				ingredients.Remove(7.0f);
+				ingredients.Remove(8.0f);
+				ingredients.Remove(9.0f);
+				// Add all of the Calamity swords at their respective progression stages using floats to represent progression stages
+				ingredients.Add(1.01f, cosmosArk.Type);
+				ingredients.Add(1.15f, excelsus.Type);
+				ingredients.Add(1.25f, neptuneBounty.Type);
+				ingredients.Add(1.5f, galactusBlade.Type);
+				ingredients.Add(1.51f, holyCollider.Type);
+				ingredients.Add(2.1f, plagueKeeper.Type);
+				ingredients.Add(3.05f, astralBlade.Type);
+				ingredients.Add(5.8f, greentide.Type);
+				ingredients.Add(6.5f, brimstoneSword.Type);
+				ingredients.Add(8.5f, -1); // -1 indicates to the code below, "hey check the recipe group dictionary"
+				recipeGroups.Add(8.5f, "CalEvilSwords");
+				ingredients.Add(9.75f, seashineSword.Type);
+			}
+
+			if (addThorSwords && ModLoader.TryGetMod("ThoriumMod", out Mod thorium))
+			{
+				// Terra Blade (1.0)
+				// Meowmere (2.0)
+				// Star Wrath (3.0)
+				thorium.TryFind("TerrariumSaber", out ModItem tSaber);
+				// Influx Waver (4.0)
+				thorium.TryFind("SolScorchedSlab", out ModItem solSlab);
+				// The Horseman's Blade (5.0)
+				// Seedler (6.0)
+				// Lodestone Claymore / Valadium Slicer
+				thorium.TryFind("WhirlpoolSaber", out ModItem wSaber);
+				// Starfury (7.0)
+				// Bee Keeper (8.0)
+				// Enchanted Sword (9.0)
+				thorium.TryFind("ThoriumBlade", out ModItem tBlade);
+				thorium.TryFind("ThunderTalon", out ModItem tTalon);
+				// Copper Shortsword (10.0)
+
+				ingredients.Add(3.1f, tSaber.Type);
+				ingredients.Add(4.5f, solSlab.Type);
+				ingredients.Add(6.6f, -1); // -1 indicates to the code below, "hey check the recipe group dictionary"
+				recipeGroups.Add(6.6f, "ThorSwords");
+				ingredients.Add(6.9f, wSaber.Type);
+				ingredients.Add(9.8f, tBlade.Type);
+				ingredients.Add(9.9f, tTalon.Type);
+			}
+
+			foreach (Recipe recipe in Main.recipe)
+			{
+				if (recipe.HasResult(ItemID.Zenith))
+				{
+					recipe.DisableRecipe();
+
+					Recipe r = Recipe.Create(ItemID.Zenith);
+
+					foreach (KeyValuePair<float, int> pair in ingredients)
+					{
+						int sword = pair.Value;
+
+						if (sword == -1)
+						{
+							r.AddRecipeGroup(recipeGroups[pair.Key]);
+						}
+						else
+						{
+							r.AddIngredient(sword);
+						}
+					}
+
+					if (addCalSwords && ModLoader.TryGetMod("CalamityMod", out Mod cal))
+					{
+						if (cal.TryFind("CosmicAnvil", out ModTile cosmicAnvil))
+						{
+							r.AddTile(cosmicAnvil.Type);
+						}
+					}
+					else
+					{
+						r.AddTile(TileID.MythrilAnvil);
+					}
+
+					r.Register();
 				}
 			}
 		}

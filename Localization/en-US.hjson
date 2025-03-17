@@ -32,6 +32,12 @@ Mods: {
 			NightEoL: Drops if the Empress of Light is attacked at least once during the night
 		}
 
+		RecipeGroups: {
+			DungeonBricks: "{$LegacyMisc.37} Dungeon Brick"
+			CalEvilSwords: "{$Mods.CalamityMod.Items.Weapons.Melee.PerfectDark.DisplayName} or {$Mods.CalamityMod.Items.Weapons.Melee.VeinBurster.DisplayName}"
+			ThorSwords: "{$Mods.ThoriumMod.Items.LodeStoneClaymore.DisplayName} or {$Mods.ThoriumMod.Items.ValadiumSlicer.DisplayName}"
+		}
+
 		Configs: {
 			Common.Warn_NoCrossmod: "[c/FF3300:Note: Items from other mods likely won't be affected by this config option]"
 
@@ -877,6 +883,16 @@ Mods: {
 					Tooltip: Increases the number of minion slots provided by the Star-Tainted Generator and Nucleogenesis to equal the number of combined slots provided by their components
 				}
 
+				ZenithRecipeOverhaul: {
+					Label: "[i:Zenith] Zenith Recipe Tweaks"
+					Tooltip:
+						'''
+						Updates the Zenith's recipe to utilize Calamity swords in addition to vanilla swords (though many vanilla swords are replaced by upgrades), and makes all the new swords show up as Zenith projectiles
+						Also removes the Auric Bars from Zenith's recipe, as the new swords already lock the Zenith behind Yharon
+						If playing with both Calamity and Thorium, both Zenith recipe tweaks options can be enabled in tandem to use swords from both mods!
+						'''
+				}
+
 				Tooltip: ""
 			}
 
@@ -887,6 +903,15 @@ Mods: {
 						'''
 						Disables the mechanic where most of the Cook's food items cannot be eaten if the player is in combat
 						Does not affect any other mechanics that rely on being in/out of combat
+						'''
+				}
+
+				ZenithRecipeOverhaul: {
+					Label: "[i:Zenith] Zenith Recipe Tweaks"
+					Tooltip:
+						'''
+						Updates the Zenith's recipe to utilize Thorium swords in addition to vanilla swords, and makes all the new swords show up as Zenith projectiles
+						If playing with both Calamity and Thorium, both Zenith recipe tweaks options can be enabled in tandem to use swords from both mods!
 						'''
 				}
 

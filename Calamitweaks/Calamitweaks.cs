@@ -3,15 +3,20 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs;
+using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using MonoMod.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.Graphics;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace Terratweaks.Calamitweaks
@@ -27,6 +32,8 @@ namespace Terratweaks.Calamitweaks
 		private static readonly MethodInfo _canUseOnion = typeof(CelestialOnion).GetMethod("CanUseItem", BindingFlags.Instance | BindingFlags.Public);
 		private static readonly MethodInfo _onionSlotIsEnabled = typeof(CelestialOnionAccessorySlot).GetMethod("IsEnabled", BindingFlags.Instance | BindingFlags.Public);
 		private static readonly MethodInfo _calGlobalNpcPostAi = typeof(CalamityGlobalNPC).GetMethod("PostAI", BindingFlags.Instance | BindingFlags.Public);
+		
+
 		public override void Load()
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
@@ -41,9 +48,68 @@ namespace Terratweaks.Calamitweaks
 			MonoModHooks.Add(_blockDrops, PreventFoodDropBlocking);
 			MonoModHooks.Add(_onionSlotIsEnabled, EnableOnionSlotInMasterMode);
 			MonoModHooks.Add(_canUseOnion, EnableOnionUseInMasterMode);
-
+			
 			//IL.CalamityMod.NPCs.CalamityGlobalNPC.PostAI += DisableEnemyParticles;
 			MonoModHooks.Modify(_calGlobalNpcPostAi, DisableEnemyParticles);
+
+			// Add more swords to Zenith profiles
+			if (calamitweaks.ZenithRecipeOverhaul)
+			{
+				FieldInfo _zenithProfiles = typeof(FinalFractalHelper).GetField("_fractalProfiles", BindingFlags.Static | BindingFlags.NonPublic);
+				Dictionary<int, FinalFractalHelper.FinalFractalProfile> profiles = (Dictionary<int, FinalFractalHelper.FinalFractalProfile>)_zenithProfiles.GetValue(null);
+				AddCalamityZenithProfiles(profiles);
+			}
+		}
+
+		public static void AddCalamityZenithProfiles(Dictionary<int, FinalFractalHelper.FinalFractalProfile> profiles)
+		{
+			#region Terratomere crafting tree
+			profiles.Add(ModContent.ItemType<Terratomere>(), new FinalFractalHelper.FinalFractalProfile(66f, new Color(80, 222, 122)));
+			profiles.Add(ModContent.ItemType<Hellkite>(), new FinalFractalHelper.FinalFractalProfile(84f, new Color(254, 158, 35)));
+			profiles.Add(ModContent.ItemType<Floodtide>(), new FinalFractalHelper.FinalFractalProfile(80f, new Color(91, 158, 232)));
+			#endregion
+
+			#region Ark of the Cosmos crafting tree
+			profiles.Add(ModContent.ItemType<ArkoftheCosmos>(), new FinalFractalHelper.FinalFractalProfile(132f, new Color(255, 255, 255)));
+			profiles.Add(ModContent.ItemType<ArkoftheElements>(), new FinalFractalHelper.FinalFractalProfile(112f, new Color(255, 255, 255)));
+			profiles.Add(ModContent.ItemType<TrueArkoftheAncients>(), new FinalFractalHelper.FinalFractalProfile(72f, new Color(255, 255, 255)));
+			profiles.Add(ModContent.ItemType<FracturedArk>(), new FinalFractalHelper.FinalFractalProfile(60f, new Color(255, 255, 255)));
+			profiles.Add(ModContent.ItemType<FourSeasonsGalaxia>(), new FinalFractalHelper.FinalFractalProfile(126f, new Color(255, 255, 255)));
+			profiles.Add(ModContent.ItemType<TrueBiomeBlade>(), new FinalFractalHelper.FinalFractalProfile(68f, new Color(255, 255, 255)));
+			profiles.Add(ModContent.ItemType<OmegaBiomeBlade>(), new FinalFractalHelper.FinalFractalProfile(86f, new Color(255, 255, 255)));
+			profiles.Add(ModContent.ItemType<BrokenBiomeBlade>(), new FinalFractalHelper.FinalFractalProfile(36f, new Color(255, 255, 255)));
+			profiles.Add(ItemID.WoodenSword, new FinalFractalHelper.FinalFractalProfile(32f, new Color(255, 255, 255)));
+			profiles.Add(ItemID.BorealWoodSword, new FinalFractalHelper.FinalFractalProfile(32f, new Color(255, 255, 255)));
+			profiles.Add(ItemID.RichMahoganySword, new FinalFractalHelper.FinalFractalProfile(32f, new Color(255, 255, 255)));
+			profiles.Add(ItemID.PalmWoodSword, new FinalFractalHelper.FinalFractalProfile(32f, new Color(255, 255, 255)));
+			profiles.Add(ItemID.EbonwoodSword, new FinalFractalHelper.FinalFractalProfile(32f, new Color(255, 255, 255)));
+			profiles.Add(ItemID.ShadewoodSword, new FinalFractalHelper.FinalFractalProfile(32f, new Color(255, 255, 255)));
+			profiles.Add(ItemID.PearlwoodSword, new FinalFractalHelper.FinalFractalProfile(32f, new Color(255, 255, 255)));
+			profiles.Add(ItemID.AshWoodSword, new FinalFractalHelper.FinalFractalProfile(32f, new Color(255, 255, 255)));
+			#endregion
+
+			#region Neptune's Bounty crafting tree
+			profiles.Add(ModContent.ItemType<NeptunesBounty>(), new FinalFractalHelper.FinalFractalProfile(122f, new Color(0, 18, 32)));
+			profiles.Add(ModContent.ItemType<AbyssBlade>(), new FinalFractalHelper.FinalFractalProfile(74f, new Color(0, 18, 32)));
+			profiles.Add(ModContent.ItemType<DepthCrusher>(), new FinalFractalHelper.FinalFractalProfile(56f, new Color(0, 18, 32)));
+			#endregion
+
+			#region Plague Keeper crafting tree
+			profiles.Add(ModContent.ItemType<PlagueKeeper>(), new FinalFractalHelper.FinalFractalProfile(90f, new Color(80, 222, 122)));
+			profiles.Add(ModContent.ItemType<Virulence>(), new FinalFractalHelper.FinalFractalProfile(62f, new Color(80, 222, 122)));
+			#endregion
+
+			#region Swords that are not part of any grand crafting tree
+			profiles.Add(ModContent.ItemType<Excelsus>(), new FinalFractalHelper.FinalFractalProfile(78f, new Color(255, 231, 255)));
+			profiles.Add(ModContent.ItemType<GalactusBlade>(), new FinalFractalHelper.FinalFractalProfile(60f, new Color(236, 62, 152)));
+			profiles.Add(ModContent.ItemType<HolyCollider>(), new FinalFractalHelper.FinalFractalProfile(140f, new Color(255, 231, 69)));
+			profiles.Add(ModContent.ItemType<AstralBlade>(), new FinalFractalHelper.FinalFractalProfile(80f, new Color(255, 231, 255)));
+			profiles.Add(ModContent.ItemType<Greentide>(), new FinalFractalHelper.FinalFractalProfile(62f, new Color(80, 222, 122)));
+			profiles.Add(ModContent.ItemType<BrimstoneSword>(), new FinalFractalHelper.FinalFractalProfile(52f, new Color(237, 28, 36)));
+			profiles.Add(ModContent.ItemType<PerfectDark>(), new FinalFractalHelper.FinalFractalProfile(50f, new Color(122, 66, 191)));
+			profiles.Add(ModContent.ItemType<VeinBurster>(), new FinalFractalHelper.FinalFractalProfile(52f, new Color(237, 28, 36)));
+			profiles.Add(ModContent.ItemType<SeashineSword>(), new FinalFractalHelper.FinalFractalProfile(40f, new Color(91, 158, 232)));
+			#endregion
 		}
 
 		public static bool CheckNoWormParticles(bool calamityResult)
@@ -144,11 +210,17 @@ namespace Terratweaks.Calamitweaks
 			return orig(self);
 		}
 
+		public override void AddRecipeGroups()
+		{
+			RecipeGroup group = new(() => Language.GetTextValue("Mods.Terratweaks.RecipeGroups.CalEvilSwords"), ModContent.ItemType<PerfectDark>(), ModContent.ItemType<VeinBurster>());
+			RecipeGroup.RegisterGroup("CalEvilSwords", group);
+		}
+
 		public override void PostAddRecipes()
 		{
 			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
 
-			// If neither of these configs are active, we don't need to change any recipes
+			// If none of these configs are active, we don't need to change any recipes
 			// This is done for performance reasons- there's no need to iterate over every recipe if we know we won't be changing any
 			if (!calamitweaks.DeificAmuletBuff && !calamitweaks.AsgardsValorBuff)
 				return;

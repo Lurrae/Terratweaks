@@ -1,14 +1,17 @@
 global using TepigCore;
 using Microsoft.Xna.Framework;
+using MonoMod.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -70,6 +73,31 @@ namespace Terratweaks
 		public static ModKeybind RulerToggleKeybind { get; private set; }
 		public static ModKeybind MechRulerToggleKeybind { get; private set; }
 		public static readonly List<int> DyeItemsSoldByTrader = [];
+
+		public static readonly Dictionary<int, FinalFractalHelper.FinalFractalProfile> defaultProfileList = new()
+		{
+			{ ItemID.Starfury, new FinalFractalHelper.FinalFractalProfile(48f, new Color(236, 62, 192)) },
+			{ ItemID.BeeKeeper, new FinalFractalHelper.FinalFractalProfile(48f, Main.OurFavoriteColor) },
+			{ ItemID.LightsBane, new FinalFractalHelper.FinalFractalProfile(48f, new Color(122, 66, 191)) },
+			{ ItemID.FieryGreatsword, new FinalFractalHelper.FinalFractalProfile(76f, new Color(254, 158, 35)) },
+			{ ItemID.BladeofGrass, new FinalFractalHelper.FinalFractalProfile(70f, new Color(107, 203, 0)) },
+			{ ItemID.Excalibur, new FinalFractalHelper.FinalFractalProfile(70f, new Color(236, 200, 19)) },
+			{ ItemID.TrueExcalibur, new FinalFractalHelper.FinalFractalProfile(70f, new Color(236, 200, 19)) },
+			{ ItemID.NightsEdge, new FinalFractalHelper.FinalFractalProfile(70f, new Color(179, 54, 201)) },
+			{ ItemID.TrueNightsEdge, new FinalFractalHelper.FinalFractalProfile(70f, new Color(179, 54, 201)) },
+			{ ItemID.InfluxWaver, new FinalFractalHelper.FinalFractalProfile(70f, new Color(84, 234, 245)) },
+			{ ItemID.EnchantedSword, new FinalFractalHelper.FinalFractalProfile(48f, new Color(91, 158, 232)) },
+			{ ItemID.TheHorsemansBlade, new FinalFractalHelper.FinalFractalProfile(76f, new Color(252, 95, 4)) },
+			{ ItemID.Meowmere, new FinalFractalHelper.FinalFractalProfile(76f, new Color(254, 194, 250)) },
+			{ ItemID.StarWrath, new FinalFractalHelper.FinalFractalProfile(70f, new Color(237, 63, 133)) },
+			{ ItemID.TerraBlade, new FinalFractalHelper.FinalFractalProfile(70f, new Color(80, 222, 122)) },
+			{ ItemID.Muramasa, new FinalFractalHelper.FinalFractalProfile(70f, new Color(56, 78, 210)) },
+			{ ItemID.BloodButcherer, new FinalFractalHelper.FinalFractalProfile(70f, new Color(237, 28, 36)) },
+			{ ItemID.Seedler, new FinalFractalHelper.FinalFractalProfile(80f, new Color(143, 215, 29)) },
+			{ ItemID.Terragrim, new FinalFractalHelper.FinalFractalProfile(45f, new Color(178, 255, 180)) },
+			{ ItemID.CopperShortsword, new FinalFractalHelper.FinalFractalProfile(45f, new Color(235, 166, 135)) },
+			{ ItemID.Zenith, new FinalFractalHelper.FinalFractalProfile(86f, new Color(178, 255, 180)) }
+		};
 
 		public override void Load()
 		{
@@ -238,8 +266,10 @@ namespace Terratweaks
 								"Calamitweaks_RevertTerraprisma" or "TerraprismaCalReversion" => config.calamitweaks.RevertTerraprisma,
 								"Calamitweaks_RevertVanillaBossAIChanges" or "VanillaBossAICalReversion" => config.calamitweaks.RevertVanillaBossAIChanges,
 								"Calamitweaks_SummonerAccBuffs" or "CalSummonerAccBuffs" => config.calamitweaks.SummonerAccBuffs,
+								"Calamitweaks_ZenithRecipeOverhaul" or "CalZenithRecipeOverhaul" or "Calamitweaks_ZenithRecipe" or "CalZenithRecipe" => config.calamitweaks.ZenithRecipeOverhaul,
 
 								"Thoritweaks_EatCooksFoodInCombat" or "Thoritweaks_CookBuff" or "EatCooksFoodInCombat" or "CookBuff" => config.thoritweaks.EatCooksFoodInCombat,
+								"Thoritweaks_ZenithRecipeOverhaul" or "ThorZenithRecipeOverhaul" or "Thoritweaks_ZenithRecipe" or "ThorZenithRecipe" => config.thoritweaks.ZenithRecipeOverhaul,
 
 								"Alchemitweaks_DisableCustomPotions" or "DisableCustomAlchPotions" => config.alchemitweaks.DisableCustomPotions,
 
@@ -565,6 +595,18 @@ namespace Terratweaks
 			InfernoToggleKeybind = null;
 			RulerToggleKeybind = null;
 			MechRulerToggleKeybind = null;
+
+			// Clear the modified Zenith profiles when the mod unloads
+			// This is done here instead of in either Calamitweaks or Thoritweaks' code so it doesn't happen twice
+			ResetZenithProfiles();
+		}
+
+		public static void ResetZenithProfiles()
+		{
+			FieldInfo _zenithProfiles = typeof(FinalFractalHelper).GetField("_fractalProfiles", BindingFlags.Static | BindingFlags.NonPublic);
+			Dictionary<int, FinalFractalHelper.FinalFractalProfile> profiles = (Dictionary<int, FinalFractalHelper.FinalFractalProfile>)_zenithProfiles.GetValue(null);
+			profiles.Clear();
+			profiles.AddRange(defaultProfileList);
 		}
 
 		private static readonly List<int> happinessFactorBlacklist = new()
