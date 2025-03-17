@@ -219,6 +219,7 @@ namespace Terratweaks
 								"ArmorReworks_Adamantite" or "AdamantiteArmorSetBonus" or "AdamantiteSetBonus" => config.AdamantiteSetBonus,
 								"ArmorReworks_Spooky" or "SpookyArmorSetBonus" or "SpookySetBonus" => config.SpookySetBonus,
 								"OldChestDungeon" => config.OldChestDungeon,
+								"BoundNPCsImmune" or "BoundNPCsNoDamage" or "InvulnerableBoundNPCs" => config.BoundNPCsImmune,
 
 								"Client_EstimatedDPS" or "EstimatedDPS" => clientConfig.EstimatedDPS,
 								"Client_GrammarCorrections" or "GrammarCorrections" => clientConfig.GrammarCorrections,

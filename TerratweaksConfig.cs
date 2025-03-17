@@ -230,6 +230,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool BetterHappiness { get; set; }
 
+		[DefaultValue(false)]
+		public bool BoundNPCsImmune { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool NPCsSellMinecarts { get; set; }

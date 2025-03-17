@@ -134,6 +134,16 @@ Mods: {
 						'''
 				}
 
+				BoundNPCsImmune: {
+					Label: "[i:CombatWrench] Invulnerable Bound NPCs"
+					Tooltip:
+						'''
+						Prevents bound NPCs from taking damage from enemies or hostile projectiles
+						This should also work on modded bound NPCs, as long as those NPCs use the same vanilla AI style as bound NPCs
+						This is similar to an option present in Fargo's Mutant Mod, but this option prevents projectile damage and works on modded bound NPCs, where Fargo's option does not
+						'''
+				}
+
 				PlayerDeathsToCallOffInvasion: {
 					Label: "[i:GoblinBattleStandard] Cancel Invasions After Player Dies"
 					Tooltip: If players die the specified amount of times during an invasion, the invasion is considered failed and automatically ends. If set to 0, this mechanic does not apply at all

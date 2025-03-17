@@ -339,6 +339,30 @@ namespace Terratweaks.NPCs
 
 			return base.CanHitPlayer(npc, target, ref cooldownSlot);
 		}
+
+		public override bool CanBeHitByNPC(NPC npc, NPC attacker)
+		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+			
+			if (config.BoundNPCsImmune && npc.friendly && npc.aiStyle == NPCAIStyleID.FaceClosestPlayer)
+			{
+				return false;
+			}
+
+			return base.CanBeHitByNPC(npc, attacker);
+		}
+
+		public override bool? CanBeHitByProjectile(NPC npc, Projectile projectile)
+		{
+			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+
+			if (config.BoundNPCsImmune && npc.friendly && projectile.hostile && npc.aiStyle == NPCAIStyleID.FaceClosestPlayer)
+			{
+				return false;
+			}
+
+			return base.CanBeHitByProjectile(npc, projectile);
+		}
 	}
 
 	// Any changes that occur when an NPC is killed should be handled here
