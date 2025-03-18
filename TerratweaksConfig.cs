@@ -52,6 +52,10 @@ namespace Terratweaks
 		[Header("ExpertTweaks")]
 
 		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool JungleBossBags { get; set; }
+
+		[ReloadRequired]
 		[DefaultValue(CoinTheftSetting.Limited)]
 		public CoinTheftSetting NoCoinTheft { get; set; }
 

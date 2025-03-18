@@ -690,6 +690,69 @@ namespace Terratweaks.Items
 				itemLoot.Add(newMainRule);
 			}
 
+			if (Terratweaks.Config.JungleBossBags && (item.type == ItemID.QueenBeeBossBag || item.type == ItemID.PlanteraBossBag || item.type == ItemID.GolemBossBag))
+			{
+				var rules = itemLoot.Get();
+
+				switch (item.type)
+				{
+					case ItemID.QueenBeeBossBag:
+						var originalBeeRule = (OneFromOptionsNotScaledWithLuckDropRule)rules.FirstOrDefault(x => x is OneFromOptionsNotScaledWithLuckDropRule r && r.dropIds.Contains(ItemID.BeeKeeper));
+
+						// Do nothing if we couldn't find a matching rule
+						if (originalBeeRule is default(OneFromOptionsNotScaledWithLuckDropRule))
+							break;
+
+						var originalBeeDrops = originalBeeRule?.dropIds ?? Array.Empty<int>();
+						
+						// Don't replace the original rule unless we successfully found the original rule
+						// This means that if a mod messes with Queen Bee's drops other than just adding new items, it shouldn't break anything
+						if (originalBeeDrops.Length > 0)
+						{
+							var newBeeRule = new FewFromOptionsNotScaledWithLuckDropRule(2, 1, 1, originalBeeDrops);
+							itemLoot.Remove(originalBeeRule);
+							itemLoot.Add(newBeeRule);
+						}
+						break;
+					case ItemID.PlanteraBossBag:
+						var originalPlantRule = (OneFromRulesRule)rules.FirstOrDefault(x => x is OneFromRulesRule r && r.options.Any(c => c is CommonDrop cd && cd.itemId == ItemID.Seedler));
+						
+						// Do nothing if we couldn't find a matching rule
+						if (originalPlantRule is default(OneFromRulesRule))
+							break;
+
+						var originalPlantDrops = originalPlantRule?.options ?? Array.Empty<IItemDropRule>();
+
+						// Don't replace the original rule unless we successfully found the original rule
+						// This means that if a mod messes with Plantera's drops other than just adding new items, it shouldn't break anything
+						if (originalPlantDrops.Length > 0)
+						{
+							var newPlantRule = new FewFromRulesRule(2, 1, originalPlantDrops);
+							itemLoot.Remove(originalPlantRule);
+							itemLoot.Add(newPlantRule);
+						}
+						break;
+					case ItemID.GolemBossBag:
+						var originalGolemRule = (OneFromRulesRule)rules.FirstOrDefault(x => x is OneFromRulesRule r && r.options.Any(c => c is CommonDrop cd && cd.itemId == ItemID.SunStone));
+
+						// Do nothing if we couldn't find a matching rule
+						if (originalGolemRule is default(OneFromRulesRule))
+							break;
+						
+						var originalGolemDrops = originalGolemRule?.options ?? Array.Empty<IItemDropRule>();
+
+						// Don't replace the original rule unless we successfully found the original rule
+						// This means that if a mod messes with Golem's drops other than just adding new items, it shouldn't break anything
+						if (originalGolemDrops.Length > 0)
+						{
+							var newGolemRule = new FewFromRulesRule(2, 1, originalGolemDrops);
+							itemLoot.Remove(originalGolemRule);
+							itemLoot.Add(newGolemRule);
+						}
+						break;
+				}
+			}
+
 			if (Terratweaks.Config.calamitweaks.RevertTerraprisma && ModLoader.HasMod("CalamityMod") && item.type == ItemID.FairyQueenBossBag)
 			{
 				foreach (IItemDropRule rule in itemLoot.Get(false))

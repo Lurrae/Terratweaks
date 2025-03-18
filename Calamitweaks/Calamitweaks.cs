@@ -15,7 +15,6 @@ using System.Reflection;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace Terratweaks.Calamitweaks
@@ -179,12 +178,6 @@ namespace Terratweaks.Calamitweaks
 			}
 			
 			return orig(self);
-		}
-
-		public override void AddRecipeGroups()
-		{
-			RecipeGroup group = new(() => Language.GetTextValue("Mods.Terratweaks.RecipeGroups.CalEvilSwords"), ModContent.ItemType<PerfectDark>(), ModContent.ItemType<VeinBurster>());
-			RecipeGroup.RegisterGroup("CalEvilSwords", group);
 		}
 
 		public override void PostAddRecipes()

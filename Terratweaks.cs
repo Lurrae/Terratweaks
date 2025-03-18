@@ -102,7 +102,7 @@ namespace Terratweaks
 		public static TerratweaksConfig Config => ModContent.GetInstance<TerratweaksConfig>();
 		public static TerratweaksConfig_Client ClientConfig => ModContent.GetInstance<TerratweaksConfig_Client>();
 		public static AlchTweaks Alchemitweaks => Config.alchemitweaks;
-		public static CalTweaks Calamitweaks => Calamitweaks;
+		public static CalTweaks Calamitweaks => Config.calamitweaks;
 		public static ThorTweaks Thoritweaks => Config.thoritweaks;
 
 		public override void Load()

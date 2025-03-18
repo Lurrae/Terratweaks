@@ -560,6 +560,17 @@ Mods: {
 					Label: "[i:Bomb] [i:Meteorite] Bombable Meteorite"
 					Tooltip: Enables Meteorite to be destroyed with explosives after defeating any evil boss instead of requiring that you enter Hardmode
 				}
+
+				JungleBossBags: {
+					Label: "[i:QueenBeeBossBag] [i:PlanteraBossBag] [i:GolemBossBag] More Weapons from Jungle Boss Bags"
+					Tooltip:
+						'''
+						Queen Bee, Plantera, and Golem's treasure bags will each drop two weapons at once instead of one
+						This mirrors a similar change made to the Moon Lord's treasure bag in 1.4.4
+						This config option has no effect if any mods that overwrite treasure bag drops, like Calamity Mod, are enabled
+						It should work fine with mods that just add to the list of dropped weapons, though!
+						'''
+				}
 			}
 
 			CraftableUncraftables: {
