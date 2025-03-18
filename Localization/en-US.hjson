@@ -598,6 +598,11 @@ Mods: {
 					Tooltip: Enables recipes for every type of planter box- 25 of a relevant soil, 25 of a relevant wood, and one seed makes 25 planter boxes for that seed!
 				}
 
+				ShimmerBlackLens: {
+					Label: "[i:BlackLens] Shimmerable Black Lenses"
+					Tooltip: Enables Shimmer transmutation to turn a Black Lens into a normal Lens
+				}
+
 				ShimmerBossDrops: {
 					Label: "[i:NinjaHood] [i:NinjaShirt] [i:NinjaPants] Shimmerable Boss Drops"
 					Tooltip:

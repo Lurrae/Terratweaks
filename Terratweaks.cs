@@ -336,6 +336,7 @@ namespace Terratweaks
 								"CraftableUncraftables_TeamBlocks" or "TeamBlocksRecipe" => Config.craftableUncraftables.TeamBlocks,
 								"CraftableUncraftables_PrehardUnobtainables" or "PrehardUnobtainablesShimmer" => Config.craftableUncraftables.PrehardUnobtainables,
 								"CraftableUncraftables_ShimmerBossDrops" or "BossDropsShimmer" => Config.craftableUncraftables.ShimmerBossDrops,
+								"CraftableUncraftables_ShimmerBlackLens" or "BlackLensShimmer" => Config.craftableUncraftables.ShimmerBlackLens,
 
 								"Calamitweaks_AquaticEmblemBuff" or "AquaticEmblemBuff" => Calamitweaks.AquaticEmblemBuff,
 								"Calamitweaks_AsgardsValorBuff" or "AsgardsValorBuff" => Calamitweaks.AsgardsValorBuff,

@@ -1531,6 +1531,11 @@ namespace Terratweaks.Items
 						AddShimmerTransmutation_Cycle(pair.Value);
 				}
 			}
+
+			if (enabledRecipes.ShimmerBlackLens)
+			{
+				ItemID.Sets.ShimmerTransformToItem[ItemID.BlackLens] = ItemID.Lens;
+			}
 		}
 
 		static void AddTrophyRecipes()

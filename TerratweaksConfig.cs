@@ -317,7 +317,8 @@ namespace Terratweaks
 					craftableUncraftables.TeamBlocks != pendingTtConfig.craftableUncraftables.TeamBlocks ||
 					craftableUncraftables.PrehardUnobtainables != pendingTtConfig.craftableUncraftables.PrehardUnobtainables ||
 					craftableUncraftables.ShimmerBossDrops != pendingTtConfig.craftableUncraftables.ShimmerBossDrops ||
-					craftableUncraftables.GeyserTraps != pendingTtConfig.craftableUncraftables.GeyserTraps)
+					craftableUncraftables.GeyserTraps != pendingTtConfig.craftableUncraftables.GeyserTraps ||
+					craftableUncraftables.ShimmerBlackLens != pendingTtConfig.craftableUncraftables.ShimmerBlackLens)
 				{
 					return true;
 				}
@@ -431,6 +432,10 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool PlanterBoxes { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ShimmerBlackLens { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
