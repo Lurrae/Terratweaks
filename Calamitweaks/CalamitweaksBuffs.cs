@@ -10,9 +10,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void ModifyBuffText(int type, ref string buffName, ref string tip, ref int rare)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.DRBuffs)
+			if (Terratweaks.Calamitweaks.DRBuffs)
 			{
 				if (type == BuffID.IceBarrier)
 					tip = tip.Replace("15%", "25%");

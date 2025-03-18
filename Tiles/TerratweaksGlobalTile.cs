@@ -8,9 +8,26 @@ namespace Terratweaks.Tiles
 {
 	public class TerratweaksGlobalTile : GlobalTile
 	{
+		// Change what tiles Dangersense Potions highlight
+		public override bool? IsTileDangerous(int i, int j, int type, Player player)
+		{
+			if (Terratweaks.Config.DangersenseHighlightsSilt && (type == TileID.Silt || type == TileID.Slush))
+			{
+				return true;
+			}
+
+			if (Terratweaks.Config.DangersenseIgnoresThinIce && type == TileID.BreakableIce)
+			{
+				return false;
+			}
+
+			return base.IsTileDangerous(i, j, type, player);
+		}
+
+		// Change the functionality of Cracked Bricks to make them more consistent
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
-			if (!ModContent.GetInstance<TerratweaksConfig>().BetterCrackedBricks)
+			if (!Terratweaks.Config.BetterCrackedBricks)
 				return;
 
 			int tileType = Main.tile[i, j].TileType;

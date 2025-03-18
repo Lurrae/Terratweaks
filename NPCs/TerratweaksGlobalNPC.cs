@@ -12,7 +12,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terratweaks.Items;
-using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.NPCs
 {
@@ -41,7 +40,7 @@ namespace Terratweaks.NPCs
 	{
 		public override void SetBestiary(NPC npc, BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
-			if (!GetInstance<TerratweaksConfig>().BetterBestiary)
+			if (!Terratweaks.Config.BetterBestiary)
 				return;
 			
 			// Setting "quick unlock" makes it so that every Bestiary entry will be fully unlocked after one kill, regardless of banner requirement
@@ -65,7 +64,7 @@ namespace Terratweaks.NPCs
 
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
 		{
-			if (GetInstance<TerratweaksConfig>().DummyFix == DummySetting.Limited)
+			if (Terratweaks.Config.DummyFix == DummySetting.Limited)
 			{
 				if (ProjectileID.Sets.IsAWhip[projectile.type])
 				{
@@ -76,7 +75,7 @@ namespace Terratweaks.NPCs
 
 		public override void AI(NPC npc)
 		{
-			switch (GetInstance<TerratweaksConfig>().DummyFix)
+			switch (Terratweaks.Config.DummyFix)
 			{
 				case DummySetting.Off:
 					npc.immortal = true;
@@ -102,9 +101,7 @@ namespace Terratweaks.NPCs
 		int cooldown = 0;
 		public override void AI(NPC npc)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
-			if (!config.DeerclopsRegens) // Do nothing if Deerclops shouldn't heal
+			if (!Terratweaks.Config.DeerclopsRegens) // Do nothing if Deerclops shouldn't heal
 				return;
 
 			int playersNearby = 0;
@@ -123,14 +120,14 @@ namespace Terratweaks.NPCs
 			// Only displays a number every 60 ticks, or 1 second
 			if (playersNearby == 0 && npc.life < npc.lifeMax)
 			{
-				int healFactor = config.DeerRegenAmt / 60;
+				int healFactor = Terratweaks.Config.DeerRegenAmt / 60;
 				npc.life += healFactor;
 				
 				cooldown--;
 				if (cooldown <= 0)
 				{
 					cooldown = 60;
-					npc.HealEffect(config.DeerRegenAmt);
+					npc.HealEffect(Terratweaks.Config.DeerRegenAmt);
 				}
 			}
 		}
@@ -146,7 +143,7 @@ namespace Terratweaks.NPCs
 
 		public override void SetStaticDefaults()
 		{
-			if (GetInstance<TerratweaksConfig>().NoExpertScaling)
+			if (Terratweaks.Config.NoExpertScaling)
 			{
 				for (int i = 0; i < NPCID.Sets.NeedsExpertScaling.Length; i++)
 				{
@@ -154,7 +151,7 @@ namespace Terratweaks.NPCs
 				}
 			}
 
-			if (GetInstance<TerratweaksConfig>().SmartNymphs)
+			if (Terratweaks.Config.SmartNymphs)
 			{
 				NPCID.Sets.DontDoHardmodeScaling[NPCID.LostGirl] = true;
 			}
@@ -181,11 +178,9 @@ namespace Terratweaks.NPCs
 
 		public override void PostAI(NPC npc)
 		{
-			var config = GetInstance<TerratweaksConfig>();
-
 			// Handle forcing vanilla boss contact damage
 			// ModNPC check makes this only affect vanilla bosses
-			if (npc.boss && npc.ModNPC == null && config.ForceBossContactDamage)
+			if (npc.boss && npc.ModNPC == null && Terratweaks.Config.ForceBossContactDamage)
 			{
 				// Force the boss to deal damage at all times
 				// TODO: Is this the best way to do this?
@@ -193,7 +188,7 @@ namespace Terratweaks.NPCs
 			}
 
 			// Ignore everything below if the config option to disable enemy invulnerability is not set
-			if (!config.NoEnemyInvulnerability)
+			if (!Terratweaks.Config.NoEnemyInvulnerability)
 				return;
 
 			// Do not try to remove invulnerability from bosses (bosses should NEVER have any of these AIs, but you never know)
@@ -250,7 +245,7 @@ namespace Terratweaks.NPCs
 		{
 			if (NPCID.Sets.ZappingJellyfish[npc.type])
 			{
-				if (GetInstance<TerratweaksConfig>().NoEnemyInvulnerability && npc.wet && npc.ai[1] == 1f)
+				if (Terratweaks.Config.NoEnemyInvulnerability && npc.wet && npc.ai[1] == 1f)
 				{
 					player.TakeDamageFromJellyfish(npc.whoAmI);
 				}
@@ -263,7 +258,7 @@ namespace Terratweaks.NPCs
 			{
 				bool isHurtingProjectile = projectile.aiStyle == ProjAIStyleID.Spear || projectile.aiStyle == ProjAIStyleID.ShortSword || projectile.aiStyle == ProjAIStyleID.HeldProjectile || projectile.aiStyle == ProjAIStyleID.SleepyOctopod || ProjectileID.Sets.IsAWhip[projectile.type] || ProjectileID.Sets.AllowsContactDamageFromJellyfish[projectile.type];
 
-				if (GetInstance<TerratweaksConfig>().NoEnemyInvulnerability && npc.wet && npc.ai[1] == 1f && isHurtingProjectile)
+				if (Terratweaks.Config.NoEnemyInvulnerability && npc.wet && npc.ai[1] == 1f && isHurtingProjectile)
 				{
 					Main.player[projectile.owner].TakeDamageFromJellyfish(npc.whoAmI);
 				}
@@ -334,7 +329,7 @@ namespace Terratweaks.NPCs
 			if (npcTypesThatShouldNotDoContactDamage.Contains(npc.type))
 				shouldNotDoContactDamage = true;
 
-			if (shouldNotDoContactDamage && !ignoreNoContactDmg.Contains(npc.type) && GetInstance<TerratweaksConfig>().NoCasterContactDamage)
+			if (shouldNotDoContactDamage && !ignoreNoContactDmg.Contains(npc.type) && Terratweaks.Config.NoCasterContactDamage)
 				return false;
 
 			return base.CanHitPlayer(npc, target, ref cooldownSlot);
@@ -342,9 +337,7 @@ namespace Terratweaks.NPCs
 
 		public override bool CanBeHitByNPC(NPC npc, NPC attacker)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-			
-			if (config.BoundNPCsImmune && npc.friendly && npc.aiStyle == NPCAIStyleID.FaceClosestPlayer)
+			if (Terratweaks.Config.BoundNPCsImmune && npc.friendly && npc.aiStyle == NPCAIStyleID.FaceClosestPlayer)
 			{
 				return false;
 			}
@@ -354,9 +347,7 @@ namespace Terratweaks.NPCs
 
 		public override bool? CanBeHitByProjectile(NPC npc, Projectile projectile)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
-			if (config.BoundNPCsImmune && npc.friendly && projectile.hostile && npc.aiStyle == NPCAIStyleID.FaceClosestPlayer)
+			if (Terratweaks.Config.BoundNPCsImmune && npc.friendly && projectile.hostile && npc.aiStyle == NPCAIStyleID.FaceClosestPlayer)
 			{
 				return false;
 			}
@@ -381,12 +372,10 @@ namespace Terratweaks.NPCs
 
 		public override void OnKill(NPC npc)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
 			// Killed daytime EoL
 			if (npc.type == NPCID.HallowBoss && Main.dayTime)
 			{
-				if (config.SIRework) // Transform the Soaring Insignia into the Radiant Insignia if the player has one
+				if (Terratweaks.Config.SIRework) // Transform the Soaring Insignia into the Radiant Insignia if the player has one
 				{
 					foreach (Player plr in Main.player)
 					{
@@ -398,7 +387,7 @@ namespace Terratweaks.NPCs
 
 						if (ModLoader.TryGetMod("CalamityMod", out Mod cal) && cal.TryFind("AscendantInsignia", out ModItem aInsig))
 						{
-							if (config.calamitweaks.RadiantInsigniaUpgradesFromAscendant)
+							if (Terratweaks.Config.calamitweaks.RadiantInsigniaUpgradesFromAscendant)
 							{
 								aInsigType = aInsig.Type;
 								insignia = plr.inventory.FirstOrDefault(i => i.type == aInsigType);
@@ -416,7 +405,7 @@ namespace Terratweaks.NPCs
 						{
 							insignia = plr.armor.FirstOrDefault(i => i.type == ItemID.EmpressFlightBooster);
 
-							if (ModLoader.HasMod("CalamityMod") && config.calamitweaks.RadiantInsigniaUpgradesFromAscendant && aInsigType > -1)
+							if (ModLoader.HasMod("CalamityMod") && Terratweaks.Config.calamitweaks.RadiantInsigniaUpgradesFromAscendant && aInsigType > -1)
 							{
 								insignia = plr.armor.FirstOrDefault(i => i.type == aInsigType);
 							}
@@ -436,11 +425,11 @@ namespace Terratweaks.NPCs
 			}
 
 			// Town NPC died- increment invasion death counter and call off the invasion if necessary
-			if (npc.townNPC && config.NPCDeathsToCallOffInvasion > 0 && Main.invasionType != InvasionID.None)
+			if (npc.townNPC && Terratweaks.Config.NPCDeathsToCallOffInvasion > 0 && Main.invasionType != InvasionID.None)
 			{
 				townNpcDeathsThisInvasion++;
 
-				if (townNpcDeathsThisInvasion >= config.NPCDeathsToCallOffInvasion)
+				if (townNpcDeathsThisInvasion >= Terratweaks.Config.NPCDeathsToCallOffInvasion)
 				{
 					Main.invasionType = InvasionID.None;
 					Color color = new(175, 75, 255);
@@ -456,8 +445,6 @@ namespace Terratweaks.NPCs
 	{
 		public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
 			if (npc.type == NPCID.HallowBoss) // Empress of Light
 			{
 				if (ModLoader.HasMod("CalamityMod")) // Remove Calamity's Terraprisma drop from EoL
@@ -469,15 +456,15 @@ namespace Terratweaks.NPCs
 				}
 
 				// If the configs allow it, add a secondary Terraprisma drop chance when EoL is not "genuinely enraged"
-				if (config.TerraprismaDropRate > 0 && (!ModLoader.HasMod("CalamityMod") || config.calamitweaks.RevertTerraprisma))
+				if (Terratweaks.Config.TerraprismaDropRate > 0 && (!ModLoader.HasMod("CalamityMod") || Terratweaks.Config.calamitweaks.RevertTerraprisma))
 				{
 					var nightEol = new TerratweaksDropConditions.NightEoL();
-					npcLoot.Add(new ItemDropWithConditionRule(ItemID.EmpressBlade, 100, 1, 1, nightEol, config.TerraprismaDropRate));
+					npcLoot.Add(new ItemDropWithConditionRule(ItemID.EmpressBlade, 100, 1, 1, nightEol, Terratweaks.Config.TerraprismaDropRate));
 				}
 			}
 
 			// All enemies from the celestial pillars need to have an option to drop fragments once Moon Lord has been downed
-			if (config.PillarEnemiesDropFragments)
+			if (Terratweaks.Config.PillarEnemiesDropFragments)
 			{
 				int fragmentID = -1;
 
@@ -589,8 +576,6 @@ namespace Terratweaks.NPCs
 
 		public override void ModifyShop(NPCShop shop)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
 			if (shop.NpcType == NPCID.DyeTrader)
 			{
 				foreach (KeyValuePair<int, Item> pair in ContentSamples.ItemsByType)
@@ -624,7 +609,7 @@ namespace Terratweaks.NPCs
 
 					if (item.dye > 0 || isDyeIngredient)
 					{
-						Condition configEnabled = new("Mods.Terratweaks.Conditions.DyeConfigActive", () => config.DyeTraderShopExpansion);
+						Condition configEnabled = new("Mods.Terratweaks.Conditions.DyeConfigActive", () => Terratweaks.Config.DyeTraderShopExpansion);
 						Condition itemInInv = new("Mods.Terratweaks.Conditions.InPlayerInv", () =>
 							Main.LocalPlayer.inventory.Any(i => i.type == type) ||
 							Main.LocalPlayer.dye.Any(i => i.type == type) ||
@@ -641,7 +626,7 @@ namespace Terratweaks.NPCs
 
 			if (shop.NpcType == NPCID.Steampunker)
 			{
-				if (config.SoilSolutionsPreML)
+				if (Terratweaks.Config.SoilSolutionsPreML)
 				{
 					shop.ActiveEntries.First(i => i.Item.type == ItemID.DirtSolution).Disable();
 					shop.InsertAfter(ItemID.DirtSolution, ItemID.DirtSolution, Condition.NotRemixWorld);
@@ -651,7 +636,7 @@ namespace Terratweaks.NPCs
 					shop.InsertAfter(ItemID.SnowSolution, ItemID.SnowSolution, Condition.NotRemixWorld);
 				}
 
-				if (config.SolutionsOnGFB)
+				if (Terratweaks.Config.SolutionsOnGFB)
 				{
 					List<int> itemsToAddToShop = new();
 
@@ -681,7 +666,7 @@ namespace Terratweaks.NPCs
 
 			if (shop.NpcType == NPCID.Truffle)
 			{
-				if (config.SolutionsOnGFB)
+				if (Terratweaks.Config.SolutionsOnGFB)
 				{
 					List<int> itemsToAddToShop = new();
 
@@ -699,7 +684,7 @@ namespace Terratweaks.NPCs
 					}
 				}
 
-				if (config.NPCsSellMinecarts)
+				if (Terratweaks.Config.NPCsSellMinecarts)
 				{
 					shop.Add(ItemID.ShroomMinecart);
 				}
@@ -707,7 +692,7 @@ namespace Terratweaks.NPCs
 
 			if (shop.NpcType == NPCID.Dryad)
 			{
-				if (config.NPCsSellMinecarts)
+				if (Terratweaks.Config.NPCsSellMinecarts)
 				{
 					shop.Add(ItemID.SunflowerMinecart, Condition.HappyWindyDay);
 					shop.Add(ItemID.LadybugMinecart, Condition.HappyWindyDay);
@@ -717,13 +702,13 @@ namespace Terratweaks.NPCs
 
 			if (shop.NpcType == NPCID.Merchant)
 			{
-				if (config.NPCsSellMinecarts)
+				if (Terratweaks.Config.NPCsSellMinecarts)
 				{
 					shop.Add(ItemID.DesertMinecart, Condition.InDesert);
 				}
 			}
 
-			if (config.TownNPCsSellWeapons)
+			if (Terratweaks.Config.TownNPCsSellWeapons)
 			{
 				// Make sure the NPC whose shop we're editing actually has a weapon to sell
 				if (SellableWeapons.Any(pair => pair.Value == shop.NpcType))
@@ -760,7 +745,7 @@ namespace Terratweaks.NPCs
 		public override void OnSpawn(NPC npc, IEntitySource source)
 		{
 			// This should affect any modded NPCs that use mimic AI, such as Thorium's Lihzahrd Mimics
-			if (GetInstance<TerratweaksConfig>().SmartMimics && IsAMimic(npc))
+			if (Terratweaks.Config.SmartMimics && IsAMimic(npc))
 			{
 				Vector2 snapPos = new((int)Math.Floor(npc.position.X / 16), (int)Math.Floor(npc.position.Y / 16));
 				if (!TileObject.CanPlace((int)snapPos.X, (int)snapPos.Y, 21, 0, 1, out _, true))
@@ -823,7 +808,7 @@ namespace Terratweaks.NPCs
 
 		public override bool PreAI(NPC npc)
 		{
-			if (GetInstance<TerratweaksConfig>().SmartMimics && IsAMimic(npc))
+			if (Terratweaks.Config.SmartMimics && IsAMimic(npc))
 			{
 				npc.canDisplayBuffs = npc.ai[0] != 0;
 
@@ -842,7 +827,7 @@ namespace Terratweaks.NPCs
 
 		public override void DrawEffects(NPC npc, ref Color drawColor)
 		{
-			if (GetInstance<TerratweaksConfig>().SmartMimics && IsAMimic(npc))
+			if (Terratweaks.Config.SmartMimics && IsAMimic(npc))
 			{
 				if (npc.ai[0] == 0 && Main.LocalPlayer.HasBuff(BuffID.Spelunker))
 				{
@@ -869,7 +854,7 @@ namespace Terratweaks.NPCs
 	{
 		public override void SetDefaults(NPC npc)
 		{
-			if (GetInstance<TerratweaksConfig>().SmartNymphs && npc.type == NPCID.LostGirl)
+			if (Terratweaks.Config.SmartNymphs && npc.type == NPCID.LostGirl)
 			{
 				npc.friendly = true;
 			}
@@ -878,7 +863,7 @@ namespace Terratweaks.NPCs
 		public override bool PreAI(NPC npc)
 		{
 			// Stop vanilla Lost Girl AI from running, as we're going to be using custom behavior and don't want vanilla stuff to interfere
-			if (GetInstance<TerratweaksConfig>().SmartNymphs && npc.type == NPCID.LostGirl)
+			if (Terratweaks.Config.SmartNymphs && npc.type == NPCID.LostGirl)
 			{
 				return false;
 			}
@@ -888,7 +873,7 @@ namespace Terratweaks.NPCs
 
 		public override bool? CanChat(NPC npc)
 		{
-			if (GetInstance<TerratweaksConfig>().SmartNymphs && npc.type == NPCID.LostGirl)
+			if (Terratweaks.Config.SmartNymphs && npc.type == NPCID.LostGirl)
 				return true;
 
 			return base.CanChat(npc);
@@ -896,7 +881,7 @@ namespace Terratweaks.NPCs
 
 		public override void PostAI(NPC npc)
 		{
-			if (GetInstance<TerratweaksConfig>().SmartNymphs && npc.type == NPCID.LostGirl)
+			if (Terratweaks.Config.SmartNymphs && npc.type == NPCID.LostGirl)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -940,12 +925,10 @@ namespace Terratweaks.NPCs
 			if (!anyBosses)
 				return;
 
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
+			if (Terratweaks.Config.BossesLowerSpawnRates > 0)
+				spawnRate = (int)Math.Round(spawnRate * (1 / Terratweaks.Config.BossesLowerSpawnRates));
 
-			if (config.BossesLowerSpawnRates > 0)
-				spawnRate = (int)Math.Round(spawnRate * (1 / config.BossesLowerSpawnRates));
-
-			maxSpawns = (int)Math.Round(maxSpawns * config.BossesLowerSpawnRates);
+			maxSpawns = (int)Math.Round(maxSpawns * Terratweaks.Config.BossesLowerSpawnRates);
 		}
 	}
 
@@ -953,7 +936,7 @@ namespace Terratweaks.NPCs
 	{
 		public override void OnSpawn(NPC npc, IEntitySource source)
 		{
-			if (GetInstance<TerratweaksConfig>().OldChestDungeon && npc.type == NPCID.BoundTownSlimeOld && source is EntitySource_SpawnNPC)
+			if (Terratweaks.Config.OldChestDungeon && npc.type == NPCID.BoundTownSlimeOld && source is EntitySource_SpawnNPC)
 			{
 				Tile tile = Main.tile[(int)Math.Round(npc.position.X / 16), (int)Math.Round(npc.position.Y / 16)];
 

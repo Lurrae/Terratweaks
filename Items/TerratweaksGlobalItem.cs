@@ -91,51 +91,49 @@ namespace Terratweaks.Items
 		{
 			bool itemIsModified = false;
 
-			var config = GetInstance<TerratweaksConfig>();
-
 			#region Main Config
-			if (config.ChesterRework && item.type == ItemID.ChesterPetItem)
+			if (Terratweaks.Config.ChesterRework && item.type == ItemID.ChesterPetItem)
 				itemIsModified = true;
 
-			if (config.DeerWeaponsRework && (item.type == ItemID.LucyTheAxe || item.type == ItemID.PewMaticHorn || item.type == ItemID.WeatherPain || item.type == ItemID.HoundiusShootius))
+			if (Terratweaks.Config.DeerWeaponsRework && (item.type == ItemID.LucyTheAxe || item.type == ItemID.PewMaticHorn || item.type == ItemID.WeatherPain || item.type == ItemID.HoundiusShootius))
 				itemIsModified = true;
 
-			if (config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out _))
+			if (Terratweaks.Config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out _))
 				itemIsModified = true;
 
-			if (config.NoDiminishingReturns && DiminishingReturnItems.Contains(item.type))
+			if (Terratweaks.Config.NoDiminishingReturns && DiminishingReturnItems.Contains(item.type))
 				itemIsModified = true;
 
-			if (config.OreUnification && EarlyOreTools.Contains(item.type))
+			if (Terratweaks.Config.OreUnification && EarlyOreTools.Contains(item.type))
 				itemIsModified = true;
 
-			if (config.ReaverSharkTweaks && item.type == ItemID.ReaverShark)
+			if (Terratweaks.Config.ReaverSharkTweaks && item.type == ItemID.ReaverShark)
 				itemIsModified = true;
 
-			if (config.SIRework && item.type == ItemID.EmpressFlightBooster && !ModLoader.HasMod("CalamityMod"))
+			if (Terratweaks.Config.SIRework && item.type == ItemID.EmpressFlightBooster && !ModLoader.HasMod("CalamityMod"))
 				itemIsModified = true;
 
-			if (config.StackableDD2Accs != SentryAccSetting.Off && item.type >= ItemID.ApprenticeScarf && item.type <= ItemID.MonkBelt)
+			if (Terratweaks.Config.StackableDD2Accs != SentryAccSetting.Off && item.type >= ItemID.ApprenticeScarf && item.type <= ItemID.MonkBelt)
 				itemIsModified = true;
 
-			if (config.UmbrellaHatRework && item.type == ItemID.UmbrellaHat)
+			if (Terratweaks.Config.UmbrellaHatRework && item.type == ItemID.UmbrellaHat)
 				itemIsModified = true;
 			#endregion
 
 			#region Expert Accessory & Armor Tweaks
-			if ((config.RoyalGel && item.type == ItemID.RoyalGel) ||
-				(config.HivePack && item.type == ItemID.HiveBackpack) ||
-				(config.BoneHelm && item.type == ItemID.BoneHelm))
+			if ((Terratweaks.Config.RoyalGel && item.type == ItemID.RoyalGel) ||
+				(Terratweaks.Config.HivePack && item.type == ItemID.HiveBackpack) ||
+				(Terratweaks.Config.BoneHelm && item.type == ItemID.BoneHelm))
 				itemIsModified = true;
 
-			if ((config.SpiderSetBonus && item.type >= ItemID.SpiderMask && item.type <= ItemID.SpiderGreaves) ||
-				(config.CobaltSetBonus && item.type >= ItemID.CobaltHat && item.type <= ItemID.CobaltLeggings) ||
-				(config.MythrilSetBonus && item.type >= ItemID.MythrilHood && item.type <= ItemID.MythrilGreaves) ||
-				(config.AdamantiteSetBonus && item.type >= ItemID.AdamantiteHeadgear && item.type <= ItemID.AdamantiteLeggings) ||
-				(config.SpookySetBonus && item.type >= ItemID.SpookyHelmet && item.type <= ItemID.SpookyLeggings) ||
-				(config.ConvertMonkArmor && item.type >= ItemID.MonkBrows && item.type <= ItemID.MonkPants) ||
-				(config.ConvertMonkArmor && item.type >= ItemID.MonkAltHead && item.type <= ItemID.MonkAltPants) ||
-				(config.StardustArmorBuff && item.type >= ItemID.StardustHelmet && item.type <= ItemID.StardustLeggings))
+			if ((Terratweaks.Config.SpiderSetBonus && item.type >= ItemID.SpiderMask && item.type <= ItemID.SpiderGreaves) ||
+				(Terratweaks.Config.CobaltSetBonus && item.type >= ItemID.CobaltHat && item.type <= ItemID.CobaltLeggings) ||
+				(Terratweaks.Config.MythrilSetBonus && item.type >= ItemID.MythrilHood && item.type <= ItemID.MythrilGreaves) ||
+				(Terratweaks.Config.AdamantiteSetBonus && item.type >= ItemID.AdamantiteHeadgear && item.type <= ItemID.AdamantiteLeggings) ||
+				(Terratweaks.Config.SpookySetBonus && item.type >= ItemID.SpookyHelmet && item.type <= ItemID.SpookyLeggings) ||
+				(Terratweaks.Config.ConvertMonkArmor && item.type >= ItemID.MonkBrows && item.type <= ItemID.MonkPants) ||
+				(Terratweaks.Config.ConvertMonkArmor && item.type >= ItemID.MonkAltHead && item.type <= ItemID.MonkAltPants) ||
+				(Terratweaks.Config.StardustArmorBuff && item.type >= ItemID.StardustHelmet && item.type <= ItemID.StardustLeggings))
 				itemIsModified = true;
 			#endregion
 
@@ -150,7 +148,7 @@ namespace Terratweaks.Items
 		public override bool CanUseItem(Item item, Player player)
 		{
 			// Check if Calamity is enabled since Calamity already locks sandstorms progression-wise
-			bool progressionLockedSandstorms = GetInstance<TerratweaksConfig>().PostEyeSandstorms && !ModLoader.HasMod("CalamityMod");
+			bool progressionLockedSandstorms = Terratweaks.Config.PostEyeSandstorms && !ModLoader.HasMod("CalamityMod");
 
 			if (ModLoader.TryGetMod("Fargowiltas", out Mod _) && TryFind("Fargowiltas", "ForbiddenScarab", out ModItem scarab))
 			{
@@ -202,30 +200,30 @@ namespace Terratweaks.Items
 
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Hardmode = new()
 		{
-			{ ItemID.BoneHelm, () => GetInstance<TerratweaksConfig>().BoneHelm }
+			{ ItemID.BoneHelm, () => Terratweaks.Config.BoneHelm }
 		};
 
 		// TODO: Add configs for items that scale at other progression points too
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_QS = new()
 		{
-			{ ItemID.RoyalGel, () => GetInstance<TerratweaksConfig>().RoyalGel }
+			{ ItemID.RoyalGel, () => Terratweaks.Config.RoyalGel }
 		};
 
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Mechs = new() { };
 
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Plant = new()
 		{
-			{ ItemID.HiveBackpack, () => GetInstance<TerratweaksConfig>().HivePack }
+			{ ItemID.HiveBackpack, () => Terratweaks.Config.HivePack }
 		};
 
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_ML = new() { };
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
 		{
-			if (GetInstance<TerratweaksConfig>().NoDamageVariance == DamageVarianceSetting.Limited)
+			if (Terratweaks.Config.NoDamageVariance == DamageVarianceSetting.Limited)
 				modifiers.DamageVariationScale *= 0;
 
-			if (GetInstance<TerratweaksConfig_Client>().NoRandomCrit)
+			if (Terratweaks.ClientConfig.NoRandomCrit)
 			{
 				hitsDone += player.GetWeaponCrit(item);
 
@@ -234,7 +232,7 @@ namespace Terratweaks.Items
 					modifiers.SetCrit();
 					hitsDone = 0;
 
-					if (GetInstance<TerratweaksConfig>().CritsBypassDefense)
+					if (Terratweaks.Config.CritsBypassDefense)
 						modifiers.DefenseEffectiveness *= 0;
 				}
 				else
@@ -244,13 +242,10 @@ namespace Terratweaks.Items
 
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
-			TerratweaksConfig_Client clientConfig = GetInstance<TerratweaksConfig_Client>();
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-			
 			int idx = -1;
 			int velIdx = -1;
 
-			if (clientConfig.StatsInTip)
+			if (Terratweaks.ClientConfig.StatsInTip)
 			{
 				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && (t.Name == "Knockback" || t.Name == "Speed")))
 				{
@@ -278,7 +273,7 @@ namespace Terratweaks.Items
 			// Grammar corrections option only applies when playing with English localization,
 			// since I don't know enough about other languages to even know if the incorrect grammar from vanilla
 			// still applies in other languages, let alone how best to correct it
-			if (clientConfig.GrammarCorrections && Language.ActiveCulture.Name == "en-US" && item.Name.Contains("The") && item.prefix > 0)
+			if (Terratweaks.ClientConfig.GrammarCorrections && Language.ActiveCulture.Name == "en-US" && item.Name.Contains("The") && item.prefix > 0)
 			{
 				idx = tooltips.IndexOf(tooltips.First(t => t.Name == "ItemName"));
 				string baseItemName = item.Name;
@@ -288,7 +283,7 @@ namespace Terratweaks.Items
 				tooltips[idx].Text = $"The {prefixName} {itemNameWithoutThe}";
 			}
 
-			if (clientConfig.WingStatsInTip)
+			if (Terratweaks.ClientConfig.WingStatsInTip)
 			{
 				idx = -1;
 
@@ -330,7 +325,7 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (clientConfig.EstimatedDPS)
+			if (Terratweaks.ClientConfig.EstimatedDPS)
 			{
 				idx = -1;
 
@@ -354,13 +349,13 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (clientConfig.NoRandomCrit)
+			if (Terratweaks.ClientConfig.NoRandomCrit)
 			{
 				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && t.Name == "CritChance"))
 					tooltip.Text = Language.GetTextValue("Mods.Terratweaks.LegacyTooltip.C", Main.LocalPlayer.GetWeaponCrit(item));
 			}
 
-			if (config.SIRework && !ModLoader.HasMod("CalamityMod"))
+			if (Terratweaks.Config.SIRework && !ModLoader.HasMod("CalamityMod"))
 			{
 				if (item.type == ItemID.EmpressFlightBooster)
 				{
@@ -379,7 +374,7 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (config.UmbrellaHatRework)
+			if (Terratweaks.Config.UmbrellaHatRework)
 			{
 				if (item.type == ItemID.UmbrellaHat)
 				{
@@ -399,7 +394,7 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (config.DeerWeaponsRework)
+			if (Terratweaks.Config.DeerWeaponsRework)
 			{
 				if (item.type == ItemID.LucyTheAxe)
 				{
@@ -418,7 +413,7 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (config.DyeTraderShopExpansion && Terratweaks.DyeItemsSoldByTrader.Contains(item.type))
+			if (Terratweaks.Config.DyeTraderShopExpansion && Terratweaks.DyeItemsSoldByTrader.Contains(item.type))
 			{
 				idx = -1;
 
@@ -442,7 +437,7 @@ namespace Terratweaks.Items
 			}
 
 			// Add a line to the DPS Meter
-			if (clientConfig.EstimatedDPS && idx != -1)
+			if (Terratweaks.ClientConfig.EstimatedDPS && idx != -1)
 			{
 				if (item.type == ItemID.DPSMeter || item.type == ItemID.GoblinTech)
 				{
@@ -451,7 +446,7 @@ namespace Terratweaks.Items
 			}
 
 			// Add a line to consumed permanent buffs (doesn't support modded ones by default, requires mod call)
-			if (clientConfig.PermBuffTips && idx != -1)
+			if (Terratweaks.ClientConfig.PermBuffTips && idx != -1)
 			{
 				// Permanent buffs that can be consumed multiple times use special logic, listing the number consumed instead of if they have/haven't been consumed
 				if (MultiPermBuffs.ContainsKey(item.type) && MultiPermBuffs.TryGetValue(item.type, out Func<Player, Vector2> values))
@@ -483,7 +478,7 @@ namespace Terratweaks.Items
 			}
 
 			// Add a line to summon weapons explaining the cooldown
-			if (config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
+			if (Terratweaks.Config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
 			{
 				if (proj.minion || proj.sentry)
 				{
@@ -496,7 +491,7 @@ namespace Terratweaks.Items
 			}
 
 			// Add/replace some lines for accessories with removed diminishing returns
-			if (config.NoDiminishingReturns && idx != -1)
+			if (Terratweaks.Config.NoDiminishingReturns && idx != -1)
 			{
 				// Replace tooltip0 and tooltip1 on most accessories
 				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && t.Name.Contains("Tooltip")))
@@ -660,7 +655,7 @@ namespace Terratweaks.Items
 		public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
 		{
 			// Update Oasis/Mirage Crate loot tables
-			if (GetInstance<TerratweaksConfig>().OasisCrateBuff && (item.type == ItemID.OasisCrate || item.type == ItemID.OasisCrateHard))
+			if (Terratweaks.Config.OasisCrateBuff && (item.type == ItemID.OasisCrate || item.type == ItemID.OasisCrateHard))
 			{
 				var rules = itemLoot.Get();
 				var mainRule = (AlwaysAtleastOneSuccessDropRule)rules.FirstOrDefault(x => x is AlwaysAtleastOneSuccessDropRule);
@@ -695,7 +690,7 @@ namespace Terratweaks.Items
 				itemLoot.Add(newMainRule);
 			}
 
-			if (GetInstance<TerratweaksConfig>().calamitweaks.RevertTerraprisma && ModLoader.HasMod("CalamityMod") && item.type == ItemID.FairyQueenBossBag)
+			if (Terratweaks.Config.calamitweaks.RevertTerraprisma && ModLoader.HasMod("CalamityMod") && item.type == ItemID.FairyQueenBossBag)
 			{
 				foreach (IItemDropRule rule in itemLoot.Get(false))
 				{
@@ -704,7 +699,7 @@ namespace Terratweaks.Items
 			}
 		}
 
-		void HandleCalamityEoLChanges(IItemDropRule rule)
+		static void HandleCalamityEoLChanges(IItemDropRule rule)
 		{
 			if (rule is CalamityMod.DropHelper.AllOptionsAtOnceWithPityDropRule pityRule)
 			{
@@ -747,9 +742,7 @@ namespace Terratweaks.Items
 
 		public override void SetDefaults(Item item)
 		{
-			var config = GetInstance<TerratweaksConfig>();
-
-			if (item.type == ItemID.UmbrellaHat && config.UmbrellaHatRework)
+			if (item.type == ItemID.UmbrellaHat && Terratweaks.Config.UmbrellaHatRework)
 			{
 				item.vanity = false;
 				item.accessory = true;
@@ -759,9 +752,7 @@ namespace Terratweaks.Items
 
 		public override void UpdateVanity(Item item, Player player)
 		{
-			var config = GetInstance<TerratweaksConfig>();
-
-			if (item.type == ItemID.UmbrellaHat && config.UmbrellaHatRework)
+			if (item.type == ItemID.UmbrellaHat && Terratweaks.Config.UmbrellaHatRework)
 			{
 				player.GetModPlayer<InputPlayer>().umbrellaHatVanity = true;
 			}
@@ -769,10 +760,9 @@ namespace Terratweaks.Items
 
 		public override void UpdateAccessory(Item item, Player player, bool hideVisual)
 		{
-			var config = GetInstance<TerratweaksConfig>();
-			SentryAccSetting dd2AccsStack = config.StackableDD2Accs;
+			SentryAccSetting dd2AccsStack = Terratweaks.Config.StackableDD2Accs;
 
-			if (item.type == ItemID.UmbrellaHat && config.UmbrellaHatRework)
+			if (item.type == ItemID.UmbrellaHat && Terratweaks.Config.UmbrellaHatRework)
 			{
 				player.noFallDmg = true;
 				player.GetModPlayer<InputPlayer>().umbrellaHat = true;
@@ -798,7 +788,7 @@ namespace Terratweaks.Items
 				player.GetDamage(DamageClass.Summon) += 0.1f;
 			}
 
-			if (config.NoDiminishingReturns)
+			if (Terratweaks.Config.NoDiminishingReturns)
 			{
 				// Boots need to give +15% movement speed, but they currently only give +8%- so increase it by 7%!
 				if (item.type == ItemID.LightningBoots || item.type == ItemID.FrostsparkBoots || item.type == ItemID.TerrasparkBoots)
@@ -826,7 +816,7 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (item.type == ItemID.EmpressFlightBooster && config.SIRework && !ModLoader.HasMod("CalamityMod"))
+			if (item.type == ItemID.EmpressFlightBooster && Terratweaks.Config.SIRework && !ModLoader.HasMod("CalamityMod"))
 			{
 				// Disable vanilla SI effects
 				player.empressBrooch = false;
@@ -847,9 +837,7 @@ namespace Terratweaks.Items
 
 		public override void SetDefaults(Item item)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
-			if (config.OreUnification)
+			if (Terratweaks.Config.OreUnification)
 			{
 				switch (item.type)
 				{
@@ -1027,12 +1015,12 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (config.ReaverSharkTweaks && item.type == ItemID.ReaverShark)
+			if (Terratweaks.Config.ReaverSharkTweaks && item.type == ItemID.ReaverShark)
 			{
 				item.pick = 100;
 			}
 
-			if (config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
+			if (Terratweaks.Config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
 			{
 				if (proj.minion || proj.sentry)
 				{
@@ -1040,7 +1028,7 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (config.DeerWeaponsRework && item.type == ItemID.PewMaticHorn)
+			if (Terratweaks.Config.DeerWeaponsRework && item.type == ItemID.PewMaticHorn)
 			{
 				item.useTime = item.useAnimation = 10;
 			}
@@ -1048,14 +1036,13 @@ namespace Terratweaks.Items
 
 		public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
 			Player player = Main.LocalPlayer;
 
 			// Don't do anything if we aren't in a world
 			if (Main.gameMenu)
 				return;
 
-			if (config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
+			if (Terratweaks.Config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
 			{
 				if (proj.minion || proj.sentry)
 				{
@@ -1090,9 +1077,7 @@ namespace Terratweaks.Items
 
 		public override bool CanUseItem(Item item, Player player)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
-			if (config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon))
+			if (Terratweaks.Config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon))
 			{
 				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
 
@@ -1110,9 +1095,7 @@ namespace Terratweaks.Items
 
 		public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
-			if (config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon))
+			if (Terratweaks.Config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon))
 			{
 				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
 
@@ -1175,18 +1158,16 @@ namespace Terratweaks.Items
 
 		public override void UpdateEquip(Item item, Player player)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
 			switch (item.type)
 			{
 				//Spider armor
 				case ItemID.SpiderMask:
 				case ItemID.SpiderGreaves:
-					if (config.SpiderSetBonus)
+					if (Terratweaks.Config.SpiderSetBonus)
 						player.GetDamage(DamageClass.Summon) += 0.02f;
 					break;
 				case ItemID.SpiderBreastplate:
-					if (config.SpiderSetBonus)
+					if (Terratweaks.Config.SpiderSetBonus)
 					{
 						player.GetDamage(DamageClass.Summon) += 0.02f;
 						player.maxTurrets += 1;
@@ -1195,20 +1176,20 @@ namespace Terratweaks.Items
 
 				// Monk armor
 				case ItemID.MonkBrows:
-					if (config.ConvertMonkArmor)
+					if (Terratweaks.Config.ConvertMonkArmor)
 					{
 						player.GetAttackSpeed(DamageClass.Melee) -= 0.2f; // Remove vanilla melee speed increase
 						player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += 0.2f; // Increase whip speed by 20%
 					}
 					break;
 				case ItemID.MonkShirt:
-					if (config.ConvertMonkArmor)
+					if (Terratweaks.Config.ConvertMonkArmor)
 					{
 						player.GetDamage(DamageClass.Melee) -= 0.2f; // Remove vanilla melee damage increase
 					}
 					break;
 				case ItemID.MonkPants:
-					if (config.ConvertMonkArmor)
+					if (Terratweaks.Config.ConvertMonkArmor)
 					{
 						player.GetCritChance(DamageClass.Melee) -= 15; // Remove vanilla melee crit increase
 						player.whipRangeMultiplier += 0.15f; // Increase whip range by 15%
@@ -1219,19 +1200,19 @@ namespace Terratweaks.Items
 				case ItemID.SpookyHelmet:
 				case ItemID.SpookyBreastplate:
 				case ItemID.SpookyLeggings:
-					if (config.SpookySetBonus)
+					if (Terratweaks.Config.SpookySetBonus)
 						player.GetDamage(DamageClass.Summon) += 0.06f;
 					break;
 
 				// Shinobi Infiltrator armor
 				case ItemID.MonkAltHead:
-					if (config.ConvertMonkArmor)
+					if (Terratweaks.Config.ConvertMonkArmor)
 					{
 						player.GetDamage(DamageClass.Melee) -= 0.2f; // Remove vanilla melee damage increase
 					}
 					break;
 				case ItemID.MonkAltShirt:
-					if (config.ConvertMonkArmor)
+					if (Terratweaks.Config.ConvertMonkArmor)
 					{
 						player.GetAttackSpeed(DamageClass.Melee) -= 0.2f; // Remove vanilla melee speed increase
 						player.GetCritChance(DamageClass.Melee) -= 5; // Remove vanilla melee crit increase
@@ -1240,7 +1221,7 @@ namespace Terratweaks.Items
 					}
 					break;
 				case ItemID.MonkAltPants:
-					if (config.ConvertMonkArmor)
+					if (Terratweaks.Config.ConvertMonkArmor)
 					{
 						player.GetCritChance(DamageClass.Melee) -= 20; // Remove vanilla melee crit increase
 						player.GetAttackSpeed(DamageClass.SummonMeleeSpeed) += 0.15f; // Increase whip speed by 15%
@@ -1252,8 +1233,6 @@ namespace Terratweaks.Items
 
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
 			foreach (TooltipLine tooltip in tooltips)
 			{
 				if (tooltip.Name == "Tooltip0")
@@ -1261,23 +1240,23 @@ namespace Terratweaks.Items
 					switch (item.type)
 					{
 						case ItemID.MonkBrows:
-							if (config.ConvertMonkArmor)
+							if (Terratweaks.Config.ConvertMonkArmor)
 								tooltip.Text = $"{Language.GetTextValue("CommonItemTooltip.IncreasesMaxSentriesBy", 1)} and {Language.GetTextValue("Mods.Terratweaks.CommonItemTooltip.WhipSpeed", 20)}";
 							break;
 						case ItemID.MonkShirt:
-							if (config.ConvertMonkArmor)
+							if (Terratweaks.Config.ConvertMonkArmor)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 20);
 							break;
 						case ItemID.MonkAltHead:
-							if (config.ConvertMonkArmor)
+							if (Terratweaks.Config.ConvertMonkArmor)
 								tooltip.Text = $"{Language.GetTextValue("CommonItemTooltip.IncreasesMaxSentriesBy", 2)} and {Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 20)}";
 							break;
 						case ItemID.MonkAltShirt:
-							if (config.ConvertMonkArmor)
+							if (Terratweaks.Config.ConvertMonkArmor)
 								tooltip.Text = $"{Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 20)} and whip speed";
 							break;
 						case ItemID.MonkAltPants:
-							if (config.ConvertMonkArmor)
+							if (Terratweaks.Config.ConvertMonkArmor)
 							{
 								tooltip.Text = $"{Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 20)} and whip range";
 								tooltip.Text += "\n" + Language.GetTextValue("Mods.Terratweaks.CommonItemTooltip.WhipSpeed", 15);
@@ -1291,32 +1270,32 @@ namespace Terratweaks.Items
 					switch (item.type)
 					{
 						case ItemID.SpiderMask:
-							if (config.SpiderSetBonus)
+							if (Terratweaks.Config.SpiderSetBonus)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 7);
 							break;
 						case ItemID.SpiderBreastplate:
-							if (config.SpiderSetBonus)
+							if (Terratweaks.Config.SpiderSetBonus)
 							{
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 7);
 								tooltip.Text += "\n" + Language.GetTextValue("CommonItemTooltip.IncreasesMaxSentriesBy", 1);
 							}
 							break;
 						case ItemID.SpiderGreaves:
-							if (config.SpiderSetBonus)
+							if (Terratweaks.Config.SpiderSetBonus)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 8);
 							break;
 						case ItemID.MonkPants:
-							if (config.ConvertMonkArmor)
+							if (Terratweaks.Config.ConvertMonkArmor)
 								tooltip.Text = $"{Language.GetTextValue("CommonItemTooltip.IncreasesWhipRangeByPercent", 15)} and {Language.GetTextValue("CommonItemTooltip.PercentIncreasedMovementSpeed", 20)}";
 							break;
 						case ItemID.SpookyHelmet:
 						case ItemID.SpookyBreastplate:
 						case ItemID.SpookyLeggings:
-							if (config.SpookySetBonus)
+							if (Terratweaks.Config.SpookySetBonus)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedSummonDamage", 17);
 							break;
 						case ItemID.MonkAltShirt:
-							if (config.ConvertMonkArmor)
+							if (Terratweaks.Config.ConvertMonkArmor)
 								tooltip.Text = Language.GetTextValue("CommonItemTooltip.IncreasesWhipRangeByPercent", 15);
 							break;
 					}
@@ -1327,9 +1306,7 @@ namespace Terratweaks.Items
 		// Since vanilla doesn't necessarily have booleans for every vanilla set or anything, we have to define the set bonuses ourselves
 		public override string IsArmorSet(Item head, Item body, Item legs)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
-			if (config.OreUnification)
+			if (Terratweaks.Config.OreUnification)
 			{
 				if ((head.type == ItemID.IronHelmet || head.type == ItemID.AncientIronHelmet) && body.type == ItemID.IronChainmail && legs.type == ItemID.IronGreaves)
 					return "Iron";
@@ -1338,22 +1315,22 @@ namespace Terratweaks.Items
 					return "Gold";
 			}
 
-			if (head.type == ItemID.SpiderMask && body.type == ItemID.SpiderBreastplate && legs.type == ItemID.SpiderGreaves && config.SpiderSetBonus)
+			if (head.type == ItemID.SpiderMask && body.type == ItemID.SpiderBreastplate && legs.type == ItemID.SpiderGreaves && Terratweaks.Config.SpiderSetBonus)
 				return "Spider";
 
-			if (CobaltHeads.Contains(head.type) && body.type == ItemID.CobaltBreastplate && legs.type == ItemID.CobaltLeggings && config.CobaltSetBonus)
+			if (CobaltHeads.Contains(head.type) && body.type == ItemID.CobaltBreastplate && legs.type == ItemID.CobaltLeggings && Terratweaks.Config.CobaltSetBonus)
 				return "Cobalt";
 
-			if (MythrilHeads.Contains(head.type) && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves && config.MythrilSetBonus)
+			if (MythrilHeads.Contains(head.type) && body.type == ItemID.MythrilChainmail && legs.type == ItemID.MythrilGreaves && Terratweaks.Config.MythrilSetBonus)
 				return "Mythril";
 
-			if (AdamantiteHeads.Contains(head.type) && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings && config.AdamantiteSetBonus)
+			if (AdamantiteHeads.Contains(head.type) && body.type == ItemID.AdamantiteBreastplate && legs.type == ItemID.AdamantiteLeggings && Terratweaks.Config.AdamantiteSetBonus)
 				return "Adamantite";
 
-			if (head.type == ItemID.SpookyHelmet && body.type == ItemID.SpookyBreastplate && legs.type == ItemID.SpookyLeggings && config.SpookySetBonus)
+			if (head.type == ItemID.SpookyHelmet && body.type == ItemID.SpookyBreastplate && legs.type == ItemID.SpookyLeggings && Terratweaks.Config.SpookySetBonus)
 				return "Spooky";
 
-			if (head.type == ItemID.StardustHelmet && body.type == ItemID.StardustBreastplate && legs.type == ItemID.StardustLeggings && config.StardustArmorBuff)
+			if (head.type == ItemID.StardustHelmet && body.type == ItemID.StardustBreastplate && legs.type == ItemID.StardustLeggings && Terratweaks.Config.StardustArmorBuff)
 				return "Stardust";
 
 			return base.IsArmorSet(head, body, legs);
@@ -1512,26 +1489,26 @@ namespace Terratweaks.Items
 
 		public override void SetStaticDefaults()
 		{
-			var config = GetInstance<TerratweaksConfig>().craftableUncraftables;
+			var enabledRecipes = Terratweaks.Config.craftableUncraftables;
 
-			if (config.Moss)
+			if (enabledRecipes.Moss)
 			{
 				AddShimmerTransmutation_Cycle(new List<int> { ItemID.RedMoss, ItemID.BrownMoss, ItemID.GreenMoss, ItemID.BlueMoss, ItemID.PurpleMoss });
 				AddShimmerTransmutation_Chain(new List<int> { ItemID.LavaMoss, ItemID.XenonMoss, ItemID.KryptonMoss, ItemID.ArgonMoss, ItemID.VioletMoss, ItemID.RainbowMoss });
 			}
 
-			if (config.Gravestones)
+			if (enabledRecipes.Gravestones)
 			{
 				AddShimmerTransmutation_Cycle(new List<int> { ItemID.Tombstone, ItemID.GraveMarker, ItemID.CrossGraveMarker, ItemID.Headstone, ItemID.Gravestone, ItemID.Obelisk });
 				AddShimmerTransmutation_Cycle(new List<int> { ItemID.RichGravestone1, ItemID.RichGravestone2, ItemID.RichGravestone3, ItemID.RichGravestone4, ItemID.RichGravestone5 });
 			}
 
-			if (config.Trophies)
+			if (enabledRecipes.Trophies)
 			{
 				AddTrophyRecipes();
 			}
 
-			if (config.ShimmerBottomlessAndSponges)
+			if (enabledRecipes.ShimmerBottomlessAndSponges)
 			{
 				ItemID.Sets.ShimmerTransformToItem[ItemID.BottomlessLavaBucket] = ItemID.LavaAbsorbantSponge;
 				ItemID.Sets.ShimmerTransformToItem[ItemID.LavaAbsorbantSponge] = ItemID.BottomlessLavaBucket;
@@ -1540,13 +1517,13 @@ namespace Terratweaks.Items
 				ItemID.Sets.ShimmerTransformToItem[ItemID.HoneyAbsorbantSponge] = ItemID.BottomlessHoneyBucket;
 			}
 
-			if (config.PrehardUnobtainables)
+			if (enabledRecipes.PrehardUnobtainables)
 			{
 				ItemID.Sets.ShimmerTransformToItem[ItemID.HelFire] = ItemID.Cascade;
 				ItemID.Sets.ShimmerTransformToItem[ItemID.ZapinatorOrange] = ItemID.ZapinatorGray;
 			}
 
-			if (config.ShimmerBossDrops)
+			if (enabledRecipes.ShimmerBossDrops)
 			{
 				foreach (KeyValuePair<string, List<int>> pair in ShimmerableBossDrops)
 				{
@@ -1626,9 +1603,6 @@ namespace Terratweaks.Items
 		}
 	}
 
-	// TODO: This breaks every player in existence in its current state
-	//		 I need to figure out how to make it not do that eventually, but for now
-	//		 I'm leaving it commented out because I don't really wanna deal with it rn - Lurrae
 	public class ReforgeHandler : GlobalItem
 	{
 		public static readonly Dictionary<int, float> vanillaPrefixValues = new()
@@ -1731,7 +1705,7 @@ namespace Terratweaks.Items
 			// Don't force rerolls with Calamity Mod since it reworks reforging anyways
 			// TODO: Can we access Calamity's config from here? We should check if their rework is enabled,
 			//		 since it can be toggled in their config - Lurrae
-			if (!ModLoader.HasMod("CalamityMod") && GetInstance<TerratweaksConfig>().BetterHappiness && Main.InReforgeMenu && OldPrefix > 0)
+			if (!ModLoader.HasMod("CalamityMod") && Terratweaks.Config.BetterHappiness && Main.InReforgeMenu && OldPrefix > 0)
 			{
 				float currentPrefixValue;
 				float targetPrefixValue;

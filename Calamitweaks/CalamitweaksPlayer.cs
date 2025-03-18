@@ -15,25 +15,22 @@ namespace Terratweaks.Calamitweaks
 
 		public override void PostUpdateBuffs()
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (Player.HasBuff(BuffID.IceBarrier) && calamitweaks.DRBuffs)
+			if (Player.HasBuff(BuffID.IceBarrier) && Terratweaks.Calamitweaks.DRBuffs)
 				Player.endurance += 0.1f;
 		}
 
 		public override void PostUpdateEquips()
 		{
 			CalamityPlayer calPlr = Player.Calamity();
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
 
-			if (calPlr.GemTechState.IsPinkGemActive && calamitweaks.DRBuffs)
+			if (calPlr.GemTechState.IsPinkGemActive && Terratweaks.Calamitweaks.DRBuffs)
 			{
 				Player.endurance += 0.13f; // Increase DR granted from +12% to +25%
 			}
 
 			// Smoothly convert existing mounted/non-mounted boosts between each other
 			// Without this, the boost would reset upon mounting/un-mounting
-			if (calPlr.aquaticEmblem && calamitweaks.AquaticEmblemBuff)
+			if (calPlr.aquaticEmblem && Terratweaks.Calamitweaks.AquaticEmblemBuff)
 			{
 				if (Player.mount.Active)
 				{
@@ -57,9 +54,8 @@ namespace Terratweaks.Calamitweaks
 		public override void PostUpdateMiscEffects()
 		{
 			CalamityPlayer calPlr = Player.Calamity();
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
 
-			if (!calamitweaks.AquaticEmblemBuff)
+			if (!Terratweaks.Calamitweaks.AquaticEmblemBuff)
 				return;
 
 			// Allow Aquatic Emblem to work with mounts because it is SO dumb that it automatically negates the effects as soon as you mount
@@ -106,9 +102,7 @@ namespace Terratweaks.Calamitweaks
 		// TODO: This is broken for projectiles right now, re-implement later
 		public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.EnragedEoLInstakills && npc.type == NPCID.HallowBoss && npc.Calamity().CurrentlyEnraged)
+			if (Terratweaks.Calamitweaks.EnragedEoLInstakills && npc.type == NPCID.HallowBoss && npc.Calamity().CurrentlyEnraged)
 			{
 				modifiers.FinalDamage.Base = 9999;
 				modifiers.ModifyHurtInfo += (ref Player.HurtInfo info) => info.Dodgeable = false; // Ensures you can't dodge this attack
@@ -117,9 +111,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void ModifyHitByProjectile(Projectile proj, ref Player.HurtModifiers modifiers)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.EnragedEoLInstakills)
+			if (Terratweaks.Calamitweaks.EnragedEoLInstakills)
 			{
 				CalamitweaksProjs cProj = proj.GetGlobalProjectile<CalamitweaksProjs>();
 

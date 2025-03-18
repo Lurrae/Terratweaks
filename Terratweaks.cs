@@ -16,7 +16,6 @@ using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terratweaks.Calamitweaks;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
 
@@ -100,6 +99,12 @@ namespace Terratweaks
 			{ ItemID.Zenith, new FinalFractalHelper.FinalFractalProfile(86f, new Color(178, 255, 180)) }
 		};
 
+		public static TerratweaksConfig Config => ModContent.GetInstance<TerratweaksConfig>();
+		public static TerratweaksConfig_Client ClientConfig => ModContent.GetInstance<TerratweaksConfig_Client>();
+		public static AlchTweaks Alchemitweaks => Config.alchemitweaks;
+		public static CalTweaks Calamitweaks => Calamitweaks;
+		public static ThorTweaks Thoritweaks => Config.thoritweaks;
+
 		public override void Load()
 		{
 			InfernoToggleKeybind = KeybindLoader.RegisterKeybind(this, "InfernoToggle", "I");
@@ -122,7 +127,7 @@ namespace Terratweaks
 
 		private bool AllowBombingMeteorite(On_Projectile.orig_CanExplodeTile orig, Projectile self, int x, int y)
 		{
-			if (ModContent.GetInstance<TerratweaksConfig>().BombableMeteorite)
+			if (Config.BombableMeteorite)
 			{
 				Tile tile = Main.tile[x, y];
 
@@ -144,7 +149,7 @@ namespace Terratweaks
 			// drop two extra medals if the player just beat the tier 1 event, or three extra medals for tier 2
 			// (they'll drop separately from vanilla's amount, but should still stack since they spawn on top of each other)
 			// Tier 3 doesn't drop extra medals from the final wave
-			if (ModContent.GetInstance<TerratweaksConfig>().MoreOOAMedals)
+			if (Config.MoreOOAMedals)
 			{
 				if (DD2Event.OngoingDifficulty == 1)
 					DD2Event.DropMedals(2);
@@ -166,7 +171,7 @@ namespace Terratweaks
 
 			// If the config option to drop extra medals is enabled, drop extra medals based on the current wave
 			// (they'll drop separately from vanilla's amount, but should still stack since they spawn on top of each other)
-			if (ModContent.GetInstance<TerratweaksConfig>().MoreOOAMedals && DD2Event.EnemySpawningIsOnHold && !spawnedMedalsThisWave)
+			if (Config.MoreOOAMedals && DD2Event.EnemySpawningIsOnHold && !spawnedMedalsThisWave)
 			{
 				spawnedMedalsThisWave = true;
 
@@ -216,8 +221,7 @@ namespace Terratweaks
 			}
 
 			// Block only boss NPCs (and EoW) from stealing coins
-			TerratweaksConfig config = ModContent.GetInstance<TerratweaksConfig>();
-			if (config.NoCoinTheft == CoinTheftSetting.Limited)
+			if (Config.NoCoinTheft == CoinTheftSetting.Limited)
 			{
 				foreach (NPC npc in ContentSamples.NpcsByNetId.Values)
 				{
@@ -226,7 +230,7 @@ namespace Terratweaks
 				}
 			}
 			// Block all enemies from stealing coins
-			else if (config.NoCoinTheft == CoinTheftSetting.On)
+			else if (Config.NoCoinTheft == CoinTheftSetting.On)
 			{
 				foreach (NPC npc in ContentSamples.NpcsByNetId.Values)
 				{
@@ -244,129 +248,126 @@ namespace Terratweaks
 					case "Query":
 						if (args[1] is string settingToQuery)
 						{
-							TerratweaksConfig config = ModContent.GetInstance<TerratweaksConfig>();
-							TerratweaksConfig_Client clientConfig = ModContent.GetInstance<TerratweaksConfig_Client>();
-
 							return settingToQuery switch
 							{
 								#region Returns
-								"BannersDontSpamChat" => config.BannersDontSpamChat,
-								"BetterBestiary" => config.BetterBestiary,
-								"BetterCrackedBricks" => config.BetterCrackedBricks,
-								"BetterHappiness" => config.BetterHappiness,
-								"BossesLowerSpawnRates" => config.BossesLowerSpawnRates,
-								"PlayerDeathsToCallOffInvasion" => config.PlayerDeathsToCallOffInvasion,
-								"NPCDeathsToCallOffInvasion" => config.NPCDeathsToCallOffInvasion,
-								"ChesterRework" => config.ChesterRework,
-								"CritsBypassDefense" => config.CritsBypassDefense,
-								"DangersenseHighlightsSilt" => config.DangersenseHighlightsSilt,
-								"DangersenseIgnoresThinIce" => config.DangersenseIgnoresThinIce,
-								"DeerclopsRegens" => config.DeerclopsRegens,
-								"DeerRegenAmt" => config.DeerRegenAmt,
-								"DeerWeaponsRework" => config.DeerWeaponsRework,
-								"DummyFix" => (int)config.DummyFix,
-								"DyeTraderShopExpansion" => config.DyeTraderShopExpansion,
-								"ForceBossContactDamage" => config.ForceBossContactDamage,
-								"HouseSizeAffectsHappiness" => config.HouseSizeAffectsHappiness,
-								"KillSentries" => config.KillSentries,
-								"ManaFreeSummoner" => config.ManaFreeSummoner,
-								"NoCasterContactDamage" => config.NoCasterContactDamage,
-								"NoCoinTheft" => (int)config.NoCoinTheft,
-								"NoDamageVariance" => (int)config.NoDamageVariance,
-								"NoDiminishingReturns" => config.NoDiminishingReturns,
-								"NoEnemyInvulnerability" => config.NoEnemyInvulnerability,
-								"NoExpertDebuffTimes" => config.NoExpertDebuffTimes,
-								"NoExpertFreezingWater" => config.NoExpertFreezingWater,
-								"NoExpertScaling" => config.NoExpertScaling,
-								"NPCsSellMinecarts" => config.NPCsSellMinecarts,
-								"OasisCrateBuff" => config.OasisCrateBuff,
-								"OreUnification" => config.OreUnification,
-								"OverrideGraveyardRequirements" => config.OverrideGraveyardRequirements,
-								"GraveyardVisuals" => config.GraveyardVisuals,
-								"GraveyardFunctionality" => config.GraveyardFunctionality,
-								"GraveyardMax" => config.GraveyardMax,
-								"LunarWingsPreML" or "EarlyLunarWings" => config.LunarWingsPreML,
-								"PillarEnemiesDropFragments" => config.PillarEnemiesDropFragments,
-								"PostEyeSandstorms" => config.PostEyeSandstorms,
-								"ReaverSharkTweaks" or "ReaverTweaks" => config.ReaverSharkTweaks,
-								"SIRework" or "SoaringInsigniaRework" => config.SIRework,
-								"SmartMimics" => config.SmartMimics,
-								"SmartNymphs" => config.SmartNymphs,
-								"SoilSolutionsPreML" => config.SoilSolutionsPreML,
-								"SolutionsOnGFB" => config.SolutionsOnGFB,
-								"StackableDD2Accs" => (int)config.StackableDD2Accs,
-								"TerraprismaDropRate" => config.TerraprismaDropRate,
-								"TownNPCsSellWeapons" => config.TownNPCsSellWeapons,
-								"UmbrellaHatRework" => config.UmbrellaHatRework,
-								"ExpertAccBuffs_RoyalGel" or "RoyalGelBuff" => config.RoyalGel,
-								"ExpertAccBuffs_HivePack" or "HivePackBuff" => config.HivePack,
-								"ExpertAccBuffs_BoneHelm" or "BoneHelmBuff" => config.BoneHelm,
-								"ArmorReworks_Spider" or "SpiderArmorSetBonus" or "SpiderSetBonus" => config.SpiderSetBonus,
-								"ArmorReworks_Cobalt" or "CobaltArmorSetBonus" or "CobaltSetBonus" => config.CobaltSetBonus,
-								"ArmorReworks_Mythril" or "MythrilArmorSetBonus" or "MythrilSetBonus" => config.MythrilSetBonus,
-								"ArmorReworks_Adamantite" or "AdamantiteArmorSetBonus" or "AdamantiteSetBonus" => config.AdamantiteSetBonus,
-								"ArmorReworks_Spooky" or "SpookyArmorSetBonus" or "SpookySetBonus" => config.SpookySetBonus,
-								"ArmorReworks_Monk" or "WhipMonkArmor" or "ConvertMonkArmor" => config.ConvertMonkArmor,
-								"ArmorReworks_Stardust" or "StardustArmorBuff" or "BuffStardustArmor" => config.StardustArmorBuff,
-								"OldChestDungeon" => config.OldChestDungeon,
-								"BoundNPCsImmune" or "BoundNPCsNoDamage" or "InvulnerableBoundNPCs" => config.BoundNPCsImmune,
-								"LessGrindyDefenderMedals" or "LessGrindyOOA" or "MoreOOAMedals" or "MoreDefenderMedals" => config.MoreOOAMedals,
-								"BombableMeteorite" => config.BombableMeteorite,
+								"BannersDontSpamChat" => Config.BannersDontSpamChat,
+								"BetterBestiary" => Config.BetterBestiary,
+								"BetterCrackedBricks" => Config.BetterCrackedBricks,
+								"BetterHappiness" => Config.BetterHappiness,
+								"BossesLowerSpawnRates" => Config.BossesLowerSpawnRates,
+								"PlayerDeathsToCallOffInvasion" => Config.PlayerDeathsToCallOffInvasion,
+								"NPCDeathsToCallOffInvasion" => Config.NPCDeathsToCallOffInvasion,
+								"ChesterRework" => Config.ChesterRework,
+								"CritsBypassDefense" => Config.CritsBypassDefense,
+								"DangersenseHighlightsSilt" => Config.DangersenseHighlightsSilt,
+								"DangersenseIgnoresThinIce" => Config.DangersenseIgnoresThinIce,
+								"DeerclopsRegens" => Config.DeerclopsRegens,
+								"DeerRegenAmt" => Config.DeerRegenAmt,
+								"DeerWeaponsRework" => Config.DeerWeaponsRework,
+								"DummyFix" => (int)Config.DummyFix,
+								"DyeTraderShopExpansion" => Config.DyeTraderShopExpansion,
+								"ForceBossContactDamage" => Config.ForceBossContactDamage,
+								"HouseSizeAffectsHappiness" => Config.HouseSizeAffectsHappiness,
+								"KillSentries" => Config.KillSentries,
+								"ManaFreeSummoner" => Config.ManaFreeSummoner,
+								"NoCasterContactDamage" => Config.NoCasterContactDamage,
+								"NoCoinTheft" => (int)Config.NoCoinTheft,
+								"NoDamageVariance" => (int)Config.NoDamageVariance,
+								"NoDiminishingReturns" => Config.NoDiminishingReturns,
+								"NoEnemyInvulnerability" => Config.NoEnemyInvulnerability,
+								"NoExpertDebuffTimes" => Config.NoExpertDebuffTimes,
+								"NoExpertFreezingWater" => Config.NoExpertFreezingWater,
+								"NoExpertScaling" => Config.NoExpertScaling,
+								"NPCsSellMinecarts" => Config.NPCsSellMinecarts,
+								"OasisCrateBuff" => Config.OasisCrateBuff,
+								"OreUnification" => Config.OreUnification,
+								"OverrideGraveyardRequirements" => Config.OverrideGraveyardRequirements,
+								"GraveyardVisuals" => Config.GraveyardVisuals,
+								"GraveyardFunctionality" => Config.GraveyardFunctionality,
+								"GraveyardMax" => Config.GraveyardMax,
+								"LunarWingsPreML" or "EarlyLunarWings" => Config.LunarWingsPreML,
+								"PillarEnemiesDropFragments" => Config.PillarEnemiesDropFragments,
+								"PostEyeSandstorms" => Config.PostEyeSandstorms,
+								"ReaverSharkTweaks" or "ReaverTweaks" => Config.ReaverSharkTweaks,
+								"SIRework" or "SoaringInsigniaRework" => Config.SIRework,
+								"SmartMimics" => Config.SmartMimics,
+								"SmartNymphs" => Config.SmartNymphs,
+								"SoilSolutionsPreML" => Config.SoilSolutionsPreML,
+								"SolutionsOnGFB" => Config.SolutionsOnGFB,
+								"StackableDD2Accs" => (int)Config.StackableDD2Accs,
+								"TerraprismaDropRate" => Config.TerraprismaDropRate,
+								"TownNPCsSellWeapons" => Config.TownNPCsSellWeapons,
+								"UmbrellaHatRework" => Config.UmbrellaHatRework,
+								"ExpertAccBuffs_RoyalGel" or "RoyalGelBuff" => Config.RoyalGel,
+								"ExpertAccBuffs_HivePack" or "HivePackBuff" => Config.HivePack,
+								"ExpertAccBuffs_BoneHelm" or "BoneHelmBuff" => Config.BoneHelm,
+								"ArmorReworks_Spider" or "SpiderArmorSetBonus" or "SpiderSetBonus" => Config.SpiderSetBonus,
+								"ArmorReworks_Cobalt" or "CobaltArmorSetBonus" or "CobaltSetBonus" => Config.CobaltSetBonus,
+								"ArmorReworks_Mythril" or "MythrilArmorSetBonus" or "MythrilSetBonus" => Config.MythrilSetBonus,
+								"ArmorReworks_Adamantite" or "AdamantiteArmorSetBonus" or "AdamantiteSetBonus" => Config.AdamantiteSetBonus,
+								"ArmorReworks_Spooky" or "SpookyArmorSetBonus" or "SpookySetBonus" => Config.SpookySetBonus,
+								"ArmorReworks_Monk" or "WhipMonkArmor" or "ConvertMonkArmor" => Config.ConvertMonkArmor,
+								"ArmorReworks_Stardust" or "StardustArmorBuff" or "BuffStardustArmor" => Config.StardustArmorBuff,
+								"OldChestDungeon" => Config.OldChestDungeon,
+								"BoundNPCsImmune" or "BoundNPCsNoDamage" or "InvulnerableBoundNPCs" => Config.BoundNPCsImmune,
+								"LessGrindyDefenderMedals" or "LessGrindyOOA" or "MoreOOAMedals" or "MoreDefenderMedals" => Config.MoreOOAMedals,
+								"BombableMeteorite" => Config.BombableMeteorite,
 
-								"Client_EstimatedDPS" or "EstimatedDPS" => clientConfig.EstimatedDPS,
-								"Client_GrammarCorrections" or "GrammarCorrections" => clientConfig.GrammarCorrections,
-								"Client_NoRandomCrit" or "NoRandomCrit" => clientConfig.NoRandomCrit,
-								"Client_PermBuffTips" or "PermBuffTips" => clientConfig.PermBuffTips,
-								"Client_StatsInTip" or "StatsInTip" => clientConfig.StatsInTip,
-								"Client_WingStatsInTip" or "WingStatsInTip" => clientConfig.WingStatsInTip,
+								"Client_EstimatedDPS" or "EstimatedDPS" => ClientConfig.EstimatedDPS,
+								"Client_GrammarCorrections" or "GrammarCorrections" => ClientConfig.GrammarCorrections,
+								"Client_NoRandomCrit" or "NoRandomCrit" => ClientConfig.NoRandomCrit,
+								"Client_PermBuffTips" or "PermBuffTips" => ClientConfig.PermBuffTips,
+								"Client_StatsInTip" or "StatsInTip" => ClientConfig.StatsInTip,
+								"Client_WingStatsInTip" or "WingStatsInTip" => ClientConfig.WingStatsInTip,
 
-								"CraftableUncraftables_PlanterBoxes" or "PlanterBoxesRecipe" => config.craftableUncraftables.PlanterBoxes,
-								"CraftableUncraftables_GemCritters" or "GemCrittersRecipe" => config.craftableUncraftables.GemCritters,
-								"CraftableUncraftables_DungeonFurniture" or "DungeonFurnitureRecipe" => config.craftableUncraftables.DungeonFurniture,
-								"CraftableUncraftables_ObsidianFurniture" or "ObsidianRecipe" => config.craftableUncraftables.ObsidianFurniture,
-								"CraftableUncraftables_StructureBanners" or "StructureBannersRecipe" => config.craftableUncraftables.StructureBanners,
-								"CraftableUncraftables_Moss" or "MossRecipe" => config.craftableUncraftables.Moss,
-								"CraftableUncraftables_Gravestones" or "GravestonesRecipe" => config.craftableUncraftables.Gravestones,
-								"CraftableUncraftables_GeyserTraps" or "GeyserTrapsRecipe" or "CraftableUncraftables_Geysers" or "GeysersRecipe" or "CraftableUncraftables_GeyserTrap" or "GeyserTrapRecipe" or "CraftableUncraftables_Geyser" or "GeyserRecipe" => config.craftableUncraftables.GeyserTraps,
-								"CraftableUncraftables_Trophies" or "TrophiesRecipe" => config.craftableUncraftables.Trophies,
-								"CraftableUncraftables_ClothierVoodooDoll" or "ClothierVoodooDollRecipe" or "ClothierDollRecipe" => config.craftableUncraftables.ClothierVoodooDoll,
-								"CraftableUncraftables_TempleTraps" or "TempleTrapsRecipe" => config.craftableUncraftables.TempleTraps,
-								"CraftableUncraftables_ShimmerBottomlessAndSponges" or "BottomlessAndSpongesShimmer" => config.craftableUncraftables.ShimmerBottomlessAndSponges,
-								"CraftableUncraftables_TeamBlocks" or "TeamBlocksRecipe" => config.craftableUncraftables.TeamBlocks,
-								"CraftableUncraftables_PrehardUnobtainables" or "PrehardUnobtainablesShimmer" => config.craftableUncraftables.PrehardUnobtainables,
-								"CraftableUncraftables_ShimmerBossDrops" or "BossDropsShimmer" => config.craftableUncraftables.ShimmerBossDrops,
+								"CraftableUncraftables_PlanterBoxes" or "PlanterBoxesRecipe" => Config.craftableUncraftables.PlanterBoxes,
+								"CraftableUncraftables_GemCritters" or "GemCrittersRecipe" => Config.craftableUncraftables.GemCritters,
+								"CraftableUncraftables_DungeonFurniture" or "DungeonFurnitureRecipe" => Config.craftableUncraftables.DungeonFurniture,
+								"CraftableUncraftables_ObsidianFurniture" or "ObsidianRecipe" => Config.craftableUncraftables.ObsidianFurniture,
+								"CraftableUncraftables_StructureBanners" or "StructureBannersRecipe" => Config.craftableUncraftables.StructureBanners,
+								"CraftableUncraftables_Moss" or "MossRecipe" => Config.craftableUncraftables.Moss,
+								"CraftableUncraftables_Gravestones" or "GravestonesRecipe" => Config.craftableUncraftables.Gravestones,
+								"CraftableUncraftables_GeyserTraps" or "GeyserTrapsRecipe" or "CraftableUncraftables_Geysers" or "GeysersRecipe" or "CraftableUncraftables_GeyserTrap" or "GeyserTrapRecipe" or "CraftableUncraftables_Geyser" or "GeyserRecipe" => Config.craftableUncraftables.GeyserTraps,
+								"CraftableUncraftables_Trophies" or "TrophiesRecipe" => Config.craftableUncraftables.Trophies,
+								"CraftableUncraftables_ClothierVoodooDoll" or "ClothierVoodooDollRecipe" or "ClothierDollRecipe" => Config.craftableUncraftables.ClothierVoodooDoll,
+								"CraftableUncraftables_TempleTraps" or "TempleTrapsRecipe" => Config.craftableUncraftables.TempleTraps,
+								"CraftableUncraftables_ShimmerBottomlessAndSponges" or "BottomlessAndSpongesShimmer" => Config.craftableUncraftables.ShimmerBottomlessAndSponges,
+								"CraftableUncraftables_TeamBlocks" or "TeamBlocksRecipe" => Config.craftableUncraftables.TeamBlocks,
+								"CraftableUncraftables_PrehardUnobtainables" or "PrehardUnobtainablesShimmer" => Config.craftableUncraftables.PrehardUnobtainables,
+								"CraftableUncraftables_ShimmerBossDrops" or "BossDropsShimmer" => Config.craftableUncraftables.ShimmerBossDrops,
 
-								"Calamitweaks_AquaticEmblemBuff" or "AquaticEmblemBuff" => config.calamitweaks.AquaticEmblemBuff,
-								"Calamitweaks_AsgardsValorBuff" or "AsgardsValorBuff" => config.calamitweaks.AsgardsValorBuff,
-								"Calamitweaks_CraftableHostileTurrets" or "CraftableUncraftables_HostileTurrets" or "HostileTurretsRecipe" or "HostileTurretsShimmer" => config.calamitweaks.CraftableHostileTurrets,
-								"Calamitweaks_DeificAmuletBuff" or "DeificAmuletBuff" => config.calamitweaks.DeificAmuletBuff,
-								"Calamitweaks_DRBuffs" or "CalDRBuffs" => config.calamitweaks.DRBuffs,
-								"Calamitweaks_DryadSellsSeeds" or "DryadSellsCalSeeds" => config.calamitweaks.DryadSellsSeeds,
-								"Calamitweaks_EnemyFoodDrops" or "EnemyFoodDrops" => config.calamitweaks.EnemyFoodDrops,
-								"Calamitweaks_EnragedEoLInstakills" or "Calamitweaks_DayEoLInstakills" or "EnragedEoLInstakills" or "DayEoLInstakills" => config.calamitweaks.EnragedEoLInstakills,
-								"Calamitweaks_EzCalBanners" or "EzCalBanners" => config.calamitweaks.EzCalBanners,
-								"Calamitweaks_ForceWormContactDamage" or "ForceWormContactDamage" => config.calamitweaks.ForceWormContactDamage,
-								"Calamitweaks_NoDefenseDamage" or "NoDefenseDamage" => config.calamitweaks.NoDefenseDamage,
-								"Calamitweaks_NoPatreonNPCNames" or "NoCalPatreonNPCNames" => config.calamitweaks.NoPatreonNPCNames,
-								"Calamitweaks_NoPlantParticles" or "NoPlantParticles" => config.calamitweaks.NoPlantParticles,
-								"Calamitweaks_NoSellingRoD" or "NoSellingRoD" => config.calamitweaks.NoSellingRoD,
-								"Calamitweaks_NoWormParticles" or "NoWormParticles" => config.calamitweaks.NoWormParticles,
-								"Calamitweaks_OnionMasterMode" or "OnionMasterMode" => config.calamitweaks.OnionMasterMode,
-								"Calamitweaks_RadiantInsigniaUpgradesFromAscendant" or "RadiantInsigniaUpgradesFromAscendant" => config.calamitweaks.RadiantInsigniaUpgradesFromAscendant,
-								"Calamitweaks_RevertPickSpeedBuffs" or "PickSpeedCalReversion" => config.calamitweaks.RevertPickSpeedBuffs,
-								"Calamitweaks_RevertPillars" or "PillarCalReversion" => config.calamitweaks.RevertPillars,
-								"Calamitweaks_RevertTerraprisma" or "TerraprismaCalReversion" => config.calamitweaks.RevertTerraprisma,
-								"Calamitweaks_RevertVanillaBossAIChanges" or "VanillaBossAICalReversion" => config.calamitweaks.RevertVanillaBossAIChanges,
-								"Calamitweaks_SummonerAccBuffs" or "CalSummonerAccBuffs" => config.calamitweaks.SummonerAccBuffs,
-								"Calamitweaks_ZenithRecipeOverhaul" or "CalZenithRecipeOverhaul" or "Calamitweaks_ZenithRecipe" or "CalZenithRecipe" => config.calamitweaks.ZenithRecipeOverhaul,
+								"Calamitweaks_AquaticEmblemBuff" or "AquaticEmblemBuff" => Calamitweaks.AquaticEmblemBuff,
+								"Calamitweaks_AsgardsValorBuff" or "AsgardsValorBuff" => Calamitweaks.AsgardsValorBuff,
+								"Calamitweaks_CraftableHostileTurrets" or "CraftableUncraftables_HostileTurrets" or "HostileTurretsRecipe" or "HostileTurretsShimmer" => Calamitweaks.CraftableHostileTurrets,
+								"Calamitweaks_DeificAmuletBuff" or "DeificAmuletBuff" => Calamitweaks.DeificAmuletBuff,
+								"Calamitweaks_DRBuffs" or "CalDRBuffs" => Calamitweaks.DRBuffs,
+								"Calamitweaks_DryadSellsSeeds" or "DryadSellsCalSeeds" => Calamitweaks.DryadSellsSeeds,
+								"Calamitweaks_EnemyFoodDrops" or "EnemyFoodDrops" => Calamitweaks.EnemyFoodDrops,
+								"Calamitweaks_EnragedEoLInstakills" or "Calamitweaks_DayEoLInstakills" or "EnragedEoLInstakills" or "DayEoLInstakills" => Calamitweaks.EnragedEoLInstakills,
+								"Calamitweaks_EzCalBanners" or "EzCalBanners" => Calamitweaks.EzCalBanners,
+								"Calamitweaks_ForceWormContactDamage" or "ForceWormContactDamage" => Calamitweaks.ForceWormContactDamage,
+								"Calamitweaks_NoDefenseDamage" or "NoDefenseDamage" => Calamitweaks.NoDefenseDamage,
+								"Calamitweaks_NoPatreonNPCNames" or "NoCalPatreonNPCNames" => Calamitweaks.NoPatreonNPCNames,
+								"Calamitweaks_NoPlantParticles" or "NoPlantParticles" => Calamitweaks.NoPlantParticles,
+								"Calamitweaks_NoSellingRoD" or "NoSellingRoD" => Calamitweaks.NoSellingRoD,
+								"Calamitweaks_NoWormParticles" or "NoWormParticles" => Calamitweaks.NoWormParticles,
+								"Calamitweaks_OnionMasterMode" or "OnionMasterMode" => Calamitweaks.OnionMasterMode,
+								"Calamitweaks_RadiantInsigniaUpgradesFromAscendant" or "RadiantInsigniaUpgradesFromAscendant" => Calamitweaks.RadiantInsigniaUpgradesFromAscendant,
+								"Calamitweaks_RevertPickSpeedBuffs" or "PickSpeedCalReversion" => Calamitweaks.RevertPickSpeedBuffs,
+								"Calamitweaks_RevertPillars" or "PillarCalReversion" => Calamitweaks.RevertPillars,
+								"Calamitweaks_RevertTerraprisma" or "TerraprismaCalReversion" => Calamitweaks.RevertTerraprisma,
+								"Calamitweaks_RevertVanillaBossAIChanges" or "VanillaBossAICalReversion" => Calamitweaks.RevertVanillaBossAIChanges,
+								"Calamitweaks_SummonerAccBuffs" or "CalSummonerAccBuffs" => Calamitweaks.SummonerAccBuffs,
+								"Calamitweaks_ZenithRecipeOverhaul" or "CalZenithRecipeOverhaul" or "Calamitweaks_ZenithRecipe" or "CalZenithRecipe" => Calamitweaks.ZenithRecipeOverhaul,
 
-								"Thoritweaks_BombableADBlocks" or "BombableADBlocks" => config.thoritweaks.BombableADBlocks,
-								"Thoritweaks_EatCooksFoodInCombat" or "Thoritweaks_CookBuff" or "EatCooksFoodInCombat" or "CookBuff" => config.thoritweaks.EatCooksFoodInCombat,
-								"Thoritweaks_ZenithRecipeOverhaul" or "ThorZenithRecipeOverhaul" or "Thoritweaks_ZenithRecipe" or "ThorZenithRecipe" => config.thoritweaks.ZenithRecipeOverhaul,
+								"Thoritweaks_BombableADBlocks" or "BombableADBlocks" => Thoritweaks.BombableADBlocks,
+								"Thoritweaks_EatCooksFoodInCombat" or "Thoritweaks_CookBuff" or "EatCooksFoodInCombat" or "CookBuff" => Thoritweaks.EatCooksFoodInCombat,
+								"Thoritweaks_ZenithRecipeOverhaul" or "ThorZenithRecipeOverhaul" or "Thoritweaks_ZenithRecipe" or "ThorZenithRecipe" => Thoritweaks.ZenithRecipeOverhaul,
 
-								"Alchemitweaks_DisableCustomPotions" or "DisableCustomAlchPotions" => config.alchemitweaks.DisableCustomPotions,
+								"Alchemitweaks_DisableCustomPotions" or "DisableCustomAlchPotions" => Alchemitweaks.DisableCustomPotions,
 
-								_ => throw new Exception($"Could not find Terratweaks config option named {args[1]}."),
+								_ => throw new Exception($"Could not find Terratweaks Config option named {args[1]}."),
 								#endregion
 							};
 						}
@@ -748,7 +749,7 @@ namespace Terratweaks
 		{
 			orig(self, player, npc);
 
-			if (ModContent.GetInstance<TerratweaksConfig>().HouseSizeAffectsHappiness)
+			if (Config.HouseSizeAffectsHappiness)
 			{
 				// Do nothing if the NPC doesn't have a home; it makes no sense for them to complain about the home size in that case
 				// Also ignore any NPC in the blacklist (only the Princess by default)
@@ -823,7 +824,7 @@ namespace Terratweaks
 
 		private int DisableDamageVariance(On_Main.orig_DamageVar_float_int_float orig, float dmg, int percent, float luck)
 		{
-			if (ModContent.GetInstance<TerratweaksConfig>().NoDamageVariance == DamageVarianceSetting.On)
+			if (Config.NoDamageVariance == DamageVarianceSetting.On)
 			{
 				return (int)Math.Round(dmg);
 			}
@@ -847,7 +848,7 @@ namespace Terratweaks
 		{
 			// Nullify defense on crits, if the corresponding config option is enabled
 			// Don't apply this change with "Consistent Critical Hits", as that config handles armor piercing itself
-			if (ModContent.GetInstance<TerratweaksConfig>().CritsBypassDefense && !ModContent.GetInstance<TerratweaksConfig_Client>().NoRandomCrit && crit)
+			if (Config.CritsBypassDefense && !ClientConfig.NoRandomCrit && crit)
 			{
 				self.DefenseEffectiveness *= 0f;
 			}
@@ -857,7 +858,7 @@ namespace Terratweaks
 
 		private void BannerCombatText(On_NPC.orig_CountKillForBannersAndDropThem orig, NPC self)
 		{
-			if (ModContent.GetInstance<TerratweaksConfig>().BannersDontSpamChat)
+			if (Config.BannersDontSpamChat)
 			{
 				// Code adapted from the original method, just modified to use CombatText instead of printing to chat
 				int num = Item.NPCtoBanner(self.BannerID());
@@ -918,7 +919,7 @@ namespace Terratweaks
 		private void IncreasedJellyfishDamage(On_Player.orig_TakeDamageFromJellyfish orig, Player self, int npcIndex)
 		{
 			// Deal 2x NPC's base damage if electrified while this config is enabled, instead of 1.3x
-			if (ModContent.GetInstance<TerratweaksConfig>().NoEnemyInvulnerability)
+			if (Config.NoEnemyInvulnerability)
 			{
 				// Code adapted from the original method
 				NPC jelly = Main.npc[npcIndex];
@@ -951,8 +952,7 @@ namespace Terratweaks
 
 		private void ChesterRework_Variables(On_Player.orig_HandleBeingInChestRange orig, Player self)
 		{
-			bool chesterRework = ModContent.GetInstance<TerratweaksConfig>().ChesterRework;
-			if (!chesterRework) // No need to run any special code if the rework is disabled, other than setting the chester safe bool to false
+			if (!Config.ChesterRework) // No need to run any special code if the rework is disabled, other than setting the chester safe bool to false
 			{
 				orig(self);
 				playerHasChesterSafeOpened = false;
@@ -976,8 +976,7 @@ namespace Terratweaks
 		private int ChesterRework_OpenSafe(On_Main.orig_TryInteractingWithMoneyTrough orig, Projectile proj)
 		{
 			Player player = Main.LocalPlayer;
-			bool chesterRework = ModContent.GetInstance<TerratweaksConfig>().ChesterRework;
-
+			
 			// Make sure the game closes the safe when needed
 			// This SHOULD only trigger on safe Chester
 			if (proj.type == ProjectileID.ChesterPet && Main.mouseRight && Main.mouseRightRelease && playerHasChesterSafeOpened)
@@ -989,7 +988,7 @@ namespace Terratweaks
 			int originalReturn = orig(proj);
 
 			// Check if the player's currently opened chest is Chester, and if so, set the player's opened chest to the safe instead of the piggy bank
-			if (chesterRework && proj.type == ProjectileID.ChesterPet
+			if (Config.ChesterRework && proj.type == ProjectileID.ChesterPet
 				&& player.chestX == (int)(proj.Center.X / 16) && player.chestY == (int)(proj.Center.Y / 16)
 				&& player.chest == -2)
 			{

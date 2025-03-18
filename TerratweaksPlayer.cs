@@ -154,7 +154,7 @@ namespace Terratweaks
 				werenessMeter = 0;
 
 			// Provide immunity to chilling water in Expert mode
-			if (GetInstance<TerratweaksConfig>().NoExpertFreezingWater)
+			if (Terratweaks.Config.NoExpertFreezingWater)
 				Player.arcticDivingGear = true;
 
 			// Huntress' Buckler and Monk's Belt effects
@@ -236,9 +236,7 @@ namespace Terratweaks
 			}
 
 			// Royal Gel buff - If Queen Slime is dead, it protects against Spiked Slimes and Queen Slime's three minions
-			var config = GetInstance<TerratweaksConfig>();
-
-			if (config.RoyalGel && NPC.downedQueenSlime)
+			if (Terratweaks.Config.RoyalGel && NPC.downedQueenSlime)
 			{
 				if (Player.npcTypeNoAggro[NPCID.BlueSlime]) // Player has an accessory that gives Royal Gel's effects
 				{
@@ -250,7 +248,7 @@ namespace Terratweaks
 			}
 
 			// Hive Pack buff - If Plantera is dead, buff damage of all bee/wasp weapons and sometimes spawn a swarm of large bees
-			if (config.HivePack && NPC.downedPlantBoss)
+			if (Terratweaks.Config.HivePack && NPC.downedPlantBoss)
 			{
 				if (Player.strongBees)
 					buffedHivePack = true;
@@ -302,7 +300,7 @@ namespace Terratweaks
 			}
 
 			// Draw a healthbar above the player's head to indicate their wereness meter while the meter is above 0
-			if (GetInstance<TerratweaksConfig>().DeerWeaponsRework && werenessMeter > 0)
+			if (Terratweaks.Config.DeerWeaponsRework && werenessMeter > 0)
 			{
 				Main.instance.DrawHealthBar(Player.Center.X, Player.position.Y - 16, werenessMeter, MAX_WERENESS, 1);
 			}
@@ -322,7 +320,7 @@ namespace Terratweaks
 		{
 			TriggerOnHitBonus(target, hit);
 
-			if (item.type == ItemID.LucyTheAxe && GetInstance<TerratweaksConfig>().DeerWeaponsRework && !werebeaver)
+			if (item.type == ItemID.LucyTheAxe && Terratweaks.Config.DeerWeaponsRework && !werebeaver)
 			{
 				// Ignore target dummies and any enemies that don't drop coins
 				if (target.value > 0 && !target.immortal)
@@ -408,7 +406,7 @@ namespace Terratweaks
 				
 				if (Main.netMode == NetmodeID.MultiplayerClient) // Sync changed value in multiplayer
 				{
-					ModPacket packet = GetInstance<Terratweaks>().GetPacket();
+					ModPacket packet = Mod.GetPacket();
 					packet.Write((byte)PacketType.SyncInferno); // Packet ID - What type of message is this?
 					packet.Write(showInferno); // Packet message - Does this player have the inferno ring visible or not?
 					packet.Send();
@@ -453,9 +451,7 @@ namespace Terratweaks
 
 		public override void PostUpdate()
 		{
-			bool chesterRework = GetInstance<TerratweaksConfig>().ChesterRework;
-
-			if (Player.controlInv && chesterRework && Player.chest == -3 && Terratweaks.playerHasChesterSafeOpened)
+			if (Player.controlInv && Terratweaks.Config.ChesterRework && Player.chest == -3 && Terratweaks.playerHasChesterSafeOpened)
 			{
 				Player.chest = -1;
 				Main.PlayInteractiveProjectileOpenCloseSound(ProjectileID.ChesterPet, false);
@@ -519,10 +515,8 @@ namespace Terratweaks
 
 		public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
 			// Despawn all active sentries when the player is slain, if they have the corresponding config setting enabled
-			if (config.KillSentries)
+			if (Terratweaks.Config.KillSentries)
 			{
 				foreach (Projectile proj in Main.projectile.Where(p => p.active && p.sentry && p.owner == Player.whoAmI))
 				{
@@ -531,11 +525,11 @@ namespace Terratweaks
 			}
 
 			// Call off invasions if the player dies too many times to the same one
-			if (config.PlayerDeathsToCallOffInvasion > 0 && Main.invasionType != InvasionID.None)
+			if (Terratweaks.Config.PlayerDeathsToCallOffInvasion > 0 && Main.invasionType != InvasionID.None)
 			{
 				deathsThisInvasion++;
 
-				if (deathsThisInvasion >= config.PlayerDeathsToCallOffInvasion)
+				if (deathsThisInvasion >= Terratweaks.Config.PlayerDeathsToCallOffInvasion)
 				{
 					Main.invasionType = InvasionID.None;
 					Color color = new(175, 75, 255);
@@ -550,9 +544,7 @@ namespace Terratweaks
 	{
 		public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
-            if (config.ReaverSharkTweaks)
+			if (Terratweaks.Config.ReaverSharkTweaks)
             {
 				// Prevent catching Reaver Sharks if an evil boss or Skeletron hasn't been killed yet
 				// This is just done by replacing any Reaver Sharks caught with a Sawtooth Shark

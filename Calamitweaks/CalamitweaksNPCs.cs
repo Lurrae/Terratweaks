@@ -19,8 +19,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void Load()
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-			if (calamitweaks.ForceWormContactDamage)
+			if (Terratweaks.Calamitweaks.ForceWormContactDamage)
 			{
 				short[] worms = [ NPCID.DevourerBody, NPCID.DevourerTail, NPCID.DiggerBody, NPCID.DiggerTail, NPCID.TombCrawlerBody, NPCID.TombCrawlerTail, NPCID.DuneSplicerBody, NPCID.DuneSplicerTail, NPCID.GiantWormBody, NPCID.GiantWormTail, NPCID.LeechBody, NPCID.LeechTail, NPCID.StardustWormBody, NPCID.StardustWormTail, NPCID.SeekerBody, NPCID.SeekerTail, NPCID.BoneSerpentBody, NPCID.BoneSerpentTail, NPCID.WyvernBody, NPCID.WyvernTail, NPCID.WyvernBody2, NPCID.WyvernBody3, NPCID.WyvernLegs, NPCID.CultistDragonBody1, NPCID.CultistDragonBody2, NPCID.CultistDragonBody3, NPCID.CultistDragonBody4, NPCID.CultistDragonTail, NPCID.BloodEelBody, NPCID.BloodEelTail ];
 				// Remove all worm-type NPCs from the list of NPCs who don't deal contact damage
@@ -31,9 +30,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void SetBestiary(NPC npc, BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.EzCalBanners)
+			if (Terratweaks.Calamitweaks.EzCalBanners)
 			{
 				if (npc.type == ModContent.NPCType<GiantClam>())
 				{
@@ -48,9 +45,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void SetDefaults(NPC npc)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.NoDefenseDamage)
+			if (Terratweaks.Calamitweaks.NoDefenseDamage)
 			{
 				CalamityGlobalNPC calNpc = npc.Calamity();
 				calNpc.canBreakPlayerDefense = false;
@@ -60,8 +55,7 @@ namespace Terratweaks.Calamitweaks
 		public override bool PreAI(NPC npc)
 		{
 			// First, check if the boss AI changes are even disabled
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-			if (calamitweaks.RevertVanillaBossAIChanges)
+			if (Terratweaks.Calamitweaks.RevertVanillaBossAIChanges)
 			{
 				// Check for Revengeance, Death, or Infernum Mode being active, since those three should not be affected by this config option
 				if (CalamityWorld.revenge || CalamityWorld.death || (ModLoader.TryGetMod("InfernumMod", out Mod infernum) && (bool)infernum.Call("GetInfernumActive")))
@@ -82,9 +76,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void ModifyShop(NPCShop shop)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.DryadSellsSeeds)
+			if (Terratweaks.Calamitweaks.DryadSellsSeeds)
 			{
 				Condition inAstral = new(CalamityUtils.GetText("Condition.InAstral"), () => Main.LocalPlayer.Calamity().ZoneAstral);
 				Condition inCrags = new(CalamityUtils.GetText("Condition.InCrag"), () => Main.LocalPlayer.Calamity().ZoneCalamity);
@@ -96,7 +88,7 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			if (calamitweaks.NoSellingRoD)
+			if (Terratweaks.Calamitweaks.NoSellingRoD)
 			{
 				if (shop.NpcType == NPCID.Wizard && shop.TryGetEntry(ItemID.RodofDiscord, out NPCShop.Entry entry))
 				{

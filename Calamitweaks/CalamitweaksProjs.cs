@@ -17,9 +17,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void SetDefaults(Projectile proj)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.NoDefenseDamage)
+			if (Terratweaks.Calamitweaks.NoDefenseDamage)
 			{
 				CalamityGlobalProjectile calProj = proj.Calamity();
 				calProj.DealsDefenseDamage = false;
@@ -28,9 +26,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void OnSpawn(Projectile projectile, IEntitySource source)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.EnragedEoLInstakills)
+			if (Terratweaks.Calamitweaks.EnragedEoLInstakills)
 			{
 				if (source is EntitySource_Parent parentSource)
 				{

@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.Items
 {
@@ -9,7 +8,7 @@ namespace Terratweaks.Items
 	{
 		public override bool IsLoadingEnabled(Mod mod)
 		{
-			return GetInstance<TerratweaksConfig>().SIRework; // Item is only loaded in if SI rework is enabled
+			return Terratweaks.Config.SIRework; // Item is only loaded in if SI rework is enabled
 		}
 
 		public override void SetStaticDefaults()

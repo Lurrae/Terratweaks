@@ -34,9 +34,7 @@ namespace Terratweaks.Calamitweaks
 		
 		public override void Load()
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.RevertVanillaBossAIChanges)
+			if (Terratweaks.Calamitweaks.RevertVanillaBossAIChanges)
 			{
 				CalamityMod.CalamityMod.ExternalFlag_DisableNonRevBossAI = true;
 			}
@@ -51,7 +49,7 @@ namespace Terratweaks.Calamitweaks
 			MonoModHooks.Modify(_calGlobalNpcPostAi, DisableEnemyParticles);
 
 			// Add more swords to Zenith profiles
-			if (calamitweaks.ZenithRecipeOverhaul)
+			if (Terratweaks.Calamitweaks.ZenithRecipeOverhaul)
 			{
 				FieldInfo _zenithProfiles = typeof(FinalFractalHelper).GetField("_fractalProfiles", BindingFlags.Static | BindingFlags.NonPublic);
 				Dictionary<int, FinalFractalHelper.FinalFractalProfile> profiles = (Dictionary<int, FinalFractalHelper.FinalFractalProfile>)_zenithProfiles.GetValue(null);
@@ -105,22 +103,12 @@ namespace Terratweaks.Calamitweaks
 			#endregion
 		}
 
-		public static bool CheckNoWormParticles(bool calamityResult)
-		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-			return calamityResult && !calamitweaks.NoWormParticles;
-		}
+		public static bool CheckNoWormParticles(bool calamityResult) => calamityResult && !Terratweaks.Calamitweaks.NoWormParticles;
 
-		public static bool CheckNoPlantParticles(bool calamityResult)
-		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-			return calamityResult && !calamitweaks.NoPlantParticles;
-		}
+		public static bool CheckNoPlantParticles(bool calamityResult) => calamityResult && !Terratweaks.Calamitweaks.NoPlantParticles;
 
 		private void DisableEnemyParticles(ILContext il)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
 			var c = new ILCursor(il);
 
 			for (int i = 0; i < 3; i++)
@@ -142,11 +130,9 @@ namespace Terratweaks.Calamitweaks
 
 		private static void DisablePatreonNames(Action<CalamityGlobalNPC, List<string>, string[]> orig, CalamityGlobalNPC self, List<string> nameList, string[] patreonNames)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
 			// By not calling the original function, it never runs, which should mean no patreon names!
 			// This likely won't change the names of NPCs already in the world but-
-			if (calamitweaks.NoPatreonNPCNames)
+			if (Terratweaks.Calamitweaks.NoPatreonNPCNames)
 				return;
 
 			orig(self, nameList, patreonNames);
@@ -154,10 +140,8 @@ namespace Terratweaks.Calamitweaks
 
 		private static void ProgressionEditRemover(Action<CalamityGlobalNPC, NPC> orig, CalamityGlobalNPC self, NPC npc)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
 			// By not calling the original function, it never runs, and therefore pillar enemies spawn as they do in vanilla!
-			if (calamitweaks.RevertPillars)
+			if (Terratweaks.Calamitweaks.RevertPillars)
 				return;
 
 			orig(self, npc);
@@ -165,12 +149,10 @@ namespace Terratweaks.Calamitweaks
 
 		private static void PreventFoodDropBlocking(Action<int[]> orig, params int[] itemIDs)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
 			// Like with ProgressionEditRemover, not calling the original function prevents it from running
 			// In this case, it should always run the original function UNLESS trying to block enemy food drops, that way we don't run into issues
 			// with other items being left unblocked (such as the evil ores and materials from EoW's segments or BoC's creepers)
-			if (itemIDs.Contains(ItemID.ApplePie) && calamitweaks.EnemyFoodDrops)
+			if (itemIDs.Contains(ItemID.ApplePie) && Terratweaks.Calamitweaks.EnemyFoodDrops)
 				return;
 
 			orig(itemIDs);
@@ -178,9 +160,7 @@ namespace Terratweaks.Calamitweaks
 
 		private static bool EnableOnionUseInMasterMode(Func<ModItem, Player, bool> orig, ModItem self, Player player)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.OnionMasterMode)
+			if (Terratweaks.Calamitweaks.OnionMasterMode)
 			{
 				return !player.Calamity().extraAccessoryML;
 			}
@@ -190,9 +170,7 @@ namespace Terratweaks.Calamitweaks
 
 		private static bool EnableOnionSlotInMasterMode(Func<ModAccessorySlot, bool> orig, ModAccessorySlot self)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.OnionMasterMode)
+			if (Terratweaks.Calamitweaks.OnionMasterMode)
 			{
 				if (!ModAccessorySlot.Player.active)
 					return false;
@@ -211,16 +189,14 @@ namespace Terratweaks.Calamitweaks
 
 		public override void PostAddRecipes()
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
 			// If none of these configs are active, we don't need to change any recipes
 			// This is done for performance reasons- there's no need to iterate over every recipe if we know we won't be changing any
-			if (!calamitweaks.DeificAmuletBuff && !calamitweaks.AsgardsValorBuff)
+			if (!Terratweaks.Calamitweaks.DeificAmuletBuff && !Terratweaks.Calamitweaks.AsgardsValorBuff)
 				return;
 
 			foreach (Recipe recipe in Main.recipe)
 			{
-				if (calamitweaks.DeificAmuletBuff && recipe.HasResult(ModContent.ItemType<DeificAmulet>()))
+				if (Terratweaks.Calamitweaks.DeificAmuletBuff && recipe.HasResult(ModContent.ItemType<DeificAmulet>()))
 				{
 					// Remove these ingredients so the recipe displays in the correct order
 					recipe.RemoveIngredient(ModContent.ItemType<AstralBar>());
@@ -232,7 +208,7 @@ namespace Terratweaks.Calamitweaks
 						.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
 				}
 
-				if (calamitweaks.AsgardsValorBuff && recipe.HasResult(ModContent.ItemType<AsgardsValor>()))
+				if (Terratweaks.Calamitweaks.AsgardsValorBuff && recipe.HasResult(ModContent.ItemType<AsgardsValor>()))
 				{
 					// Remove these ingredients so the recipe displays in the correct order
 					recipe.RemoveIngredient(ModContent.ItemType<CoreofCalamity>());

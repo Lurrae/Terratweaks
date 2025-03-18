@@ -10,9 +10,7 @@ namespace Terratweaks.Alchemitweaks
 
 		public override void ModifyShop(NPCShop shop)
 		{
-			AlchTweaks alchemitweaks = ModContent.GetInstance<TerratweaksConfig>().alchemitweaks;
-
-			if (alchemitweaks.DisableCustomPotions)
+			if (Terratweaks.Alchemitweaks.DisableCustomPotions)
 			{
 				if (shop.NpcType == ModContent.NPCType<Brewer>())
 				{

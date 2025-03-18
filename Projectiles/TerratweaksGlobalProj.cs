@@ -27,7 +27,7 @@ namespace Terratweaks.Projectiles
 			}
 
 			// Increase Bone Helm damage, increase it further and increase armor pen and pierce in Hardmode
-			if (GetInstance<TerratweaksConfig>().BoneHelm && projectile.type == ProjectileID.InsanityShadowFriendly)
+			if (Terratweaks.Config.BoneHelm && projectile.type == ProjectileID.InsanityShadowFriendly)
 			{
 				projectile.damage += 6;
 
@@ -40,7 +40,7 @@ namespace Terratweaks.Projectiles
 				}
 			}
 
-			if (GetInstance<TerratweaksConfig>().DeerWeaponsRework && projectile.type == ProjectileID.WeatherPainShot)
+			if (Terratweaks.Config.DeerWeaponsRework && projectile.type == ProjectileID.WeatherPainShot)
 			{
 				projectile.idStaticNPCHitCooldown = 10; // Reduced from 25 to 10, so it can now hit 6 times per second instead of about 2 times per second
 				projectile.penetrate = 45; // Hits about 3x more, allowing it to remain active for about as long as it did before
@@ -66,7 +66,7 @@ namespace Terratweaks.Projectiles
 			}
 
 			// Houndius Shootius buff - Now fires a projectile every 3/4 second instead of 1.5 seconds
-			if (GetInstance<TerratweaksConfig>().DeerWeaponsRework && projectile.type == ProjectileID.HoundiusShootius)
+			if (Terratweaks.Config.DeerWeaponsRework && projectile.type == ProjectileID.HoundiusShootius)
 			{
 				if (projectile.ai[0] > 45)
 					projectile.ai[0] = 45;
@@ -75,7 +75,7 @@ namespace Terratweaks.Projectiles
 
 		public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
 		{
-			if (GetInstance<TerratweaksConfig>().NoDamageVariance == DamageVarianceSetting.Limited)
+			if (Terratweaks.Config.NoDamageVariance == DamageVarianceSetting.Limited)
 				modifiers.DamageVariationScale *= 0;
 
 			if (GetInstance<TerratweaksConfig_Client>().NoRandomCrit && sourceItem != null && sourceItem.TryGetGlobalItem(out TooltipChanges globalItem))
@@ -87,7 +87,7 @@ namespace Terratweaks.Projectiles
 					modifiers.SetCrit();
 					globalItem.hitsDone = 0;
 
-					if (GetInstance<TerratweaksConfig>().CritsBypassDefense)
+					if (Terratweaks.Config.CritsBypassDefense)
 						modifiers.DefenseEffectiveness *= 0;
 				}
 				else

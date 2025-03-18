@@ -11,9 +11,7 @@ namespace Terratweaks.Alchemitweaks
 
 		public override void PostAddRecipes()
 		{
-			AlchTweaks alchemitweaks = ModContent.GetInstance<TerratweaksConfig>().alchemitweaks;
-
-			if (alchemitweaks.DisableCustomPotions)
+			if (Terratweaks.Alchemitweaks.DisableCustomPotions)
 			{
 				// Disable all AlchLite recipes that result in a potion
 				foreach (Recipe recipe in Main.recipe.Where(r => r.Mod == AlchemistNPCLite.AlchemistNPCLite.Instance))

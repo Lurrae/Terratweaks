@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks
 {
@@ -68,8 +67,7 @@ namespace Terratweaks
 
 		public override void AddRecipes()
 		{
-			var config = GetInstance<TerratweaksConfig>();
-			var enabledRecipes = config.craftableUncraftables;
+			var enabledRecipes = Terratweaks.Config.craftableUncraftables;
 
 			if (enabledRecipes.PlanterBoxes)
 			{
@@ -839,18 +837,16 @@ namespace Terratweaks
 
 		public override void PostAddRecipes()
 		{
-			TerratweaksConfig config = GetInstance<TerratweaksConfig>();
-
 			HandleModZenithRecipes();
 
 			// Don't iterate over recipes if no configs that change recipes are active
 			// This is meant to help cut down on performance costs
-			if (!config.LunarWingsPreML)
+			if (!Terratweaks.Config.LunarWingsPreML)
 				return;
 
 			for (int i = 0; i < Recipe.numRecipes; i++)
 			{
-				if (config.LunarWingsPreML)
+				if (Terratweaks.Config.LunarWingsPreML)
 				{
 					Recipe recipe = Main.recipe[i];
 
@@ -868,8 +864,8 @@ namespace Terratweaks
 
 		private static void HandleModZenithRecipes()
 		{
-			CalTweaks calamitweaks = GetInstance<TerratweaksConfig>().calamitweaks;
-			ThorTweaks thoritweaks = GetInstance<TerratweaksConfig>().thoritweaks;
+			CalTweaks calamitweaks = Terratweaks.Config.calamitweaks;
+			ThorTweaks thoritweaks = Terratweaks.Config.thoritweaks;
 
 			bool addCalSwords = ModLoader.HasMod("CalamityMod") && calamitweaks.ZenithRecipeOverhaul;
 			bool addThorSwords = ModLoader.HasMod("ThoriumMod") && thoritweaks.ZenithRecipeOverhaul;

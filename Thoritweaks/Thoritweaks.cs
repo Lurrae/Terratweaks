@@ -25,10 +25,8 @@ namespace Terratweaks.Thoritweaks
 
 		public override void Load()
 		{
-			ThorTweaks thoritweaks = ModContent.GetInstance<TerratweaksConfig>().thoritweaks;
-
 			// Add more swords to Zenith profiles
-			if (thoritweaks.ZenithRecipeOverhaul)
+			if (Terratweaks.Thoritweaks.ZenithRecipeOverhaul)
 			{
 				FieldInfo _zenithProfiles = typeof(FinalFractalHelper).GetField("_fractalProfiles", BindingFlags.Static | BindingFlags.NonPublic);
 				Dictionary<int, FinalFractalHelper.FinalFractalProfile> profiles = (Dictionary<int, FinalFractalHelper.FinalFractalProfile>)_zenithProfiles.GetValue(null);
@@ -59,7 +57,7 @@ namespace Terratweaks.Thoritweaks
 
 		private bool AllowBombingDepthsBlocks(On_Projectile.orig_CanExplodeTile orig, Projectile self, int x, int y)
 		{
-			if (ModContent.GetInstance<TerratweaksConfig>().thoritweaks.BombableADBlocks)
+			if (Terratweaks.Thoritweaks.BombableADBlocks)
 			{
 				Tile tile = Main.tile[x, y];
 

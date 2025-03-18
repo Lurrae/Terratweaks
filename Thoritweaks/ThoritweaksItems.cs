@@ -19,9 +19,7 @@ namespace Terratweaks.Thoritweaks
 
 		private static bool AllowEatingCookFoodInCombat(Func<CookFoodItem, bool> orig, CookFoodItem self)
 		{
-			ThorTweaks thoritweaks = ModContent.GetInstance<TerratweaksConfig>().thoritweaks;
-
-			if (thoritweaks.EatCooksFoodInCombat)
+			if (Terratweaks.Thoritweaks.EatCooksFoodInCombat)
 			{
 				return true;
 			}

@@ -23,7 +23,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void Load()
 		{
-			if (ModContent.GetInstance<TerratweaksConfig>().calamitweaks.RevertPickSpeedBuffs)
+			if (Terratweaks.Calamitweaks.RevertPickSpeedBuffs)
 			{
 				Dictionary<object, Array> entriesToReplace = new();
 
@@ -76,10 +76,8 @@ namespace Terratweaks.Calamitweaks
 
 		public override void SetStaticDefaults()
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
 			// Reduce banner kill counts for some enemies
-			if (calamitweaks.EzCalBanners)
+			if (Terratweaks.Calamitweaks.EzCalBanners)
 			{
 				// Fearless Goldfish Warrior is relatively rare, but with a Zerg Potion active it's not too bad
 				// Same for Renegade Warlock
@@ -107,7 +105,7 @@ namespace Terratweaks.Calamitweaks
 			}
 
 			// Enable Shimmer transmutations for hostile turrets, and draw a skull icon just like the Dead Man's Chest and unsafe/cursed wall blocks
-			if (calamitweaks.CraftableHostileTurrets)
+			if (Terratweaks.Calamitweaks.CraftableHostileTurrets)
 			{
 				ItemID.Sets.ShimmerTransformToItem[ModContent.ItemType<FireTurret>()] = ModContent.ItemType<HostileFireTurret>();
 				ItemID.Sets.ShimmerTransformToItem[ModContent.ItemType<IceTurret>()] = ModContent.ItemType<HostileIceTurret>();
@@ -141,25 +139,23 @@ namespace Terratweaks.Calamitweaks
 
 		public override void SetDefaults(Item item)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
 			// Add a tooltip specifying that certain items were modified by Terratweaks while the corresponding configs are active
 			#region StatsModifiedBy stuff
 			bool itemIsModified = false;
 
-			if (calamitweaks.AsgardsValorBuff && (item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>()))
+			if (Terratweaks.Calamitweaks.AsgardsValorBuff && (item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>()))
 				itemIsModified = true;
 
-			if (calamitweaks.AquaticEmblemBuff && item.type == ModContent.ItemType<AquaticEmblem>())
+			if (Terratweaks.Calamitweaks.AquaticEmblemBuff && item.type == ModContent.ItemType<AquaticEmblem>())
 				itemIsModified = true;
 
-			if (calamitweaks.DeificAmuletBuff && (item.type == ModContent.ItemType<DeificAmulet>() || item.type == ModContent.ItemType<RampartofDeities>()))
+			if (Terratweaks.Calamitweaks.DeificAmuletBuff && (item.type == ModContent.ItemType<DeificAmulet>() || item.type == ModContent.ItemType<RampartofDeities>()))
 				itemIsModified = true;
 
-			if (calamitweaks.DRBuffs && DRItems.Contains(item.type))
+			if (Terratweaks.Calamitweaks.DRBuffs && DRItems.Contains(item.type))
 				itemIsModified = true;
 
-			if (calamitweaks.SummonerAccBuffs && (item.type == ModContent.ItemType<StarTaintedGenerator>() || item.type == ModContent.ItemType<Nucleogenesis>()))
+			if (Terratweaks.Calamitweaks.SummonerAccBuffs && (item.type == ModContent.ItemType<StarTaintedGenerator>() || item.type == ModContent.ItemType<Nucleogenesis>()))
 				itemIsModified = true;
 
 			if (itemIsModified)
@@ -169,9 +165,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override bool CanUseItem(Item item, Player player)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (item.type == ModContent.ItemType<CelestialOnion>() && calamitweaks.OnionMasterMode)
+			if (item.type == ModContent.ItemType<CelestialOnion>() && Terratweaks.Calamitweaks.OnionMasterMode)
 			{
 				return !player.Calamity().extraAccessoryML;
 			}
@@ -181,9 +175,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.OnionMasterMode)
+			if (Terratweaks.Calamitweaks.OnionMasterMode)
 			{
 				if (item.type == ItemID.MoonLordBossBag)
 				{
@@ -195,9 +187,7 @@ namespace Terratweaks.Calamitweaks
 
 		public override void UpdateEquip(Item item, Player player)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (calamitweaks.DRBuffs)
+			if (Terratweaks.Calamitweaks.DRBuffs)
 			{
 				if (item.type == ItemID.WormScarf)
 					player.endurance += 0.03f; // Raise DR from 14% to 17%
@@ -212,7 +202,7 @@ namespace Terratweaks.Calamitweaks
 					player.endurance += 0.2f; // Raise DR from 10% to 30%
 			}
 
-			if (calamitweaks.SummonerAccBuffs)
+			if (Terratweaks.Calamitweaks.SummonerAccBuffs)
 			{
 				if (item.type == ModContent.ItemType<StarTaintedGenerator>())
 					player.maxMinions++; // STG's components together give +3, so STG itself should give +3
@@ -221,7 +211,7 @@ namespace Terratweaks.Calamitweaks
 					player.maxMinions += 2; // STG + Statis' Curse together give +6, so Nucleogenesis should do the same
 			}
 
-			if (calamitweaks.DeificAmuletBuff)
+			if (Terratweaks.Calamitweaks.DeificAmuletBuff)
 			{
 				if (item.type == ModContent.ItemType<DeificAmulet>() || item.type == ModContent.ItemType<RampartofDeities>())
 				{
@@ -231,7 +221,7 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			if (calamitweaks.AsgardsValorBuff)
+			if (Terratweaks.Calamitweaks.AsgardsValorBuff)
 			{
 				if (item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>())
 				{
@@ -251,23 +241,21 @@ namespace Terratweaks.Calamitweaks
 
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 		{
-			CalTweaks calamitweaks = ModContent.GetInstance<TerratweaksConfig>().calamitweaks;
-
-			if (ModContent.GetInstance<TerratweaksConfig>().OverrideGraveyardRequirements)
+			if (Terratweaks.Config.OverrideGraveyardRequirements)
 			{
 				// Tombstones - Number required varies now
 				if (item.type == ItemID.Tombstone || (item.type >= ItemID.GraveMarker && item.type <= ItemID.Obelisk) || (item.type >= ItemID.RichGravestone1 && item.type <= ItemID.RichGravestone5))
 				{
 					if (tooltips.Any(t => t.Text.Contains("20 of any tombstone")))
 					{
-						int numTombstones = ModContent.GetInstance<TerratweaksConfig>().GraveyardFunctionality;
+						int numTombstones = Terratweaks.Config.GraveyardFunctionality;
 						TooltipLine line = tooltips.First(t => t.Text.Contains("20 of any tombstone"));
 						line.Text = line.Text.Replace("20 of any tombstone", numTombstones + " of any tombstone");
 					}
 				}
 			}
 
-			if (calamitweaks.DRBuffs)
+			if (Terratweaks.Calamitweaks.DRBuffs)
 			{
 				// Frozen Turtle Shell (and upgrades) and Worm Scarf - Reverted back to their vanilla DR values
 				if (tooltips.Any(t => t.Text.Contains("reduces damage")))
@@ -312,7 +300,7 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			if (calamitweaks.SummonerAccBuffs)
+			if (Terratweaks.Calamitweaks.SummonerAccBuffs)
 			{
 				// Star-Tainted Generator - Increased minion slots granted from +2 to +3
 				if (item.type == ModContent.ItemType<StarTaintedGenerator>() && tooltips.Any(t => t.Text.Contains("+2 max minions")))
@@ -329,7 +317,7 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			if (calamitweaks.DeificAmuletBuff)
+			if (Terratweaks.Calamitweaks.DeificAmuletBuff)
 			{
 				// Deific Amulet and Rampart of Deities - Now inherit Charm of Myths effect
 				if (item.type == ModContent.ItemType<DeificAmulet>() || item.type == ModContent.ItemType<RampartofDeities>())
@@ -339,7 +327,7 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			if (calamitweaks.AsgardsValorBuff)
+			if (Terratweaks.Calamitweaks.AsgardsValorBuff)
 			{
 				// Asgard's Valor and Asgardian Aegis - Now inherit Shield of the Ocean and Deep Diver's effects
 				if (item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>())
@@ -349,7 +337,7 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			if (calamitweaks.OnionMasterMode)
+			if (Terratweaks.Calamitweaks.OnionMasterMode)
 			{
 				// Celestial Onion - Remove tooltip stating that it does nothing in Master Mode
 				if (item.type == ModContent.ItemType<CelestialOnion>())
