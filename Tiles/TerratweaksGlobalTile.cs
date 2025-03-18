@@ -10,6 +10,9 @@ namespace Terratweaks.Tiles
 	{
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
+			if (!ModContent.GetInstance<TerratweaksConfig>().BetterCrackedBricks)
+				return;
+
 			int tileType = Main.tile[i, j].TileType;
 
 			if (!Main.tileCracked[tileType] || Main.netMode == NetmodeID.MultiplayerClient)
