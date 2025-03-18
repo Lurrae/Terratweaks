@@ -263,6 +263,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool BetterCrackedBricks { get; set; }
 
+		[DefaultValue(true)]
+		public bool BombableMeteorite { get; set; }
+
 		[DefaultValue(false)]
 		public bool OverrideGraveyardRequirements { get; set; }
 
@@ -553,6 +556,9 @@ namespace Terratweaks
 	[SeparatePage]
 	public class ThorTweaks
 	{
+		[DefaultValue(false)]
+		public bool BombableADBlocks { get; set; }
+
 		[DefaultValue(false)]
 		public bool EatCooksFoodInCombat { get; set; }
 

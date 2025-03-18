@@ -555,6 +555,11 @@ Mods: {
 					Label: "[i:GreenSlimeBanner] Remove Expert Mode Enemy Stat Scaling"
 					Tooltip: Removes the ridiculous stat scaling Expert/Master Mode applies to certain enemies in Hardmode and post-Plantera
 				}
+
+				BombableMeteorite: {
+					Label: "[i:Bomb] [i:Meteorite] Bombable Meteorite"
+					Tooltip: Enables Meteorite to be destroyed with explosives after defeating any evil boss instead of requiring that you enter Hardmode
+				}
 			}
 
 			CraftableUncraftables: {
@@ -950,6 +955,11 @@ Mods: {
 						Disables the mechanic where most of the Cook's food items cannot be eaten if the player is in combat
 						Does not affect any other mechanics that rely on being in/out of combat
 						'''
+				}
+
+				BombableADBlocks: {
+					Label: "[i:Bomb] Bombable Aquatic Depths"
+					Tooltip: Enables blocks in the Aquatic Depths, such as Marine Blocks and Aquaite Ore, to be destroyed with explosives after defeating both Queen Jellyfish and any evil boss instead of requiring that you enter Hardmode
 				}
 
 				ZenithRecipeOverhaul: {

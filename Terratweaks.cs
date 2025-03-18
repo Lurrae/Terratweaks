@@ -117,6 +117,22 @@ namespace Terratweaks
 			On_ShopHelper.ProcessMood += CustomHappinessFactors;
 			On_DD2Event.CheckProgress += DropMoreDefenderMedals;
 			On_DD2Event.WinInvasionInternal += DropMoreDefenderMedals_Victory;
+			On_Projectile.CanExplodeTile += AllowBombingMeteorite;
+		}
+
+		private bool AllowBombingMeteorite(On_Projectile.orig_CanExplodeTile orig, Projectile self, int x, int y)
+		{
+			if (ModContent.GetInstance<TerratweaksConfig>().BombableMeteorite)
+			{
+				Tile tile = Main.tile[x, y];
+
+				if (tile.TileType == TileID.Meteorite && (NPC.downedBoss2 || Main.hardMode))
+				{
+					return true;
+				}
+			}
+
+			return orig(self, x, y);
 		}
 
 		private void DropMoreDefenderMedals_Victory(On_DD2Event.orig_WinInvasionInternal orig)
@@ -295,6 +311,7 @@ namespace Terratweaks
 								"OldChestDungeon" => config.OldChestDungeon,
 								"BoundNPCsImmune" or "BoundNPCsNoDamage" or "InvulnerableBoundNPCs" => config.BoundNPCsImmune,
 								"LessGrindyDefenderMedals" or "LessGrindyOOA" or "MoreOOAMedals" or "MoreDefenderMedals" => config.MoreOOAMedals,
+								"BombableMeteorite" => config.BombableMeteorite,
 
 								"Client_EstimatedDPS" or "EstimatedDPS" => clientConfig.EstimatedDPS,
 								"Client_GrammarCorrections" or "GrammarCorrections" => clientConfig.GrammarCorrections,
@@ -343,6 +360,7 @@ namespace Terratweaks
 								"Calamitweaks_SummonerAccBuffs" or "CalSummonerAccBuffs" => config.calamitweaks.SummonerAccBuffs,
 								"Calamitweaks_ZenithRecipeOverhaul" or "CalZenithRecipeOverhaul" or "Calamitweaks_ZenithRecipe" or "CalZenithRecipe" => config.calamitweaks.ZenithRecipeOverhaul,
 
+								"Thoritweaks_BombableADBlocks" or "BombableADBlocks" => config.thoritweaks.BombableADBlocks,
 								"Thoritweaks_EatCooksFoodInCombat" or "Thoritweaks_CookBuff" or "EatCooksFoodInCombat" or "CookBuff" => config.thoritweaks.EatCooksFoodInCombat,
 								"Thoritweaks_ZenithRecipeOverhaul" or "ThorZenithRecipeOverhaul" or "Thoritweaks_ZenithRecipe" or "ThorZenithRecipe" => config.thoritweaks.ZenithRecipeOverhaul,
 
