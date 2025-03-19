@@ -355,6 +355,7 @@ namespace Terratweaks
 				// Check all Calamitweaks configs for forced reloads
 				// TODO: Ditto the above todo (remove if/when tmod fixes the issue that makes this necessary)
 				if (calamitweaks.AsgardsValorBuff != pendingTtConfig.calamitweaks.AsgardsValorBuff ||
+					calamitweaks.CombinedStationSupport != pendingTtConfig.calamitweaks.CombinedStationSupport ||
 					calamitweaks.CraftableHostileTurrets != pendingTtConfig.calamitweaks.CraftableHostileTurrets ||
 					calamitweaks.DeificAmuletBuff != pendingTtConfig.calamitweaks.DeificAmuletBuff ||
 					calamitweaks.DryadSellsSeeds != pendingTtConfig.calamitweaks.DryadSellsSeeds ||
@@ -367,6 +368,14 @@ namespace Terratweaks
 					calamitweaks.RevertPillars != pendingTtConfig.calamitweaks.RevertPillars ||
 					calamitweaks.RevertTerraprisma != pendingTtConfig.calamitweaks.RevertTerraprisma ||
 					calamitweaks.RevertVanillaBossAIChanges != pendingTtConfig.calamitweaks.RevertVanillaBossAIChanges)
+				{
+					return true;
+				}
+
+				// Check all Thoritweaks configs for forced reloads
+				// TODO: Once again, ditto the above todos
+				if (thoritweaks.CombinedStationSupport != pendingTtConfig.thoritweaks.CombinedStationSupport ||
+					thoritweaks.ZenithRecipeOverhaul != pendingTtConfig.thoritweaks.ZenithRecipeOverhaul)
 				{
 					return true;
 				}
@@ -512,6 +521,10 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool CombinedStationSupport { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool CraftableHostileTurrets { get; set; }
 
 		[ReloadRequired]
@@ -596,6 +609,10 @@ namespace Terratweaks
 
 		[DefaultValue(false)]
 		public bool EatCooksFoodInCombat { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool CombinedStationSupport { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]

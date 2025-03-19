@@ -837,6 +837,7 @@ namespace Terratweaks
 
 		public override void PostAddRecipes()
 		{
+			// Add more swords to the Zenith's recipe, if needed
 			HandleModZenithRecipes();
 
 			// Don't iterate over recipes if no configs that change recipes are active
@@ -864,11 +865,8 @@ namespace Terratweaks
 
 		private static void HandleModZenithRecipes()
 		{
-			CalTweaks calamitweaks = Terratweaks.Config.calamitweaks;
-			ThorTweaks thoritweaks = Terratweaks.Config.thoritweaks;
-
-			bool addCalSwords = ModLoader.HasMod("CalamityMod") && calamitweaks.ZenithRecipeOverhaul;
-			bool addThorSwords = ModLoader.HasMod("ThoriumMod") && thoritweaks.ZenithRecipeOverhaul;
+			bool addCalSwords = ModLoader.HasMod("CalamityMod") && Terratweaks.Calamitweaks.ZenithRecipeOverhaul;
+			bool addThorSwords = ModLoader.HasMod("ThoriumMod") && Terratweaks.Thoritweaks.ZenithRecipeOverhaul;
 
 			// Don't waste time doing any funky calculations if we know we don't need to
 			if (!addCalSwords && !addThorSwords)

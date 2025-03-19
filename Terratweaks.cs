@@ -263,6 +263,7 @@ namespace Terratweaks
 
 								"Calamitweaks_AquaticEmblemBuff" or "AquaticEmblemBuff" => Calamitweaks.AquaticEmblemBuff,
 								"Calamitweaks_AsgardsValorBuff" or "AsgardsValorBuff" => Calamitweaks.AsgardsValorBuff,
+								"Calamitweaks_CombinedStationSupport" or "CalCombinedStationSupport" => Calamitweaks.CombinedStationSupport,
 								"Calamitweaks_CraftableHostileTurrets" or "CraftableUncraftables_HostileTurrets" or "HostileTurretsRecipe" or "HostileTurretsShimmer" => Calamitweaks.CraftableHostileTurrets,
 								"Calamitweaks_DeificAmuletBuff" or "DeificAmuletBuff" => Calamitweaks.DeificAmuletBuff,
 								"Calamitweaks_DRBuffs" or "CalDRBuffs" => Calamitweaks.DRBuffs,
@@ -286,6 +287,7 @@ namespace Terratweaks
 								"Calamitweaks_ZenithRecipeOverhaul" or "CalZenithRecipeOverhaul" or "Calamitweaks_ZenithRecipe" or "CalZenithRecipe" => Calamitweaks.ZenithRecipeOverhaul,
 
 								"Thoritweaks_BombableADBlocks" or "BombableADBlocks" => Thoritweaks.BombableADBlocks,
+								"Thoritweaks_CombinedStationSupport" or "ThorCombinedStationSupport" => Thoritweaks.CombinedStationSupport,
 								"Thoritweaks_EatCooksFoodInCombat" or "Thoritweaks_CookBuff" or "EatCooksFoodInCombat" or "CookBuff" => Thoritweaks.EatCooksFoodInCombat,
 								"Thoritweaks_ZenithRecipeOverhaul" or "ThorZenithRecipeOverhaul" or "Thoritweaks_ZenithRecipe" or "ThorZenithRecipe" => Thoritweaks.ZenithRecipeOverhaul,
 

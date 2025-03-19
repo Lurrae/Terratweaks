@@ -12,8 +12,14 @@
     <Reference Include="CalamityMod">
       <HintPath>..\..\ModReader\CalamityMod\CalamityMod.dll</HintPath>
     </Reference>
+    <Reference Include="CatalystMod">
+      <HintPath>..\..\ModReader\CatalystMod\CatalystMod.dll</HintPath>
+    </Reference>
     <Reference Include="EfficientNohits">
       <HintPath>..\..\ModReader\EfficientNohits\EfficientNohits.dll</HintPath>
+    </Reference>
+    <Reference Include="MagicStorage">
+      <HintPath>..\..\ModReader\MagicStorage\MagicStorage.dll</HintPath>
     </Reference>
     <Reference Include="MMHOOK_CalamityMod">
       <HintPath>lib\MMHOOK_CalamityMod.dll</HintPath>

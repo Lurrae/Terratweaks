@@ -836,6 +836,16 @@ Mods: {
 					Tooltip: Fixes the Aquatic Emblem setting its defense boost to 0 when riding a mount, even if you're in water
 				}
 
+				CombinedStationSupport: {
+					Label: "[i:WorkBench] Magic Storage Combined Station Support"
+					Tooltip:
+						'''
+						Adds Calamity crafting stations to the various tiers of combined stations from the Magic Storage mod
+						If Catalyst is enabled, also supports the Astral Transmogrifier!
+						Has no effect if Magic Storage is not enabled
+						'''
+				}
+
 				CraftableHostileTurrets: {
 					Label: "[i:BottomlessShimmerBucket] Obtainable Hostile Turrets"
 					Tooltip: Makes the normally-unobtainable Hostile Turrets obtainable by throwing the normal Turrets into Shimmer
@@ -1021,6 +1031,15 @@ Mods: {
 				BombableADBlocks: {
 					Label: "[i:Bomb] Bombable Aquatic Depths"
 					Tooltip: Enables blocks in the Aquatic Depths, such as Marine Blocks and Aquaite Ore, to be destroyed with explosives after defeating both Queen Jellyfish and any evil boss instead of requiring that you enter Hardmode
+				}
+
+				CombinedStationSupport: {
+					Label: "[i:WorkBench] Magic Storage Combined Station Support"
+					Tooltip:
+						'''
+						Adds Thorium crafting stations to the various tiers of combined stations from the Magic Storage mod
+						Has no effect if Magic Storage is not enabled
+						'''
 				}
 
 				ZenithRecipeOverhaul: {
