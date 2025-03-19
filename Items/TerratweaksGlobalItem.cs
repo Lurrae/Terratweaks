@@ -766,7 +766,13 @@ namespace Terratweaks.Items
 				}
 			}
 
-			if (Terratweaks.Config.calamitweaks.RevertTerraprisma && ModLoader.HasMod("CalamityMod") && item.type == ItemID.FairyQueenBossBag)
+			if (Terratweaks.Config.CultistGravGlobe && item.type == ItemID.MoonLordBossBag)
+			{
+				// Remove the Gravity Globe from Moon Lord's treasure bag, as Cultist drops it instead
+				itemLoot.RemoveWhere(r => r is CommonDrop cd && cd.itemId == ItemID.GravityGlobe);
+			}
+
+			if (Terratweaks.Calamitweaks.RevertTerraprisma && ModLoader.HasMod("CalamityMod") && item.type == ItemID.FairyQueenBossBag)
 			{
 				foreach (IItemDropRule rule in itemLoot.Get(false))
 				{

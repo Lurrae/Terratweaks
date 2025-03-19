@@ -135,6 +135,10 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool BoneHelm { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool CultistGravGlobe { get; set; }
+
 		[DefaultValue(true)]
 		public bool HivePack { get; set; }
 

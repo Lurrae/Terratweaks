@@ -506,6 +506,13 @@ namespace Terratweaks.NPCs
 					npcLoot.Add(new ItemDropWithConditionRule(fragmentID, 4, 1, 1, new TerratweaksDropConditions.DownedMoonlord()));
 				}
 			}
+
+			// Make Lunatic Cultist drop the Gravity Globe for all players in Expert+
+			// Note that this will apply even if a mod like Thorium is present that makes Cultist drop a treasure bag
+			if (Terratweaks.Config.CultistGravGlobe && npc.type == NPCID.CultistBoss)
+			{
+				npcLoot.Add(ItemDropRule.BossBag(ItemID.GravityGlobe));
+			}
 		}
 
 		private static void HandleCalamityEoLChanges(IItemDropRule rule)

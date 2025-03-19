@@ -587,6 +587,15 @@ Mods: {
 					Label: "[i:GravityGlobe] Placed Gravity Globe Range"
 					Tooltip: The range, in tiles, at which the Gravity Globe should forcibly set players' gravity
 				}
+
+				CultistGravGlobe: {
+					Label: "[i:GravityGlobe] Gravity Globe Dropped by Cultist"
+					Tooltip:
+						'''
+						Removes the Gravity Globe from Moon Lord's treasure bag loot table, and instead has it be dropped by the Lunatic Cultist
+						The globe is dropped directly for every player, even if a mod that adds a Cultist treasure bag (like Thorium) is present
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

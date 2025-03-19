@@ -313,6 +313,10 @@ namespace Terratweaks
 								"BoundNPCsImmune" or "BoundNPCsNoDamage" or "InvulnerableBoundNPCs" => Config.BoundNPCsImmune,
 								"LessGrindyDefenderMedals" or "LessGrindyOOA" or "MoreOOAMedals" or "MoreDefenderMedals" => Config.MoreOOAMedals,
 								"BombableMeteorite" => Config.BombableMeteorite,
+								"JungleBossBags" => Config.JungleBossBags,
+								"PlaceableGravGlobe" => Config.PlaceableGravGlobe,
+								"GravGlobeRange" => Config.GravGlobeRange,
+								"CultistGravGlobe" => Config.CultistGravGlobe,
 
 								"Client_EstimatedDPS" or "EstimatedDPS" => ClientConfig.EstimatedDPS,
 								"Client_GrammarCorrections" or "GrammarCorrections" => ClientConfig.GrammarCorrections,
