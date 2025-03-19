@@ -596,6 +596,18 @@ Mods: {
 						The globe is dropped directly for every player, even if a mod that adds a Cultist treasure bag (like Thorium) is present
 						'''
 				}
+
+				SturdyLarvae: {
+					Label: "[i:Abeemination] Sturdier Larvae"
+					Tooltip:
+						'''
+						Prevents Queen Bee's larvae from being destroyed if the selected requirement has been met:
+						Vanilla Behavior - Larvae can be destroyed by any weapon or projectile
+						Needs Environmental Preservation - If the Guide to Environmental Preservation is in your inventory and not disabled, Queen Bee larvae can only be destroyed by mining them with a pickaxe
+						Needs Peaceful Coexistence - Requires the Guide to Peaceful Coexistence instead of the Guide to Environmental Preservation. Should accept modded upgrades too!
+						Needs Queen Bee Downed and E.P. - In addition to needing the Guide to Environmental Preservation, Queen Bee must be defeated for the larvae to become more resilient
+						'''
+				}
 			}
 
 			CraftableUncraftables: {
@@ -734,6 +746,14 @@ Mods: {
 				Off.Label: Vanilla Behavior
 				Limited.Label: Bosses Can't Steal Coins
 				On.Label: All Enemies Can't Steal Coins
+			}
+
+			SturdyLarvaeSetting: {
+				Tooltip: ""
+				Off.Label: Vanilla Behavior
+				Env.Label: Needs Environmental Preservation
+				Peace.Label: Needs Peaceful Coexistence
+				Bee.Label: Needs Queen Bee Downed and E.P.
 			}
 
 			TerratweaksConfig_Client: {

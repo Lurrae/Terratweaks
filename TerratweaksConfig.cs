@@ -33,6 +33,14 @@ namespace Terratweaks
 		On
 	}
 
+	public enum SturdyLarvaeSetting
+	{
+		Off,
+		Env,
+		Peace,
+		Bee
+	}
+
 	public class TerratweaksConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide;
@@ -304,6 +312,9 @@ namespace Terratweaks
 		[DefaultValue(9)]
 		[Slider]
 		public int GraveyardMax { get; set; }
+
+		[DefaultValue(SturdyLarvaeSetting.Env)]
+		public SturdyLarvaeSetting SturdyLarvae { get; set; }
 
 		// Misc. tweaks
 		[Header("MiscTweaks")]
