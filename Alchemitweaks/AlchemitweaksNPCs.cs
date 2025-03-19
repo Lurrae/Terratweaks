@@ -10,31 +10,25 @@ namespace Terratweaks.Alchemitweaks
 
 		public override void ModifyShop(NPCShop shop)
 		{
-			if (Terratweaks.Alchemitweaks.DisableCustomPotions)
+			foreach (NPCShop.Entry entry in shop.ActiveEntries)
 			{
-				if (shop.NpcType == ModContent.NPCType<Brewer>())
+				if (Terratweaks.Alchemitweaks.DisableCustomPotions && shop.NpcType == ModContent.NPCType<Brewer>())
 				{
-					foreach (NPCShop.Entry entry in shop.ActiveEntries)
+					// Item is a modded item from Alch NPC Lite
+					if (entry.Item.ModItem != null && entry.Item.ModItem.Mod == AlchemistNPCLite.AlchemistNPCLite.Instance)
 					{
-						// Item is a modded item from Alch NPC Lite
-						if (entry.Item.ModItem != null && entry.Item.ModItem.Mod == AlchemistNPCLite.AlchemistNPCLite.Instance)
+						// Check if the item's actually a potion
+						if (entry.Item.buffType > 0)
 						{
-							// Check if the item's actually a potion
-							if (entry.Item.buffType > 0)
-							{
-								// Disable the item, because it's almost certainly one of the alch mod's potions
-								entry.Disable();
-							}
+							// Disable the item, because it's almost certainly one of the alch mod's potions
+							entry.Disable();
 						}
 					}
 				}
-			}
 
-			if (Terratweaks.Alchemitweaks.AntiCheese)
-			{
-				if (shop.NpcType == ModContent.NPCType<Architect>())
+				if (Terratweaks.Alchemitweaks.AntiCheese)
 				{
-					foreach (NPCShop.Entry entry in shop.ActiveEntries)
+					if (shop.NpcType == ModContent.NPCType<Architect>())
 					{
 						// Any item that has a sell price above 0 should be sold for its sell price
 						// The Architect normally sells items for less than the regular sell price, which causes an infinite money exploit

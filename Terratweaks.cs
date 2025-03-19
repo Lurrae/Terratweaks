@@ -129,28 +129,25 @@ namespace Terratweaks
 
 		public override void PostSetupContent()
 		{
-			foreach (NPC npc in ContentSamples.NpcsByNetId.Values.Where(n => n.aiStyle == NPCAIStyleID.GraniteElemental))
+			foreach (NPC npc in ContentSamples.NpcsByNetId.Values)
 			{
-				StatChangeHandler.DREnemy drEnemyStats = new(0.25f, 1.1f, (NPC npc) => npc.ai[0] == -1);
-				if (!StatChangeHandler.damageResistantEnemies.TryAdd(npc.type, drEnemyStats))
+				if (npc.aiStyle == NPCAIStyleID.GraniteElemental)
 				{
-					StatChangeHandler.damageResistantEnemies[npc.type] = drEnemyStats;
+					StatChangeHandler.DREnemy drEnemyStats = new(0.25f, 1.1f, (NPC npc) => npc.ai[0] == -1);
+					if (!StatChangeHandler.damageResistantEnemies.TryAdd(npc.type, drEnemyStats))
+					{
+						StatChangeHandler.damageResistantEnemies[npc.type] = drEnemyStats;
+					}
 				}
-			}
 
-			// Block only boss NPCs (and EoW) from stealing coins
-			if (Config.NoCoinTheft == CoinTheftSetting.Limited)
-			{
-				foreach (NPC npc in ContentSamples.NpcsByNetId.Values)
+				// Block only boss NPCs (and EoW) from stealing coins
+				if (Config.NoCoinTheft == CoinTheftSetting.Limited)
 				{
 					if ((npc.type <= NPCID.EaterofWorldsHead && npc.type >= NPCID.EaterofWorldsTail) || npc.boss)
 						NPCID.Sets.CantTakeLunchMoney[npc.type] = true;
 				}
-			}
-			// Block all enemies from stealing coins
-			else if (Config.NoCoinTheft == CoinTheftSetting.On)
-			{
-				foreach (NPC npc in ContentSamples.NpcsByNetId.Values)
+				// Block all enemies from stealing coins
+				else if (Config.NoCoinTheft == CoinTheftSetting.On)
 				{
 					NPCID.Sets.CantTakeLunchMoney[npc.type] = true;
 				}

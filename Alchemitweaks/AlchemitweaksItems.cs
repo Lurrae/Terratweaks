@@ -14,7 +14,7 @@ namespace Terratweaks.Alchemitweaks
 			if (Terratweaks.Alchemitweaks.DisableCustomPotions)
 			{
 				// Disable all AlchLite recipes that result in a potion
-				foreach (Recipe recipe in Main.recipe.Where(r => r.Mod == AlchemistNPCLite.AlchemistNPCLite.Instance))
+				foreach (Recipe recipe in Main.recipe)
 				{
 					if (recipe.createItem.ModItem != null && recipe.createItem.ModItem.Mod == recipe.Mod && recipe.createItem.buffType > 0)
 					{

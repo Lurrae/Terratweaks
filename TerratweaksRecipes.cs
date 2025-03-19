@@ -845,12 +845,10 @@ namespace Terratweaks
 			if (!Terratweaks.Config.LunarWingsPreML)
 				return;
 
-			for (int i = 0; i < Recipe.numRecipes; i++)
+			foreach (Recipe recipe in Main.recipe)
 			{
 				if (Terratweaks.Config.LunarWingsPreML)
 				{
-					Recipe recipe = Main.recipe[i];
-
 					if (recipe.HasResult(ItemID.WingsSolar) ||
 						recipe.HasResult(ItemID.WingsVortex) ||
 						recipe.HasResult(ItemID.WingsNebula) ||
