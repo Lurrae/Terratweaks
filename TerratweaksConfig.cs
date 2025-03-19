@@ -373,7 +373,8 @@ namespace Terratweaks
 
 				// Check all Alchemitweaks configs for forced reloads
 				// TODO: Once again, ditto the above todos
-				if (alchemitweaks.DisableCustomPotions != pendingTtConfig.alchemitweaks.DisableCustomPotions)
+				if (alchemitweaks.AntiCheese != pendingTtConfig.alchemitweaks.AntiCheese ||
+					alchemitweaks.DisableCustomPotions != pendingTtConfig.alchemitweaks.DisableCustomPotions)
 				{
 					return true;
 				}
@@ -604,6 +605,10 @@ namespace Terratweaks
 	[SeparatePage]
 	public class AlchTweaks
 	{
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool AntiCheese { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool DisableCustomPotions { get; set; }

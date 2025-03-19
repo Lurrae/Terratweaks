@@ -1036,6 +1036,15 @@ Mods: {
 			}
 
 			AlchTweaks: {
+				AntiCheese: {
+					Label: "[i:EngineeringHelmet] [i:GoldCoin] Architect Infinite Money Fix"
+					Tooltip:
+						'''
+						Increases the shop price of all furniture items sold by the Architect to their vanilla sell values
+						This prevents you from selling them to a different NPC (or placing and breaking them, then selling them) for infinite money
+						'''
+				}
+
 				DisableCustomPotions: {
 					Label: "[i:AlchemyTable] Disable Custom Potions"
 					Tooltip:

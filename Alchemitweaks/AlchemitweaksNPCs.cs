@@ -29,6 +29,22 @@ namespace Terratweaks.Alchemitweaks
 					}
 				}
 			}
+
+			if (Terratweaks.Alchemitweaks.AntiCheese)
+			{
+				if (shop.NpcType == ModContent.NPCType<Architect>())
+				{
+					foreach (NPCShop.Entry entry in shop.ActiveEntries)
+					{
+						// Any item that has a sell price above 0 should be sold for its sell price
+						// The Architect normally sells items for less than the regular sell price, which causes an infinite money exploit
+						if (entry.Item.value > 0)
+						{
+							entry.Item.shopCustomPrice = null;
+						}
+					}
+				}
+			}
 		}
 	}
 }

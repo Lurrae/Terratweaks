@@ -290,6 +290,7 @@ namespace Terratweaks
 								"Thoritweaks_ZenithRecipeOverhaul" or "ThorZenithRecipeOverhaul" or "Thoritweaks_ZenithRecipe" or "ThorZenithRecipe" => Thoritweaks.ZenithRecipeOverhaul,
 
 								"Alchemitweaks_DisableCustomPotions" or "DisableCustomAlchPotions" => Alchemitweaks.DisableCustomPotions,
+								"Alchemitweaks_AntiCheese" or "Alchemitweaks_InfMoneyFix" or "ArchitectInfMoneyFix" or "ArchitectAntiCheese" => Alchemitweaks.AntiCheese,
 
 								_ => throw new Exception($"Could not find Terratweaks Config option named {args[1]}."),
 								#endregion
