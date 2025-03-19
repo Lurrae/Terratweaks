@@ -16,6 +16,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terratweaks.Buffs;
+using Terratweaks.Tiles;
 using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.Items
@@ -117,6 +118,9 @@ namespace Terratweaks.Items
 				itemIsModified = true;
 
 			if (Terratweaks.Config.UmbrellaHatRework && item.type == ItemID.UmbrellaHat)
+				itemIsModified = true;
+
+			if (Terratweaks.Config.PlaceableGravGlobe && item.type == ItemID.GravityGlobe)
 				itemIsModified = true;
 			#endregion
 
@@ -442,6 +446,15 @@ namespace Terratweaks.Items
 				if (item.type == ItemID.DPSMeter || item.type == ItemID.GoblinTech)
 				{
 					tooltips.Insert(idx + 1, new TooltipLine(Mod, "DpsMeterExtraTip", Language.GetTextValue("Mods.Terratweaks.Common.DpsMeterExtraTip")));
+				}
+			}
+
+			// Add a line to the Gravity Globe
+			if (Terratweaks.Config.PlaceableGravGlobe && idx != -1)
+			{
+				if (item.type == ItemID.GravityGlobe)
+				{
+					tooltips.Insert(idx + 1, new TooltipLine(Mod, "GravGlobeExtraTip", Language.GetTextValue("Mods.Terratweaks.Common.GravGlobeExtraTip")));
 				}
 			}
 
@@ -1812,6 +1825,22 @@ namespace Terratweaks.Items
 			}
 
 			return base.AllowPrefix(item, pre);
+		}
+	}
+
+	public class PlaceableHandler : GlobalItem
+	{
+		public override void SetDefaults(Item item)
+		{
+			if (item.type == ItemID.GravityGlobe && Terratweaks.Config.PlaceableGravGlobe)
+			{
+				item.createTile = TileType<GravGlobePlaced>();
+				item.placeStyle = 0;
+				item.useStyle = ItemUseStyleID.Swing;
+				item.useTime = 10;
+				item.useAnimation = 15;
+				item.consumable = true;
+			}
 		}
 	}
 }

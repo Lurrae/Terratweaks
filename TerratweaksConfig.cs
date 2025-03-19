@@ -138,6 +138,16 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool HivePack { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool PlaceableGravGlobe { get; set; }
+
+		[Slider]
+		[Increment(5)]
+		[Range(5, 200)]
+		[DefaultValue(125)]
+		public int GravGlobeRange { get; set; }
+
 		[DefaultValue(true)]
 		public bool RoyalGel { get; set; }
 

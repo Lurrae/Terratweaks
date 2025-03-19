@@ -1,3 +1,4 @@
+using System.Linq;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ModLoader;
@@ -12,6 +13,14 @@ namespace Terratweaks
 			if (Terratweaks.Config.PostEyeSandstorms && !NPC.downedBoss1)
 			{
 				Sandstorm.Happening = false;
+			}
+		}
+
+		public override void ResetNearbyTileEffects()
+		{
+			foreach (Player plr in Main.player.Where(p => p.active))
+			{
+				plr.GetModPlayer<InputPlayer>().inGravGlobeRange = false;
 			}
 		}
 	}

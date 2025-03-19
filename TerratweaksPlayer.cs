@@ -391,11 +391,21 @@ namespace Terratweaks
 		public bool showInferno = true;
 		public bool umbrellaHat;
 		public bool umbrellaHatVanity;
+		public bool inGravGlobeRange;
 
 		public override void ResetEffects()
 		{
 			umbrellaHat = false;
 			umbrellaHatVanity = false;
+		}
+
+		public override void PostUpdateEquips()
+		{
+			if (inGravGlobeRange)
+			{
+				Player.gravControl = false;
+				Player.gravControl2 = false;
+			}
 		}
 
 		public override void ProcessTriggers(TriggersSet triggersSet)

@@ -571,6 +571,22 @@ Mods: {
 						It should work fine with mods that just add to the list of dropped weapons, though!
 						'''
 				}
+
+				PlaceableGravGlobe: {
+					Label: "[i:GravityGlobe] Placeable Gravity Globe"
+					Tooltip:
+						'''
+						Allows placing the Gravity Globe in the world. [c/FF3300:Mining a placed Gravity Globe will remove any prefix it had when placed!]
+						While placed in the world, players within the range specified below will be forced to experience either regular gravity or inverted gravity,
+						depending on the state of the globe (which can be toggled with right-click or wiring)
+						Gravitation Potions and equipped Gravity Globes will not work when in proximity of a placed Gravity Globe
+						'''
+				}
+
+				GravGlobeRange: {
+					Label: "[i:GravityGlobe] Placed Gravity Globe Range"
+					Tooltip: The range, in tiles, at which the Gravity Globe should forcibly set players' gravity
+				}
 			}
 
 			CraftableUncraftables: {
@@ -1065,6 +1081,8 @@ Mods: {
 				Hovering max speed: {3}
 				Hovering acceleration multiplier: {4}%
 				'''
+			# Gravity Globe tooltip
+			GravGlobeExtraTip: When placed, suppresses gravity-flipping abilities and forcibly sets the gravity of all players in range
 		}
 
 		Items: {
