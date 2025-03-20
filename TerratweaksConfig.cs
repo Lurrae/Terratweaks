@@ -155,6 +155,9 @@ namespace Terratweaks
 		[Header("ExpertAccTweaks")]
 
 		[DefaultValue(true)]
+		public bool BoneGlove { get; set; }
+
+		[DefaultValue(true)]
 		public bool BoneHelm { get; set; }
 
 		[ReloadRequired]
@@ -176,6 +179,12 @@ namespace Terratweaks
 
 		[DefaultValue(true)]
 		public bool RoyalGel { get; set; }
+
+		[DefaultValue(true)]
+		public bool EyeShield { get; set; }
+
+		[DefaultValue(true)]
+		public bool WormBrain { get; set; }
 
 		// Expert Mode Tweaks
 		[Header("ExpertTweaks")]

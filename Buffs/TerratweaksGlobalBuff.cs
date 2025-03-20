@@ -20,5 +20,20 @@ namespace Terratweaks.Buffs
 					BuffID.Sets.LongerExpertDebuff[i] = false;
 			}
 		}
+
+		// While the player has the Cerebral Mindtrick buff and is wearing a buffed Brain of Confusion, increase summon damage and crit chance by an extra 5%
+		public override void Update(int type, Player player, ref int buffIndex)
+		{
+			if (type == BuffID.BrainOfConfusionBuff && Terratweaks.Config.WormBrain)
+			{
+				TerratweaksPlayer tPlr = player.GetModPlayer<TerratweaksPlayer>();
+
+				if (tPlr.IsBuffedBrainEquipped())
+				{
+					player.GetCritChance(DamageClass.Generic) += 5;
+					player.GetDamage(DamageClass.Summon) += 0.05f;
+				}
+			}
+		}
 	}
 }

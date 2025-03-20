@@ -1,3 +1,4 @@
+using EfficientNohits;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -34,6 +35,9 @@ namespace Terratweaks
 		// Other custom booleans
 		public bool dd2Accessory2;
 		public bool buffedHivePack;
+		public Item buffedWormScarf;
+		public Item buffedBrainOfConfusion;
+		public int buffedBoneGloveCounter = 0;
 		public bool radiantInsignia; // Literally only needed because Calamity is dumb
 		public bool summonsDisabled;
 		public bool werebeaver;
@@ -52,6 +56,8 @@ namespace Terratweaks
 
 			dd2Accessory2 = false;
 			buffedHivePack = false;
+			buffedWormScarf = null;
+			buffedBrainOfConfusion = null;
 			radiantInsignia = false;
 			summonsDisabled = false;
 		}
@@ -60,6 +66,15 @@ namespace Terratweaks
 		{
 			adamCD = 120; // Make the hearts start off on cooldown
 			werenessMeter = 0; // Make the player have 0 wereness by default, this builds up by hitting enemies
+
+			// Not sure if this is a bug in vanilla or something I messed up, but eocHit starts at 0 instead of -1,
+			// making the game think the player hit the first enemy loaded into the game before they dash
+			// Because the buffed SoC config option relies on that variable being -1 to not erroneously burn NPCs,
+			// I have to fix it with that config option active
+			if (Terratweaks.Config.EyeShield)
+			{
+				Player.eocHit = -1;
+			}
 		}
 
 		private void SpawnTransformationSmoke()
@@ -270,6 +285,102 @@ namespace Terratweaks
 					calamity.Call("ToggleInfiniteFlight", Player, true);
 				}
 			}
+
+			// Despawn all probes owned by this player if the accessory is unequipped or the config option is reverted
+			// Unsetting the config should set buffedWormScarf to null automatically, but doesn't hurt to be careful
+			if ((!IsBuffedWormScarfEquipped() && !IsBuffedBrainEquipped()) || !Terratweaks.Config.WormBrain)
+			{
+				foreach (Projectile proj in Main.projectile.Where(p => p.owner == Player.whoAmI && p.type == PROBE_ID))
+				{
+					proj.Kill();
+				}
+			}
+			else
+			{
+				// Kill all the probes once the Cerebral Mindtrick buff wears off, unless a buffed Worm Scarf is also equipped
+				if (IsBuffedBrainEquipped() && !IsBuffedWormScarfEquipped() && !Player.HasBuff(BuffID.BrainOfConfusionBuff))
+				{
+					foreach (Projectile proj in Main.projectile.Where(p => p.owner == Player.whoAmI && p.type == PROBE_ID))
+					{
+						proj.Kill();
+					}
+				}
+
+				// Spawn or despawn probes to hit the intended cap based on max HP
+				if (IsBuffedWormScarfEquipped())
+				{
+					//Main.NewText($"Player has {Player.statLife} / {Player.statLifeMax2} ({Player.statLife / Player.statLifeMax2}%) HP remaining");
+					float lifePercent = Player.statLife / (float)Player.statLifeMax2;
+					int probeCount = lifePercent <= 0.33 ? 3 : lifePercent <= 0.66 ? 2 : 1;
+
+					// Despawn probes if we're above the intended limit, unless we have Cerebral Mindtrick active
+					// The Mindtrick check is needed so that if both accessories are equipped, the Brain can spawn probes above the Scarf's limit
+					if (!Player.HasBuff(BuffID.BrainOfConfusionBuff) && Player.ownedProjectileCounts[PROBE_ID] > probeCount)
+					{
+						// Kill the oldest probes until we are back under the limit
+						int activeProbes = Player.ownedProjectileCounts[PROBE_ID];
+						while (activeProbes > probeCount)
+						{
+							int idx = FindOldestProbe(PROBE_ID);
+
+							// Break out early if we kill every probe or can't find a probe
+							if (activeProbes < 1 || idx == Main.maxProjectiles)
+							{
+								break;
+							}
+
+							Main.projectile[idx].Kill();
+							activeProbes--;
+						}
+					}
+
+					int numActiveScarfProbes = Player.ownedProjectileCounts[PROBE_ID];
+
+					// Ignore three active probes if the Cerebral Mindtrick buff is active, since it spawns three extras that shouldn't
+					// count towards the scarf's limit
+					if (Player.HasBuff(BuffID.BrainOfConfusionBuff))
+						numActiveScarfProbes -= 3;
+
+					// Spawn extra probes up to the calculated limit
+					if (IsBuffedWormScarfEquipped() && numActiveScarfProbes < probeCount)
+					{
+						for (int i = 0; i < probeCount - numActiveScarfProbes; i++)
+						{
+							Vector2 velocity = Main.rand.NextVector2Unit(); // Returns a vector between (-1, -1) and (1, 1)
+							Projectile.NewProjectile(Player.GetSource_Accessory(buffedWormScarf), Player.Center, velocity, PROBE_ID, 20, 0, Player.whoAmI);
+						}
+					}
+				}
+			}
+		}
+
+		public static readonly int PROBE_ID = ProjectileType<Probe>();
+
+		public bool IsBuffedWormScarfEquipped()
+		{
+			return buffedWormScarf != null && !buffedWormScarf.IsAir;
+		}
+
+		public bool IsBuffedBrainEquipped()
+		{
+			return buffedBrainOfConfusion != null && !buffedBrainOfConfusion.IsAir;
+		}
+
+		private int FindOldestProbe(int probeType)
+		{
+			int resultIdx = Main.maxProjectiles;
+			int shortestTimeLeft = 9999999;
+			for (int i = 0; i < Main.maxProjectiles; i++)
+			{
+				Projectile proj = Main.projectile[i];
+				if (proj.active && proj.owner == Player.whoAmI && proj.type == probeType && proj.timeLeft < shortestTimeLeft)
+				{
+					resultIdx = i;
+					shortestTimeLeft = Main.projectile[i].timeLeft;
+				}
+			}
+
+			return resultIdx;
 		}
 
 		bool scalingUp;
@@ -303,6 +414,13 @@ namespace Terratweaks
 			if (Terratweaks.Config.DeerWeaponsRework && werenessMeter > 0)
 			{
 				Main.instance.DrawHealthBar(Player.Center.X, Player.position.Y - 16, werenessMeter, MAX_WERENESS, 1);
+			}
+
+			// Spawn Cursed Inferno dust while dashing with the buffed Shield of Cthulhu
+			if (Terratweaks.Config.EyeShield && NPC.downedMechBoss2 && Player.eocDash > 0)
+			{
+				Dust dust = Main.dust[Dust.NewDust(Player.position, Player.width, Player.height, DustID.CursedTorch, Scale: Main.rand.Next(3, 6))];
+				dust.noGravity = true;
 			}
 		}
 
@@ -555,7 +673,7 @@ namespace Terratweaks
 		public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
 		{
 			if (Terratweaks.Config.ReaverSharkTweaks)
-            {
+			{
 				// Prevent catching Reaver Sharks if an evil boss or Skeletron hasn't been killed yet
 				// This is just done by replacing any Reaver Sharks caught with a Sawtooth Shark
 				// This may not be the best approach, but at least it works!
@@ -563,7 +681,7 @@ namespace Terratweaks
 				{
 					itemDrop = ItemID.SawtoothShark;
 				}
-            }
-        }
+			}
+		}
 	}
 }

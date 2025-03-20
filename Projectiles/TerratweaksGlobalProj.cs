@@ -45,6 +45,44 @@ namespace Terratweaks.Projectiles
 				projectile.idStaticNPCHitCooldown = 10; // Reduced from 25 to 10, so it can now hit 6 times per second instead of about 2 times per second
 				projectile.penetrate = 45; // Hits about 3x more, allowing it to remain active for about as long as it did before
 			}
+
+			// Buff Bone Glove post-Skeletron Prime
+			if (Terratweaks.Config.BoneGlove && projectile.type == ProjectileID.BoneGloveProj && NPC.downedMechBoss3)
+			{
+				// Increase damage, armor penetration, and pierce
+				projectile.damage += 20; // 45 total damage
+				projectile.ArmorPenetration += 20; // 45 total AP
+				projectile.penetrate += 1; // 4 total pierce
+
+				Player player = Main.player[projectile.owner];
+				TerratweaksPlayer tPlr = player.GetModPlayer<TerratweaksPlayer>();
+
+				// Increment the counter...
+				tPlr.buffedBoneGloveCounter++;
+
+				// ...and replace this crossbone with a laser if this is the fourth one!
+				if (tPlr.buffedBoneGloveCounter >= 4)
+				{
+					tPlr.buffedBoneGloveCounter = 0;
+					projectile.type = ProjectileID.MiniRetinaLaser;
+
+					// Extra damage, but less armor pen.
+					projectile.damage += 30; // 75 total damage
+					projectile.ArmorPenetration = 20; // Only 20 armor penetration tho
+
+					// Laser has infinite pierce cuz why not
+					projectile.penetrate = -1;
+
+					// More extraUpdates = laser moves faster
+					projectile.extraUpdates = 3;
+
+					// Also set the velocity to aim directly at the mouse
+					projectile.velocity = projectile.DirectionTo(Main.MouseWorld) * 10f;
+				}
+
+				// Reduce the delay on the Bone Glove- vanilla value is 60 ticks (1 sec), this is half that
+				player.boneGloveTimer = 30;
+			}
 		}
 
 		public override void AI(Projectile projectile)

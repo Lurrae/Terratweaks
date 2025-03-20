@@ -641,6 +641,37 @@ Mods: {
 						Has no effect on bombs dropped by pots or trees, only Prime's bombs
 						'''
 				}
+
+				BoneGlove: {
+					Label: "[i:BoneGlove] Bone Glove buff"
+					Tooltip:
+						'''
+						If Skeletron Prime has been defeated, the following buffs are applied to the Bone Glove:
+							- Its crossbones deal extra damage, ignore more armor, and have slightly higher pierce
+							- Every fourth crossbone is replaced by a very quick laser that deals more damage (but has only 20 armor penetration) and pierces infinite enemies!
+							- The cooldown between firing crossbones is halved
+						'''
+				}
+
+				EyeShield: {
+					Label: "[i:EoCShield] Shield of Cthulhu buff"
+					Tooltip:
+						'''
+						If the Twins have been defeated, the Shield of Cthulhu's dash inflicts Cursed Inferno!
+						You can also dash more quickly after bonking an enemy
+						'''
+				}
+
+				WormBrain: {
+					Label: "[i:WormScarf] [i:BrainOfConfusion] Worm Scarf/Brain of Confusion buff"
+					Tooltip:
+						'''
+						If the Destroyer has been defeated, buffs both the Worm Scarf and the Brain of Confusion
+						The Worm Scarf provides an additional 4% DR and increases max HP by 20, and spawns a friendly probe, plus one more for every 33% HP you're missing, up to 3 probes at 33% HP or less
+						The Brain of Confusion's dodge inflicts Ichor in addition to Confused, and increases summon damage by another 5%
+						Dodging an attack also summons three temporary friendly probes!
+						'''
+				}
 			}
 
 			CraftableUncraftables: {
@@ -1188,7 +1219,10 @@ Mods: {
 			StrongerHoldShift: Becomes stronger upon reaching certain milestones. Hold SHIFT for more information
 			StrongerInHM: Becomes stronger when the spirits of Light and Dark are unleashed
 			StrongerPostQS: Becomes stronger when the slime matriarch is no more
-			StrongerPostMechs: Becomes stronger when the mechanical abominations are demolished
+			StrongerPostMechEye: Becomes stronger when the Souls of Sight have been freed
+			StrongerPostMechWorm: Becomes stronger when the Souls of Might have been freed
+			StrongerPostMechSkull: Becomes stronger when the Souls of Fright have been freed
+			StrongerPostMechs: Becomes stronger when all three mechanical abominations are demolished
 			StrongerPostPlant: Becomes stronger when the overgrown jungle monstrosity is slain
 			StrongerPostML: Becomes stronger when the lunar god is vanquished
 			# Added tooltip for DPS Meter and Goblin Tech
@@ -1234,6 +1268,7 @@ Mods: {
 		Projectiles: {
 			MythrilExplosion.DisplayName: Mythril Explosion
 			Placeholder.DisplayName: This shouldn't have to exist, but TML's auto-formatting is dumb
+			Probe.DisplayName: Probe
 		}
 
 		# Buff names and tooltips

@@ -128,7 +128,10 @@ namespace Terratweaks.Items
 			#region Expert Accessory & Armor Tweaks
 			if ((Terratweaks.Config.RoyalGel && item.type == ItemID.RoyalGel) ||
 				(Terratweaks.Config.HivePack && item.type == ItemID.HiveBackpack) ||
-				(Terratweaks.Config.BoneHelm && item.type == ItemID.BoneHelm))
+				(Terratweaks.Config.BoneHelm && item.type == ItemID.BoneHelm) ||
+				(Terratweaks.Config.BoneGlove && item.type == ItemID.BoneGlove) ||
+				(Terratweaks.Config.EyeShield && item.type == ItemID.EoCShield) ||
+				(Terratweaks.Config.WormBrain && (item.type == ItemID.WormScarf || item.type == ItemID.BrainOfConfusion)))
 				itemIsModified = true;
 
 			if ((Terratweaks.Config.SpiderSetBonus && item.type >= ItemID.SpiderMask && item.type <= ItemID.SpiderGreaves) ||
@@ -212,6 +215,22 @@ namespace Terratweaks.Items
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_QS = new()
 		{
 			{ ItemID.RoyalGel, () => Terratweaks.Config.RoyalGel }
+		};
+
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_MechEye = new()
+		{
+			{ ItemID.EoCShield, () => Terratweaks.Config.EyeShield }
+		};
+
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_MechWorm = new()
+		{
+			{ ItemID.WormScarf, () => Terratweaks.Config.WormBrain },
+			{ ItemID.BrainOfConfusion, () => Terratweaks.Config.WormBrain }
+		};
+
+		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_MechSkull = new()
+		{
+			{ ItemID.BoneGlove, () => Terratweaks.Config.BoneGlove }
 		};
 
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Mechs = new() { };
@@ -555,6 +574,12 @@ namespace Terratweaks.Items
 					numLines++;
 				if (ExpertItemsThatScale_Mechs.ContainsKey(item.type) && ExpertItemsThatScale_Mechs.TryGetValue(item.type, out configEnabled) && configEnabled())
 					numLines++;
+				if (ExpertItemsThatScale_MechSkull.ContainsKey(item.type) && ExpertItemsThatScale_MechSkull.TryGetValue(item.type, out configEnabled) && configEnabled())
+					numLines++;
+				if (ExpertItemsThatScale_MechEye.ContainsKey(item.type) && ExpertItemsThatScale_MechEye.TryGetValue(item.type, out configEnabled) && configEnabled())
+					numLines++;
+				if (ExpertItemsThatScale_MechWorm.ContainsKey(item.type) && ExpertItemsThatScale_MechWorm.TryGetValue(item.type, out configEnabled) && configEnabled())
+					numLines++;
 				if (ExpertItemsThatScale_Plant.ContainsKey(item.type) && ExpertItemsThatScale_Plant.TryGetValue(item.type, out configEnabled) && configEnabled())
 					numLines++;
 				if (ExpertItemsThatScale_ML.ContainsKey(item.type) && ExpertItemsThatScale_ML.TryGetValue(item.type, out configEnabled) && configEnabled())
@@ -563,6 +588,9 @@ namespace Terratweaks.Items
 				bool addedMoonlord = false;
 				bool addedPlant = false;
 				bool addedMechs = false;
+				bool addedMechSkull = false;
+				bool addedMechEye = false;
+				bool addedMechWorm = false;
 				bool addedQS = false;
 				bool addedHM = false;
 
@@ -606,6 +634,42 @@ namespace Terratweaks.Items
 							addedMechs = true;
 
 							if (DownedMechBossAll())
+								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+							tooltips.Insert(idx + 1, line);
+							continue;
+						}
+
+						if (!addedMechSkull && ExpertItemsThatScale_MechSkull.TryGetValue(item.type, out configEnabled) && configEnabled())
+						{
+							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechSkull");
+							addedMechSkull = true;
+
+							if (NPC.downedMechBoss3)
+								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+							tooltips.Insert(idx + 1, line);
+							continue;
+						}
+
+						if (!addedMechEye && ExpertItemsThatScale_MechEye.TryGetValue(item.type, out configEnabled) && configEnabled())
+						{
+							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechEye");
+							addedMechEye = true;
+
+							if (NPC.downedMechBoss2)
+								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+							tooltips.Insert(idx + 1, line);
+							continue;
+						}
+
+						if (!addedMechWorm && ExpertItemsThatScale_MechWorm.TryGetValue(item.type, out configEnabled) && configEnabled())
+						{
+							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechWorm");
+							addedMechWorm = true;
+
+							if (NPC.downedMechBoss1)
 								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
 
 							tooltips.Insert(idx + 1, line);
@@ -940,6 +1004,21 @@ namespace Terratweaks.Items
 				player.wingTimeMax = (int)Math.Round(player.wingTimeMax * 1.25f);
 				player.jumpSpeedBoost += 0.5f;
 				player.runAcceleration *= 1.1f;
+			}
+
+			// Buff the DR provided by the Worm Scarf and increase max HP if the Destroyer has been defeated with the config active
+			// Also sets the variable for the buffed Worm Scarf so it can spawn friendly probes
+			if (item.type == ItemID.WormScarf && Terratweaks.Config.WormBrain && NPC.downedMechBoss1)
+			{
+				player.endurance += 0.04f;
+				player.statLifeMax2 += 20;
+				player.GetModPlayer<TerratweaksPlayer>().buffedWormScarf = item;
+			}
+
+			// Sets the variable for the buffed Brain of Confusion so it can do all its effects elsewhere
+			if (item.type == ItemID.BrainOfConfusion && Terratweaks.Config.WormBrain && NPC.downedMechBoss1)
+			{
+				player.GetModPlayer<TerratweaksPlayer>().buffedBrainOfConfusion = item;
 			}
 		}
 	}

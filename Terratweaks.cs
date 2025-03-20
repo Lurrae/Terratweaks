@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.ItemDropRules;
@@ -143,6 +142,12 @@ namespace Terratweaks
 			On_DD2Event.WinInvasionInternal += DropMoreDefenderMedals_Victory;
 			On_Projectile.CanExplodeTile += HandleExplosives;
 			On_Player.GetTileCutIgnorance += DontHurtLarvae;
+			On_Player.BrainOfConfusionDodge += BuffedBrainDodge;
+			On_NPC.AddBuff += BuffedBrainIchor;
+			On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += ResetIchorState;
+			On_Player.DashMovement += BuffedEyeShieldDash;
+			//On_Player.ApplyDamageToNPC += BuffedEyeShieldDash_Burn;
+			//On_NPC.StrikeNPC_int_float_int_bool_bool_bool += BuffedEyeShieldDash_Hit;
 		}
 
 		public override void PostSetupContent()
@@ -254,6 +259,9 @@ namespace Terratweaks
 								"SturdyLarvae" => (int)Config.SturdyLarvae,
 								"FtW_NerfSkyCrate" or "ForTheWorthy_NerfSkyCrate" or "NerfSkyCrate" => Config.NerfSkyCrates,
 								"FtW_NoMobGriefing" or "ForTheWorthy_NoMobGriefing" or "NoMobGriefing" => Config.NoMobGriefing,
+								"ExpertAccBuffs_BoneGlove" or "BoneGloveBuff" => Config.BoneGlove,
+								"ExpertAccBuffs_EyeShield" or "ExpertAccBuffs_ShieldofCthulhu" or "EyeShieldBuff" or "ShieldofCthulhuBuff" => Config.EyeShield,
+								"ExpertAccBuffs_WormBrain" or "WormBrainBuff" => Config.WormBrain,
 
 								"Client_EstimatedDPS" or "EstimatedDPS" => ClientConfig.EstimatedDPS,
 								"Client_GrammarCorrections" or "GrammarCorrections" => ClientConfig.GrammarCorrections,
@@ -1076,6 +1084,68 @@ namespace Terratweaks
 				// Medals don't drop on final wave since the DropMoreDefenderMedals_Victory method handles that
 				if (bonusMedals > 0 && (upcomingWave <= 5 || (DD2Event.OngoingDifficulty > 1 && upcomingWave <= 7)))
 					DD2Event.DropMedals(bonusMedals);
+			}
+		}
+
+		private static bool ApplyIchorFromBuffedBrainDodge = false;
+
+		// When the Brain of Confusion projectile spawns, reset ApplyIchorFromBuffedBrainDodge so that other sources of Confusion don't start applying Ichor
+		private int ResetIchorState(On_Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float orig, IEntitySource spawnSource, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1, float ai2)
+		{
+			ApplyIchorFromBuffedBrainDodge = false;
+
+			return orig(spawnSource, X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1, ai2);
+		}
+
+		private void BuffedBrainDodge(On_Player.orig_BrainOfConfusionDodge orig, Player self)
+		{
+			orig(self);
+
+			// If config is active and the requirements are met, also spawn three temporary probes
+			// They'll automatically despawn once the Cerebral Mindtrick buff wears off
+			TerratweaksPlayer tPlr = self.GetModPlayer<TerratweaksPlayer>();
+			if (Config.WormBrain && tPlr.IsBuffedBrainEquipped())
+			{
+				// Also tell the game that we should apply Ichor when NPCs next get hit with Confused
+				ApplyIchorFromBuffedBrainDodge = true;
+
+				for (int i = 0; i < 3; i++)
+				{
+					Vector2 velocity = Main.rand.NextVector2Unit(); // Returns a vector between (-1, -1) and (1, 1)
+					Projectile.NewProjectile(self.GetSource_Accessory(tPlr.buffedBrainOfConfusion), self.Center, velocity, TerratweaksPlayer.PROBE_ID, 20, 0, self.whoAmI);
+				}
+
+				// Also apply Cerebral Mindtrick for 12 seconds instead of 4
+				self.AddBuff(BuffID.BrainOfConfusionBuff, Conversions.ToFrames(12), quiet: false);
+			}
+		}
+
+		private void BuffedBrainIchor(On_NPC.orig_AddBuff orig, NPC self, int type, int time, bool quiet)
+		{
+			if (Config.WormBrain && type == BuffID.Confused && ApplyIchorFromBuffedBrainDodge)
+			{
+				// Apply the Ichor debuff in addition to Confused
+				orig(self, BuffID.Ichor, time, quiet);
+			}
+
+			orig(self, type, time, quiet);
+		}
+
+		private void BuffedEyeShieldDash(On_Player.orig_DashMovement orig, Player self)
+		{
+			orig(self);
+
+			// If we have the buffed Shield of Cthulhu and just hit an enemy, inflict Cursed Inferno onto them
+			if (Config.EyeShield && NPC.downedMechBoss2 && self.eocHit > -1)
+			{
+				NPC npc = Main.npc[self.eocHit];
+
+				// Make sure the enemy is one we should be able to hit (CanNPCBeHit just checks for critters with the Guide to Peaceful Coexistence)
+				if (npc.active && !npc.friendly && !npc.dontTakeDamage && self.CanNPCBeHitByPlayerOrPlayerProjectile(npc))
+				{
+					npc.AddBuff(BuffID.CursedInferno, Conversions.ToFrames(3)); // Apply 3 seconds Cursed Inferno
+					self.dashDelay = Math.Min(self.dashDelay, 15); // Prevent the dash delay from being above 15 ticks, effectively halving it since it's normally 30
+				}
 			}
 		}
 	}
