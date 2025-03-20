@@ -64,6 +64,24 @@ namespace Terratweaks
 				return Language.GetTextValue("Mods.Terratweaks.Conditions.DownedMoonlord");
 			}
 		}
+
+		public class PostSkeletronOnFtw : IItemDropRuleCondition, IProvideItemConditionDescription
+		{
+			public bool CanDrop(DropAttemptInfo info)
+			{
+				return !Main.getGoodWorld || NPC.downedBoss3;
+			}
+
+			public bool CanShowItemDropInUI()
+			{
+				return true;
+			}
+
+			public string GetConditionDescription()
+			{
+				return Language.GetTextValue("Mods.Terratweaks.Conditions.PostSkeletronOnFtw");
+			}
+		}
 	}
 
 	public class Terratweaks : Mod
@@ -123,7 +141,7 @@ namespace Terratweaks
 			On_ShopHelper.ProcessMood += CustomHappinessFactors;
 			On_DD2Event.CheckProgress += DropMoreDefenderMedals;
 			On_DD2Event.WinInvasionInternal += DropMoreDefenderMedals_Victory;
-			On_Projectile.CanExplodeTile += AllowBombingMeteorite;
+			On_Projectile.CanExplodeTile += HandleExplosives;
 			On_Player.GetTileCutIgnorance += DontHurtLarvae;
 		}
 
@@ -196,6 +214,7 @@ namespace Terratweaks
 								"NoExpertScaling" => Config.NoExpertScaling,
 								"NPCsSellMinecarts" => Config.NPCsSellMinecarts,
 								"OasisCrateBuff" => Config.OasisCrateBuff,
+								"OasisCrateOdds" => Config.OasisCrateOdds,
 								"OreUnification" => Config.OreUnification,
 								"OverrideGraveyardRequirements" => Config.OverrideGraveyardRequirements,
 								"GraveyardVisuals" => Config.GraveyardVisuals,
@@ -233,6 +252,8 @@ namespace Terratweaks
 								"GravGlobeRange" => Config.GravGlobeRange,
 								"CultistGravGlobe" => Config.CultistGravGlobe,
 								"SturdyLarvae" => (int)Config.SturdyLarvae,
+								"FtW_NerfSkyCrate" or "ForTheWorthy_NerfSkyCrate" or "NerfSkyCrate" => Config.NerfSkyCrates,
+								"FtW_NoMobGriefing" or "ForTheWorthy_NoMobGriefing" or "NoMobGriefing" => Config.NoMobGriefing,
 
 								"Client_EstimatedDPS" or "EstimatedDPS" => ClientConfig.EstimatedDPS,
 								"Client_GrammarCorrections" or "GrammarCorrections" => ClientConfig.GrammarCorrections,
@@ -969,11 +990,12 @@ namespace Terratweaks
 			return false;
 		}
 
-		private bool AllowBombingMeteorite(On_Projectile.orig_CanExplodeTile orig, Projectile self, int x, int y)
+		private bool HandleExplosives(On_Projectile.orig_CanExplodeTile orig, Projectile self, int i, int j)
 		{
+			// Allow all explosives to destroy Meteorite if an evil boss has been downed
 			if (Config.BombableMeteorite)
 			{
-				Tile tile = Main.tile[x, y];
+				Tile tile = Main.tile[i, j];
 
 				if (tile.TileType == TileID.Meteorite && (NPC.downedBoss2 || Main.hardMode))
 				{
@@ -981,7 +1003,11 @@ namespace Terratweaks
 				}
 			}
 
-			return orig(self, x, y);
+			// Disable Skeletron Prime bombs breaking blocks in For the Worthy worlds
+			if (Config.NoMobGriefing && Main.getGoodWorld && self.type == ProjectileID.BombSkeletronPrime)
+				return false;
+
+			return orig(self, i, j);
 		}
 
 		private void DropMoreDefenderMedals_Victory(On_DD2Event.orig_WinInvasionInternal orig)

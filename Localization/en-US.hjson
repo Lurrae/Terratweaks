@@ -36,6 +36,7 @@ Mods: {
 			InCalEndgame: Defeated Supreme Witch, Calamitas and the Exo Mechs
 			InPlayerInv: Item must be in the player's inventory or portable storage
 			NightEoL: Drops if the Empress of Light is attacked at least once during the night
+			PostSkeletronOnFtw: On For the Worthy worlds, only drops if Skeletron has been defeated
 		}
 
 		RecipeGroups: {
@@ -322,8 +323,22 @@ Mods: {
 				}
 
 				OasisCrateBuff: {
-					Label: "[i:OasisCrate] [i:OasisCrateHard] Oasis Crates may contain pyramid loot"
-					Tooltip: Oasis Crates and Mirage Crates have a chance to drop one random pyramid item instead of their usual Sandstone Chest accessory/weapon
+					Label: "[i:OasisCrate] [i:OasisCrateHard] Oasis Crate Pyramid Loot"
+					Tooltip:
+						'''
+						Replaces the 1/35 Sandstorm in a Bottle drop from Oasis/Mirage crates with a chance to drop any of the three pyramid chest items
+						If playing with the Calamity Mod, the Pharaoh vanity set is replaced by an Amber Hook, mirroring the change Calamity makes to the chest loot
+						The odds of dropping a pyramid chest item can be adjusted using the config option below!
+						'''
+				}
+
+				OasisCrateOdds: {
+					Label: "[i:OasisCrate] [i:OasisCrateHard] Oasis Crate Pyramid Loot Chance"
+					Tooltip:
+						'''
+						Sets a 1/X chance for pyramid loot to drop from an Oasis/Mirage crate. Defaults to 1/35, the same odds as getting a Sandstorm in a Bottle in vanilla
+						Note that because this is a 1/X chance, higher numbers mean the drop is rarer!
+						'''
 				}
 
 				OreUnification: {
@@ -606,6 +621,24 @@ Mods: {
 						Needs Environmental Preservation - If the Guide to Environmental Preservation is in your inventory and not disabled, Queen Bee larvae can only be destroyed by mining them with a pickaxe
 						Needs Peaceful Coexistence - Requires the Guide to Peaceful Coexistence instead of the Guide to Environmental Preservation. Should accept modded upgrades too!
 						Needs Queen Bee Downed and E.P. - In addition to needing the Guide to Environmental Preservation, Queen Bee must be defeated for the larvae to become more resilient
+						'''
+				}
+
+				NerfSkyCrates: {
+					Label: "[i:FloatingIslandFishingCrate] Nerf Sky Crates in For the Worthy"
+					Tooltip:
+						'''
+						Prevents Sky Crates and Azure Crates from dropping weapons or accessories until Skeletron has been defeated
+						Only affects For the Worthy worlds (including the everything/Zenith/Get Fixed Boi seed)
+						'''
+				}
+
+				NoMobGriefing: {
+					Label: "[i:Bomb] No Mob Griefing"
+					Tooltip:
+						'''
+						Disables the block-destroying capabilities of Skeletron Prime's bombs in For the Worthy worlds
+						Has no effect on bombs dropped by pots or trees, only Prime's bombs
 						'''
 				}
 			}

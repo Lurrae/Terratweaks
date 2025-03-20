@@ -76,8 +76,15 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool NoExpertFreezingWater { get; set; }
 
-		// For The Worthy tweaks (coming soon!)
-		//[Header("FtwTweaks")]
+		// For The Worthy tweaks
+		[Header("FtwTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool NerfSkyCrates { get; set; }
+
+		[DefaultValue(false)]
+		public bool NoMobGriefing { get; set; }
 
 		// General item tweaks
 		[Header("ItemTweaks")]
@@ -111,6 +118,12 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool OasisCrateBuff { get; set; }
+
+		[ReloadRequired]
+		[Slider]
+		[Range(1, 50)]
+		[DefaultValue(35)]
+		public int OasisCrateOdds { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]

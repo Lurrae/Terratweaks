@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -99,7 +100,7 @@ namespace Terratweaks.Items
 			if (Terratweaks.Config.DeerWeaponsRework && (item.type == ItemID.LucyTheAxe || item.type == ItemID.PewMaticHorn || item.type == ItemID.WeatherPain || item.type == ItemID.HoundiusShootius))
 				itemIsModified = true;
 
-			if (Terratweaks.Config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out _))
+			if (Terratweaks.Config.ManaFreeSummoner && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj) && (proj.minion || proj.sentry))
 				itemIsModified = true;
 
 			if (Terratweaks.Config.NoDiminishingReturns && DiminishingReturnItems.Contains(item.type))
@@ -664,7 +665,6 @@ namespace Terratweaks.Items
 
 		private static readonly List<int> pyramidAccs = new() { ItemID.SandstorminaBottle, ItemID.FlyingCarpet };
 
-		// Oasis Crates drop random pyramid loot
 		public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
 		{
 			// Update Oasis/Mirage Crate loot tables
@@ -672,37 +672,69 @@ namespace Terratweaks.Items
 			{
 				var rules = itemLoot.Get();
 				var mainRule = (AlwaysAtleastOneSuccessDropRule)rules.FirstOrDefault(x => x is AlwaysAtleastOneSuccessDropRule);
-				var rule = (OneFromOptionsNotScaledWithLuckDropRule)mainRule.rules.FirstOrDefault(x => x is OneFromOptionsNotScaledWithLuckDropRule r && r.dropIds.Contains(ItemID.SandBoots));
-				var drops = rule?.dropIds ?? Array.Empty<int>();
-				List<int> vanillaItems = drops.ToList();
+				var rule = (CommonDropNotScalingWithLuck)mainRule.rules.FirstOrDefault(x => x is CommonDropNotScalingWithLuck r && r.itemId == ItemID.SandstorminaBottle);
 
-				// Has a chance to drop one of the Sandstone Chest items, or one of the accessories from the pyramid (but never drops both at once)
-				// There is a 1/10 chance to drop a pyramid item, but if that fails it's guaranteed to drop a regular crate item instead, making those much more common
+				// In vanilla, there are three options for pyramid loot: Sandstorm in a Bottle, Flying Carpet, and a full Pharaoh vanity set
+				var sandBottle = new CommonDrop(ItemID.SandstorminaBottle, 1);
+				var carpet = new CommonDrop(ItemID.FlyingCarpet, 1);
 				var pharaohsCurse = new CommonDrop(ItemID.PharaohsMask, 1);
 				pharaohsCurse.OnSuccess(new CommonDrop(ItemID.PharaohsRobe, 1)); // This is done to make the Pharaoh's Robe drop alongside the mask
 
-				OneFromRulesRule newRule = new(1,
-					new OneFromRulesRule(10,
-						new IItemDropRule[]
-						{
-							new OneFromOptionsNotScaledWithLuckDropRule(1, 1, pyramidAccs.ToArray()),
-							pharaohsCurse
-						}
-					).OnFailedRoll(new OneFromOptionsNotScaledWithLuckDropRule(1, 1, vanillaItems.ToArray()))
-				);
+				// Check for Calamity Mod; if it's installed, replace the Pharaoh set with an Amber Hook
+				if (ModLoader.HasMod("CalamityMod"))
+				{
+					pharaohsCurse = new CommonDrop(ItemID.AmberHook, 1);
+				}
 
-				// Update the main rule to be our new one
-				var newMainRuleList = mainRule.rules.ToList();
-				newMainRuleList.Remove(rule);
-				newMainRuleList.Add(newRule);
-
-				var newMainRule = mainRule;
-				newMainRule.rules = newMainRuleList.ToArray();
-
-				itemLoot.Remove(mainRule);
-				itemLoot.Add(newMainRule);
+				// Combine all of these into one rule- with the odds being based on the config option
+				// By default, it keeps the same 1/35 chance as vanilla
+				var combinedRule = new OneFromRulesRule(Terratweaks.Config.OasisCrateOdds, new IItemDropRule[] { sandBottle, carpet, pharaohsCurse });
+				
+				// Replace the vanilla rule with our new one
+				var idx = mainRule.rules.ToList().IndexOf(rule);
+				mainRule.rules[idx] = combinedRule;
 			}
 
+			// Sky/Azure Crates don't drop important items until Skeletron has been defeated in For the Worthy
+			if (Terratweaks.Config.NerfSkyCrates && (item.type == ItemID.FloatingIslandFishingCrate || item.type == ItemID.FloatingIslandFishingCrateHard))
+			{
+				var rules = itemLoot.Get();
+				var mainRule = (AlwaysAtleastOneSuccessDropRule)rules.FirstOrDefault(x => x is AlwaysAtleastOneSuccessDropRule);
+				
+				// Make sure the main rule still exists, in case a mod exists that completely reworks crate drops
+				if (mainRule != null)
+				{
+					var skyChestLoot = (OneFromOptionsNotScaledWithLuckDropRule)mainRule.rules.FirstOrDefault(x => x is OneFromOptionsNotScaledWithLuckDropRule op && op.dropIds.Contains(ItemID.Starfury));
+					var wingsLoot = (CommonDropNotScalingWithLuck)mainRule.rules.FirstOrDefault(x => x is CommonDropNotScalingWithLuck cd && cd.itemId == ItemID.CreativeWings);
+
+					// Only mess with the rules if we could find the original ones
+					if (skyChestLoot != null || wingsLoot != null)
+					{
+						var newRules = mainRule.rules.ToList();
+
+						if (skyChestLoot != default(OneFromOptionsNotScaledWithLuckDropRule))
+						{
+							int idx = newRules.IndexOf(skyChestLoot);
+
+							var newSkyChestLoot = new LeadingConditionRule(new TerratweaksDropConditions.PostSkeletronOnFtw());
+							newSkyChestLoot.OnSuccess(skyChestLoot);
+							newRules[idx] = newSkyChestLoot;
+						}
+
+						if (wingsLoot != default(CommonDropNotScalingWithLuck))
+						{
+							int idx = newRules.IndexOf(wingsLoot);
+
+							var newWingsLoot = new LeadingConditionRule(new TerratweaksDropConditions.PostSkeletronOnFtw()).OnSuccess(wingsLoot);
+							newRules[idx] = newWingsLoot;
+						}
+
+						mainRule.rules = newRules.ToArray();
+					}
+				}
+			}
+
+			// Jungle boss bags drop two items instead of one
 			if (Terratweaks.Config.JungleBossBags && (item.type == ItemID.QueenBeeBossBag || item.type == ItemID.PlanteraBossBag || item.type == ItemID.GolemBossBag))
 			{
 				var rules = itemLoot.Get();
