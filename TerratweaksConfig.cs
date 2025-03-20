@@ -56,7 +56,128 @@ namespace Terratweaks
 
 		public AlchTweaks alchemitweaks = new();
 
-		// Expert Mode tweaks
+		// Block & biome tweaks
+		[Header("BlockBiomeTweaks")]
+
+		[DefaultValue(true)]
+		public bool BetterCrackedBricks { get; set; }
+
+		[DefaultValue(true)]
+		public bool BombableMeteorite { get; set; }
+
+		[DefaultValue(false)]
+		public bool OverrideGraveyardRequirements { get; set; }
+
+		[Increment(1)]
+		[Range(1, 18)]
+		[DefaultValue(4)]
+		[Slider]
+		public int GraveyardVisuals { get; set; }
+
+		[Increment(1)]
+		[Range(1, 18)]
+		[DefaultValue(7)]
+		[Slider]
+		public int GraveyardFunctionality { get; set; }
+
+		[Increment(1)]
+		[Range(1, 18)]
+		[DefaultValue(9)]
+		[Slider]
+		public int GraveyardMax { get; set; }
+
+		[DefaultValue(SturdyLarvaeSetting.Env)]
+		public SturdyLarvaeSetting SturdyLarvae { get; set; }
+
+		// Boss and Event Tweaks
+		[Header("BossTweaks")]
+
+		[DefaultValue(0)]
+		[Range(0, 10)]
+		[Slider]
+		public int NPCDeathsToCallOffInvasion { get; set; }
+
+		[DefaultValue(0)]
+		[Range(0, 10)]
+		[Slider]
+		public int PlayerDeathsToCallOffInvasion { get; set; }
+
+		[DefaultValue(true)]
+		public bool DeerclopsRegens { get; set; }
+
+		[Increment(60)]
+		[Range(60, 3600)]
+		[DefaultValue(600)]
+		public int DeerRegenAmt { get; set; }
+
+		[DefaultValue(false)]
+		public bool ForceBossContactDamage { get; set; }
+
+		[DefaultValue(false)]
+		public bool MoreOOAMedals { get; set; }
+
+		[DefaultValue(true)]
+		public bool PostEyeSandstorms { get; set; }
+
+		[DefaultValue(1)]
+		[Range(0f, 10f)]
+		[Increment(0.25f)]
+		public float BossesLowerSpawnRates { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(0)]
+		public int TerraprismaDropRate { get; set; }
+
+		// Enemy Tweaks
+		[Header("EnemyTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool PillarEnemiesDropFragments { get; set; }
+
+		[DefaultValue(true)]
+		public bool NoEnemyInvulnerability { get; set; }
+
+		[DefaultValue(false)]
+		public bool NoCasterContactDamage { get; set; }
+
+		[DefaultValue(false)]
+		public bool SmartMimics { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool SmartNymphs { get; set; }
+
+		[DefaultValue(DummySetting.Limited)]
+		public DummySetting DummyFix { get; set; }
+
+		// Expert Mode Accessory Buffs
+		[Header("ExpertAccTweaks")]
+
+		[DefaultValue(true)]
+		public bool BoneHelm { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool CultistGravGlobe { get; set; }
+
+		[DefaultValue(true)]
+		public bool HivePack { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool PlaceableGravGlobe { get; set; }
+
+		[Slider]
+		[Increment(5)]
+		[Range(5, 200)]
+		[DefaultValue(125)]
+		public int GravGlobeRange { get; set; }
+
+		[DefaultValue(true)]
+		public bool RoyalGel { get; set; }
+
+		// Expert Mode Tweaks
 		[Header("ExpertTweaks")]
 
 		[ReloadRequired]
@@ -76,7 +197,7 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool NoExpertFreezingWater { get; set; }
 
-		// For The Worthy tweaks
+		// For the Worthy Tweaks
 		[Header("FtwTweaks")]
 
 		[ReloadRequired]
@@ -86,7 +207,7 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool NoMobGriefing { get; set; }
 
-		// General item tweaks
+		// General Item Tweaks
 		[Header("ItemTweaks")]
 
 		[ReloadRequired]
@@ -150,119 +271,17 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool OreUnification { get; set; }
 
-		// Expert Mode accessory tweaks
-		[Header("ExpertAccTweaks")]
+		// Misc. Tweaks
+		[Header("MiscTweaks")]
 
 		[DefaultValue(true)]
-		public bool BoneHelm { get; set; }
+		public bool BannersDontSpamChat { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(false)]
-		public bool CultistGravGlobe { get; set; }
+		public bool BetterBestiary { get; set; }
 
-		[DefaultValue(true)]
-		public bool HivePack { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool PlaceableGravGlobe { get; set; }
-
-		[Slider]
-		[Increment(5)]
-		[Range(5, 200)]
-		[DefaultValue(125)]
-		public int GravGlobeRange { get; set; }
-
-		[DefaultValue(true)]
-		public bool RoyalGel { get; set; }
-
-		// Armorset tweaks
-		[Header("ArmorTweaks")]
-
-		[DefaultValue(true)]
-		public bool AdamantiteSetBonus { get; set; }
-
-		[DefaultValue(true)]
-		public bool CobaltSetBonus { get; set; }
-
-		[DefaultValue(true)]
-		public bool ConvertMonkArmor { get; set; }
-
-		[DefaultValue(true)]
-		public bool MythrilSetBonus { get; set; }
-
-		[DefaultValue(true)]
-		public bool SpiderSetBonus { get; set; }
-
-		[DefaultValue(true)]
-		public bool SpookySetBonus { get; set; }
-
-		[DefaultValue(true)]
-		public bool StardustArmorBuff { get; set; }
-
-		// Boss/event tweaks
-		[Header("BossTweaks")]
-
-		[DefaultValue(0)]
-		[Range(0, 10)]
-		[Slider]
-		public int NPCDeathsToCallOffInvasion { get; set; }
-
-		[DefaultValue(0)]
-		[Range(0, 10)]
-		[Slider]
-		public int PlayerDeathsToCallOffInvasion { get; set; }
-
-		[DefaultValue(true)]
-		public bool DeerclopsRegens { get; set; }
-
-		[Increment(60)]
-		[Range(60, 3600)]
-		[DefaultValue(600)]
-		public int DeerRegenAmt { get; set; }
-
-		[DefaultValue(false)]
-		public bool ForceBossContactDamage { get; set; }
-
-		[DefaultValue(false)]
-		public bool MoreOOAMedals { get; set; }
-
-		[DefaultValue(true)]
-		public bool PostEyeSandstorms { get; set; }
-
-		[DefaultValue(1)]
-		[Range(0f, 10f)]
-		[Increment(0.25f)]
-		public float BossesLowerSpawnRates { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(0)]
-		public int TerraprismaDropRate { get; set; }
-
-		// Enemy tweaks
-		[Header("EnemyTweaks")]
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool PillarEnemiesDropFragments { get; set; }
-
-		[DefaultValue(true)]
-		public bool NoEnemyInvulnerability { get; set; }
-
-		[DefaultValue(false)]
-		public bool NoCasterContactDamage { get; set; }
-
-		[DefaultValue(false)]
-		public bool SmartMimics { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(false)]
-		public bool SmartNymphs { get; set; }
-
-		[DefaultValue(DummySetting.Limited)]
-		public DummySetting DummyFix { get; set; }
-
-		// Town NPC tweaks
+		// Town NPC Tweaks
 		[Header("TownNpcTweaks")]
 
 		[ReloadRequired]
@@ -296,48 +315,29 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool SoilSolutionsPreML { get; set; }
 
-		// Block & biome tweaks
-		[Header("BlockBiomeTweaks")]
+		// Vanilla Armorset Reworks
+		[Header("ArmorTweaks")]
 
 		[DefaultValue(true)]
-		public bool BetterCrackedBricks { get; set; }
+		public bool AdamantiteSetBonus { get; set; }
 
 		[DefaultValue(true)]
-		public bool BombableMeteorite { get; set; }
-
-		[DefaultValue(false)]
-		public bool OverrideGraveyardRequirements { get; set; }
-
-		[Increment(1)]
-		[Range(1, 18)]
-		[DefaultValue(4)]
-		[Slider]
-		public int GraveyardVisuals { get; set; }
-
-		[Increment(1)]
-		[Range(1, 18)]
-		[DefaultValue(7)]
-		[Slider]
-		public int GraveyardFunctionality { get; set; }
-
-		[Increment(1)]
-		[Range(1, 18)]
-		[DefaultValue(9)]
-		[Slider]
-		public int GraveyardMax { get; set; }
-
-		[DefaultValue(SturdyLarvaeSetting.Env)]
-		public SturdyLarvaeSetting SturdyLarvae { get; set; }
-
-		// Misc. tweaks
-		[Header("MiscTweaks")]
+		public bool CobaltSetBonus { get; set; }
 
 		[DefaultValue(true)]
-		public bool BannersDontSpamChat { get; set; }
+		public bool ConvertMonkArmor { get; set; }
 
-		[ReloadRequired]
-		[DefaultValue(false)]
-		public bool BetterBestiary { get; set; }
+		[DefaultValue(true)]
+		public bool MythrilSetBonus { get; set; }
+
+		[DefaultValue(true)]
+		public bool SpiderSetBonus { get; set; }
+
+		[DefaultValue(true)]
+		public bool SpookySetBonus { get; set; }
+
+		[DefaultValue(true)]
+		public bool StardustArmorBuff { get; set; }
 
 		public override bool NeedsReload(ModConfig pendingConfig)
 		{
@@ -435,14 +435,20 @@ namespace Terratweaks
 	{
 		public override ConfigScope Mode => ConfigScope.ClientSide;
 
+		// Misc. Tweaks
+		[Header("MiscTweaks")]
+
+		[DefaultValue(true)]
+		public bool NoRandomCrit { get; set; }
+
+		// Tooltip Tweaks
+		[Header("TooltipTweaks")]
+
 		[DefaultValue(true)]
 		public bool EstimatedDPS { get; set; }
 
 		[DefaultValue(true)]
 		public bool GrammarCorrections { get; set; }
-
-		[DefaultValue(true)]
-		public bool NoRandomCrit { get; set; }
 
 		[DefaultValue(true)]
 		public bool PermBuffTips { get; set; }
@@ -457,6 +463,9 @@ namespace Terratweaks
 	[SeparatePage]
 	public class CraftableUncraftables
 	{
+		// Crafting Recipes
+		[Header("Crafting")]
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ClothierVoodooDoll { get; set; }
@@ -487,6 +496,17 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool StructureBanners { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool TeamBlocks { get; set; }
+
+		// Shimmer Transmutations
+		[Header("Shimmer")]
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool ShimmerBlackLens { get; set; }
 
 		[ReloadRequired]
@@ -512,19 +532,14 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool Trophies { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool StructureBanners { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool TeamBlocks { get; set; }
 	}
 
 	[SeparatePage]
 	public class CalTweaks
 	{
+		// Accessory Tweaks
+		[Header("AccTweaks")]
+
 		[DefaultValue(true)]
 		public bool AquaticEmblemBuff { get; set; }
 
@@ -533,66 +548,23 @@ namespace Terratweaks
 		public bool AsgardsValorBuff { get; set; }
 
 		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool CombinedStationSupport { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool CraftableHostileTurrets { get; set; }
-
-		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool DeificAmuletBuff { get; set; }
-
-		[DefaultValue(false)]
-		public bool DRBuffs { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool DryadSellsSeeds { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool EnemyFoodDrops { get; set; }
-
-		[DefaultValue(true)]
-		public bool EnragedEoLInstakills { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool EzCalBanners { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool ForceWormContactDamage { get; set; }
-
-		[DefaultValue(false)]
-		public bool NoDefenseDamage { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(false)]
-		public bool NoPatreonNPCNames { get; set; }
-
-		[DefaultValue(true)]
-		public bool NoPlantParticles { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(false)]
-		public bool NoSellingRoD { get; set; }
-
-		[DefaultValue(true)]
-		public bool NoWormParticles { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(false)]
-		public bool OnionMasterMode { get; set; }
 
 		[DefaultValue(true)]
 		public bool RadiantInsigniaUpgradesFromAscendant { get; set; }
 
-		[ReloadRequired]
 		[DefaultValue(false)]
-		public bool RevertPickSpeedBuffs { get; set; }
+		public bool SummonerAccBuffs { get; set; }
+
+		// Block and Biome Tweaks
+		//[Header("BlockBiomeTweaks")]
+		
+		// Boss and Event Tweaks
+		[Header("BossTweaks")]
+
+		[DefaultValue(true)]
+		public bool EnragedEoLInstakills { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -606,22 +578,53 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool RevertVanillaBossAIChanges { get; set; }
 
+		// Enemy Tweaks
+		[Header("EnemyTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool EnemyFoodDrops { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool EzCalBanners { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ForceWormContactDamage { get; set; }
+
+		[DefaultValue(true)]
+		public bool NoPlantParticles { get; set; }
+
+		[DefaultValue(true)]
+		public bool NoWormParticles { get; set; }
+
+		// Gameplay Tweaks
+		[Header("GameplayTweaks")]
+
 		[DefaultValue(false)]
-		public bool SummonerAccBuffs { get; set; }
+		public bool DRBuffs { get; set; }
+
+		[DefaultValue(false)]
+		public bool NoDefenseDamage { get; set; }
+
+		// General Item Tweaks
+		[Header("ItemTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool OnionMasterMode { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool RevertPickSpeedBuffs { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ZenithRecipeOverhaul { get; set; }
-	}
-
-	[SeparatePage]
-	public class ThorTweaks
-	{
-		[DefaultValue(false)]
-		public bool BombableADBlocks { get; set; }
-
-		[DefaultValue(false)]
-		public bool EatCooksFoodInCombat { get; set; }
+		
+		// Misc. tweaks
+		[Header("MiscTweaks")]
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -629,12 +632,96 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool CraftableHostileTurrets { get; set; }
+
+		// Town NPC tweaks
+		[Header("TownNpcTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool DryadSellsSeeds { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool NoPatreonNPCNames { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool NoSellingRoD { get; set; }
+
+		// Wrath of the Gods Tweaks
+		//[Header("WotgTweaks")]
+	}
+
+	[SeparatePage]
+	public class ThorTweaks
+	{
+		// Accessory Tweaks
+		//[Header("AccTweaks")]
+
+		// Block and Biome Tweaks
+		[Header("BlockBiomeTweaks")]
+
+		[DefaultValue(false)]
+		public bool BombableADBlocks { get; set; }
+
+		// Boss and Event Tweaks
+		//[Header("BossTweaks")]
+
+		// Enemy Tweaks
+		//[Header("EnemyTweaks")]
+
+		// Gameplay Tweaks
+		//[Header("GameplayTweaks")]
+
+		// General Item Tweaks
+		[Header("ItemTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool ZenithRecipeOverhaul { get; set; }
+
+		// Misc. Tweaks
+		[Header("MiscTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool CombinedStationSupport { get; set; }
+
+		// Town NPC Tweaks
+		[Header("TownNpcTweaks")]
+
+		[DefaultValue(false)]
+		public bool EatCooksFoodInCombat { get; set; }
 	}
 
 	[SeparatePage]
 	public class AlchTweaks
 	{
+		// Accessory Tweaks
+		//[Header("AccTweaks")]
+
+		// Block and Biome Tweaks
+		//[Header("BlockBiomeTweaks")]
+
+		// Boss and Event Tweaks
+		//[Header("BossTweaks")]
+
+		// Enemy Tweaks
+		//[Header("EnemyTweaks")]
+
+		// Gameplay Tweaks
+		//[Header("GameplayTweaks")]
+
+		// General Item Tweaks
+		//[Header("ItemTweaks")]
+
+		// Misc. Tweaks
+		//[Header("MiscTweaks")]
+
+		// Town NPC Tweaks
+		[Header("TownNpcTweaks")]
+
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool AntiCheese { get; set; }

@@ -644,6 +644,11 @@ Mods: {
 			}
 
 			CraftableUncraftables: {
+				Headers: {
+					Crafting: Crafting Recipes
+					Shimmer: Shimmer Transmutations
+				}
+
 				ClothierVoodooDoll: {
 					Label: "[i:ClothierVoodooDoll] Clothier Voodoo Doll"
 					Tooltip: Enables a recipe to turn a Guide Voodoo Doll and Red Hat into a Clothier Voodoo Doll at a Demon/Crimson Altar
@@ -792,6 +797,11 @@ Mods: {
 			TerratweaksConfig_Client: {
 				DisplayName: Terratweaks Config (Client)
 
+				Headers: {
+					MiscTweaks: Misc. Tweaks
+					TooltipTweaks: Tooltip Tweaks
+				}
+
 				EstimatedDPS: {
 					Label: "[i:DPSMeter] DPS Meter shows estimated DPS"
 					Tooltip:
@@ -854,6 +864,18 @@ Mods: {
 			}
 
 			CalTweaks: {
+				Headers: {
+					AccTweaks: Accessory Tweaks
+					BlockBiomeTweaks: Block and Biome Tweaks
+					BossTweaks: Boss and Event Tweaks
+					EnemyTweaks: Enemy Tweaks
+					GameplayTweaks: Gameplay Tweaks
+					ItemTweaks: General Item Tweaks
+					MiscTweaks: Misc. Tweaks
+					TownNpcTweaks: Town NPC Tweaks
+					WotgTweaks: Wrath of the Gods Tweaks
+				}
+
 				AsgardsValorBuff: {
 					Label: "[i:AnkhShield] Asgard's Valor Inherits More Shields"
 					Tooltip:
@@ -1052,6 +1074,17 @@ Mods: {
 			}
 
 			ThorTweaks: {
+				Headers: {
+					AccTweaks: Accessory Tweaks
+					BlockBiomeTweaks: Block and Biome Tweaks
+					BossTweaks: Boss and Event Tweaks
+					EnemyTweaks: Enemy Tweaks
+					GameplayTweaks: Gameplay Tweaks
+					ItemTweaks: General Item Tweaks
+					MiscTweaks: Misc. Tweaks
+					TownNpcTweaks: Town NPC Tweaks
+				}
+
 				EatCooksFoodInCombat: {
 					Label: "[i:ChefHat] Eat Cook's Food In Combat"
 					Tooltip:
@@ -1088,6 +1121,17 @@ Mods: {
 			}
 
 			AlchTweaks: {
+				Headers: {
+					AccTweaks: Accessory Tweaks
+					BlockBiomeTweaks: Block and Biome Tweaks
+					BossTweaks: Boss and Event Tweaks
+					EnemyTweaks: Enemy Tweaks
+					GameplayTweaks: Gameplay Tweaks
+					ItemTweaks: General Item Tweaks
+					MiscTweaks: Misc. Tweaks
+					TownNpcTweaks: Town NPC Tweaks
+				}
+
 				AntiCheese: {
 					Label: "[i:EngineeringHelmet] [i:GoldCoin] Architect Infinite Money Fix"
 					Tooltip:
