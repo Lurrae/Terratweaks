@@ -146,8 +146,6 @@ namespace Terratweaks
 			On_NPC.AddBuff += BuffedBrainIchor;
 			On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += ResetIchorState;
 			On_Player.DashMovement += BuffedEyeShieldDash;
-			//On_Player.ApplyDamageToNPC += BuffedEyeShieldDash_Burn;
-			//On_NPC.StrikeNPC_int_float_int_bool_bool_bool += BuffedEyeShieldDash_Hit;
 		}
 
 		public override void PostSetupContent()
@@ -263,6 +261,8 @@ namespace Terratweaks
 								"ExpertAccBuffs_EyeShield" or "ExpertAccBuffs_ShieldofCthulhu" or "EyeShieldBuff" or "ShieldofCthulhuBuff" => Config.EyeShield,
 								"ExpertAccBuffs_WormBrain" or "WormBrainBuff" => Config.WormBrain,
 								"PaperCuts" => Config.PaperCuts,
+								"FtW_BombPots" or "ForTheWorthy_BombPots" or "BombPots" => Config.FtwBombPots,
+								"FtW_BombTrees" or "ForTheWorthy_BombTrees" or "BombTrees" => Config.FtwBombTrees,
 
 								"Client_EstimatedDPS" or "EstimatedDPS" => ClientConfig.EstimatedDPS,
 								"Client_GrammarCorrections" or "GrammarCorrections" => ClientConfig.GrammarCorrections,

@@ -685,6 +685,16 @@ Mods: {
 						...And also on the player when thrown, but only sometimes
 						'''
 				}
+
+				FtwBombPots: {
+					Label: "[i:Bomb] All FtW Pots Drop Bombs"
+					Tooltip: Bombs? You want it, it's yours my friend!
+				}
+
+				FtwBombTrees: {
+					Label: "[i:Bomb] All FtW Trees Drop Bombs"
+					Tooltip: Leading directly on to number four: Bombs, for throwing at you
+				}
 			}
 
 			CraftableUncraftables: {

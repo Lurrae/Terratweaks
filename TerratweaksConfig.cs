@@ -284,6 +284,12 @@ namespace Terratweaks
 		[Header("JokeTweaks")]
 
 		[DefaultValue(false)]
+		public bool FtwBombPots { get; set; }
+
+		[DefaultValue(false)]
+		public bool FtwBombTrees { get; set; }
+
+		[DefaultValue(false)]
 		public bool PaperCuts { get; set; }
 
 		// Misc. Tweaks

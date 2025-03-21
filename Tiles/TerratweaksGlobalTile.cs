@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,15 +25,28 @@ namespace Terratweaks.Tiles
 			return base.IsTileDangerous(i, j, type, player);
 		}
 
-		// Change the functionality of Cracked Bricks to make them more consistent
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
+			var src = new EntitySource_TileBreak(i, j);
+			Vector2 projPos = new(Conversions.ToPixels(i) + 8, Conversions.ToPixels(j) + 8);
+
+			// Pots always drop bombs in addition to their normal drops in FtW worlds
+			// TODO: Can I make this work with modded pots?
+			if (Terratweaks.Config.FtwBombPots && Main.getGoodWorld)
+			{
+				// Only the top-left corner should drop a bomb, that way we don't drop four bombs per pot
+				if (type == TileID.Pots && Main.tile[i,j].TileFrameX % 36 == 0 && Main.tile[i, j].TileFrameY % 36 == 0)
+				{
+					// Spawn a bomb
+					Projectile.NewProjectile(src, projPos, Vector2.Zero, ProjectileID.Bomb, 0, 0, Main.myPlayer);
+				}
+			}
+
+			// Change the functionality of Cracked Bricks to make them more consistent
 			if (!Terratweaks.Config.BetterCrackedBricks)
 				return;
 
-			int tileType = Main.tile[i, j].TileType;
-
-			if (!Main.tileCracked[tileType] || Main.netMode == NetmodeID.MultiplayerClient)
+			if (!Main.tileCracked[type] || Main.netMode == NetmodeID.MultiplayerClient)
 				return;
 
 			for (int k = 0; k < 8; k++)
@@ -86,10 +100,8 @@ namespace Terratweaks.Tiles
 				}
 			}
 
-			int dungeonBrickVariant = tileType - TileID.CrackedBlueDungeonBrick; // Should be 0, 1, or 2
+			int dungeonBrickVariant = type - TileID.CrackedBlueDungeonBrick; // Should be 0, 1, or 2
 			int projType = dungeonBrickVariant + ProjectileID.BlueDungeonDebris;
-			var src = new EntitySource_TileBreak(i, j);
-			Vector2 projPos = new(Conversions.ToPixels(i) + 8, Conversions.ToPixels(j) + 8);
 
 			if (Main.netMode == NetmodeID.SinglePlayer)
 			{
@@ -99,6 +111,18 @@ namespace Terratweaks.Tiles
 			{
 				Projectile proj = Projectile.NewProjectileDirect(src, projPos, Vector2.Zero, projType, 20, 0, Main.myPlayer);
 				proj.netUpdate = true;
+			}
+		}
+
+		// TODO: Does this only run once a day for each tree? I would assume so, but I need to be sure
+		public override void PreShakeTree(int i, int j, TreeTypes treeType)
+		{
+			if (Terratweaks.Config.FtwBombTrees && Main.getGoodWorld)
+			{
+				// Spawn a bomb at the top of the tree, which will fall down and explode on players
+				// Because this uses PreShakeTree(), any existing drops shouldn't be blocked!
+				Vector2 spawnPos = new(i * 16, j * 16);
+				Projectile.NewProjectile(new EntitySource_ShakeTree(i, j), spawnPos, Vector2.Zero, ProjectileID.Bomb, 0, 0, Main.myPlayer);
 			}
 		}
 	}
