@@ -290,6 +290,9 @@ namespace Terratweaks
 		public bool FtwBombTrees { get; set; }
 
 		[DefaultValue(false)]
+		public bool DrunkWaldo { get; set; }
+
+		[DefaultValue(false)]
 		public bool PaperCuts { get; set; }
 
 		// Misc. Tweaks

@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.Generation;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.Graphics;
 using Terraria.ID;
@@ -146,6 +147,29 @@ namespace Terratweaks
 			On_NPC.AddBuff += BuffedBrainIchor;
 			On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += ResetIchorState;
 			On_Player.DashMovement += BuffedEyeShieldDash;
+			On_WorldGen.RandHousePicture += WhereIsntWaldo;
+		}
+
+		private PaintingEntry WhereIsntWaldo(On_WorldGen.orig_RandHousePicture orig)
+		{
+			if (Config.DrunkWaldo && (WorldGen.drunkWorldGen || WorldGen.everythingWorldGen))
+			{
+				// 0.49% chance, same as the normal odds of Waldo
+				// This effectively flips the script- 99.51% of paintings will be Waldo, instead of 0.49%
+				if (WorldGen.genRand.NextBool(49, 10000))
+				{
+					return orig();
+				}
+
+				// Guarantees a Waldo painting- 2x3 painting with a style value of 0
+				return new PaintingEntry
+				{
+					tileType = TileID.Painting2X3,
+					style = 0
+				};
+			}
+
+			return orig();
 		}
 
 		public override void PostSetupContent()

@@ -695,6 +695,15 @@ Mods: {
 					Label: "[i:Bomb] All FtW Trees Drop Bombs"
 					Tooltip: Leading directly on to number four: Bombs, for throwing at you
 				}
+
+				DrunkWaldo: {
+					Label: "[i:Waldo] Drunk Waldo"
+					Tooltip:
+						'''
+						Where's Waldo? More like, 'Where ISN'T Waldo?'
+						(Note: Only affects the drunk seed and zenith seed)
+						'''
+				}
 			}
 
 			CraftableUncraftables: {
