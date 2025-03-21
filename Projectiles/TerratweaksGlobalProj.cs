@@ -4,7 +4,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terratweaks.Items;
-using static Terraria.ModLoader.ModContent;
 
 namespace Terratweaks.Projectiles
 {
@@ -113,10 +112,13 @@ namespace Terratweaks.Projectiles
 
 		public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
 		{
+			// Disable damage variation
 			if (Terratweaks.Config.NoDamageVariance == DamageVarianceSetting.Limited)
 				modifiers.DamageVariationScale *= 0;
 
-			if (GetInstance<TerratweaksConfig_Client>().NoRandomCrit && sourceItem != null && sourceItem.TryGetGlobalItem(out TooltipChanges globalItem))
+			// Disable random crits, and allow them to ignore defense if that config option is active
+			// TODO: Verify this works as expected in multiplayer; checking a client-side option and then a server-side option may not be safe
+			if (Terratweaks.ClientConfig.NoRandomCrit && sourceItem != null && sourceItem.TryGetGlobalItem(out TooltipChanges globalItem))
 			{
 				globalItem.hitsDone += projectile.CritChance;
 
@@ -130,6 +132,12 @@ namespace Terratweaks.Projectiles
 				}
 				else
 					modifiers.DisableCrit();
+			}
+
+			// Paper cuts from paper airplanes, cuz why not?
+			if (Terratweaks.Config.PaperCuts && projectile.aiStyle == ProjAIStyleID.PaperPlane)
+			{
+				target.AddBuff(BuffID.Bleeding, Conversions.ToFrames(4)); // 4 seconds of Bleeding
 			}
 		}
 	}

@@ -280,6 +280,12 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool OreUnification { get; set; }
 
+		// Joke Tweaks
+		[Header("JokeTweaks")]
+
+		[DefaultValue(false)]
+		public bool PaperCuts { get; set; }
+
 		// Misc. Tweaks
 		[Header("MiscTweaks")]
 

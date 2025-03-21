@@ -1288,16 +1288,36 @@ namespace Terratweaks.Items
 
 		public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
+			Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
+
+			// Disable minions if one is summoned during a boss fight
 			if (Terratweaks.Config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon))
 			{
-				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
-
 				if (proj.minion || proj.sentry)
 				{
 					if (/*player.GetModPlayer<CombatPlayer>().IsInCombat()*/ Main.CurrentFrameFlags.AnyActiveBossNPC || AnyBossExists(true))
 					{
 						player.AddBuff(BuffType<SummonsDisabled>(), Conversions.ToFrames(3));
 					}
+				}
+			}
+
+			// Chance to cause a paper cut when throwing a Paper Airplane,
+			// unless the player is immune to Bleeding or invulnerable due to Journey Mode godmode
+			if (Terratweaks.Config.PaperCuts && proj.aiStyle == ProjAIStyleID.PaperPlane && !player.buffImmune[BuffID.Bleeding] && !player.creativeGodMode)
+			{
+				if (Main.rand.NextBool(10)) // 10% chance to cause a paper cut
+				{
+					Player.HurtInfo info = new()
+					{
+						Damage = 1, // Paper cut deals only 1 damage, so it's just a minor nuisance if anything
+						// Custom damage source means it should provide a custom message: "[player] couldn't handle a paper cut"
+						DamageSource = PlayerDeathReason.ByCustomReason(Language.GetTextValue("Mods.Terratweaks.PlayerDeathReason.PaperCut", player.name)),
+						Dodgeable = false // No dodging the paper cuts! (which is probably for the better, seeing as it's 1 damage and could probably be abused to avoid stronger attacks...)
+					};
+
+					player.Hurt(info);
+					player.AddBuff(BuffID.Bleeding, Conversions.ToFrames(4)); // 4 seconds of Bleeding
 				}
 			}
 

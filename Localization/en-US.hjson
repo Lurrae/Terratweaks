@@ -1,5 +1,8 @@
 Mods: {
 	Terratweaks: {
+		# Custom death messages (currently only used for paper cuts
+		PlayerDeathReason.PaperCut: "{0} couldn't handle a paper cut"
+
 		# Modified versions of vanilla's LegacyTooltip localizations, used for new speed/knockback tooltips
 		LegacyTooltip: {
 			6: Insanely fast ({0}) speed
@@ -63,6 +66,7 @@ Mods: {
 					TownNpcTweaks: Town NPC Tweaks
 					BlockBiomeTweaks: Block and Biome Tweaks
 					MiscTweaks: Misc. Tweaks
+					JokeTweaks: Joke Tweaks
 				}
 
 				craftableUncraftables: {
@@ -670,6 +674,15 @@ Mods: {
 						The Worm Scarf provides an additional 4% DR and increases max HP by 20, and spawns a friendly probe, plus one more for every 33% HP you're missing, up to 3 probes at 33% HP or less
 						The Brain of Confusion's dodge inflicts Ichor in addition to Confused, and increases summon damage by another 5%
 						Dodging an attack also summons three temporary friendly probes!
+						'''
+				}
+
+				PaperCuts: {
+					Label: "[i:PaperAirplaneB] Paper Airplanes Cause Paper Cuts"
+					Tooltip:
+						'''
+						Causes both types of paper airplanes to inflict the Bleeding debuff on enemies
+						...And also on the player when thrown, but only sometimes
 						'''
 				}
 			}

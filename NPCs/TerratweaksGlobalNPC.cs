@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
@@ -18,9 +19,71 @@ namespace Terratweaks.NPCs
 	// A GlobalNPC made to handle any custom debuffs inflicted upon an enemy
 	public class DebuffEffectHandler : GlobalNPC
 	{
+		// Set debuff immunities if the corresponding config options are active
+		// The config check makes it possible to disable these changes should another mod have issues with them
 		public override void SetDefaults(NPC npc)
 		{
-			npc.buffImmune[BuffID.Webbed] = npc.NPCCanStickToWalls() || npc.boss;
+			// Spiders and bosses are immune to the slowing effects of Webbed
+			// Also checks if the enemy is already immune, such as from another mod (that's what the "|=" is for, it keeps existing true values intact)
+			if (Terratweaks.Config.SpiderSetBonus)
+				npc.buffImmune[BuffID.Webbed] |= npc.NPCCanStickToWalls() || npc.boss;
+
+			// Any non-organic enemies are immune to Bleeding
+			// If another mod makes them immune to Bleeding, that applies too (that's what the "|=" is for, it keeps existing true values intact)
+			// Note that "IsProbablyOrganic()" says 'Probably' for a reason; modded hit sounds are not accounted for,
+			// so any enemies that use a modded hit sound will automatically not be immune unless the mod they come from makes them immune by default
+			if (Terratweaks.Config.PaperCuts)
+				npc.buffImmune[BuffID.Bleeding] |= !IsProbablyOrganic(npc);
+		}
+
+		// Any enemy with 
+		private static readonly List<SoundStyle> InorganicHitSounds = new()
+		{
+			SoundID.NPCHit2,	// Skeleton
+			SoundID.NPCHit4,	// Mech
+			SoundID.NPCHit5,	// Pixie
+			SoundID.NPCHit11,	// Snowman
+			SoundID.NPCHit30,	// Angry Nimbus
+			SoundID.NPCHit34,	// Deadly Sphere
+			SoundID.NPCHit36,	// Dungeon Spirit
+			SoundID.NPCHit41,	// Granite Golem
+			SoundID.NPCHit42,	// Martian Drone
+			SoundID.NPCHit43,	// Bubble Shield
+			SoundID.NPCHit49,	// Reaper
+			SoundID.NPCHit52,	// Shadowflame Apparition
+			SoundID.NPCHit53,	// Martian Tesla Turret
+			SoundID.NPCHit54	// Wraith
+		};
+
+		private static readonly List<int> InorganicAIStyles = new()
+		{
+			// Note: All vanilla enemies with Spell AI and Spore AI are considered "Projectile NPCs",
+			// but I'm adding them here to account for modded enemies that don't properly set ProjectileNPC[Type]
+			NPCAIStyleID.Spell,
+			NPCAIStyleID.Spore,
+
+			// Honestly idk why Shadowflame Apparitions and all of the Cultist's NPC-based projectiles aren't considered projectile NPCs,
+			// maybe cuz they have more health?
+			NPCAIStyleID.AncientDoom,
+			NPCAIStyleID.AncientLight,
+			NPCAIStyleID.AncientVision
+		};
+
+		// TODO: Figure out a better system for accounting for modded enemies,
+		//		 particularly ones with custom hit sounds like many of Calamity's enemies and bosses
+		private static bool IsProbablyOrganic(NPC npc)
+		{
+			// Ignore projectile NPCs, as well as any enemies not flagged with ProjectileNPC that should still be counted
+			if (NPCID.Sets.ProjectileNPC[npc.type] || InorganicAIStyles.Contains(npc.aiStyle))
+				return false;
+
+			// Ignore enemies with an inorganic hit sound
+			// This unfortunately will ignore any enemy with a modded hit sound, but unless I wanna add
+			// a mod call or something there ain't much I can do about it
+			if (npc.HitSound.HasValue && InorganicHitSounds.Contains(npc.HitSound.Value))
+				return false;
+
+			return true;
 		}
 
 		public override void AI(NPC npc)
@@ -31,6 +94,42 @@ namespace Terratweaks.NPCs
 			if (tPlr.spiderWeb && npc.damage > 0 && npc.Distance(Main.player[Main.myPlayer].Center) <= 64 && !npc.buffImmune[BuffID.Webbed])
 			{
 				npc.position -= npc.velocity * 0.5f;
+			}
+		}
+
+		public override void UpdateLifeRegen(NPC npc, ref int damage)
+		{
+			// TODO: It would probably be ideal to not do anything if another mod already makes Bleeding do something,
+			//		 but for now just checking that the paper cut config is active works fine; if another mod makes Bleeding have an effect,
+			//		 paper cuts can just be disabled to resolve the conflicts
+			if (Terratweaks.Config.PaperCuts)
+			{
+				if (npc.HasBuff(BuffID.Bleeding))
+				{
+					// Prevent natural regen if the enemy is regenerating somehow
+					if (npc.lifeRegen > 0)
+						npc.lifeRegen = 0;
+
+					npc.lifeRegen -= 2; // Loses 1 HP per second, the same amount Poisoned deals to players
+										// (a third of what it deals to enemies, and half of what On Fire! deals to both enemies and players)
+				}
+			}
+		}
+
+		public override void DrawEffects(NPC npc, ref Color drawColor)
+		{
+			// TODO: Ditto the todo in UpdateLifeRegen()
+			//		 tl;dr: Would prefer to check if another mod adds functionality to Bleeding instead of just checking the config,
+			//		 but for now this is fine
+			if (Terratweaks.Config.PaperCuts)
+			{
+				if (npc.HasBuff(BuffID.Bleeding) && Main.rand.NextBool(30))
+				{
+					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.Blood);
+					Dust dust2 = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.Blood);
+					dust2.velocity.Y += 0.5f;
+					dust.velocity *= 0.25f;
+				}
 			}
 		}
 	}

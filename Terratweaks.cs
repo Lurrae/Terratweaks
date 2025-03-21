@@ -262,6 +262,7 @@ namespace Terratweaks
 								"ExpertAccBuffs_BoneGlove" or "BoneGloveBuff" => Config.BoneGlove,
 								"ExpertAccBuffs_EyeShield" or "ExpertAccBuffs_ShieldofCthulhu" or "EyeShieldBuff" or "ShieldofCthulhuBuff" => Config.EyeShield,
 								"ExpertAccBuffs_WormBrain" or "WormBrainBuff" => Config.WormBrain,
+								"PaperCuts" => Config.PaperCuts,
 
 								"Client_EstimatedDPS" or "EstimatedDPS" => ClientConfig.EstimatedDPS,
 								"Client_GrammarCorrections" or "GrammarCorrections" => ClientConfig.GrammarCorrections,
