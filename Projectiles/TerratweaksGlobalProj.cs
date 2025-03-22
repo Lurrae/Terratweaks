@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -107,6 +108,75 @@ namespace Terratweaks.Projectiles
 			{
 				if (projectile.ai[0] > 45)
 					projectile.ai[0] = 45;
+			}
+
+			// Frost Hydra buff - Fires faster the longer it remains locked on to the same target
+			if (Terratweaks.Config.FrostHydraBuff && projectile.type == ProjectileID.FrostHydra)
+			{
+				FindTarget_FrostHydra(projectile, out int targetIdx);
+
+				// Found a target this frame, and had a target last frame
+				if (targetIdx != -1 && projectile.ai[1] != -1)
+				{
+					// We have a different target, reset fire rate timer
+					if (targetIdx != projectile.ai[1])
+					{
+						projectile.ai[2] = 0;
+					}
+					else // Same target, increment timer and increase fire rate if necessary
+					{
+						projectile.ai[2]++;
+
+						int shotCooldown = 60;
+						shotCooldown -= Math.Min((int)Math.Ceiling(projectile.ai[2] / 10), 55); // Every 10 ticks, reduce cooldown by a tick to a minimum of 5 ticks
+
+						projectile.ai[0] = Math.Min(projectile.ai[0], shotCooldown); // Lower shooting cooldown so it can fire faster
+					}
+				}
+				else // Reset fire rate if we lost our target
+				{
+					projectile.ai[2] = 0;
+				}
+
+				projectile.ai[1] = targetIdx;
+			}
+		}
+
+		// Vanilla code for detecting a target, since only the Houndius Shootius stores the target index in an ai field unfortunately
+		// Code was adapted from Projectile.cs, lines 25859-25900
+		static void FindTarget_FrostHydra(Projectile proj, out int targetIdx)
+		{
+			bool foundTarget = false;
+			float maxRange = 1000f;
+			targetIdx = -1;
+			NPC targetNPC = proj.OwnerMinionAttackTargetNPC;
+			if (targetNPC != null && targetNPC.CanBeChasedBy(proj))
+			{
+				float num437 = targetNPC.position.X + (targetNPC.width / 2);
+				float num438 = targetNPC.position.Y + (targetNPC.height / 2);
+				float num439 = Math.Abs(proj.position.X + (proj.width / 2) - num437) + Math.Abs(proj.position.Y + (proj.height / 2) - num438);
+				if (num439 < maxRange && Collision.CanHit(proj.position, proj.width, proj.height, targetNPC.position, targetNPC.width, targetNPC.height))
+				{
+					maxRange = num439;
+					foundTarget = true;
+					targetIdx = targetNPC.whoAmI;
+				}
+			}
+			if (!foundTarget)
+			{
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC npc = Main.npc[i];
+					if (npc.CanBeChasedBy(proj))
+					{
+						float dist = Math.Abs(proj.position.X + (proj.width / 2) - npc.Center.X) + Math.Abs(proj.position.Y + (proj.height / 2) - npc.Center.Y);
+						if (dist < maxRange && Collision.CanHit(proj.position, proj.width, proj.height, npc.position, npc.width, npc.height))
+						{
+							maxRange = dist;
+							targetIdx = npc.whoAmI;
+						}
+					}
+				}
 			}
 		}
 

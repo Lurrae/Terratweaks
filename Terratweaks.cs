@@ -238,6 +238,11 @@ namespace Terratweaks
 								.Replace("miragecrate", "oasiscrate")
 								.Replace("geysertrap", "geyser")
 								.Replace("geysers", "geyser")
+								.Replace("icesentry", "frosthydra")
+								.Replace("icehydra", "frosthydra")
+								.Replace("icedragon", "frosthydra")
+								.Replace("staffofthefrosthydra", "frosthydra")
+								.Replace("frosthydrastaff", "frosthydra")
 								.Replace("eocshield", "eyeshield")
 								.Replace("shieldofcthulhu", "eyeshield")
 								.Replace("wormscarf", "wormbrain")
@@ -341,6 +346,7 @@ namespace Terratweaks
 								"ftw_bombpots" or "bombpots" => Config.FtwBombPots,
 								"ftw_bombtrees" or "bombtrees" => Config.FtwBombTrees,
 								"papercuts" => Config.PaperCuts,
+								"frosthydrabuff" or "frosthydraminigun" => Config.FrostHydraBuff,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

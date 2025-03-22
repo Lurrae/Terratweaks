@@ -705,6 +705,11 @@ Mods: {
 						(Note: Only affects the drunk seed and zenith seed)
 						'''
 				}
+
+				FrostHydraBuff: {
+					Label: "[i:StaffoftheFrostHydra] Frost Hydra buff"
+					Tooltip: The longer a Frost Hydra remains locked on to the same target, the faster it fires
+				}
 			}
 
 			CraftableUncraftables: {
