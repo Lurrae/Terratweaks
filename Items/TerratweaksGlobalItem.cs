@@ -123,6 +123,9 @@ namespace Terratweaks.Items
 
 			if (Terratweaks.Config.PlaceableGravGlobe && item.type == ItemID.GravityGlobe)
 				itemIsModified = true;
+
+			if (Terratweaks.Config.FrostHydraBuff && item.type == ItemID.StaffoftheFrostHydra)
+				itemIsModified = true;
 			#endregion
 
 			#region Expert Accessory & Armor Tweaks
@@ -1224,7 +1227,14 @@ namespace Terratweaks.Items
 			{
 				item.useTime = item.useAnimation = 10;
 			}
+
+			if (Terratweaks.Config.FrostHydraBuff && item.type == ItemID.StaffoftheFrostHydra)
+			{
+				item.damage = (int)Math.Floor(item.damage * FROST_HYDRA_DMG_NERF);
+			}
 		}
+
+		public static readonly float FROST_HYDRA_DMG_NERF = 0.75f; // -25% damage
 
 		public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{

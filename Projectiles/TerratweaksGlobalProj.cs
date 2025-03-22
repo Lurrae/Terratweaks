@@ -83,7 +83,18 @@ namespace Terratweaks.Projectiles
 				// Reduce the delay on the Bone Glove- vanilla value is 60 ticks (1 sec), this is half that
 				player.boneGloveTimer = 30;
 			}
+
+			// Buffed Frost Hydra shots use local iframes instead of static
+			if (Terratweaks.Config.FrostHydraBuff && projectile.type == ProjectileID.FrostBlastFriendly)
+			{
+				projectile.usesIDStaticNPCImmunity = false;
+				projectile.usesLocalNPCImmunity = true;
+				projectile.localNPCHitCooldown = projectile.idStaticNPCHitCooldown;
+				projectile.idStaticNPCHitCooldown = -1;
+			}
 		}
+
+		public static readonly int FROST_HYDRA_MIN_COOLDOWN = 15; // Max fire rate of 4 shots/sec.
 
 		public override void AI(Projectile projectile)
 		{
@@ -103,11 +114,22 @@ namespace Terratweaks.Projectiles
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Venom);
 			}
 
+			// When these sentries first spawn, they have a delayed cooldown period that we don't wanna adjust
+			if (projectile.type == ProjectileID.HoundiusShootius || projectile.type == ProjectileID.FrostHydra)
+			{
+				if (projectile.ai[0] == 0) // Delayed cooldown ended, set ai[2] flag so we know we can adjust fire rates
+					projectile.localAI[2] = 1;
+				
+				// Currently on delayed cooldown from initially spawning, don't reduce fire rates
+				if (projectile.localAI[2] == 0)
+					return;
+			}
+
 			// Houndius Shootius buff - Now fires a projectile every 3/4 second instead of 1.5 seconds
 			if (Terratweaks.Config.DeerWeaponsRework && projectile.type == ProjectileID.HoundiusShootius)
 			{
-				if (projectile.ai[0] > 45)
-					projectile.ai[0] = 45;
+				if (projectile.ai[0] <= 45)
+					projectile.ai[0] = 0;
 			}
 
 			// Frost Hydra buff - Fires faster the longer it remains locked on to the same target
@@ -118,27 +140,32 @@ namespace Terratweaks.Projectiles
 				// Found a target this frame, and had a target last frame
 				if (targetIdx != -1 && projectile.ai[1] != -1)
 				{
-					// We have a different target, reset fire rate timer
+					// We have a different target, halve fire rate timer so it needs to build up more without getting fully reset
 					if (targetIdx != projectile.ai[1])
 					{
-						projectile.ai[2] = 0;
+						projectile.ai[2] /= 2;
 					}
 					else // Same target, increment timer and increase fire rate if necessary
 					{
 						projectile.ai[2]++;
 
-						int shotCooldown = 60;
-						shotCooldown -= Math.Min((int)Math.Ceiling(projectile.ai[2] / 10), 55); // Every 10 ticks, reduce cooldown by a tick to a minimum of 5 ticks
+						int shotCooldown = Math.Min((int)Math.Ceiling(projectile.ai[2] / 10), 60 - FROST_HYDRA_MIN_COOLDOWN);
 
-						projectile.ai[0] = Math.Min(projectile.ai[0], shotCooldown); // Lower shooting cooldown so it can fire faster
+						if (projectile.ai[0] <= shotCooldown)
+						{
+							projectile.ai[0] = 0;
+						}
 					}
 				}
-				else // Reset fire rate if we lost our target
+				else // Start draining fire rate very quickly; if it finds a new target fast enough, it can retain some of its built-up speed, but not all of it
 				{
-					projectile.ai[2] = 0;
+					projectile.ai[2] -= 5;
 				}
 
 				projectile.ai[1] = targetIdx;
+
+				// Keep timer in between 0 and the amount of time it takes to reach max fire rate
+				projectile.ai[2] = Math.Clamp(projectile.ai[2], 0, 10 * (60 - FROST_HYDRA_MIN_COOLDOWN));
 			}
 		}
 

@@ -708,7 +708,12 @@ Mods: {
 
 				FrostHydraBuff: {
 					Label: "[i:StaffoftheFrostHydra] Frost Hydra buff"
-					Tooltip: The longer a Frost Hydra remains locked on to the same target, the faster it fires
+					Tooltip:
+						'''
+						The longer a Frost Hydra remains locked on to the same target, the faster it fires
+						This config option also reduces the base damage of the Hydra's projectiles, but changes them to use local immunity frames,
+						meaning that every Hydra shot will hit the target, rather than some of them passing through due to immune frames
+						'''
 				}
 			}
 

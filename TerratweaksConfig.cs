@@ -238,6 +238,7 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool DeerWeaponsRework { get; set; }
 
+		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool FrostHydraBuff { get; set; }
 
