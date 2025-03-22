@@ -632,7 +632,6 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool NoDefenseDamage { get; set; }
 
-		//[ReloadRequired]
 		[DefaultValue(false)]
 		public bool NoTimedDR { get; set; }
 

@@ -208,145 +208,197 @@ namespace Terratweaks
 					case "Query":
 						if (args[1] is string settingToQuery)
 						{
+							// Replace some symbols/words with others to make this more lenient
+							settingToQuery = settingToQuery
+								.Replace(" ", "").Replace("'", "").Replace("&", "").Replace("^", "").Replace("%", "").Replace("#", "").Replace("@", "")
+								.Replace("!", "").Replace("?", "").Replace(",", "").Replace(";", "")
+								.Replace("/", "_").Replace(":", "_").Replace(".", "_").Replace("-", "_")
+								.ToLower() // Convert to lowercase so case sensitivity doesn't matter (this happens before checking for alias words for obvious reasons)
+								// Secret Seed name abbreviations
+								.Replace("fortheworthy", "ftw")
+								.Replace("featherworthy", "ftw")
+								.Replace("getfixedboi", "gfb")
+								.Replace("everythingseed", "gfb")
+								.Replace("zenithseed", "gfb")
+								// Lunar wings aliases
+								.Replace("celestialwings", "lunarwings")
+								.Replace("solarwings", "lunarwings")
+								.Replace("vortexwings", "lunarwings")
+								.Replace("vortexbeater", "lunarwings")
+								.Replace("nebulawings", "lunarwings")
+								.Replace("nebulamantle", "lunarwings")
+								.Replace("stardustwings", "lunarwings")
+								// NPC/boss/area name aliases
+								.Replace("deerclops", "deer")
+								.Replace("jungletemple", "temple")
+								.Replace("enragedeol", "dayeol")
+								.Replace("aquaticdepths", "ad")
+								// Item name aliases/abbreviations
+								.Replace("oasismiragecrate", "oasiscrate")
+								.Replace("miragecrate", "oasiscrate")
+								.Replace("geysertrap", "geyser")
+								.Replace("geysers", "geyser")
+								.Replace("eocshield", "eyeshield")
+								.Replace("shieldofcthulhu", "eyeshield")
+								.Replace("wormscarf", "wormbrain")
+								.Replace("brainofconfusion", "boc")
+								.Replace("boc", "wormbrain")
+								.Replace("wormscarfboc", "wormbrain")
+								.Replace("gravityglobe", "gravglobe")
+								.Replace("calhostileturrets", "hostileturrets")
+								// Category name aliases
+								.Replace("expertaccessorybuffs", "expertaccbuffs")
+								.Replace("armortweaks", "armorreworks")
+								.Replace("vanillaarmortweaks", "armorreworks")
+								.Replace("armorsetbonuses", "armorreworks")
+								.Replace("vanillaarmorsetbonuses", "armorreworks")
+								.Replace("vanillaarmorsetreworks", "armorreworks")
+								.Replace("vanillaarmorreworks", "armorreworks")
+								.Replace("terratweaksclient", "client")
+								.Replace("clientconfig", "client")
+								.Replace("caltweaks", "calamitweaks")
+								.Replace("thortweaks", "thoritweaks")
+								.Replace("alchtweaks", "alchemitweaks");
+
 							return settingToQuery switch
 							{
 								#region Returns
-								"BannersDontSpamChat" => Config.BannersDontSpamChat,
-								"BetterBestiary" => Config.BetterBestiary,
-								"BetterCrackedBricks" => Config.BetterCrackedBricks,
-								"BetterHappiness" => Config.BetterHappiness,
-								"BossesLowerSpawnRates" => Config.BossesLowerSpawnRates,
-								"PlayerDeathsToCallOffInvasion" => Config.PlayerDeathsToCallOffInvasion,
-								"NPCDeathsToCallOffInvasion" => Config.NPCDeathsToCallOffInvasion,
-								"ChesterRework" => Config.ChesterRework,
-								"CritsBypassDefense" => Config.CritsBypassDefense,
-								"DangersenseHighlightsSilt" => Config.DangersenseHighlightsSilt,
-								"DangersenseIgnoresThinIce" => Config.DangersenseIgnoresThinIce,
-								"DeerclopsRegens" => Config.DeerclopsRegens,
-								"DeerRegenAmt" => Config.DeerRegenAmt,
-								"DeerWeaponsRework" => Config.DeerWeaponsRework,
-								"DummyFix" => (int)Config.DummyFix,
-								"DyeTraderShopExpansion" => Config.DyeTraderShopExpansion,
-								"ForceBossContactDamage" => Config.ForceBossContactDamage,
-								"HouseSizeAffectsHappiness" => Config.HouseSizeAffectsHappiness,
-								"KillSentries" => Config.KillSentries,
-								"ManaFreeSummoner" => Config.ManaFreeSummoner,
-								"NoCasterContactDamage" => Config.NoCasterContactDamage,
-								"NoCoinTheft" => (int)Config.NoCoinTheft,
-								"NoDamageVariance" => (int)Config.NoDamageVariance,
-								"NoDiminishingReturns" => Config.NoDiminishingReturns,
-								"NoEnemyInvulnerability" => Config.NoEnemyInvulnerability,
-								"NoExpertDebuffTimes" => Config.NoExpertDebuffTimes,
-								"NoExpertFreezingWater" => Config.NoExpertFreezingWater,
-								"NoExpertScaling" => Config.NoExpertScaling,
-								"NPCsSellMinecarts" => Config.NPCsSellMinecarts,
-								"OasisCrateBuff" => Config.OasisCrateBuff,
-								"OasisCrateOdds" => Config.OasisCrateOdds,
-								"OreUnification" => Config.OreUnification,
-								"OverrideGraveyardRequirements" => Config.OverrideGraveyardRequirements,
-								"GraveyardVisuals" => Config.GraveyardVisuals,
-								"GraveyardFunctionality" => Config.GraveyardFunctionality,
-								"GraveyardMax" => Config.GraveyardMax,
-								"LunarWingsPreML" or "EarlyLunarWings" => Config.LunarWingsPreML,
-								"PillarEnemiesDropFragments" => Config.PillarEnemiesDropFragments,
-								"PostEyeSandstorms" => Config.PostEyeSandstorms,
-								"ReaverSharkTweaks" or "ReaverTweaks" => Config.ReaverSharkTweaks,
-								"SIRework" or "SoaringInsigniaRework" => Config.SIRework,
-								"SmartMimics" => Config.SmartMimics,
-								"SmartNymphs" => Config.SmartNymphs,
-								"SoilSolutionsPreML" => Config.SoilSolutionsPreML,
-								"SolutionsOnGFB" => Config.SolutionsOnGFB,
-								"StackableDD2Accs" => (int)Config.StackableDD2Accs,
-								"TerraprismaDropRate" => Config.TerraprismaDropRate,
-								"TownNPCsSellWeapons" => Config.TownNPCsSellWeapons,
-								"UmbrellaHatRework" => Config.UmbrellaHatRework,
-								"ExpertAccBuffs_RoyalGel" or "RoyalGelBuff" => Config.RoyalGel,
-								"ExpertAccBuffs_HivePack" or "HivePackBuff" => Config.HivePack,
-								"ExpertAccBuffs_BoneHelm" or "BoneHelmBuff" => Config.BoneHelm,
-								"ArmorReworks_Spider" or "SpiderArmorSetBonus" or "SpiderSetBonus" => Config.SpiderSetBonus,
-								"ArmorReworks_Cobalt" or "CobaltArmorSetBonus" or "CobaltSetBonus" => Config.CobaltSetBonus,
-								"ArmorReworks_Mythril" or "MythrilArmorSetBonus" or "MythrilSetBonus" => Config.MythrilSetBonus,
-								"ArmorReworks_Adamantite" or "AdamantiteArmorSetBonus" or "AdamantiteSetBonus" => Config.AdamantiteSetBonus,
-								"ArmorReworks_Spooky" or "SpookyArmorSetBonus" or "SpookySetBonus" => Config.SpookySetBonus,
-								"ArmorReworks_Monk" or "WhipMonkArmor" or "ConvertMonkArmor" => Config.ConvertMonkArmor,
-								"ArmorReworks_Stardust" or "StardustArmorBuff" or "BuffStardustArmor" => Config.StardustArmorBuff,
-								"OldChestDungeon" => Config.OldChestDungeon,
-								"BoundNPCsImmune" or "BoundNPCsNoDamage" or "InvulnerableBoundNPCs" => Config.BoundNPCsImmune,
-								"LessGrindyDefenderMedals" or "LessGrindyOOA" or "MoreOOAMedals" or "MoreDefenderMedals" => Config.MoreOOAMedals,
-								"BombableMeteorite" => Config.BombableMeteorite,
-								"JungleBossBags" => Config.JungleBossBags,
-								"PlaceableGravGlobe" => Config.PlaceableGravGlobe,
-								"GravGlobeRange" => Config.GravGlobeRange,
-								"CultistGravGlobe" => Config.CultistGravGlobe,
-								"SturdyLarvae" => (int)Config.SturdyLarvae,
-								"FtW_NerfSkyCrate" or "ForTheWorthy_NerfSkyCrate" or "NerfSkyCrate" => Config.NerfSkyCrates,
-								"FtW_NoMobGriefing" or "ForTheWorthy_NoMobGriefing" or "NoMobGriefing" => Config.NoMobGriefing,
-								"ExpertAccBuffs_BoneGlove" or "BoneGloveBuff" => Config.BoneGlove,
-								"ExpertAccBuffs_EyeShield" or "ExpertAccBuffs_ShieldofCthulhu" or "EyeShieldBuff" or "ShieldofCthulhuBuff" => Config.EyeShield,
-								"ExpertAccBuffs_WormBrain" or "WormBrainBuff" => Config.WormBrain,
-								"PaperCuts" => Config.PaperCuts,
-								"FtW_BombPots" or "ForTheWorthy_BombPots" or "BombPots" => Config.FtwBombPots,
-								"FtW_BombTrees" or "ForTheWorthy_BombTrees" or "BombTrees" => Config.FtwBombTrees,
+								"bannersdontspamchat" => Config.BannersDontSpamChat,
+								"betterbestiary" => Config.BetterBestiary,
+								"bettercrackedbricks" => Config.BetterCrackedBricks,
+								"betterhappiness" => Config.BetterHappiness,
+								"bosseslowerspawnrates" => Config.BossesLowerSpawnRates,
+								"playerdeathstocalloffinvasion" => Config.PlayerDeathsToCallOffInvasion,
+								"npcdeathstocalloffinvasion" => Config.NPCDeathsToCallOffInvasion,
+								"chesterrework" => Config.ChesterRework,
+								"critsbypassdefense" => Config.CritsBypassDefense,
+								"dangersensehighlightssilt" => Config.DangersenseHighlightsSilt,
+								"dangersenseignoresthinice" => Config.DangersenseIgnoresThinIce,
+								"deerregens" => Config.DeerclopsRegens,
+								"deerregenamt" or "deerregenamount" => Config.DeerRegenAmt,
+								"deerweaponsrework" => Config.DeerWeaponsRework,
+								"dummyfix" => (int)Config.DummyFix,
+								"dyetradershopexpansion" => Config.DyeTraderShopExpansion,
+								"forcebosscontactdamage" => Config.ForceBossContactDamage,
+								"housesizeaffectshappiness" => Config.HouseSizeAffectsHappiness,
+								"killsentries" => Config.KillSentries,
+								"manafreesummoner" => Config.ManaFreeSummoner,
+								"nocastercontactdamage" => Config.NoCasterContactDamage,
+								"nocointheft" => (int)Config.NoCoinTheft,
+								"nodamagevariance" => (int)Config.NoDamageVariance,
+								"nodiminishingreturns" => Config.NoDiminishingReturns,
+								"noenemyinvulnerability" => Config.NoEnemyInvulnerability,
+								"noexpertdebufftimes" => Config.NoExpertDebuffTimes,
+								"noexpertfreezingwater" => Config.NoExpertFreezingWater,
+								"noexpertscaling" => Config.NoExpertScaling,
+								"npcssellminecarts" => Config.NPCsSellMinecarts,
+								"oasiscratebuff" => Config.OasisCrateBuff,
+								"oasiscrateodds" => Config.OasisCrateOdds,
+								"oreunification" => Config.OreUnification,
+								"overridegraveyardrequirements" => Config.OverrideGraveyardRequirements,
+								"graveyardvisuals" => Config.GraveyardVisuals,
+								"graveyardgunctionality" => Config.GraveyardFunctionality,
+								"graveyardmax" => Config.GraveyardMax,
+								"lunarwingspreml" or "earlylunarwings" => Config.LunarWingsPreML,
+								"pillarenemiesdropfragments" => Config.PillarEnemiesDropFragments,
+								"posteyesandstorms" => Config.PostEyeSandstorms,
+								"reaversharktweaks" or "reavertweaks" => Config.ReaverSharkTweaks,
+								"sirework" or "soaringinsigniarework" => Config.SIRework,
+								"smartmimics" => Config.SmartMimics,
+								"smartnymphs" => Config.SmartNymphs,
+								"soilsolutionspreml" => Config.SoilSolutionsPreML,
+								"solutionsongfb" => Config.SolutionsOnGFB,
+								"stackabledd2accs" => (int)Config.StackableDD2Accs,
+								"terraprismadroprate" => Config.TerraprismaDropRate,
+								"townnpcssellweapons" => Config.TownNPCsSellWeapons,
+								"umbrellahatrework" => Config.UmbrellaHatRework,
+								"expertaccbuffs_royalgel" or "royalgelbuff" => Config.RoyalGel,
+								"expertaccbuffs_hivepack" or "hivepackbuff" => Config.HivePack,
+								"expertaccbuffs_bonehelm" or "bonehelmbuff" => Config.BoneHelm,
+								"expertaccbuffs_boneglove" or "boneglovebuff" => Config.BoneGlove,
+								"expertaccbuffs_eyeshield" or "eyeshieldbuff" => Config.EyeShield,
+								"expertaccbuffs_wormbrain" or "wormbrainbuff" => Config.WormBrain,
+								"armorreworks_spider" or "spiderarmorsetbonus" or "spidersetbonus" => Config.SpiderSetBonus,
+								"armorreworks_cobalt" or "cobaltarmorsetbonus" or "cobaltsetbonus" => Config.CobaltSetBonus,
+								"armorreworks_mythril" or "mythrilarmorsetbonus" or "mythrilsetbonus" => Config.MythrilSetBonus,
+								"armorreworks_adamantite" or "adamantitearmorsetbonus" or "adamantitesetbonus" => Config.AdamantiteSetBonus,
+								"armorreworks_spooky" or "spookyarmorsetbonus" or "spookysetbonus" => Config.SpookySetBonus,
+								"armorreworks_monk" or "whipmonkarmor" or "convertmonkarmor" => Config.ConvertMonkArmor,
+								"armorreworks_stardust" or "stardustarmorbuff" or "buffstardustarmor" => Config.StardustArmorBuff,
+								"oldchestdungeon" => Config.OldChestDungeon,
+								"boundnpcsimmune" or "boundnpcsnodamage" or "invulnerableboundnpcs" => Config.BoundNPCsImmune,
+								"lessgrindydefendermedals" or "lessgrindyooa" or "moreooamedals" or "moredefendermedals" => Config.MoreOOAMedals,
+								"bombablemeteorite" => Config.BombableMeteorite,
+								"junglebossbags" => Config.JungleBossBags,
+								"placeablegravglobe" => Config.PlaceableGravGlobe,
+								"gravgloberange" => Config.GravGlobeRange,
+								"cultistgravglobe" => Config.CultistGravGlobe,
+								"sturdylarvae" => (int)Config.SturdyLarvae,
+								"ftw_nerfskycrate" or "nerfskycrate" => Config.NerfSkyCrates,
+								"ftw_nomobgriefing" or "nomobgriefing" => Config.NoMobGriefing,
+								"ftw_bombpots" or "bombpots" => Config.FtwBombPots,
+								"ftw_bombtrees" or "bombtrees" => Config.FtwBombTrees,
+								"papercuts" => Config.PaperCuts,
 
-								"Client_EstimatedDPS" or "EstimatedDPS" => ClientConfig.EstimatedDPS,
-								"Client_GrammarCorrections" or "GrammarCorrections" => ClientConfig.GrammarCorrections,
-								"Client_NoRandomCrit" or "NoRandomCrit" => ClientConfig.NoRandomCrit,
-								"Client_PermBuffTips" or "PermBuffTips" => ClientConfig.PermBuffTips,
-								"Client_StatsInTip" or "StatsInTip" => ClientConfig.StatsInTip,
-								"Client_WingStatsInTip" or "WingStatsInTip" => ClientConfig.WingStatsInTip,
+								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
+								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
+								"client_norandomcrit" or "norandomcrit" => ClientConfig.NoRandomCrit,
+								"client_permbufftips" or "permbufftips" => ClientConfig.PermBuffTips,
+								"client_statsintip" or "statsintip" => ClientConfig.StatsInTip,
+								"client_wingstatsintip" or "wingstatsintip" => ClientConfig.WingStatsInTip,
 
-								"CraftableUncraftables_PlanterBoxes" or "PlanterBoxesRecipe" => Config.craftableUncraftables.PlanterBoxes,
-								"CraftableUncraftables_GemCritters" or "GemCrittersRecipe" => Config.craftableUncraftables.GemCritters,
-								"CraftableUncraftables_DungeonFurniture" or "DungeonFurnitureRecipe" => Config.craftableUncraftables.DungeonFurniture,
-								"CraftableUncraftables_ObsidianFurniture" or "ObsidianRecipe" => Config.craftableUncraftables.ObsidianFurniture,
-								"CraftableUncraftables_StructureBanners" or "StructureBannersRecipe" => Config.craftableUncraftables.StructureBanners,
-								"CraftableUncraftables_Moss" or "MossRecipe" => Config.craftableUncraftables.Moss,
-								"CraftableUncraftables_Gravestones" or "GravestonesRecipe" => Config.craftableUncraftables.Gravestones,
-								"CraftableUncraftables_GeyserTraps" or "GeyserTrapsRecipe" or "CraftableUncraftables_Geysers" or "GeysersRecipe" or "CraftableUncraftables_GeyserTrap" or "GeyserTrapRecipe" or "CraftableUncraftables_Geyser" or "GeyserRecipe" => Config.craftableUncraftables.GeyserTraps,
-								"CraftableUncraftables_Trophies" or "TrophiesRecipe" => Config.craftableUncraftables.Trophies,
-								"CraftableUncraftables_ClothierVoodooDoll" or "ClothierVoodooDollRecipe" or "ClothierDollRecipe" => Config.craftableUncraftables.ClothierVoodooDoll,
-								"CraftableUncraftables_TempleTraps" or "TempleTrapsRecipe" => Config.craftableUncraftables.TempleTraps,
-								"CraftableUncraftables_ShimmerBottomlessAndSponges" or "BottomlessAndSpongesShimmer" => Config.craftableUncraftables.ShimmerBottomlessAndSponges,
-								"CraftableUncraftables_TeamBlocks" or "TeamBlocksRecipe" => Config.craftableUncraftables.TeamBlocks,
-								"CraftableUncraftables_PrehardUnobtainables" or "PrehardUnobtainablesShimmer" => Config.craftableUncraftables.PrehardUnobtainables,
-								"CraftableUncraftables_ShimmerBossDrops" or "BossDropsShimmer" => Config.craftableUncraftables.ShimmerBossDrops,
-								"CraftableUncraftables_ShimmerBlackLens" or "BlackLensShimmer" => Config.craftableUncraftables.ShimmerBlackLens,
+								"craftableuncraftables_planterboxes" or "planterboxesrecipe" => Config.craftableUncraftables.PlanterBoxes,
+								"craftableuncraftables_gemcritters" or "gemcrittersrecipe" => Config.craftableUncraftables.GemCritters,
+								"craftableuncraftables_dungeonfurniture" or "dungeonfurniturerecipe" => Config.craftableUncraftables.DungeonFurniture,
+								"craftableuncraftables_obsidianfurniture" or "obsidianfurniturerecipe" => Config.craftableUncraftables.ObsidianFurniture,
+								"craftableuncraftables_structurebanners" or "structurebannersrecipe" => Config.craftableUncraftables.StructureBanners,
+								"craftableuncraftables_moss" or "mossrecipe" => Config.craftableUncraftables.Moss,
+								"craftableuncraftables_gravestones" or "gravestonesrecipe" => Config.craftableUncraftables.Gravestones,
+								"craftableuncraftables_geyser" or "geyserrecipe" => Config.craftableUncraftables.GeyserTraps,
+								"craftableuncraftables_trophies" or "trophiesrecipe" => Config.craftableUncraftables.Trophies,
+								"craftableuncraftables_clothiervoodoodoll" or "clothiervoodoodollrecipe" or "clothierdollrecipe" => Config.craftableUncraftables.ClothierVoodooDoll,
+								"craftableuncraftables_templetraps" or "templetrapsrecipe" => Config.craftableUncraftables.TempleTraps,
+								"craftableuncraftables_shimmerbottomlessandsponges" or "bottomlessandspongesshimmer" => Config.craftableUncraftables.ShimmerBottomlessAndSponges,
+								"craftableuncraftables_teamblocks" or "teamblocksrecipe" => Config.craftableUncraftables.TeamBlocks,
+								"craftableuncraftables_prehardunobtainables" or "prehardunobtainablesshimmer" => Config.craftableUncraftables.PrehardUnobtainables,
+								"craftableuncraftables_shimmerbossdrops" or "bossdropsshimmer" => Config.craftableUncraftables.ShimmerBossDrops,
+								"craftableuncraftables_shimmerblacklens" or "blacklensshimmer" => Config.craftableUncraftables.ShimmerBlackLens,
 
-								"Calamitweaks_AquaticEmblemBuff" or "AquaticEmblemBuff" => Calamitweaks.AquaticEmblemBuff,
-								"Calamitweaks_AsgardsValorBuff" or "AsgardsValorBuff" => Calamitweaks.AsgardsValorBuff,
-								"Calamitweaks_CombinedStationSupport" or "CalCombinedStationSupport" => Calamitweaks.CombinedStationSupport,
-								"Calamitweaks_CraftableHostileTurrets" or "CraftableUncraftables_HostileTurrets" or "HostileTurretsRecipe" or "HostileTurretsShimmer" => Calamitweaks.CraftableHostileTurrets,
-								"Calamitweaks_DeificAmuletBuff" or "DeificAmuletBuff" => Calamitweaks.DeificAmuletBuff,
-								"Calamitweaks_DRBuffs" or "CalDRBuffs" => Calamitweaks.DRBuffs,
-								"Calamitweaks_DryadSellsSeeds" or "DryadSellsCalSeeds" => Calamitweaks.DryadSellsSeeds,
-								"Calamitweaks_EnemyFoodDrops" or "EnemyFoodDrops" => Calamitweaks.EnemyFoodDrops,
-								"Calamitweaks_EnragedEoLInstakills" or "Calamitweaks_DayEoLInstakills" or "EnragedEoLInstakills" or "DayEoLInstakills" => Calamitweaks.EnragedEoLInstakills,
-								"Calamitweaks_EzCalBanners" or "EzCalBanners" => Calamitweaks.EzCalBanners,
-								"Calamitweaks_ForceWormContactDamage" or "ForceWormContactDamage" => Calamitweaks.ForceWormContactDamage,
-								"Calamitweaks_NoDefenseDamage" or "NoDefenseDamage" => Calamitweaks.NoDefenseDamage,
-								"Calamitweaks_NoPatreonNPCNames" or "NoCalPatreonNPCNames" => Calamitweaks.NoPatreonNPCNames,
-								"Calamitweaks_NoPlantParticles" or "NoPlantParticles" => Calamitweaks.NoPlantParticles,
-								"Calamitweaks_NoSellingRoD" or "NoSellingRoD" => Calamitweaks.NoSellingRoD,
-								"Calamitweaks_NoWormParticles" or "NoWormParticles" => Calamitweaks.NoWormParticles,
-								"Calamitweaks_OnionMasterMode" or "OnionMasterMode" => Calamitweaks.OnionMasterMode,
-								"Calamitweaks_RadiantInsigniaUpgradesFromAscendant" or "RadiantInsigniaUpgradesFromAscendant" => Calamitweaks.RadiantInsigniaUpgradesFromAscendant,
-								"Calamitweaks_RevertPickSpeedBuffs" or "PickSpeedCalReversion" => Calamitweaks.RevertPickSpeedBuffs,
-								"Calamitweaks_RevertPillars" or "PillarCalReversion" => Calamitweaks.RevertPillars,
-								"Calamitweaks_RevertTerraprisma" or "TerraprismaCalReversion" => Calamitweaks.RevertTerraprisma,
-								"Calamitweaks_RevertVanillaBossAIChanges" or "VanillaBossAICalReversion" => Calamitweaks.RevertVanillaBossAIChanges,
-								"Calamitweaks_SummonerAccBuffs" or "CalSummonerAccBuffs" => Calamitweaks.SummonerAccBuffs,
-								"Calamitweaks_ZenithRecipeOverhaul" or "CalZenithRecipeOverhaul" or "Calamitweaks_ZenithRecipe" or "CalZenithRecipe" => Calamitweaks.ZenithRecipeOverhaul,
-								"Calamitweaks_NoTimedDR" or "NoTimedDR" => Calamitweaks.SummonerAccBuffs,
+								"calamitweaks_aquaticemblembuff" or "aquaticemblembuff" => Calamitweaks.AquaticEmblemBuff,
+								"calamitweaks_asgardsvalorbuff" or "asgardsvalorbuff" => Calamitweaks.AsgardsValorBuff,
+								"calamitweaks_combinedstationsupport" or "calcombinedstationsupport" => Calamitweaks.CombinedStationSupport,
+								"calamitweaks_craftablehostileturrets" or "craftableuncraftables_hostileturrets" or "hostileturretsrecipe" or "hostileturretsshimmer" => Calamitweaks.CraftableHostileTurrets,
+								"calamitweaks_deificamuletbuff" or "deificamuletbuff" => Calamitweaks.DeificAmuletBuff,
+								"calamitweaks_drbuffs" or "caldrbuffs" => Calamitweaks.DRBuffs,
+								"calamitweaks_dryadsellsseeds" or "dryadsellscalseeds" => Calamitweaks.DryadSellsSeeds,
+								"calamitweaks_enemyfooddrops" or "enemyfooddrops" => Calamitweaks.EnemyFoodDrops,
+								"calamitweaks_dayeolinstakills" or "dayeolinstakills" => Calamitweaks.EnragedEoLInstakills,
+								"calamitweaks_ezcaldanners" or "ezcaldanners" => Calamitweaks.EzCalBanners,
+								"calamitweaks_forcewormcontactdamage" or "forcewormcontactdamage" => Calamitweaks.ForceWormContactDamage,
+								"calamitweaks_nodefensedamage" or "nodefensedamage" => Calamitweaks.NoDefenseDamage,
+								"calamitweaks_nopatreonnpcnames" or "nocalpatreonnpcnames" => Calamitweaks.NoPatreonNPCNames,
+								"calamitweaks_noplantparticles" or "noplantparticles" => Calamitweaks.NoPlantParticles,
+								"calamitweaks_nosellingrod" or "nosellingrod" => Calamitweaks.NoSellingRoD,
+								"calamitweaks_nowormparticles" or "nowormparticles" => Calamitweaks.NoWormParticles,
+								"calamitweaks_notimeddr" or "notimeddr" => Calamitweaks.SummonerAccBuffs,
+								"calamitweaks_onionmastermode" or "onionmastermode" => Calamitweaks.OnionMasterMode,
+								"calamitweaks_radiantinsigniaupgradesfromascendant" or "radiantinsigniaupgradesfromascendant" => Calamitweaks.RadiantInsigniaUpgradesFromAscendant,
+								"calamitweaks_revertpickspeedbuffs" or "pickspeedcalreversion" => Calamitweaks.RevertPickSpeedBuffs,
+								"calamitweaks_revertpillars" or "pillarcalreversion" => Calamitweaks.RevertPillars,
+								"calamitweaks_revertterraprisma" or "terraprismacalreversion" => Calamitweaks.RevertTerraprisma,
+								"calamitweaks_revertvanillabossaichanges" or "vanillabossaicalreversion" => Calamitweaks.RevertVanillaBossAIChanges,
+								"calamitweaks_summoneraccbuffs" or "calsummoneraccbuffs" => Calamitweaks.SummonerAccBuffs,
+								"calamitweaks_zenithrecipeoverhaul" or "calzenithrecipeoverhaul" or "calamitweaks_zenithrecipe" or "calzenithrecipe" => Calamitweaks.ZenithRecipeOverhaul,
 
-								"Thoritweaks_BombableADBlocks" or "BombableADBlocks" => Thoritweaks.BombableADBlocks,
-								"Thoritweaks_CombinedStationSupport" or "ThorCombinedStationSupport" => Thoritweaks.CombinedStationSupport,
-								"Thoritweaks_EatCooksFoodInCombat" or "Thoritweaks_CookBuff" or "EatCooksFoodInCombat" or "CookBuff" => Thoritweaks.EatCooksFoodInCombat,
-								"Thoritweaks_ZenithRecipeOverhaul" or "ThorZenithRecipeOverhaul" or "Thoritweaks_ZenithRecipe" or "ThorZenithRecipe" => Thoritweaks.ZenithRecipeOverhaul,
+								"thoritweaks_bombableadblocks" or "bombableadblocks" => Thoritweaks.BombableADBlocks,
+								"thoritweaks_combinedstationsupport" or "thorcombinedstationsupport" => Thoritweaks.CombinedStationSupport,
+								"thoritweaks_eatcooksfoodincombat" or "thoritweaks_cookbuff" or "eatcooksfoodincombat" or "cookbuff" => Thoritweaks.EatCooksFoodInCombat,
+								"thoritweaks_zenithrecipeoverhaul" or "thorzenithrecipeoverhaul" or "thoritweaks_zenithrecipe" or "thorzenithrecipe" => Thoritweaks.ZenithRecipeOverhaul,
 
-								"Alchemitweaks_DisableCustomPotions" or "DisableCustomAlchPotions" => Alchemitweaks.DisableCustomPotions,
-								"Alchemitweaks_AntiCheese" or "Alchemitweaks_InfMoneyFix" or "ArchitectInfMoneyFix" or "ArchitectAntiCheese" => Alchemitweaks.AntiCheese,
+								"alchemitweaks_disablecustompotions" or "disablecustomalchpotions" => Alchemitweaks.DisableCustomPotions,
+								"alchemitweaks_anticheese" or "alchemitweaks_infmoneyfix" or "architectinfmoneyfix" or "architectanticheese" => Alchemitweaks.AntiCheese,
 
-								_ => throw new Exception($"Could not find Terratweaks Config option named {args[1]}."),
+								_ => throw new Exception($"Could not find Terratweaks config option with name \"{args[1]}\" or alias \"{settingToQuery}\"."),
 								#endregion
 							};
 						}
