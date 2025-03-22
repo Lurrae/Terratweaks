@@ -1,6 +1,6 @@
-A highly-configurable collection of vanilla changes! Most of these changes are quite minor, but there are some additional features which significantly alter the balance of vanilla Terraria. Most of these more potent changes are disabled by default. Terratweaks also has numerous mod calls, which are listed on the Steam Workshop page for those interested (mainly mod developers).
+A highly-configurable collection of vanilla changes! Most of these changes are quite minor, but there are some additional features which significantly alter the balance of vanilla Terraria. Most of these more potent changes are disabled by default. Terratweaks also has numerous mod calls, which you'll have to visit the Github repository and look through the code to see.
 This mod currently implements too many changes to list directly, but here's a brief summary of some options you can expect to see in Terratweaks:
-- Options to disable certain vanilla mechanics, namely Expert mode changes
+- Options to disable certain vanilla mechanics, namely Expert mode changes like enemy stat scaling in Hardmode/post-Plantera, and Lava Slimes dropping lava on death
 - Options to show more precise stats in item tooltips
 - Options to give a few vanilla armor sets more unique set bonuses, or to buff them or rework them entirely
 - Options to buff Expert-exclusive accessories after defeating certain bosses, as well as options to buff or rework other items in general
