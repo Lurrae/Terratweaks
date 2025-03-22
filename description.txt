@@ -1,2 +1,13 @@
-A highly-configurable collection of vanilla changes! Most of these changes are quite minor, but there are some additional features which significantly alter the balance of vanilla Terraria. These are disabled by default. Terratweaks also has numerous mod calls, which are listed on the Steam Workshop page for those interested (mainly mod developers).
-This mod currently implements too many changes to list in the mod description, so you'll have to browse the mod's config to see them all.
+A highly-configurable collection of vanilla changes! Most of these changes are quite minor, but there are some additional features which significantly alter the balance of vanilla Terraria. Most of these more potent changes are disabled by default. Terratweaks also has numerous mod calls, which are listed on the Steam Workshop page for those interested (mainly mod developers).
+This mod currently implements too many changes to list directly, but here's a brief summary of some options you can expect to see in Terratweaks:
+- Options to disable certain vanilla mechanics, namely Expert mode changes
+- Options to show more precise stats in item tooltips
+- Options to give a few vanilla armor sets more unique set bonuses, or to buff them or rework them entirely
+- Options to buff Expert-exclusive accessories after defeating certain bosses, as well as options to buff or rework other items in general
+- Options to add certain items to town NPCs' shops, make the size of an NPC's house affect their happiness, make the Goblin Tinkerer give you better reforges if he's happier, and more
+- Options to add crafting or Shimmer transmutation recipes for a TON of vanilla items with no recipe
+- Various joke options that range from making paper airplanes give enemies paper cuts to making all pots and trees in For the Worthy worlds drop bombs
+Terratweaks also has three sub-categories for cross-mod adjustments: Calamitweaks for Calamity edits, Thoritweaks for Thorium edits, and Alchemitweaks for Alchemist NPC Lite edits
+Calamitweaks has a lot of options, such as reverting some of Calamity's vanilla changes, buffing some Calamity accessories, and even adding Calamity swords to the Zenith recipe and adding Calamity stations to Magic Storage's combined stations!
+Thoritweaks and Alchemitweaks have comparatively fewer options, but if you want to, for example, make the Cook's food edible in combat or disable the existence of AlchLite's custom potions, there's config options to allow things like that! Thoritweaks also has options that mirror Calamitweaks' Zenith and Magic Storage recipe tweak options.
+For a full list of what Terratweaks has to offer, you'll have to look at the config options in-game, or look through the code on Github (you can also check the changelogs on the Steam Workshop page to get an idea of what options exist)
