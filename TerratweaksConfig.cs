@@ -677,7 +677,10 @@ namespace Terratweaks
 		public bool NoSellingRoD { get; set; }
 
 		// Wrath of the Gods Tweaks
-		//[Header("WotgTweaks")]
+		[Header("WotgTweaks")]
+
+		[DefaultValue(false)]
+		public bool NoSilentRift { get; set; }
 	}
 
 	[SeparatePage]

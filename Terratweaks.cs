@@ -257,6 +257,8 @@ namespace Terratweaks
 								.Replace("terratweaksclient", "client")
 								.Replace("clientconfig", "client")
 								.Replace("caltweaks", "calamitweaks")
+								.Replace("wrathofthegods", "wotg")
+								.Replace("wotgtweaks", "wotg")
 								.Replace("thortweaks", "thoritweaks")
 								.Replace("alchtweaks", "alchemitweaks");
 
@@ -389,6 +391,7 @@ namespace Terratweaks
 								"calamitweaks_revertvanillabossaichanges" or "vanillabossaicalreversion" => Calamitweaks.RevertVanillaBossAIChanges,
 								"calamitweaks_summoneraccbuffs" or "calsummoneraccbuffs" => Calamitweaks.SummonerAccBuffs,
 								"calamitweaks_zenithrecipeoverhaul" or "calzenithrecipeoverhaul" or "calamitweaks_zenithrecipe" or "calzenithrecipe" => Calamitweaks.ZenithRecipeOverhaul,
+								"calamitweaks_wotg_nosilentrift" or "wotg_nosilentrift" or "calamitweaks_nosilentrift" or "nosilentrift" => Calamitweaks.NoSilentRift,
 
 								"thoritweaks_bombableadblocks" or "bombableadblocks" => Thoritweaks.BombableADBlocks,
 								"thoritweaks_combinedstationsupport" or "thorcombinedstationsupport" => Thoritweaks.CombinedStationSupport,

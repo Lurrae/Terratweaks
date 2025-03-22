@@ -36,6 +36,7 @@ Mods: {
 		Conditions: {
 			DownedMoonlord: Defeated Moon Lord
 			DyeConfigActive: '''"Dye Trader Shop Expansion" mod config is enabled'''
+			RiftEclipseConfigActive: '''"No Silent Rift" mod config is enabled'''
 			InCalEndgame: Defeated Supreme Witch, Calamitas and the Exo Mechs
 			InPlayerInv: Item must be in the player's inventory or portable storage
 			NightEoL: Drops if the Empress of Light is attacked at least once during the night
@@ -1136,6 +1137,16 @@ Mods: {
 				NoTimedDR: {
 					Label: "[i:Stopwatch] No Timed/Reactive Damage Reduction"
 					Tooltip: Removes the mechanic where daytime Empress of Light and nighttime Providence gain DR to prevent you blitzing the fights
+				}
+
+				NoSilentRift: {
+					Label: "[i:MusicBox] No Silent Rift"
+					Tooltip:
+						'''
+						Disables the ambience of the Rift Eclipse outside of the rain/blizzard and fog events, allowing regular biome music to continue playing
+						Also enables crafting the Rift Eclipse music box with the Blizzard and Fog music boxes so that this music box is still obtainable with the config active
+						Does nothing if Wrath of the Gods is not enabled
+						'''
 				}
 
 				Tooltip: ""
