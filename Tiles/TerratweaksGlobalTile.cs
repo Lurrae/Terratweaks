@@ -114,7 +114,6 @@ namespace Terratweaks.Tiles
 			}
 		}
 
-		// TODO: Does this only run once a day for each tree? I would assume so, but I need to be sure
 		public override void PreShakeTree(int i, int j, TreeTypes treeType)
 		{
 			if (Terratweaks.Config.FtwBombTrees && Main.getGoodWorld)

@@ -99,7 +99,6 @@ namespace Terratweaks.Calamitweaks
 		}
 
 		// Force enraged (daytime) EoL to insta-kill if the config setting is enabled
-		// TODO: This is broken for projectiles right now, re-implement later
 		public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
 		{
 			if (Terratweaks.Calamitweaks.EnragedEoLInstakills && npc.type == NPCID.HallowBoss && npc.Calamity().CurrentlyEnraged)

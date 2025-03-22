@@ -211,7 +211,6 @@ namespace Terratweaks.Items
 			{ ItemID.BoneHelm, () => Terratweaks.Config.BoneHelm }
 		};
 
-		// TODO: Add configs for items that scale at other progression points too
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_QS = new()
 		{
 			{ ItemID.RoyalGel, () => Terratweaks.Config.RoyalGel }
