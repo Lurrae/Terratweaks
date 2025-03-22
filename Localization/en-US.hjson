@@ -35,8 +35,8 @@ Mods: {
 
 		Conditions: {
 			DownedMoonlord: Defeated Moon Lord
-			DyeConfigActive: '''"Dye Trader Shop Expansion" mod config is enabled'''
-			RiftEclipseConfigActive: '''"No Silent Rift" mod config is enabled'''
+			DyeConfigActive: '''"Dye Trader Shop Expansion" Terratweaks config is enabled'''
+			RiftEclipseConfigActive: '''"No Silent Rift" Terratweaks config is enabled'''
 			InCalEndgame: Defeated Supreme Witch, Calamitas and the Exo Mechs
 			InPlayerInv: Item must be in the player's inventory or portable storage
 			NightEoL: Drops if the Empress of Light is attacked at least once during the night
