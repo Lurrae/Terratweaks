@@ -1133,6 +1133,11 @@ Mods: {
 						'''
 				}
 
+				NoTimedDR: {
+					Label: "[i:Stopwatch] No Timed/Reactive Damage Reduction"
+					Tooltip: Removes the mechanic where daytime Empress of Light and nighttime Providence gain DR to prevent you blitzing the fights
+				}
+
 				Tooltip: ""
 			}
 

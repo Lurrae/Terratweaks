@@ -336,6 +336,7 @@ namespace Terratweaks
 								"Calamitweaks_RevertVanillaBossAIChanges" or "VanillaBossAICalReversion" => Calamitweaks.RevertVanillaBossAIChanges,
 								"Calamitweaks_SummonerAccBuffs" or "CalSummonerAccBuffs" => Calamitweaks.SummonerAccBuffs,
 								"Calamitweaks_ZenithRecipeOverhaul" or "CalZenithRecipeOverhaul" or "Calamitweaks_ZenithRecipe" or "CalZenithRecipe" => Calamitweaks.ZenithRecipeOverhaul,
+								"Calamitweaks_NoTimedDR" or "NoTimedDR" => Calamitweaks.SummonerAccBuffs,
 
 								"Thoritweaks_BombableADBlocks" or "BombableADBlocks" => Thoritweaks.BombableADBlocks,
 								"Thoritweaks_CombinedStationSupport" or "ThorCombinedStationSupport" => Thoritweaks.CombinedStationSupport,

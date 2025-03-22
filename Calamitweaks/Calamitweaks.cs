@@ -30,6 +30,7 @@ namespace Terratweaks.Calamitweaks
 		private static readonly MethodInfo _canUseOnion = typeof(CelestialOnion).GetMethod("CanUseItem", BindingFlags.Instance | BindingFlags.Public);
 		private static readonly MethodInfo _onionSlotIsEnabled = typeof(CelestialOnionAccessorySlot).GetMethod("IsEnabled", BindingFlags.Instance | BindingFlags.Public);
 		private static readonly MethodInfo _calGlobalNpcPostAi = typeof(CalamityGlobalNPC).GetMethod("PostAI", BindingFlags.Instance | BindingFlags.Public);
+		private static readonly MethodInfo _calGlobalNpcApplyDr = typeof(CalamityGlobalNPC).GetMethod("ApplyDR", BindingFlags.Instance | BindingFlags.NonPublic);
 		
 		public override void Load()
 		{
@@ -46,6 +47,7 @@ namespace Terratweaks.Calamitweaks
 			
 			//IL.CalamityMod.NPCs.CalamityGlobalNPC.PostAI += DisableEnemyParticles;
 			MonoModHooks.Modify(_calGlobalNpcPostAi, DisableEnemyParticles);
+			MonoModHooks.Modify(_calGlobalNpcApplyDr, DisableTimedDR);
 
 			// Add more swords to Zenith profiles
 			if (Terratweaks.Calamitweaks.ZenithRecipeOverhaul)
@@ -106,6 +108,8 @@ namespace Terratweaks.Calamitweaks
 
 		public static bool CheckNoPlantParticles(bool calamityResult) => calamityResult && !Terratweaks.Calamitweaks.NoPlantParticles;
 
+		public static bool CheckNoTimedDR(bool calamityResult) => calamityResult || Terratweaks.Calamitweaks.NoTimedDR;
+
 		private void DisableEnemyParticles(ILContext il)
 		{
 			var c = new ILCursor(il);
@@ -125,6 +129,21 @@ namespace Terratweaks.Calamitweaks
 				else
 					c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoPlantParticles), BindingFlags.Public | BindingFlags.Static));
 			}
+		}
+
+		private void DisableTimedDR(ILContext il)
+		{
+			var c = new ILCursor(il);
+
+			if (!c.TryGotoNext(i => i.MatchLdsfld("CalamityMod.Events.BossRushEvent", "BossRushActive")))
+			{
+				Mod.Logger.Warn("Calamitweaks IL edit failed when trying to disable timed DR! Dumping IL logs...");
+				MonoModHooks.DumpIL(Mod, il);
+				return;
+			}
+
+			c.Index++;
+			c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoTimedDR), BindingFlags.Public | BindingFlags.Static));
 		}
 
 		private static void DisablePatreonNames(Action<CalamityGlobalNPC, List<string>, string[]> orig, CalamityGlobalNPC self, List<string> nameList, string[] patreonNames)
