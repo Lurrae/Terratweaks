@@ -302,11 +302,19 @@ namespace Terratweaks.Items
 			if (Terratweaks.ClientConfig.GrammarCorrections && Language.ActiveCulture.Name == "en-US" && item.Name.Contains("The") && item.prefix > 0)
 			{
 				idx = tooltips.IndexOf(tooltips.First(t => t.Name == "ItemName"));
-				string baseItemName = item.Name;
-				string prefixName = item.AffixName().Replace(" " + baseItemName, ""); // Gets just the prefix name
-				string itemNameWithoutThe = baseItemName.Replace("The ", ""); // Removes "The" from the name (so "The Undertaker" will just be "Undertaker")
+				TooltipLine name = tooltips[idx];
+				
+				// Split apart the item name into individual words
+				List<string> splitName = name.Text.Split(' ').ToList();
 
-				tooltips[idx].Text = $"The {prefixName} {itemNameWithoutThe}";
+				// Find and remove the word "The", and then insert it back at the very start
+				if (splitName.Remove("The"))
+				{
+					splitName.Insert(0, "The");
+				}
+
+				// Re-assemble the item's name
+				name.Text = string.Join(" ", splitName);
 			}
 
 			if (Terratweaks.ClientConfig.WingStatsInTip)
