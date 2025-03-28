@@ -94,6 +94,26 @@ namespace Terratweaks.Projectiles
 			}
 		}
 
+		public override void SetDefaults(Projectile entity)
+		{
+			if (Terratweaks.Config.OreUnification)
+			{
+				switch (entity.type)
+				{
+					// Do not bother modifying shortsword projectiles -- all eight have the exact same stats
+					case ProjectileID.AmethystBolt:
+						entity.CloneDefaults(ProjectileID.TopazBolt);
+						break;
+					case ProjectileID.SapphireBolt:
+						entity.CloneDefaults(ProjectileID.EmeraldBolt);
+						break;
+					case ProjectileID.RubyBolt:
+						entity.CloneDefaults(ProjectileID.DiamondBolt);
+						break;
+				}
+			}
+		}
+
 		public static readonly int FROST_HYDRA_MIN_COOLDOWN = 15; // Max fire rate of 4 shots/sec.
 
 		public override void AI(Projectile projectile)

@@ -1047,6 +1047,7 @@ namespace Terratweaks.Items
 					#region Copper/Tin
 					case ItemID.CopperShortsword:
 						item.CloneDefaults(ItemID.TinShortsword);
+						item.shoot = ProjectileID.CopperShortswordStab;
 						break;
 					case ItemID.CopperBroadsword:
 						item.CloneDefaults(ItemID.TinBroadsword);
@@ -1056,6 +1057,7 @@ namespace Terratweaks.Items
 						break;
 					case ItemID.AmethystStaff:
 						item.CloneDefaults(ItemID.TopazStaff);
+						item.shoot = ProjectileID.AmethystBolt;
 						break;
 					case ItemID.CopperHelmet:
 						item.CloneDefaults(ItemID.TinHelmet);
@@ -1086,6 +1088,7 @@ namespace Terratweaks.Items
 					#region Iron/Lead
 					case ItemID.IronShortsword:
 						item.CloneDefaults(ItemID.LeadShortsword);
+						item.shoot = ProjectileID.IronShortswordStab;
 						break;
 					case ItemID.IronBroadsword:
 						item.CloneDefaults(ItemID.LeadBroadsword);
@@ -1130,6 +1133,7 @@ namespace Terratweaks.Items
 					#region Silver/Tungsten
 					case ItemID.SilverShortsword:
 						item.CloneDefaults(ItemID.TungstenShortsword);
+						item.shoot = ProjectileID.SilverShortswordStab;
 						break;
 					case ItemID.SilverBroadsword:
 						item.CloneDefaults(ItemID.TungstenBroadsword);
@@ -1139,6 +1143,7 @@ namespace Terratweaks.Items
 						break;
 					case ItemID.SapphireStaff:
 						item.CloneDefaults(ItemID.EmeraldStaff);
+						item.shoot = ProjectileID.SapphireBolt;
 						break;
 					case ItemID.SilverHelmet:
 						item.CloneDefaults(ItemID.TungstenHelmet);
@@ -1165,6 +1170,7 @@ namespace Terratweaks.Items
 					#region Gold/Platinum
 					case ItemID.GoldShortsword:
 						item.CloneDefaults(ItemID.PlatinumShortsword);
+						item.shoot = ProjectileID.GoldShortswordStab;
 						break;
 					case ItemID.GoldBroadsword:
 						item.CloneDefaults(ItemID.PlatinumBroadsword);
@@ -1174,6 +1180,7 @@ namespace Terratweaks.Items
 						break;
 					case ItemID.RubyStaff:
 						item.CloneDefaults(ItemID.DiamondStaff);
+						item.shoot = ProjectileID.RubyBolt;
 						break;
 					case ItemID.GoldHelmet:
 						item.CloneDefaults(ItemID.PlatinumHelmet);
