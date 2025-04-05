@@ -68,6 +68,7 @@ Mods: {
 					BlockBiomeTweaks: Block and Biome Tweaks
 					MiscTweaks: Misc. Tweaks
 					JokeTweaks: Joke Tweaks
+					BuffTweaks: Buff Tweaks
 				}
 
 				craftableUncraftables: {
@@ -715,6 +716,16 @@ Mods: {
 						meaning that every Hydra shot will hit the target, rather than some of them passing through due to immune frames
 						'''
 				}
+
+				InfiniteCakeSlice: {
+					Label: "[i:SliceofCake] Infinite Slice of Cake"
+					Tooltip: Prevents the Sugar Rush buff from right-clicking a Slice of Cake from running out, making it consistent with all other station buffs
+				}
+
+				PersistentStationBuffs: {
+					Label: "[i:CrystalBall] [i:SliceofCake] Persistent Station Buffs"
+					Tooltip: Allows station buffs (such as those from the Sharpening Station, Crystal Ball, or Slice of Cake) to persist through death, like the flask buffs
+				}
 			}
 
 			CraftableUncraftables: {
@@ -731,6 +742,15 @@ Mods: {
 				DungeonFurniture: {
 					Label: "[i:BlueDungeonVase] [i:GreenDungeonVase] [i:PinkDungeonVase] Dungeon Furniture"
 					Tooltip: Enables recipes for all furniture items generated in the dungeon, and adds Dungeon paintings to the Painter's decor shop when he's located in the Dungeon
+				}
+
+				EarlyEchoBlocks: {
+					Label: "[i:EchoBlock] Early Echo Blocks"
+					Tooltip:
+						'''
+						Enables recipes for Echo Blocks using Glass at a Glass Kiln in a Graveyard, making them available very early on
+						Spectre Goggles and Echo Coating remain post-Plantera, and the Echo Chamber remains post-Skeletron
+						'''
 				}
 
 				GemCritters: {

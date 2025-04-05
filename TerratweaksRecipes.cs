@@ -69,6 +69,15 @@ namespace Terratweaks
 		{
 			var enabledRecipes = Terratweaks.Config.craftableUncraftables;
 
+			if (enabledRecipes.EarlyEchoBlocks)
+			{
+				Recipe.Create(ItemID.EchoBlock)
+					.AddIngredient(ItemID.Glass)
+					.AddTile(TileID.GlassKiln)
+					.AddCondition(Condition.InGraveyard)
+					.Register();
+			}
+
 			if (enabledRecipes.PlanterBoxes)
 			{
 				foreach (KeyValuePair<int, List<int>> pair in planterBoxRecipeIngredients)

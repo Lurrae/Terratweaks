@@ -84,9 +84,6 @@ namespace Terratweaks
 
 			// Town NPC weapon drops
 			Mod.Call("AddSellableWeapon", ModContent.ItemType<ClothiersWrath>(), NPCID.Clothier, new List<Condition>() { Condition.Hardmode });
-
-			// Test entry to ensure that adding an item with no bonus conditions still works lol
-			Mod.Call("AddSellableWeapon", ItemID.MusicBox, NPCID.ArmsDealer);
 		}
 
 		public override void PostSetupContent()

@@ -17,6 +17,7 @@ using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terratweaks.Buffs;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
 
@@ -251,6 +252,7 @@ namespace Terratweaks
 								.Replace("wormscarfboc", "wormbrain")
 								.Replace("gravityglobe", "gravglobe")
 								.Replace("calhostileturrets", "hostileturrets")
+								.Replace("sliceofcake", "cakeslice")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -347,6 +349,8 @@ namespace Terratweaks
 								"ftw_bombtrees" or "bombtrees" => Config.FtwBombTrees,
 								"papercuts" => Config.PaperCuts,
 								"frosthydrabuff" or "frosthydraminigun" => Config.FrostHydraBuff,
+								"infinitecakeslice" => Config.InfiniteCakeSlice,
+								"persistentstationbuffs" => Config.PersistentStationBuffs,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
@@ -371,6 +375,7 @@ namespace Terratweaks
 								"craftableuncraftables_prehardunobtainables" or "prehardunobtainablesshimmer" => Config.craftableUncraftables.PrehardUnobtainables,
 								"craftableuncraftables_shimmerbossdrops" or "bossdropsshimmer" => Config.craftableUncraftables.ShimmerBossDrops,
 								"craftableuncraftables_shimmerblacklens" or "blacklensshimmer" => Config.craftableUncraftables.ShimmerBlackLens,
+								"craftableuncraftables_earlyechoblocks" or "earlyechoblocks" => Config.craftableUncraftables.EarlyEchoBlocks,
 
 								"calamitweaks_aquaticemblembuff" or "aquaticemblembuff" => Calamitweaks.AquaticEmblemBuff,
 								"calamitweaks_asgardsvalorbuff" or "asgardsvalorbuff" => Calamitweaks.AsgardsValorBuff,
@@ -691,6 +696,18 @@ namespace Terratweaks
 						catch (OverflowException)
 						{
 							throw new ArgumentException($"Expected arguments of type int and int for 'AddSellableWeapon', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
+						}
+					case "AddStationBuff":
+						try
+						{
+							int buffID = Convert.ToInt32(args[1]);
+							BuffChanges.StationBuffs.Add(buffID);
+
+							return true;
+						}
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected arguments of type int for 'AddStationBuff', but got type {args[1].GetType().Name} instead.");
 						}
 				}
 			}

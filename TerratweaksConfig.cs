@@ -128,6 +128,17 @@ namespace Terratweaks
 		[DefaultValue(0)]
 		public int TerraprismaDropRate { get; set; }
 
+		// Buff Tweaks
+		[Header("BuffTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool InfiniteCakeSlice { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool PersistentStationBuffs { get; set; }
+
 		// Enemy Tweaks
 		[Header("EnemyTweaks")]
 
@@ -388,7 +399,8 @@ namespace Terratweaks
 					craftableUncraftables.PrehardUnobtainables != pendingTtConfig.craftableUncraftables.PrehardUnobtainables ||
 					craftableUncraftables.ShimmerBossDrops != pendingTtConfig.craftableUncraftables.ShimmerBossDrops ||
 					craftableUncraftables.GeyserTraps != pendingTtConfig.craftableUncraftables.GeyserTraps ||
-					craftableUncraftables.ShimmerBlackLens != pendingTtConfig.craftableUncraftables.ShimmerBlackLens)
+					craftableUncraftables.ShimmerBlackLens != pendingTtConfig.craftableUncraftables.ShimmerBlackLens ||
+					craftableUncraftables.EarlyEchoBlocks != pendingTtConfig.craftableUncraftables.EarlyEchoBlocks)
 				{
 					return true;
 				}
@@ -501,6 +513,10 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool DungeonFurniture { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool EarlyEchoBlocks { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
