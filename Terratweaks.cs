@@ -253,6 +253,7 @@ namespace Terratweaks
 								.Replace("gravityglobe", "gravglobe")
 								.Replace("calhostileturrets", "hostileturrets")
 								.Replace("sliceofcake", "cakeslice")
+								.Replace("encumberingstone", "encstone")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -351,6 +352,7 @@ namespace Terratweaks
 								"frosthydrabuff" or "frosthydraminigun" => Config.FrostHydraBuff,
 								"infinitecakeslice" => Config.InfiniteCakeSlice,
 								"persistentstationbuffs" => Config.PersistentStationBuffs,
+								"coinsbypassencstone" => Config.CoinsBypassEncStone,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

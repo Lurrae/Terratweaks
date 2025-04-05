@@ -726,6 +726,11 @@ Mods: {
 					Label: "[i:CrystalBall] [i:SliceofCake] Persistent Station Buffs"
 					Tooltip: Allows station buffs (such as those from the Sharpening Station, Crystal Ball, or Slice of Cake) to persist through death, like the flask buffs
 				}
+
+				CoinsBypassEncStone: {
+					Label: "[i:EncumberingStone] [i:GoldCoin] Coins Bypass Encumbering Stone"
+					Tooltip: Allows coins to be picked up while your inventory is locked by an Encumbering Stone
+				}
 			}
 
 			CraftableUncraftables: {

@@ -237,6 +237,10 @@ namespace Terratweaks
 		[DefaultValue(DamageVarianceSetting.Off)]
 		public DamageVarianceSetting NoDamageVariance { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool CoinsBypassEncStone { get; set; }
+
 		[DefaultValue(false)]
 		public bool CritsBypassDefense { get; set; }
 

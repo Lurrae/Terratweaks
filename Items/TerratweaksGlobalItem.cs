@@ -1,4 +1,3 @@
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -1037,6 +1036,18 @@ namespace Terratweaks.Items
 	public class ItemChanges : GlobalItem
 	{
 		public static readonly List<int> IgnoredSummonWeapons = new();
+		public static readonly float FROST_HYDRA_DMG_NERF = 0.75f; // -25% damage
+
+		public override void SetStaticDefaults()
+		{
+			if (Terratweaks.Config.CoinsBypassEncStone)
+			{
+				ItemID.Sets.IgnoresEncumberingStone[ItemID.CopperCoin] = true;
+				ItemID.Sets.IgnoresEncumberingStone[ItemID.SilverCoin] = true;
+				ItemID.Sets.IgnoresEncumberingStone[ItemID.GoldCoin] = true;
+				ItemID.Sets.IgnoresEncumberingStone[ItemID.PlatinumCoin] = true;
+			}
+		}
 
 		public override void SetDefaults(Item item)
 		{
@@ -1249,8 +1260,6 @@ namespace Terratweaks.Items
 			}
 		}
 
-		public static readonly float FROST_HYDRA_DMG_NERF = 0.75f; // -25% damage
-
 		public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
 			Player player = Main.LocalPlayer;
@@ -1336,7 +1345,7 @@ namespace Terratweaks.Items
 					{
 						Damage = 1, // Paper cut deals only 1 damage, so it's just a minor nuisance if anything
 						// Custom damage source means it should provide a custom message: "[player] couldn't handle a paper cut"
-						DamageSource = PlayerDeathReason.ByCustomReason(Language.GetTextValue("Mods.Terratweaks.PlayerDeathReason.PaperCut", player.name)),
+						DamageSource = PlayerDeathReason.ByCustomReason(NetworkText.FromKey("Mods.Terratweaks.PlayerDeathReason.PaperCut", player.name)),
 						Dodgeable = false // No dodging the paper cuts! (which is probably for the better, seeing as it's 1 damage and could probably be abused to avoid stronger attacks...)
 					};
 
