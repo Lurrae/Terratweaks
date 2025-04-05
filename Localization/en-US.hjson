@@ -731,6 +731,11 @@ Mods: {
 					Label: "[i:EncumberingStone] [i:GoldCoin] Coins Bypass Encumbering Stone"
 					Tooltip: Allows coins to be picked up while your inventory is locked by an Encumbering Stone
 				}
+
+				SpelunkerHighlightsHellstone: {
+					Label: "[i:SpelunkerPotion] [i:Hellstone] Spelunker Highlights Hellstone"
+					Tooltip: Makes Spelunker Potions highlight Hellstone
+				}
 			}
 
 			CraftableUncraftables: {

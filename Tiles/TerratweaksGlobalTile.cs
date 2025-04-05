@@ -25,6 +25,17 @@ namespace Terratweaks.Tiles
 			return base.IsTileDangerous(i, j, type, player);
 		}
 
+		// Change what tiles Spelunker Potions highlight
+		public override bool? IsTileSpelunkable(int i, int j, int type)
+		{
+			if (Terratweaks.Config.SpelunkerHighlightsHellstone && type == TileID.Hellstone)
+			{
+				return true;
+			}
+
+			return base.IsTileSpelunkable(i, j, type);
+		}
+
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			var src = new EntitySource_TileBreak(i, j);

@@ -285,6 +285,9 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool SIRework { get; set; }
 
+		[DefaultValue(true)]
+		public bool SpelunkerHighlightsHellstone { get; set; }
+
 		[DefaultValue(SentryAccSetting.Limited)]
 		public SentryAccSetting StackableDD2Accs { get; set; }
 
