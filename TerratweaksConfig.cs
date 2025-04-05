@@ -505,6 +505,9 @@ namespace Terratweaks
 
 		[DefaultValue(true)]
 		public bool WingStatsInTip { get; set; }
+
+		[DefaultValue(false)]
+		public bool NoOneDropLogo { get; set; }
 	}
 
 	[SeparatePage]

@@ -295,6 +295,12 @@ namespace Terratweaks.Items
 				}
 			}
 
+			// Remove the OneDrop logo from all yoyos that have it
+			if (Terratweaks.ClientConfig.NoOneDropLogo)
+			{
+				tooltips.RemoveAll(t => t.Name.Equals("OneDropLogo"));
+			}
+
 			// Grammar corrections option only applies when playing with English localization,
 			// since I don't know enough about other languages to even know if the incorrect grammar from vanilla
 			// still applies in other languages, let alone how best to correct it

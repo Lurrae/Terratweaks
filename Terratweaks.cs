@@ -254,6 +254,7 @@ namespace Terratweaks
 								.Replace("calhostileturrets", "hostileturrets")
 								.Replace("sliceofcake", "cakeslice")
 								.Replace("encumberingstone", "encstone")
+								.Replace("onedropyoyos", "onedrop")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -360,6 +361,7 @@ namespace Terratweaks
 								"client_permbufftips" or "permbufftips" => ClientConfig.PermBuffTips,
 								"client_statsintip" or "statsintip" => ClientConfig.StatsInTip,
 								"client_wingstatsintip" or "wingstatsintip" => ClientConfig.WingStatsInTip,
+								"client_noonedroplogo" or "noonedroplogo" => ClientConfig.NoOneDropLogo,
 
 								"craftableuncraftables_planterboxes" or "planterboxesrecipe" => Config.craftableUncraftables.PlanterBoxes,
 								"craftableuncraftables_gemcritters" or "gemcrittersrecipe" => Config.craftableUncraftables.GemCritters,

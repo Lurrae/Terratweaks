@@ -965,6 +965,11 @@ Mods: {
 						If the Calamity Mod is installed, this config option only applies to modded wings not from Calamity, as Calamity already adds wing stat tooltips
 						'''
 				}
+
+				NoOneDropLogo: {
+					Label: "[i:Rally] No OneDrop Logo"
+					Tooltip: Removes the OneDrop logo from all yoyos with it in their tooltips
+				}
 			}
 
 			CalTweaks: {
