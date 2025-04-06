@@ -718,12 +718,12 @@ Mods: {
 				}
 
 				InfiniteCakeSlice: {
-					Label: "[i:SliceofCake] Infinite Slice of Cake"
+					Label: "[i:SliceOfCake] Infinite Slice of Cake"
 					Tooltip: Prevents the Sugar Rush buff from right-clicking a Slice of Cake from running out, making it consistent with all other station buffs
 				}
 
 				PersistentStationBuffs: {
-					Label: "[i:CrystalBall] [i:SliceofCake] Persistent Station Buffs"
+					Label: "[i:CrystalBall] Persistent Station Buffs"
 					Tooltip: Allows station buffs (such as those from the Sharpening Station, Crystal Ball, or Slice of Cake) to persist through death, like the flask buffs
 				}
 
