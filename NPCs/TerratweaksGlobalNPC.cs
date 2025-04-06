@@ -963,6 +963,7 @@ namespace Terratweaks.NPCs
 			if (Terratweaks.Config.SmartNymphs && npc.type == NPCID.LostGirl)
 			{
 				npc.friendly = true;
+				npc.dontTakeDamageFromHostiles = true;
 			}
 		}
 
