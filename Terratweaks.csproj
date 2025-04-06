@@ -9,6 +9,9 @@
     <Reference Include="AlchemistNPCLite">
       <HintPath>..\..\ModReader\AlchemistNPCLite\AlchemistNPCLite.dll</HintPath>
     </Reference>
+    <Reference Include="CalamityFables">
+      <HintPath>..\..\ModReader\CalamityFables\CalamityFables.dll</HintPath>
+    </Reference>
     <Reference Include="CalamityMod">
       <HintPath>..\..\ModReader\CalamityMod\CalamityMod.dll</HintPath>
     </Reference>

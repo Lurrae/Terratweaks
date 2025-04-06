@@ -736,6 +736,15 @@ Mods: {
 					Label: "[i:SpelunkerPotion] [i:Hellstone] Spelunker Highlights Hellstone"
 					Tooltip: Makes Spelunker Potions highlight Hellstone
 				}
+
+				EzDyeBanners: {
+					Label: "[i:CochinealBeetleBanner] [i:SquidBanner] Reduced Dye Enemy Banner Kill Counts"
+					Tooltip:
+						'''
+						Reduces the kill count of the banners of enemies that drop dye materials from 50 to 25
+						This affects the Cochineal Beetle, Cyan Beetle, Lac Beetle, Squid, and Sea Snail
+						'''
+				}
 			}
 
 			CraftableUncraftables: {
@@ -977,6 +986,7 @@ Mods: {
 					AccTweaks: Accessory Tweaks
 					BlockBiomeTweaks: Block and Biome Tweaks
 					BossTweaks: Boss and Event Tweaks
+					FablesTweaks: Calamity Fables Tweaks
 					EnemyTweaks: Enemy Tweaks
 					GameplayTweaks: Gameplay Tweaks
 					ItemTweaks: General Item Tweaks
@@ -1191,6 +1201,15 @@ Mods: {
 						Disables the ambience of the Rift Eclipse outside of the rain/blizzard and fog events, allowing regular biome music to continue playing
 						Also enables crafting the Rift Eclipse music box with the Blizzard and Fog music boxes so that this music box is still obtainable with the config active
 						Does nothing if Wrath of the Gods is not enabled
+						'''
+				}
+
+				EzFablesBanners: {
+					Label: "[i:PinkyBanner] Reduced Fables Banner Kill Counts"
+					Tooltip:
+						'''
+						Reduces the kill count of the Geode Crawler's banner from Calamity Fables from 50 to 25
+						This config option does nothing without Calamity Fables, but can be used without base Calamity!
 						'''
 				}
 

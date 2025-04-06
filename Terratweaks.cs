@@ -246,10 +246,10 @@ namespace Terratweaks
 								.Replace("frosthydrastaff", "frosthydra")
 								.Replace("eocshield", "eyeshield")
 								.Replace("shieldofcthulhu", "eyeshield")
-								.Replace("wormscarf", "wormbrain")
 								.Replace("brainofconfusion", "boc")
 								.Replace("boc", "wormbrain")
 								.Replace("wormscarfboc", "wormbrain")
+								.Replace("wormscarf", "wormbrain")
 								.Replace("gravityglobe", "gravglobe")
 								.Replace("calhostileturrets", "hostileturrets")
 								.Replace("sliceofcake", "cakeslice")
@@ -266,6 +266,7 @@ namespace Terratweaks
 								.Replace("terratweaksclient", "client")
 								.Replace("clientconfig", "client")
 								.Replace("caltweaks", "calamitweaks")
+								.Replace("calamityfables", "calfables")
 								.Replace("wrathofthegods", "wotg")
 								.Replace("wotgtweaks", "wotg")
 								.Replace("thortweaks", "thoritweaks")
@@ -351,9 +352,11 @@ namespace Terratweaks
 								"ftw_bombtrees" or "bombtrees" => Config.FtwBombTrees,
 								"papercuts" => Config.PaperCuts,
 								"frosthydrabuff" or "frosthydraminigun" => Config.FrostHydraBuff,
+								"spelunkerhighlightshellstone" => Config.SpelunkerHighlightsHellstone,
 								"infinitecakeslice" => Config.InfiniteCakeSlice,
 								"persistentstationbuffs" => Config.PersistentStationBuffs,
 								"coinsbypassencstone" => Config.CoinsBypassEncStone,
+								"ezdyebanners" => Config.EzDyeBanners,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
@@ -390,7 +393,7 @@ namespace Terratweaks
 								"calamitweaks_dryadsellsseeds" or "dryadsellscalseeds" => Calamitweaks.DryadSellsSeeds,
 								"calamitweaks_enemyfooddrops" or "enemyfooddrops" => Calamitweaks.EnemyFoodDrops,
 								"calamitweaks_dayeolinstakills" or "dayeolinstakills" => Calamitweaks.EnragedEoLInstakills,
-								"calamitweaks_ezcaldanners" or "ezcaldanners" => Calamitweaks.EzCalBanners,
+								"calamitweaks_ezcalbanners" or "calamitweaks_ezbanners" or "ezcalbanners" => Calamitweaks.EzCalBanners,
 								"calamitweaks_forcewormcontactdamage" or "forcewormcontactdamage" => Calamitweaks.ForceWormContactDamage,
 								"calamitweaks_nodefensedamage" or "nodefensedamage" => Calamitweaks.NoDefenseDamage,
 								"calamitweaks_nopatreonnpcnames" or "nocalpatreonnpcnames" => Calamitweaks.NoPatreonNPCNames,
@@ -407,6 +410,7 @@ namespace Terratweaks
 								"calamitweaks_summoneraccbuffs" or "calsummoneraccbuffs" => Calamitweaks.SummonerAccBuffs,
 								"calamitweaks_zenithrecipeoverhaul" or "calzenithrecipeoverhaul" or "calamitweaks_zenithrecipe" or "calzenithrecipe" => Calamitweaks.ZenithRecipeOverhaul,
 								"calamitweaks_wotg_nosilentrift" or "wotg_nosilentrift" or "calamitweaks_nosilentrift" or "nosilentrift" => Calamitweaks.NoSilentRift,
+								"calamitweaks_fables_ezbanners" or "calamitweaks_fables_ezfablesbanners" or "fables_ezbanners" or "fables_ezfablesbanners" or "ezfablesbanners" => Calamitweaks.EzFablesBanners,
 
 								"thoritweaks_bombableadblocks" or "bombableadblocks" => Thoritweaks.BombableADBlocks,
 								"thoritweaks_combinedstationsupport" or "thorcombinedstationsupport" => Thoritweaks.CombinedStationSupport,

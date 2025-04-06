@@ -152,6 +152,10 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool NoCasterContactDamage { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool EzDyeBanners { get; set; }
+
 		[DefaultValue(false)]
 		public bool SmartMimics { get; set; }
 
@@ -631,6 +635,13 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool RevertVanillaBossAIChanges { get; set; }
+
+		// Calamity Fables Tweaks
+		[Header("FablesTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool EzFablesBanners { get; set; }
 
 		// Enemy Tweaks
 		[Header("EnemyTweaks")]

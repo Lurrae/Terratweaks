@@ -2019,4 +2019,18 @@ namespace Terratweaks.Items
 			}
 		}
 	}
+	
+	// Handles adjusting enemy banner kill counts
+	// This also automatically updates the number of kills needed to fill out the Bestiary entries of these enemies
+	public class BannerChanges : GlobalItem
+	{
+		public override void SetStaticDefaults()
+		{
+			ItemID.Sets.KillsToBanner[ItemID.CochinealBeetleBanner] = 25;
+			ItemID.Sets.KillsToBanner[ItemID.LacBeetleBanner] = 25;
+			ItemID.Sets.KillsToBanner[ItemID.CyanBeetleBanner] = 25;
+			ItemID.Sets.KillsToBanner[ItemID.SquidBanner] = 25;
+			ItemID.Sets.KillsToBanner[ItemID.SeaSnailBanner] = 25;
+		}
+	}
 }
