@@ -745,6 +745,11 @@ Mods: {
 						This affects the Cochineal Beetle, Cyan Beetle, Lac Beetle, Squid, and Sea Snail
 						'''
 				}
+
+				LavalessLavaSlimes: {
+					Label: "[i:LavaBucket] Lavaless Lava Slimes"
+					Tooltip: Prevents Lava Slimes dropping lava in Expert+
+				}
 			}
 
 			CraftableUncraftables: {

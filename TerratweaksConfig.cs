@@ -204,6 +204,9 @@ namespace Terratweaks
 		// Expert Mode Tweaks
 		[Header("ExpertTweaks")]
 
+		[DefaultValue(true)]
+		public bool LavalessLavaSlimes { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool JungleBossBags { get; set; }

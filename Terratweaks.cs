@@ -20,6 +20,7 @@ using Terraria.ModLoader;
 using Terratweaks.Buffs;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
+using ThoriumMod.Items.Donate;
 
 namespace Terratweaks
 {
@@ -149,28 +150,7 @@ namespace Terratweaks
 			On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += ResetIchorState;
 			On_Player.DashMovement += BuffedEyeShieldDash;
 			On_WorldGen.RandHousePicture += WhereIsntWaldo;
-		}
-
-		private PaintingEntry WhereIsntWaldo(On_WorldGen.orig_RandHousePicture orig)
-		{
-			if (Config.DrunkWaldo && (WorldGen.drunkWorldGen || WorldGen.everythingWorldGen))
-			{
-				// 0.49% chance, same as the normal odds of Waldo
-				// This effectively flips the script- 99.51% of paintings will be Waldo, instead of 0.49%
-				if (WorldGen.genRand.NextBool(49, 10000))
-				{
-					return orig();
-				}
-
-				// Guarantees a Waldo painting- 2x3 painting with a style value of 0
-				return new PaintingEntry
-				{
-					tileType = TileID.Painting2X3,
-					style = 0
-				};
-			}
-
-			return orig();
+			On_NPC.HitEffect_HitInfo += LavalessLavaSlime;
 		}
 
 		public override void PostSetupContent()
@@ -234,6 +214,11 @@ namespace Terratweaks
 								.Replace("jungletemple", "temple")
 								.Replace("enragedeol", "dayeol")
 								.Replace("aquaticdepths", "ad")
+								.Replace("magmaslime", "lavaslime")
+								.Replace("hellslime", "lavaslime")
+								.Replace("hellstoneslime", "lavaslime")
+								.Replace("underworldslime", "lavaslime")
+								.Replace("fireslime", "lavaslime")
 								// Item name aliases/abbreviations
 								.Replace("oasismiragecrate", "oasiscrate")
 								.Replace("miragecrate", "oasiscrate")
@@ -357,6 +342,7 @@ namespace Terratweaks
 								"persistentstationbuffs" => Config.PersistentStationBuffs,
 								"coinsbypassencstone" => Config.CoinsBypassEncStone,
 								"ezdyebanners" => Config.EzDyeBanners,
+								"lavalesslavaslimes" => Config.LavalessLavaSlimes,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
@@ -1258,6 +1244,48 @@ namespace Terratweaks
 					npc.AddBuff(BuffID.CursedInferno, Conversions.ToFrames(3)); // Apply 3 seconds Cursed Inferno
 					self.dashDelay = Math.Min(self.dashDelay, 15); // Prevent the dash delay from being above 15 ticks, effectively halving it since it's normally 30
 				}
+			}
+		}
+
+		private PaintingEntry WhereIsntWaldo(On_WorldGen.orig_RandHousePicture orig)
+		{
+			if (Config.DrunkWaldo && (WorldGen.drunkWorldGen || WorldGen.everythingWorldGen))
+			{
+				// 0.49% chance, same as the normal odds of Waldo
+				// This effectively flips the script- 99.51% of paintings will be Waldo, instead of 0.49%
+				if (WorldGen.genRand.NextBool(49, 10000))
+				{
+					return orig();
+				}
+
+				// Guarantees a Waldo painting- 2x3 painting with a style value of 0
+				return new PaintingEntry
+				{
+					tileType = TileID.Painting2X3,
+					style = 0
+				};
+			}
+
+			return orig();
+		}
+
+		private void LavalessLavaSlime(On_NPC.orig_HitEffect_HitInfo orig, NPC self, NPC.HitInfo hit)
+		{
+			int lavaTileX = (int)(self.Center.X / 16f);
+			int lavaTileY = (int)(self.Center.Y / 16f);
+			Tile lavaTile = Main.tile[lavaTileX, lavaTileY];
+			byte oldLiquid = lavaTile.LiquidAmount;
+
+			orig(self, hit);
+
+			// Do nothing if the config isn't enabled, we aren't dealing with a lava slime, or lava slimes wouldn't drop lava in the first place
+			if (!Config.LavalessLavaSlimes || self.type != NPCID.LavaSlime || self.life > 0 || !Main.expertMode || Main.remixWorld || Main.netMode == NetmodeID.MultiplayerClient)
+				return;
+
+			// If any lava was created, delete it
+			if (oldLiquid == 0 && lavaTile.LiquidAmount > 0)
+			{
+				lavaTile.LiquidAmount = 0;
 			}
 		}
 	}
