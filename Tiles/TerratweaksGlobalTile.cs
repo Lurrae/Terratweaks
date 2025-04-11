@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.GameContent.Drawing;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -133,6 +135,28 @@ namespace Terratweaks.Tiles
 				// Because this uses PreShakeTree(), any existing drops shouldn't be blocked!
 				Vector2 spawnPos = new(i * 16, j * 16);
 				Projectile.NewProjectile(new EntitySource_ShakeTree(i, j), spawnPos, Vector2.Zero, ProjectileID.Bomb, 0, 0, Main.myPlayer);
+			}
+		}
+
+		// Override the highlight color for blocks highlighted by Spelunker or Dangersense Potions
+		public override void DrawEffects(int i, int j, int type, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
+		{
+			Player plr = Main.LocalPlayer;
+
+			// Dangersense
+			if (Terratweaks.ClientConfig.OverrideDangerGlow && plr.dangerSense && TileDrawing.IsTileDangerous(i, j, plr))
+			{
+				Color color = Terratweaks.ClientConfig.DangerGlowColor;
+				color.A = drawData.tileLight.A;
+				drawData.tileLight = color;
+			}
+
+			// Spelunker
+			if (Terratweaks.ClientConfig.OverrideSpelunkerGlow && plr.findTreasure && Main.IsTileSpelunkable(i, j))
+			{
+				Color color = Terratweaks.ClientConfig.TreasureGlowColor;
+				color.A = drawData.tileLight.A;
+				drawData.tileLight = color;
 			}
 		}
 	}

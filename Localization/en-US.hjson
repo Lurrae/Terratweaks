@@ -916,6 +916,7 @@ Mods: {
 				DisplayName: Terratweaks Config (Client)
 
 				Headers: {
+					BuffTweaks: Buff Tweaks
 					MiscTweaks: Misc. Tweaks
 					TooltipTweaks: Tooltip Tweaks
 				}
@@ -983,6 +984,57 @@ Mods: {
 				NoOneDropLogo: {
 					Label: "[i:Rally] No OneDrop Logo"
 					Tooltip: Removes the OneDrop logo from all yoyos with it in their tooltips
+				}
+
+				OverrideDangerGlow: {
+					Label: "[i:TrapsightPotion] Override Danger Glow"
+					Tooltip: Replaces the default red highlight applied to dangerous blocks by the Dangersense Potion with the color specified below
+				}
+
+				DangerGlowColor: {
+					Label: "[i:TrapsightPotion] Danger Glow Color"
+					Tooltip:
+						'''
+						If the above config is enabled, tints dangerous blocks with this color
+						The vanilla tint has color values R=255, G=50, B=50
+						'''
+				}
+
+				OverrideSpelunkerGlow: {
+					Label: "[i:SpelunkerPotion] Override Spelunker Glow"
+					Tooltip: Replaces the default yellow highlight applied to valuable blocks by the Spelunker Potion with the color specified below
+				}
+
+				TreasureGlowColor: {
+					Label: "[i:SpelunkerPotion] Treasure Glow Color"
+					Tooltip:
+						'''
+						If the above config is enabled, tints valuable blocks with this color
+						The vanilla tint has color values R=200, G=170, B=0
+						'''
+				}
+
+				OverrideHunterGlow: {
+					Label: "[i:HunterPotion] Override Hunter Glow"
+					Tooltip: Replaces the default red or green highlights applied to hostile or friendly NPCs by the Hunter Potion with the colors specified below
+				}
+
+				EnemyGlowColor: {
+					Label: "[i:HunterPotion] Enemy Glow Color"
+					Tooltip:
+						'''
+						If the above config is enabled, tints hostile NPCs with this color
+						The vanilla tint has color values R=255, G=50, B=50
+						'''
+				}
+
+				FriendlyGlowColor: {
+					Label: "[i:HunterPotion] Friendly Glow Color"
+					Tooltip:
+						'''
+						If the above config is enabled, tints friendly NPCs with this color
+						The vanilla tint has color values R=50, G=255, B=50
+						'''
 				}
 			}
 

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace Terratweaks
 {
@@ -131,6 +132,12 @@ namespace Terratweaks
 		// Buff Tweaks
 		[Header("BuffTweaks")]
 
+		[DefaultValue(true)]
+		public bool DangersenseHighlightsSilt { get; set; }
+
+		[DefaultValue(true)]
+		public bool DangersenseIgnoresThinIce { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool InfiniteCakeSlice { get; set; }
@@ -138,6 +145,9 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool PersistentStationBuffs { get; set; }
+
+		[DefaultValue(true)]
+		public bool SpelunkerHighlightsHellstone { get; set; }
 
 		// Enemy Tweaks
 		[Header("EnemyTweaks")]
@@ -252,12 +262,6 @@ namespace Terratweaks
 		public bool CritsBypassDefense { get; set; }
 
 		[DefaultValue(true)]
-		public bool DangersenseHighlightsSilt { get; set; }
-
-		[DefaultValue(true)]
-		public bool DangersenseIgnoresThinIce { get; set; }
-
-		[DefaultValue(true)]
 		public bool DeerWeaponsRework { get; set; }
 
 		[ReloadRequired]
@@ -291,9 +295,6 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool SIRework { get; set; }
-
-		[DefaultValue(true)]
-		public bool SpelunkerHighlightsHellstone { get; set; }
 
 		[DefaultValue(SentryAccSetting.Limited)]
 		public SentryAccSetting StackableDD2Accs { get; set; }
@@ -488,6 +489,34 @@ namespace Terratweaks
 	public class TerratweaksConfig_Client : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ClientSide;
+
+		// Buff Tweaks
+		[Header("BuffTweaks")]
+
+		[DefaultValue(false)]
+		public bool OverrideSpelunkerGlow { get; set; }
+
+		[ColorNoAlpha]
+		[DefaultValue(typeof(Color), "255, 255, 255, 255")]
+		public Color TreasureGlowColor { get; set; }
+
+		[DefaultValue(false)]
+		public bool OverrideDangerGlow { get; set; }
+
+		[ColorNoAlpha]
+		[DefaultValue(typeof(Color), "255, 255, 255, 255")]
+		public Color DangerGlowColor { get; set; }
+
+		[DefaultValue(false)]
+		public bool OverrideHunterGlow { get; set; }
+
+		[ColorNoAlpha]
+		[DefaultValue(typeof(Color), "255, 255, 255, 255")]
+		public Color EnemyGlowColor { get; set; }
+
+		[ColorNoAlpha]
+		[DefaultValue(typeof(Color), "255, 255, 255, 255")]
+		public Color FriendlyGlowColor { get; set; }
 
 		// Misc. Tweaks
 		[Header("MiscTweaks")]

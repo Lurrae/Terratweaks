@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.Drawing;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.Generation;
 using Terraria.GameContent.ItemDropRules;
@@ -151,6 +152,27 @@ namespace Terratweaks
 			On_Player.DashMovement += BuffedEyeShieldDash;
 			On_WorldGen.RandHousePicture += WhereIsntWaldo;
 			On_NPC.HitEffect_HitInfo += LavalessLavaSlime;
+			On_NPC.GetNPCColorTintedByBuffs += HunterHighlightOverride;
+		}
+
+		private Color HunterHighlightOverride(On_NPC.orig_GetNPCColorTintedByBuffs orig, NPC self, Color npcColor)
+		{
+			if (self.CanApplyHunterPotionEffects() && self.lifeMax > 1)
+			{
+				if (ClientConfig.OverrideHunterGlow && Main.LocalPlayer.detectCreature)
+				{
+					Color color = IsFriendlyOrCritter(self) ? ClientConfig.FriendlyGlowColor : ClientConfig.EnemyGlowColor;
+					color.A = npcColor.A;
+					return color;
+				}
+			}
+
+			return orig(self, npcColor);
+		}
+
+		private static bool IsFriendlyOrCritter(NPC npc)
+		{
+			return npc.friendly || npc.catchItem > 0 || (npc.damage == 0 && npc.lifeMax == 5);
 		}
 
 		public override void PostSetupContent()
