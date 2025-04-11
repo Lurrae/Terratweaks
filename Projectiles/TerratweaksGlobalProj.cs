@@ -94,23 +94,28 @@ namespace Terratweaks.Projectiles
 			}
 		}
 
-		public override void SetDefaults(Projectile entity)
+		public override void SetDefaults(Projectile proj)
 		{
 			if (Terratweaks.Config.OreUnification)
 			{
-				switch (entity.type)
+				switch (proj.type)
 				{
 					// Do not bother modifying shortsword projectiles -- all eight have the exact same stats
 					case ProjectileID.AmethystBolt:
-						entity.CloneDefaults(ProjectileID.TopazBolt);
+						proj.CloneDefaults(ProjectileID.TopazBolt);
 						break;
 					case ProjectileID.SapphireBolt:
-						entity.CloneDefaults(ProjectileID.EmeraldBolt);
+						proj.CloneDefaults(ProjectileID.EmeraldBolt);
 						break;
 					case ProjectileID.RubyBolt:
-						entity.CloneDefaults(ProjectileID.DiamondBolt);
+						proj.CloneDefaults(ProjectileID.DiamondBolt);
 						break;
 				}
+			}
+
+			if (Terratweaks.Config.HarmlessFallenStars && proj.type == ProjectileID.FallingStar)
+			{
+				proj.friendly = false;
 			}
 		}
 

@@ -335,6 +335,9 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool BetterBestiary { get; set; }
 
+		[DefaultValue(false)]
+		public bool HarmlessFallenStars { get; set; }
+
 		// Town NPC Tweaks
 		[Header("TownNpcTweaks")]
 

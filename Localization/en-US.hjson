@@ -750,6 +750,15 @@ Mods: {
 					Label: "[i:LavaBucket] Lavaless Lava Slimes"
 					Tooltip: Prevents Lava Slimes dropping lava in Expert+
 				}
+
+				HarmlessFallenStars: {
+					Label: "[i:FallenStar] Harmless Fallen Stars"
+					Tooltip:
+						'''
+						Prevents Fallen Stars from damaging enemies
+						On the Zenith seed, Fallen Stars will still damage players!
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

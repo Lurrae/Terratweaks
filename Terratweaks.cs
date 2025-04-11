@@ -243,6 +243,7 @@ namespace Terratweaks
 								.Replace("encumberingstone", "encstone")
 								.Replace("onedropyoyos", "onedrop")
 								.Replace("highlightcolor", "glowcolor")
+								.Replace("fallingstar", "fallenstar")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -346,6 +347,7 @@ namespace Terratweaks
 								"coinsbypassencstone" => Config.CoinsBypassEncStone,
 								"ezdyebanners" => Config.EzDyeBanners,
 								"lavalesslavaslimes" => Config.LavalessLavaSlimes,
+								"harmlessfallenstars" or "nofallenstardamage" => Config.HarmlessFallenStars,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
