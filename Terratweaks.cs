@@ -155,26 +155,6 @@ namespace Terratweaks
 			On_NPC.GetNPCColorTintedByBuffs += HunterHighlightOverride;
 		}
 
-		private Color HunterHighlightOverride(On_NPC.orig_GetNPCColorTintedByBuffs orig, NPC self, Color npcColor)
-		{
-			if (self.CanApplyHunterPotionEffects() && self.lifeMax > 1)
-			{
-				if (ClientConfig.OverrideHunterGlow && Main.LocalPlayer.detectCreature)
-				{
-					Color color = IsFriendlyOrCritter(self) ? ClientConfig.FriendlyGlowColor : ClientConfig.EnemyGlowColor;
-					color.A = npcColor.A;
-					return color;
-				}
-			}
-
-			return orig(self, npcColor);
-		}
-
-		private static bool IsFriendlyOrCritter(NPC npc)
-		{
-			return npc.friendly || npc.catchItem > 0 || (npc.damage == 0 && npc.lifeMax == 5);
-		}
-
 		public override void PostSetupContent()
 		{
 			foreach (NPC npc in ContentSamples.NpcsByNetId.Values)
@@ -262,6 +242,7 @@ namespace Terratweaks
 								.Replace("sliceofcake", "cakeslice")
 								.Replace("encumberingstone", "encstone")
 								.Replace("onedropyoyos", "onedrop")
+								.Replace("highlightcolor", "glowcolor")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -373,6 +354,13 @@ namespace Terratweaks
 								"client_statsintip" or "statsintip" => ClientConfig.StatsInTip,
 								"client_wingstatsintip" or "wingstatsintip" => ClientConfig.WingStatsInTip,
 								"client_noonedroplogo" or "noonedroplogo" => ClientConfig.NoOneDropLogo,
+								"client_overridespelunkerglow" or "overridespelunkerglow" => ClientConfig.OverrideSpelunkerGlow,
+								"client_treasureglowcolor" or "treasureglowcolor" => ClientConfig.TreasureGlowColor,
+								"client_overridedangerglow" or "overridedangerglow" => ClientConfig.OverrideDangerGlow,
+								"client_dangerglowcolor" or "dangerglowcolor" => ClientConfig.DangerGlowColor,
+								"client_overridehunterglow" or "overridehunterglow" => ClientConfig.OverrideHunterGlow,
+								"client_enemyglowcolor" or "enemyglowcolor" => ClientConfig.EnemyGlowColor,
+								"client_friendlyglowcolor" or "friendlyglowcolor" => ClientConfig.FriendlyGlowColor,
 
 								"craftableuncraftables_planterboxes" or "planterboxesrecipe" => Config.craftableUncraftables.PlanterBoxes,
 								"craftableuncraftables_gemcritters" or "gemcrittersrecipe" => Config.craftableUncraftables.GemCritters,
@@ -1309,6 +1297,26 @@ namespace Terratweaks
 			{
 				lavaTile.LiquidAmount = 0;
 			}
+		}
+
+		private Color HunterHighlightOverride(On_NPC.orig_GetNPCColorTintedByBuffs orig, NPC self, Color npcColor)
+		{
+			if (self.CanApplyHunterPotionEffects() && self.lifeMax > 1)
+			{
+				if (ClientConfig.OverrideHunterGlow && Main.LocalPlayer.detectCreature)
+				{
+					Color color = IsFriendlyOrCritter(self) ? ClientConfig.FriendlyGlowColor : ClientConfig.EnemyGlowColor;
+					color.A = npcColor.A;
+					return color;
+				}
+			}
+
+			return orig(self, npcColor);
+		}
+
+		private static bool IsFriendlyOrCritter(NPC npc)
+		{
+			return npc.friendly || npc.catchItem > 0 || (npc.damage == 0 && npc.lifeMax == 5);
 		}
 	}
 }
