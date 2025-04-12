@@ -125,6 +125,7 @@ namespace Terratweaks
 		public static TerratweaksConfig_Client ClientConfig => ModContent.GetInstance<TerratweaksConfig_Client>();
 		public static AlchTweaks Alchemitweaks => Config.alchemitweaks;
 		public static CalTweaks Calamitweaks => Config.calamitweaks;
+		public static EmodeTweaks Eternitweaks => Config.eternitweaks;
 		public static ThorTweaks Thoritweaks => Config.thoritweaks;
 
 		public override void Load()
@@ -244,6 +245,7 @@ namespace Terratweaks
 								.Replace("onedropyoyos", "onedrop")
 								.Replace("highlightcolor", "glowcolor")
 								.Replace("fallingstar", "fallenstar")
+								.Replace("rainlightning", "lightning")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -259,7 +261,9 @@ namespace Terratweaks
 								.Replace("wrathofthegods", "wotg")
 								.Replace("wotgtweaks", "wotg")
 								.Replace("thortweaks", "thoritweaks")
-								.Replace("alchtweaks", "alchemitweaks");
+								.Replace("alchtweaks", "alchemitweaks")
+								.Replace("eternitymode", "emode")
+								.Replace("masochistmode", "masomode");
 
 							return settingToQuery switch
 							{
@@ -418,6 +422,8 @@ namespace Terratweaks
 
 								"alchemitweaks_disablecustompotions" or "disablecustomalchpotions" => Alchemitweaks.DisableCustomPotions,
 								"alchemitweaks_anticheese" or "alchemitweaks_infmoneyfix" or "architectinfmoneyfix" or "architectanticheese" => Alchemitweaks.AntiCheese,
+
+								"eternitweaks_lightningbuff" or "eternitweaks_emodelightningbuff" or "emodelightningbuff" => Eternitweaks.EmodeLightningBuff,
 
 								_ => throw new Exception($"Could not find Terratweaks config option with name \"{args[1]}\" or alias \"{settingToQuery}\"."),
 								#endregion

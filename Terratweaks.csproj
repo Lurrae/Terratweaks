@@ -21,6 +21,12 @@
     <Reference Include="EfficientNohits">
       <HintPath>..\..\ModReader\EfficientNohits\EfficientNohits.dll</HintPath>
     </Reference>
+    <Reference Include="Fargowiltas">
+      <HintPath>..\..\ModReader\Fargowiltas\Fargowiltas.dll</HintPath>
+    </Reference>
+    <Reference Include="FargowiltasSouls">
+      <HintPath>..\..\ModReader\FargowiltasSouls\FargowiltasSouls.dll</HintPath>
+    </Reference>
     <Reference Include="MagicStorage">
       <HintPath>..\..\ModReader\MagicStorage\MagicStorage.dll</HintPath>
     </Reference>

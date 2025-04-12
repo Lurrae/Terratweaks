@@ -57,6 +57,8 @@ namespace Terratweaks
 
 		public AlchTweaks alchemitweaks = new();
 
+		public EmodeTweaks eternitweaks = new();
+
 		// Block & biome tweaks
 		[Header("BlockBiomeTweaks")]
 
@@ -838,5 +840,36 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool DisableCustomPotions { get; set; }
+	}
+
+	[SeparatePage]
+	public class EmodeTweaks
+	{
+		// Accessory Tweaks
+		//[Header("AccTweaks")]
+
+		// Block and Biome Tweaks
+		//[Header("BlockBiomeTweaks")]
+
+		// Boss and Event Tweaks
+		//[Header("BossTweaks")]
+
+		// Enemy Tweaks
+		//[Header("EnemyTweaks")]
+
+		// Gameplay Tweaks
+		[Header("GameplayTweaks")]
+
+		[DefaultValue(true)]
+		public bool EmodeLightningBuff { get; set; }
+
+		// General Item Tweaks
+		//[Header("ItemTweaks")]
+
+		// Misc. Tweaks
+		//[Header("MiscTweaks")]
+
+		// Town NPC Tweaks
+		//[Header("TownNpcTweaks")]
 	}
 }

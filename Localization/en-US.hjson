@@ -107,6 +107,15 @@ Mods: {
 						'''
 				}
 
+				eternitweaks: {
+					Label: Eternitweaks
+					Tooltip:
+						'''
+						Contains toggles that change various things about Eternity Mode and Masochist Mode from Fargo's Souls Mod, if it's enabled
+						These options do nothing if that mod is not enabled, and most have no effect on content outside of Emode/Masomode
+						'''
+				}
+
 				BannersDontSpamChat: {
 					Label: "[i:GreenSlimeBanner] [i:Megaphone] Banner announcements appear in the world"
 					Tooltip: When a player kills enough enemies to obtain a banner, text appears in the world below all players instead of printing a message in chat
@@ -1366,6 +1375,31 @@ Mods: {
 						'''
 						Removes the crafting recipes for all potions from the Alchemist NPC Lite mod, and removes the potions from the Brewer's shop
 						These potions are generally considered to be very overpowered, as most of them essentially give extra accessory slots due to providing accessories' effects for free
+						'''
+				}
+
+				Tooltip: ""
+			}
+
+			EmodeTweaks: {
+				Headers: {
+					AccTweaks: Accessory Tweaks
+					BlockBiomeTweaks: Block and Biome Tweaks
+					BossTweaks: Boss and Event Tweaks
+					EnemyTweaks: Enemy Tweaks
+					GameplayTweaks: Gameplay Tweaks
+					ItemTweaks: General Item Tweaks
+					MiscTweaks: Misc. Tweaks
+					TownNpcTweaks: Town NPC Tweaks
+				}
+
+				EmodeLightningBuff: {
+					Label: "[i:MusicBoxStorm] Rain Lightning Hazard Buff"
+					Tooltip:
+						'''
+						The thunder bolts that spawn during rain and storms in Eternity Mode deal massively increased damage, putting them on par with boulders
+						(Base damage is increased from 60 (120 in Hardmode) to 280 (420 in Master Mode) with no Hardmode buff)
+						They also still inflict Electrified, so if you aren't careful thunder can be incredibly deadly without the right gear, even in lategame!
 						'''
 				}
 
