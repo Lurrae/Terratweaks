@@ -195,8 +195,8 @@ namespace Terratweaks
 							// Replace some symbols/words with others to make this more lenient
 							settingToQuery = settingToQuery
 								.Replace(" ", "").Replace("'", "").Replace("&", "").Replace("^", "").Replace("%", "").Replace("#", "").Replace("@", "")
-								.Replace("!", "").Replace("?", "").Replace(",", "").Replace(";", "")
-								.Replace("/", "_").Replace(":", "_").Replace(".", "_").Replace("-", "_")
+								.Replace("!", "").Replace("?", "")
+								.Replace("/", "_").Replace(":", "_").Replace(";", "_").Replace(".", "_").Replace("-", "_").Replace(",", "_")
 								.ToLower() // Convert to lowercase so case sensitivity doesn't matter (this happens before checking for alias words for obvious reasons)
 								// Secret Seed name abbreviations
 								.Replace("fortheworthy", "ftw")
@@ -353,6 +353,7 @@ namespace Terratweaks
 								"lavalesslavaslimes" => Config.LavalessLavaSlimes,
 								"harmlessfallenstars" or "nofallenstardamage" => Config.HarmlessFallenStars,
 								"resummonminions" => Config.ResummonMinions,
+								"nobiomerequirements" => Config.NoBiomeRequirements,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
@@ -721,6 +722,29 @@ namespace Terratweaks
 						catch (OverflowException)
 						{
 							throw new ArgumentException($"Expected arguments of type int for 'AddStationBuff', but got type {args[1].GetType().Name} instead.");
+						}
+					case "AddToNoBiomeBlacklist":
+						try
+						{
+							int itemID = Convert.ToInt32(args[1]);
+							ShopHandler.NoBiomeBlacklist.Add(itemID);
+
+							return true;
+						}
+						catch (OverflowException)
+						{
+							throw new ArgumentException($"Expected arguments of type int for 'AddToNoBiomeBlacklist', but got type {args[1].GetType().Name} instead.");
+						}
+					case "AddBiomeCondition":
+						if (args[1] is Condition biomeCondition)
+						{
+							ShopHandler.BiomeConditions.Add(biomeCondition);
+
+							return true;
+						}
+						else
+						{
+							throw new ArgumentException($"Expected arguments of type Condition for 'AddBiomeCondition', but got type {args[1].GetType().Name} instead.");
 						}
 				}
 			}

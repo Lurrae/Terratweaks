@@ -778,6 +778,18 @@ Mods: {
 						If you don't have enough minion slots to resummon everything, the last minions you spawned will not respawn
 						'''
 				}
+
+				NoBiomeRequirements: {
+					Label: "[i:PottedForestTree] Remove Biome Requirements from Shops"
+					Tooltip:
+						'''
+						Removes the requirement of housing NPCs in particular biomes to get them to sell certain items
+						All pylons are unaffected, since they can only be placed in a particular biome anyways
+						Other mods may also add their own exceptions, but by default only pylons ignore this config option
+						It's recommended to use a mod that expands NPC shops, particularly for shops like the Painter's decor shop
+						Also, most modded biome conditions are not supported currently; I've added native Thorium and Calamity support, at least
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

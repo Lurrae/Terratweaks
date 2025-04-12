@@ -374,6 +374,10 @@ namespace Terratweaks
 		public bool OldChestDungeon { get; set; }
 
 		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool NoBiomeRequirements { get; set; }
+
+		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool SoilSolutionsPreML { get; set; }
 

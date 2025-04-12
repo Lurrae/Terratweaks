@@ -42,10 +42,7 @@ namespace Terratweaks
 	[JITWhenModsEnabled("CalamityMod")]
 	public class CalamityModSupport : ModSystem
 	{
-		public override bool IsLoadingEnabled(Mod mod)
-		{
-			return ModLoader.HasMod("CalamityMod");
-		}
+		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("CalamityMod");
 
 		public override void OnModLoad()
 		{
@@ -81,9 +78,6 @@ namespace Terratweaks
 			Mod.Call("AddShimmerableBossDrop", "Yharon", new List<int> { ModContent.ItemType<TheBurningSky>(), ModContent.ItemType<DragonRage>(), ModContent.ItemType<DragonsBreath>(), ModContent.ItemType<ChickenCannon>(), ModContent.ItemType<PhoenixFlameBarrage>(), ModContent.ItemType<YharonsKindleStaff>(), ModContent.ItemType<Wrathwing>(), ModContent.ItemType<TheFinalDawn>() });
 			// Exo Mechs are skipped because the weapons are dropped at a 100% chance based on which mech was killed last, rather than a random chance to get each one
 			Mod.Call("AddShimmerableBossDrop", "SCal", new List<int> { ModContent.ItemType<Violence>(), ModContent.ItemType<Condemnation>(), ModContent.ItemType<Vehemence>(), ModContent.ItemType<Heresy>(), ModContent.ItemType<Perdition>(), ModContent.ItemType<Vigilance>(), ModContent.ItemType<Sacrifice>() });
-
-			// Town NPC weapon drops
-			Mod.Call("AddSellableWeapon", ModContent.ItemType<ClothiersWrath>(), NPCID.Clothier, new List<Condition>() { Condition.Hardmode });
 		}
 
 		public override void PostSetupContent()
@@ -123,16 +117,22 @@ namespace Terratweaks
 			Mod.Call("AddColdDebuff", ModContent.BuffType<GlacialState>());
 			Mod.Call("AddColdDebuff", ModContent.BuffType<Nightwither>());
 			Mod.Call("AddColdDebuff", ModContent.BuffType<TemporalSadness>());
+
+			// Town NPC weapon drops
+			Mod.Call("AddSellableWeapon", ModContent.ItemType<ClothiersWrath>(), NPCID.Clothier, new List<Condition>() { Condition.Hardmode });
+
+			// Custom biome conditions
+			Mod.Call("AddBiomeCondition", CalamityConditions.InCrag);
+			Mod.Call("AddBiomeCondition", CalamityConditions.InAstral);
+			Mod.Call("AddBiomeCondition", CalamityConditions.InSulph);
+			Mod.Call("AddBiomeCondition", CalamityConditions.InSunken);
 		}
 	}
 
 	[JITWhenModsEnabled("ThoriumMod")]
 	public class ThoriumModSupport : ModSystem
 	{
-		public override bool IsLoadingEnabled(Mod mod)
-		{
-			return ModLoader.HasMod("ThoriumMod");
-		}
+		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("ThoriumMod");
 
 		public override void OnModLoad()
 		{
@@ -177,19 +177,20 @@ namespace Terratweaks
 
 			// Cold debuffs
 			Mod.Call("AddColdDebuff", ModContent.BuffType<Freezing>());
+
+			// Custom biome conditions
+			Mod.Call("AddBiomeCondition", ThoriumConditions.NotInBeachSnowDesert);
 		}
 	}
 
 	[JITWhenModsEnabled("EfficientNohits")]
 	public class NycroModSupport : ModSystem
 	{
-		public override bool IsLoadingEnabled(Mod mod)
-		{
-			return ModLoader.HasMod("EfficientNohits");
-		}
+		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("EfficientNohits");
 
 		public override void PostSetupContent()
 		{
+			// Permanent consumables
 			Mod.Call("AddPermConsumable", ModContent.ItemType<MaxLifeCrystal>(), (Player p) => p.ConsumedLifeCrystals == 15);
 			Mod.Call("AddPermConsumable", ModContent.ItemType<MaxManaCrystal>(), (Player p) => p.ConsumedManaCrystals == 9);
 			Mod.Call("AddPermConsumable", ModContent.ItemType<MaxLifeFruit>(), (Player p) => p.ConsumedLifeFruit == 20);

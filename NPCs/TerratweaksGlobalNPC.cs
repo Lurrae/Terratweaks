@@ -680,6 +680,59 @@ namespace Terratweaks.NPCs
 			{ ItemID.PrincessWeapon, new List<Condition>() { Condition.DownedPlantera } }
 		};
 
+		public static readonly List<int> NoBiomeBlacklist = new();
+
+		public static readonly List<Condition> BiomeConditions = new()
+		{
+			// Sky, surface, and underground
+			Condition.InSkyHeight,
+			Condition.InSpace,
+			Condition.InShoppingZoneForest,
+			Condition.InOverworldHeight,
+			Condition.InBelowSurface,
+			Condition.InDirtLayerHeight,
+			Condition.InRockLayerHeight,
+
+			// Cave biomes
+			Condition.InGlowshroom,
+			Condition.InGranite,
+			Condition.InMarble,
+			Condition.InGemCave,
+			Condition.InUnderworld,
+			Condition.InUnderworldHeight,
+			Condition.NotInUnderworld,
+
+			// Surface biomes
+			Condition.InSnow,
+			Condition.InDesert,
+			Condition.InJungle,
+			Condition.InBeach,
+			Condition.InCorrupt,
+			Condition.InCrimson,
+			Condition.InEvilBiome,
+			Condition.NotInEvilBiome,
+			Condition.InHallow,
+			Condition.NotInHallow,
+
+			// Underground biomes
+			Condition.InUndergroundDesert,
+
+			// Structures/man-made biomes
+			Condition.InHive,
+			Condition.InGraveyard,
+			Condition.NotInGraveyard,
+			Condition.InDungeon,
+			Condition.InLihzhardTemple,
+			Condition.InMeteor,
+
+			// Special biomes
+			Condition.InTowerSolar,
+			Condition.InTowerVortex,
+			Condition.InTowerNebula,
+			Condition.InTowerStardust,
+			Condition.InAether
+		};
+
 		public override void ModifyShop(NPCShop shop)
 		{
 			if (shop.NpcType == NPCID.DyeTrader)
@@ -835,6 +888,57 @@ namespace Terratweaks.NPCs
 						// Finally, add the item to the shop with whatever conditions we're given!
 						shop.Add(weaponType, conditions.ToArray());
 					}
+				}
+			}
+
+			if (Terratweaks.Config.NoBiomeRequirements)
+			{
+				// uuugh why does editing any sort of list have to be so annoying-
+				Dictionary<NPCShop.Entry, Condition[]> newEntries = new();
+
+				// Look through every item in the shop we're looking at
+				// Since we don't check for any NPC type, this'll apply to every town NPC with a shop
+				foreach (NPCShop.Entry entry in shop.Entries)
+				{
+					Item item = entry.Item;
+					var conditions = entry.Conditions;
+
+					// Skip all pylons- which thankfully have a very easy way to filter out
+					// I totally didn't spend ages trying to figure out some hacky workarounds before realizing I could just do this :)
+					if (TileID.Sets.CountsAsPylon.Contains(item.createTile))
+						continue;
+
+					// Skip any items which other mods add to the blacklist
+					if (NoBiomeBlacklist.Contains(item.type))
+						continue;
+
+					// We need a list so that we can remove conditions freely (and the ToArray() and Clone() just ensures that we don't mess with the OG conditions list)
+					var newConditions = ((Condition[])conditions.ToArray().Clone()).ToList();
+
+					// Look through the list of conditions and add any conditions that check for a particular biome
+					// Unfortunately, this has to be hardcoded in since there's no way to check the conditions easily
+					foreach (Condition condition in conditions)
+					{
+						if (BiomeConditions.Contains(condition))
+						{
+							// Remove the condition from the new list, so that when we create our own entry later the condition won't be present
+							newConditions.Remove(condition);
+						}
+					}
+
+					// Once we've got an up-to-date list of conditions, we can replace the original entry with our own!
+					// ...Well, not really because lists are dumb and stupid and you can't add/remove stuff from them while looping over them in a foreach-
+					newEntries.Add(entry, newConditions.ToArray());
+				}
+
+				// me when "Collection was modified; enumeration operation may not execute"
+				foreach (KeyValuePair<NPCShop.Entry, Condition[]> pair in newEntries)
+				{
+					var entry = pair.Key;
+					var conditions = pair.Value;
+
+					entry.Disable();
+					shop.InsertAfter(entry, entry.Item, conditions);
 				}
 			}
 		}
