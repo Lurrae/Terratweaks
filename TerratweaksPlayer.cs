@@ -273,16 +273,42 @@ namespace Terratweaks
 			// These effects are identical to those of Soaring Insignia
 			if (radiantInsignia)
 			{
-				if (Player.wingTime != 0)
-					Player.wingTime = Player.wingTimeMax;
+				bool noInfiniteFlight = false;
 
-				Player.rocketTime = Player.rocketTimeMax;
-				Player.runAcceleration *= 1.75f;
-				
-				// Tell Calamity we have infinite flight time if that mod's enabled
+				// If Calamity is enabled, we need to avoid providing infinite flight with any debuffs that are meant to strip infinite flight:
+				// Weak Petrification, Icarus' Folly, Extreme Gravity
 				if (ModLoader.TryGetMod("CalamityMod", out Mod calamity))
 				{
-					calamity.Call("ToggleInfiniteFlight", Player, true);
+					if (calamity.TryFind("WeakPetrification", out ModBuff weakPetri) &&
+						calamity.TryFind("IcarusFolly", out ModBuff icarus) &&
+						calamity.TryFind("DoGExtremeGravity", out ModBuff exGravity))
+					{
+						// Don't apply infinite flight if the player has any of the anti-inf.flight debuffs
+						if (Player.HasBuff(weakPetri.Type) || Player.HasBuff(icarus.Type) || Player.HasBuff(exGravity.Type))
+						{
+							noInfiniteFlight = true;
+						}
+						// If we do provide infinite flight, make sure Calamity knows that
+						else
+						{
+							calamity.Call("ToggleInfiniteFlight", Player, true);
+						}
+					}
+				}
+
+				// If we can provide infinite flight, do so
+				if (!noInfiniteFlight)
+				{
+					if (Player.wingTime != 0)
+						Player.wingTime = Player.wingTimeMax;
+
+					Player.rocketTime = Player.rocketTimeMax;
+					Player.runAcceleration *= 1.75f;
+				}
+				// Otherwise, just increase flight time in the same way as base Soaring Insignia
+				else
+				{
+					Player.empressBrooch = true;
 				}
 			}
 
