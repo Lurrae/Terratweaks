@@ -1,4 +1,3 @@
-using EfficientNohits;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.UI;
 using Terraria.Utilities;
 using Terratweaks.Buffs;
 using Terratweaks.NPCs;
@@ -680,6 +680,93 @@ namespace Terratweaks
 				if (itemDrop == ItemID.ReaverShark && !NPC.downedBoss2 && !NPC.downedBoss3)
 				{
 					itemDrop = ItemID.SawtoothShark;
+				}
+			}
+		}
+	}
+
+	// Tracks what minions the player has summoned while they're alive, and then resummons those minions on death
+	public class MinionPlayer : ModPlayer
+	{
+		// Tracks how many minions of a particular type are summoned
+		public readonly Dictionary<Item, int> SummonedMinions = new();
+
+		// Immediately upon respawning, summon every minion the player had before they died
+		public override void OnRespawn()
+		{
+			// Don't do this if the config option is disabled or the player had no summoned minions
+			if (!Terratweaks.Config.ResummonMinions || SummonedMinions.Count <= 0)
+				return;
+
+			// Force the player's accessory effects to apply, so that all of their extra minion slots can be used
+			Player.UpdateEquips(Player.whoAmI);
+
+			// Create a copy of the original list, then clear the original list
+			// This way, the old list can be updated to match what minions are successfully resummoned
+			KeyValuePair<Item, int>[] oldSummonedMinions = (KeyValuePair<Item, int>[])SummonedMinions.ToArray().Clone();
+			SummonedMinions.Clear();
+
+			foreach (KeyValuePair<Item, int> pair in oldSummonedMinions)
+			{
+				Item item = pair.Key;
+				int amount = pair.Value;
+				
+				// The code for summoning minions was adapted from the Lan's Auto Summon mod;
+				// LansAutoSummon.cs, lines 278-345
+				for (int i = 0; i < amount; i++)
+				{
+					// This is needed so that items in the player's inventory won't get overwritten for no reason
+					Item oldItem = Player.inventory[Player.selectedItem];
+
+					// Since we don't know what values are going to be set by simulating item use,
+					// we need to track basically EVERYTHING that could feasibly change so we can restore it all later
+					var oldControlUseItem = Player.controlUseItem;
+					var oldReleaseUseItem = Player.releaseUseItem;
+					var oldItemAnimation = Player.itemAnimation;
+					var oldItemTime = Player.itemTime;
+					var oldItemAnimationMax = Player.itemAnimationMax;
+					var oldItemLocation = Player.itemLocation;
+					var oldItemRotation = Player.itemRotation;
+					var oldDirection = Player.direction;
+					var oldToolTime= Player.toolTime;
+					var oldChannel = Player.channel;
+					var oldAttackCooldown = Player.attackCD;
+
+					// By changing the item in the selected slot of the player's inventory, we can basically force them to use whatever item we want
+					// In this case, a minion-summoning item!
+					Player.inventory[Player.selectedItem] = item;
+
+					// Simulate the player using this item
+					Player.controlUseItem = true;
+					Player.itemAnimation = 0;
+					Player.ItemCheck();
+					Player.controlUseItem = false;
+
+					while (Player.itemAnimation > 0)
+						Player.ItemCheck();
+
+					// Restore the item in the selected slot
+					Player.inventory[Player.selectedItem] = oldItem;
+
+					// Restore all the other variables
+					Player.controlUseItem = oldControlUseItem;
+					Player.releaseUseItem = oldReleaseUseItem;
+					Player.itemAnimation = oldItemAnimation;
+					Player.itemTime = oldItemTime;
+					Player.itemAnimationMax = oldItemAnimationMax;
+					Player.itemLocation = oldItemLocation;
+					Player.itemRotation = oldItemRotation;
+					Player.direction = oldDirection;
+					Player.toolTime = oldToolTime;
+					Player.channel = oldChannel;
+					Player.attackCD = oldAttackCooldown;
+
+					// Check the player's current minion count- if we've reached or exceeded the minion cap, stop summoning minions
+					// This is to ensure that the last minion summoned will not be re-summoned if the player had a Summoning Potion, rather than the first
+					if (Player.numMinions >= Player.maxMinions)
+					{
+						return;
+					}
 				}
 			}
 		}

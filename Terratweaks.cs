@@ -348,6 +348,7 @@ namespace Terratweaks
 								"ezdyebanners" => Config.EzDyeBanners,
 								"lavalesslavaslimes" => Config.LavalessLavaSlimes,
 								"harmlessfallenstars" or "nofallenstardamage" => Config.HarmlessFallenStars,
+								"resummonminions" => Config.ResummonMinions,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

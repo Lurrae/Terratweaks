@@ -759,6 +759,16 @@ Mods: {
 						On the Zenith seed, Fallen Stars will still damage players!
 						'''
 				}
+
+				ResummonMinions: {
+					Label: "[i:BabyBirdStaff] Resummon Minions on Respawn"
+					Tooltip:
+						'''
+						When you respawn, every minion that you had summoned before you died will immediately respawn
+						Note that extra minion slots from buffs like the Summoning Potion will not apply unless the buff is persistent!
+						If you don't have enough minion slots to resummon everything, the last minions you spawned will not respawn
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

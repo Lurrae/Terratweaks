@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -25,6 +26,8 @@ namespace Terratweaks.Projectiles
 			{
 				sourceItem = src2.Item;
 			}
+
+			Player player = Main.player[projectile.owner];
 
 			// Increase Bone Helm damage, increase it further and increase armor pen and pierce in Hardmode
 			if (Terratweaks.Config.BoneHelm && projectile.type == ProjectileID.InsanityShadowFriendly)
@@ -54,7 +57,6 @@ namespace Terratweaks.Projectiles
 				projectile.ArmorPenetration += 20; // 45 total AP
 				projectile.penetrate += 1; // 4 total pierce
 
-				Player player = Main.player[projectile.owner];
 				TerratweaksPlayer tPlr = player.GetModPlayer<TerratweaksPlayer>();
 
 				// Increment the counter...
@@ -91,6 +93,44 @@ namespace Terratweaks.Projectiles
 				projectile.usesLocalNPCImmunity = true;
 				projectile.localNPCHitCooldown = projectile.idStaticNPCHitCooldown;
 				projectile.idStaticNPCHitCooldown = -1;
+			}
+
+			// When a minion is spawned by an item, update the number of these minions the player has spawned
+			if (Terratweaks.Config.ResummonMinions && ProjectileID.Sets.MinionSacrificable[projectile.type] && sourceItem != null)
+			{
+				MinionPlayer mPlr = player.GetModPlayer<MinionPlayer>();
+				int minionCount = player.ownedProjectileCounts[sourceItem.shoot] + 1;
+
+				if (!mPlr.SummonedMinions.TryAdd(sourceItem, minionCount))
+				{
+					mPlr.SummonedMinions[sourceItem] = minionCount;
+				}
+			}
+		}
+
+		// When a minion is deleted, update the amount of them that should be spawned if the player dies
+		public override void OnKill(Projectile projectile, int timeLeft)
+		{
+			Player player = Main.player[projectile.owner];
+
+			// This should not happen if they despawned because the player is dead
+			// That would defeat the whole purpose of this config option!
+			if (player.dead || player.ghost)
+				return;
+
+			if (Terratweaks.Config.ResummonMinions && ProjectileID.Sets.MinionSacrificable[projectile.type] && sourceItem != null)
+			{
+				MinionPlayer mPlr = player.GetModPlayer<MinionPlayer>();
+
+				if (mPlr.SummonedMinions.ContainsKey(sourceItem))
+				{
+					player.ownedProjectileCounts[sourceItem.shoot]--;
+					mPlr.SummonedMinions[sourceItem] = player.ownedProjectileCounts[sourceItem.shoot];
+
+					// Remove this item from the list of items to use if we no longer have any minions to summon
+					if (mPlr.SummonedMinions[sourceItem] <= 0)
+						mPlr.SummonedMinions.Remove(sourceItem);
+				}
 			}
 		}
 

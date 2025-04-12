@@ -302,6 +302,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool ManaFreeSummoner { get; set; }
 
+		[DefaultValue(true)]
+		public bool ResummonMinions { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool UmbrellaHatRework { get; set; }
