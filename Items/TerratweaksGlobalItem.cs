@@ -125,6 +125,9 @@ namespace Terratweaks.Items
 
 			if (Terratweaks.Config.FrostHydraBuff && item.type == ItemID.StaffoftheFrostHydra)
 				itemIsModified = true;
+
+			if (Terratweaks.Config.NonConsumableBossSummons && ItemChanges.IsBossSummon(item))
+				itemIsModified = true;
 			#endregion
 
 			#region Expert Accessory & Armor Tweaks
@@ -536,6 +539,12 @@ namespace Terratweaks.Items
 					};
 					tooltips.Insert(idx + 1, line);
 				}
+			}
+
+			// Add a line to boss summons that have been made non-consumable
+			if (Terratweaks.Config.NonConsumableBossSummons && idx != -1 && ItemChanges.IsBossSummon(item))
+			{
+				tooltips.Insert(idx + 1, new TooltipLine(Mod, "NotConsumable", Language.GetTextValue("Mods.Terratweaks.Common.NotConsumable")));
 			}
 
 			// Add/replace some lines for accessories with removed diminishing returns
@@ -1044,6 +1053,26 @@ namespace Terratweaks.Items
 		public static readonly List<int> IgnoredSummonWeapons = new();
 		public static readonly float FROST_HYDRA_DMG_NERF = 0.75f; // -25% damage
 
+		public static bool IsBossSummon(Item item, bool skipCalItems = true, bool checkGlobalItem = true)
+		{
+			// Always return false for null items, just in case
+			if (item == null)
+				return false;
+
+			if (skipCalItems && ModLoader.TryGetMod("CalamityMod", out Mod calamity) && (item.ModItem == null || item.ModItem.Mod.Name.Equals(calamity.Name)))
+				return false;
+
+			if (checkGlobalItem && item.TryGetGlobalItem(out BossSummonStuff globalItem))
+			{
+				var ogConsumable = globalItem.OriginalConsumableValue;
+
+				if (ogConsumable.HasValue)
+					return ItemID.Sets.SortingPriorityBossSpawns[item.type] != -1 && ogConsumable.Value && (item.ResearchUnlockCount == 1 || item.ResearchUnlockCount == 3);
+			}
+			
+			return ItemID.Sets.SortingPriorityBossSpawns[item.type] != -1 && item.consumable && (item.ResearchUnlockCount == 1 || item.ResearchUnlockCount == 3);
+		}
+
 		public override void SetStaticDefaults()
 		{
 			if (Terratweaks.Config.CoinsBypassEncStone)
@@ -1263,6 +1292,16 @@ namespace Terratweaks.Items
 			if (Terratweaks.Config.FrostHydraBuff && item.type == ItemID.StaffoftheFrostHydra)
 			{
 				item.damage = (int)Math.Floor(item.damage * FROST_HYDRA_DMG_NERF);
+			}
+
+			if (Terratweaks.Config.NonConsumableBossSummons && IsBossSummon(item))
+			{
+				if (!item.GetGlobalItem<BossSummonStuff>().OriginalConsumableValue.HasValue)
+					item.GetGlobalItem<BossSummonStuff>().OriginalConsumableValue = item.consumable;
+				if (!item.GetGlobalItem<BossSummonStuff>().OriginalMaxStackValue.HasValue)
+					item.GetGlobalItem<BossSummonStuff>().OriginalMaxStackValue = item.maxStack;
+				item.consumable = false;
+				item.maxStack = 1;
 			}
 		}
 
@@ -2032,5 +2071,14 @@ namespace Terratweaks.Items
 			ItemID.Sets.KillsToBanner[ItemID.SquidBanner] = 25;
 			ItemID.Sets.KillsToBanner[ItemID.SeaSnailBanner] = 25;
 		}
+	}
+
+	// Just stores the original value of item.consumable, and nothing else
+	public class BossSummonStuff : GlobalItem
+	{
+		public override bool InstancePerEntity => true;
+
+		public bool? OriginalConsumableValue = null;
+		public int? OriginalMaxStackValue = null;
 	}
 }

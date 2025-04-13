@@ -58,6 +58,24 @@ namespace Terratweaks.Calamitweaks
 			}
 		}
 
+		public override void PostSetupContent()
+		{
+			// Any Calamity summons that have been made consumable need to be updated here
+			// We can't do this at the same time we handle vanilla and all other mods because we need to check data only accessible to Calamitweaks
+			if (Terratweaks.Calamitweaks.ConsumableCalBossSummons)
+			{
+				foreach (Item item in ContentSamples.ItemsByType.Values)
+				{
+					// This method checks the blacklist already, so we just need to filter out vanilla items
+					// The method also filters out all modded non-Calamity items, so we don't need to check that here
+					if (CalamitweaksItems.IsVanillaOrCalBossSummon(item) && item.ModItem != null)
+					{
+						item.ResearchUnlockCount = 3;
+					}
+				}
+			}
+		}
+
 		public static void AddCalamityZenithProfiles(Dictionary<int, FinalFractalHelper.FinalFractalProfile> profiles)
 		{
 			#region Terratomere crafting tree

@@ -790,6 +790,18 @@ Mods: {
 						Also, most modded biome conditions are not supported currently; I've added native Thorium and Calamity support, at least
 						'''
 				}
+
+				NonConsumableBossSummons: {
+					Label: "[i:SuspiciousLookingEye] Non-Consumable Boss Summons"
+					Tooltip:
+						'''
+						Mirrors the changes Calamity makes to boss summons, setting the max stack size of all boss summons to 1 and making them non-consumable
+						Additionally, the number of items needed to research boss summons is reduced from the usual value of 3 to 1
+						If Calamity is active, the max stack size and non-consumability changes are not applied to vanilla/Calamity items since Calamity already covers them,
+						but the research count of vanilla boss summons will still be changed!
+						If the Calamitweaks config option to make its boss summons consumable is active, this config option has no effect on vanilla or Calamity items
+						'''
+				}
 			}
 
 			CraftableUncraftables: {
@@ -1310,6 +1322,16 @@ Mods: {
 						'''
 				}
 
+				ConsumableCalBossSummons: {
+					Label: "[i:SuspiciousLookingEye] Consumable Calamity Boss Summons"
+					Tooltip:
+						'''
+						Reverts the changes Calamity makes to vanilla boss summons and updates most Calamity boss summons for parity
+						The Starcore, Profaned Core, Rune of Kos, and Ceremonial Urn are not affected by this config option
+						This config option takes priority over the main Terratweaks config option to make boss summons non-consumable
+						'''
+				}
+
 				Tooltip: ""
 			}
 
@@ -1466,6 +1488,8 @@ Mods: {
 			# Added tooltips for permanent buff items
 			AmtConsumed: You have consumed {1}/{2} {0}
 			PermBuffTip: You have already consumed the {0}
+			# Added tooltip for non-consumable boss summons
+			NotConsumable: Not consumable
 			# Estimated DPS tooltips for weapons while using a DPS Meter
 			EstDPS: Estimated DPS: {0} damage per second
 			# Wing stats tooltip

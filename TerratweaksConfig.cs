@@ -42,6 +42,13 @@ namespace Terratweaks
 		Bee
 	}
 
+	public enum ConsumableBossSummonsSetting
+	{
+		Off,
+		ForceConsumable,
+		ForceNonConsumable
+	}
+
 	public class TerratweaksConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide;
@@ -278,6 +285,10 @@ namespace Terratweaks
 		public bool NoDiminishingReturns { get; set; }
 
 		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool NonConsumableBossSummons { get; set; }
+
+		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool OasisCrateBuff { get; set; }
 
@@ -436,6 +447,7 @@ namespace Terratweaks
 				// TODO: Ditto the above todo (remove if/when tmod fixes the issue that makes this necessary)
 				if (calamitweaks.AsgardsValorBuff != pendingTtConfig.calamitweaks.AsgardsValorBuff ||
 					calamitweaks.CombinedStationSupport != pendingTtConfig.calamitweaks.CombinedStationSupport ||
+					calamitweaks.ConsumableCalBossSummons != pendingTtConfig.calamitweaks.ConsumableCalBossSummons ||
 					calamitweaks.CraftableHostileTurrets != pendingTtConfig.calamitweaks.CraftableHostileTurrets ||
 					calamitweaks.DeificAmuletBuff != pendingTtConfig.calamitweaks.DeificAmuletBuff ||
 					calamitweaks.DryadSellsSeeds != pendingTtConfig.calamitweaks.DryadSellsSeeds ||
@@ -722,6 +734,10 @@ namespace Terratweaks
 
 		// General Item Tweaks
 		[Header("ItemTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool ConsumableCalBossSummons { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(false)]

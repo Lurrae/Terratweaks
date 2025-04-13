@@ -10,7 +10,6 @@ using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
-using Terraria.GameContent.Drawing;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.Generation;
 using Terraria.GameContent.ItemDropRules;
@@ -21,7 +20,6 @@ using Terraria.ModLoader;
 using Terratweaks.Buffs;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
-using ThoriumMod.Items.Donate;
 
 namespace Terratweaks
 {
@@ -179,6 +177,50 @@ namespace Terratweaks
 				else if (Config.NoCoinTheft == CoinTheftSetting.On)
 				{
 					NPCID.Sets.CantTakeLunchMoney[npc.type] = true;
+				}
+			}
+
+			if (Config.NonConsumableBossSummons)
+			{
+				foreach (Item item in ContentSamples.ItemsByType.Values)
+				{
+					// If we're checking a vanilla item, we need to make sure Calamity's changes aren't reverted,
+					// because if they are we don't want to change the research count since they're still actually consumable
+					if (item.ModItem == null)
+					{
+						if (ModLoader.HasMod("CalamityMod") && Calamitweaks.ConsumableCalBossSummons)
+							continue;
+
+						bool bossSummonFilter = ModLoader.HasMod("CalamityMod") ? !item.consumable && item.maxStack == 1 : item.consumable && item.ResearchUnlockCount == 3;
+
+						if (item.TryGetGlobalItem(out BossSummonStuff globalItem))
+						{
+							var ogConsumable = globalItem.OriginalConsumableValue;
+
+							// If Calamity isn't present or the config option isn't active, we can just check if the item has Calamity's boss summon stats
+							if (ogConsumable.HasValue)
+							{
+								bossSummonFilter = ModLoader.HasMod("CalamityMod") ? !ogConsumable.Value && item.maxStack == 1 : ogConsumable.Value && item.ResearchUnlockCount == 3;
+
+								if (ItemID.Sets.SortingPriorityBossSpawns[item.type] != -1 && bossSummonFilter)
+								{
+									item.ResearchUnlockCount = 1;
+									continue;
+								}
+							}
+						}
+
+						if (ItemID.Sets.SortingPriorityBossSpawns[item.type] != -1 && bossSummonFilter)
+						{
+							item.ResearchUnlockCount = 1;
+						}
+					}
+					// Non-vanilla items that aren't from Calamity just have their research count set to 1
+					// Calamity items are handled by Calamitweaks code
+					else if (ItemChanges.IsBossSummon(item))
+					{
+						item.ResearchUnlockCount = 1;
+					}
 				}
 			}
 		}
@@ -354,6 +396,7 @@ namespace Terratweaks
 								"harmlessfallenstars" or "nofallenstardamage" => Config.HarmlessFallenStars,
 								"resummonminions" => Config.ResummonMinions,
 								"nobiomerequirements" => Config.NoBiomeRequirements,
+								"nonconsumablebosssummons" => Config.NonConsumableBossSummons,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
@@ -415,6 +458,7 @@ namespace Terratweaks
 								"calamitweaks_zenithrecipeoverhaul" or "calzenithrecipeoverhaul" or "calamitweaks_zenithrecipe" or "calzenithrecipe" => Calamitweaks.ZenithRecipeOverhaul,
 								"calamitweaks_wotg_nosilentrift" or "wotg_nosilentrift" or "calamitweaks_nosilentrift" or "nosilentrift" => Calamitweaks.NoSilentRift,
 								"calamitweaks_fables_ezbanners" or "calamitweaks_fables_ezfablesbanners" or "fables_ezbanners" or "fables_ezfablesbanners" or "ezfablesbanners" => Calamitweaks.EzFablesBanners,
+								"calamitweaks_consumablebosssummons" or "consumablecalbosssummons" => Calamitweaks.ConsumableCalBossSummons,
 
 								"thoritweaks_bombableadblocks" or "bombableadblocks" => Thoritweaks.BombableADBlocks,
 								"thoritweaks_combinedstationsupport" or "thorcombinedstationsupport" => Thoritweaks.CombinedStationSupport,

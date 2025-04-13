@@ -5,6 +5,7 @@ using CalamityMod.Items.Armor.GemTech;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.PlaceableTurrets;
+using CalamityMod.Items.SummonItems;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terratweaks.Items;
 
 namespace Terratweaks.Calamitweaks
 {
@@ -23,53 +25,75 @@ namespace Terratweaks.Calamitweaks
 
 		public override void Load()
 		{
-			if (Terratweaks.Calamitweaks.RevertPickSpeedBuffs)
+			Dictionary<object, Array> entriesToReplace = new();
+			List<int> entriesToRemove = new();
+
+			FieldInfo currentTweaksField = typeof(CalamityGlobalItem).GetField("currentTweaks", BindingFlags.NonPublic | BindingFlags.Static);
+			IDictionary curTweaksDict = (IDictionary)currentTweaksField.GetValue(null);
+
+			foreach (var key in curTweaksDict.Keys)
 			{
-				Dictionary<object, Array> entriesToReplace = new();
+				int itemType = (int)key;
+				Item item = ContentSamples.ItemsByType[itemType];
 
-				FieldInfo currentTweaksField = typeof(CalamityGlobalItem).GetField("currentTweaks", BindingFlags.NonPublic | BindingFlags.Static);
-				IDictionary curTweaksDict = (IDictionary)currentTweaksField.GetValue(null);
+				object tweaks = curTweaksDict[key];
+				Array tweaksList = (Array)tweaks;
+				int i = -1;
 
-				foreach (var key in curTweaksDict.Keys)
+				// Revert all changes made to vanilla boss summoning items with the config option active
+				if (Terratweaks.Calamitweaks.ConsumableCalBossSummons && ItemChanges.IsBossSummon(item, false, false))
 				{
-					int itemType = (int)key;
-					if (ContentSamples.ItemsByType[itemType].pick > 0)
+					entriesToRemove.Add(itemType);
+				}
+
+				// Revert any use time changes applied to pickaxe items
+				if (Terratweaks.Calamitweaks.RevertPickSpeedBuffs && item.pick > 0)
+				{
+					foreach (object tweak in tweaksList)
 					{
-						object tweaks = curTweaksDict[key];
-						Array tweaksList = (Array)tweaks;
-						int i = 0;
+						string tweakName = tweak.GetType().Name;
 
-						// Find an item tweak that edits the use time of the item
-						foreach (object tweak in tweaksList)
+						// Only do stuff for use time changes
+						if (tweakName.Equals("UseTimeExactRule"))
 						{
-							if (tweak.GetType().Name.Equals("UseTimeExactRule"))
-							{
-								break;
-							}
-							i++;
+							break;
 						}
 
-						// Found a tweak to remove, remove it!
-						if (i < tweaksList.Length)
-						{
-							// Copy the last element over the tweak we want to remove
-							tweaksList.SetValue(tweaksList.GetValue(tweaksList.Length - 1), i);
-
-							// Make a new array containing everything except the last element
-							Type arrayType = tweaksList.GetType().GetElementType();
-							Array newArray = Array.CreateInstance(arrayType, tweaksList.Length - 1);
-							Array.Copy(tweaksList, 0, newArray, 0, newArray.Length);
-
-							// Mark this array as needing to be replaced
-							entriesToReplace.Add(key, newArray);
-						}
+						i++;
 					}
 				}
 
-				// Replace all the marked arrays
+				// Found a tweak to remove, remove it!
+				if (i > -1 && i < tweaksList.Length)
+				{
+					// Copy the last element over the tweak we want to remove
+					tweaksList.SetValue(tweaksList.GetValue(tweaksList.Length - 1), i);
+
+					// Make a new array containing everything except the last element
+					Type arrayType = tweaksList.GetType().GetElementType();
+					Array newArray = Array.CreateInstance(arrayType, tweaksList.Length - 1);
+					Array.Copy(tweaksList, 0, newArray, 0, newArray.Length);
+
+					// Mark this array as needing to be replaced
+					entriesToReplace.Add(key, newArray);
+				}
+			}
+
+			// Replace all the marked arrays, if we have a config active that should make us do so
+			if (Terratweaks.Calamitweaks.RevertPickSpeedBuffs)
+			{
 				foreach (KeyValuePair<object, Array> pair in entriesToReplace)
 				{
 					curTweaksDict[pair.Key] = pair.Value;
+				}
+			}
+
+			// Remove any entries we wanna fully remove, like the boss summon changes
+			if (Terratweaks.Calamitweaks.ConsumableCalBossSummons)
+			{
+				foreach (int itemID in entriesToRemove)
+				{
+					curTweaksDict.Remove(itemID);
 				}
 			}
 		}
@@ -137,6 +161,41 @@ namespace Terratweaks.Calamitweaks
 			ModContent.ItemType<GemTechSchynbaulds>()
 		};
 
+		public static readonly List<int> BossSummonBlacklist = new()
+		{
+			ModContent.ItemType<Starcore>(),		// Designed to be a non-consumable counterpart of Titan Hearts
+			ModContent.ItemType<ProfanedCore>(),	// Dropped by Profaned Guardians, so it'd be annoying to get multiples of
+			ModContent.ItemType<RuneofKos>(),		// Dropped by Providence, so it'd be annoying to get multiples of
+			ModContent.ItemType<CeremonialUrn>(),	// Designed to be a non-consumable counterpart of Ashes of Calamity
+			ModContent.ItemType<NO>()				// It would be cruel to force players to farm this item with how unfair THE LORDE is
+		};
+
+		public static bool IsVanillaOrCalBossSummon(Item item, bool ignoreBlacklist = false)
+		{
+			// Always return false for null items, just in case
+			if (item == null)
+				return false;
+
+			// Return false for any non-Calamity modded items
+			if (item.ModItem != null && !item.ModItem.Mod.Name.Equals("CalamityMod"))
+				return false;
+
+			// Ignore items on the blacklist, unless told otherwise
+			if (!ignoreBlacklist && BossSummonBlacklist.Contains(item.type))
+				return false;
+
+			if (item.TryGetGlobalItem(out BossSummonStuff globalItem))
+			{
+				var ogConsumable = globalItem.OriginalConsumableValue;
+				var ogMaxStack = globalItem.OriginalMaxStackValue;
+
+				if (ogConsumable.HasValue && ogMaxStack.HasValue)
+					return ItemID.Sets.SortingPriorityBossSpawns[item.type] != -1 && ((!ogConsumable.Value && ogMaxStack.Value == 1) || (ogConsumable.Value && (item.ResearchUnlockCount == 1 || item.ResearchUnlockCount == 3)));
+			}
+
+			return ItemID.Sets.SortingPriorityBossSpawns[item.type] != -1 && ((!item.consumable && item.maxStack == 1) || (item.consumable && (item.ResearchUnlockCount == 1 || item.ResearchUnlockCount == 3)));
+		}
+
 		public override void SetDefaults(Item item)
 		{
 			// Add a tooltip specifying that certain items were modified by Terratweaks while the corresponding configs are active
@@ -157,6 +216,19 @@ namespace Terratweaks.Calamitweaks
 
 			if (Terratweaks.Calamitweaks.SummonerAccBuffs && (item.type == ModContent.ItemType<StarTaintedGenerator>() || item.type == ModContent.ItemType<Nucleogenesis>()))
 				itemIsModified = true;
+
+			// In the case of modified boss summons, if the item's from Calamity we also need to set its consumability and max stack size
+			if (Terratweaks.Calamitweaks.ConsumableCalBossSummons && IsVanillaOrCalBossSummon(item))
+			{
+				itemIsModified = true;
+
+				// Since we already filtered out all non-Calamity items, checking if the item has a ModItem attached guarantees it's a Calamity summon
+				if (item.ModItem != null)
+				{
+					item.maxStack = Item.CommonMaxStack; // 9999
+					item.consumable = true;
+				}
+			}
 
 			if (itemIsModified)
 				item.StatsModifiedBy.Add(Mod);
@@ -251,6 +323,29 @@ namespace Terratweaks.Calamitweaks
 						int numTombstones = Terratweaks.Config.GraveyardFunctionality;
 						TooltipLine line = tooltips.First(t => t.Text.Contains("20 of any tombstone"));
 						line.Text = line.Text.Replace("20 of any tombstone", numTombstones + " of any tombstone");
+					}
+				}
+			}
+
+			// Vanilla/Calamity boss summons - Remove the added line about being non-consumable
+			if (Terratweaks.Calamitweaks.ConsumableCalBossSummons && IsVanillaOrCalBossSummon(item))
+			{
+				// Vanilla items have a \n added to an existing line, so we have to remove that instead of deleting the entire line
+				if (item.ModItem == null)
+				{
+					if (tooltips.Any(t => t.Text.Contains("\nNot consumable")))
+					{
+						TooltipLine line = tooltips.First(t => t.Text.Contains("\nNot consumable"));
+						line.Text = line.Text.Replace("\nNot consumable", "");
+					}
+				}
+				// Calamity items have a whole new tooltip line that we can remove instead
+				else
+				{
+					if (tooltips.Any(t => t.Text.Contains("Not consumable")))
+					{
+						TooltipLine line = tooltips.First(t => t.Text.Contains("Not consumable"));
+						tooltips.Remove(line);
 					}
 				}
 			}
