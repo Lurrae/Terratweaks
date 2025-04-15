@@ -802,6 +802,27 @@ Mods: {
 						If the Calamitweaks config option to make its boss summons consumable is active, this config option has no effect on vanilla or Calamity items
 						'''
 				}
+
+				NoEventSpawns: {
+					Label: "[i:GoblinBattleStandard] [i:BloodMoonStarter] Prevent Natural Event Spawns"
+					Tooltip:
+						'''
+						Disables the ability for vanilla events to spawn naturally
+						This includes invasions (goblins/pirates) as well as moon events (Blood Moon/Solar Eclipse) and Slime Rain
+						Note that this does NOT affect the Martian Madness event! It also does not affect any modded events
+						'''
+				}
+
+				NoBossSpawns: {
+					Label: "[i:SlimeCrown] [i:MechanicalEye] Prevent Natural Boss Spawns"
+					Tooltip:
+						'''
+						Disables the ability for vanilla bosses, namely the Eye of Cthulhu, Deerclops, and mechanical bosses, to spawn naturally
+						The bosses can still be spawned manually of course!
+						Note: This config option currently does not affect King Slime's ability to spawn in the outer thirds of the world, due to limitations within TML
+						It also does not affect any modded bosses that can spawn naturally
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

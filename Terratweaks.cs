@@ -1,5 +1,7 @@
 global using TepigCore;
 using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using MonoMod.Utils;
 using System;
 using System.Collections.Generic;
@@ -152,6 +154,110 @@ namespace Terratweaks
 			On_WorldGen.RandHousePicture += WhereIsntWaldo;
 			On_NPC.HitEffect_HitInfo += LavalessLavaSlime;
 			On_NPC.GetNPCColorTintedByBuffs += HunterHighlightOverride;
+			On_Main.StartSlimeRain += DisableSlimeRain;
+
+			IL_Main.UpdateTime_StartDay += DisableEventSpawns_Day;
+			IL_Main.UpdateTime_StartNight += DisableEventAndBossSpawns_Night;
+			IL_Main.UpdateTime += DisableBossSpawns_Deerclops;
+		}
+
+		public static bool CheckNoEvents(bool vanillaValue) => vanillaValue && !Config.NoEventSpawns;
+
+		public static bool CheckNoEvents_Invert(bool vanillaValue) => vanillaValue || Config.NoEventSpawns;
+
+		public static bool CheckNoBosses(bool vanillaValue) => vanillaValue && !Config.NoBossSpawns;
+
+		public static bool CheckNoBosses_Invert(bool vanillaValue) => vanillaValue || Config.NoBossSpawns;
+
+		private void DisableEventSpawns_Day(ILContext il)
+		{
+			var c = new ILCursor(il);
+
+			if (!c.TryGotoNext(i => i.MatchLdsfld("Terraria.Main", "hardMode")))
+			{
+				Logger.Warn("Terratweaks IL edit failed to find Main.hardMode check when trying to disable Solar Eclipse spawns! Dumping IL logs...");
+				MonoModHooks.DumpIL(this, il);
+				return;
+			}
+
+			c.Index++;
+			c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoEvents), BindingFlags.Public | BindingFlags.Static));
+
+			if (!c.TryGotoNext(i => i.MatchLdsfld("Terraria.Main", "snowMoon")))
+			{
+				Logger.Warn("Terratweaks IL edit failed to find Main.snowMoon check when trying to disable invasion spawns! Dumping IL logs...");
+				MonoModHooks.DumpIL(this, il);
+				return;
+			}
+
+			c.Index++;
+			c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoEvents_Invert), BindingFlags.Public | BindingFlags.Static));
+		}
+
+		private void DisableEventAndBossSpawns_Night(ILContext il)
+		{
+			var c = new ILCursor(il);
+
+			if (!c.TryGotoNext(i => i.MatchLdsfld("Terraria.NPC", "downedBoss1")))
+			{
+				Logger.Warn("Terratweaks IL edit failed to find NPC.downedBoss1 check when trying to disable EoC spawns! Dumping IL logs...");
+				MonoModHooks.DumpIL(this, il);
+				return;
+			}
+
+			c.Index++;
+			c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoBosses_Invert), BindingFlags.Public | BindingFlags.Static));
+
+			if (!c.TryGotoNext(i => i.MatchLdsfld("Terraria.WorldGen", "spawnEye")))
+			{
+				Logger.Warn("Terratweaks IL edit failed to find WorldGen.spawnEye check when trying to disable mech boss spawns! Dumping IL logs...");
+				MonoModHooks.DumpIL(this, il);
+				return;
+			}
+
+			c.Index++;
+			c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoBosses_Invert), BindingFlags.Public | BindingFlags.Static));
+
+			if (!c.TryGotoNext(i => i.MatchLdsfld("Terraria.WorldGen", "spawnEye")))
+			{
+				Logger.Warn("Terratweaks IL edit failed to find WorldGen.spawnEye check when trying to disable Blood Moon spawns! Dumping IL logs...");
+				MonoModHooks.DumpIL(this, il);
+				return;
+			}
+
+			c.Index++;
+			c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoEvents_Invert), BindingFlags.Public | BindingFlags.Static));
+		}
+
+		private void DisableBossSpawns_Deerclops(ILContext il)
+		{
+			var c = new ILCursor(il);
+
+			if (!c.TryGotoNext(i => i.MatchLdsfld("Terraria.Main", "time")))
+			{
+				Logger.Warn("Terratweaks IL edit failed to find Main.time check when trying to disable Deerclops spawns! Dumping IL logs...");
+				MonoModHooks.DumpIL(this, il);
+				return;
+			}
+
+			if (!c.TryGotoNext(i => i.MatchLdsfld("Terraria.Main", "raining")))
+			{
+				Logger.Warn("Terratweaks IL edit failed to find Main.raining check when trying to disable Deerclops spawns! Dumping IL logs...");
+				MonoModHooks.DumpIL(this, il);
+				return;
+			}
+
+			c.Index++;
+			c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoBosses), BindingFlags.Public | BindingFlags.Static));
+		}
+
+		private void DisableSlimeRain(On_Main.orig_StartSlimeRain orig, bool announce)
+		{
+			// Prevents any code related to slime rain from running
+			if (Config.NoEventSpawns)
+				return;
+
+			orig(announce);
 		}
 
 		public override void PostSetupContent()
@@ -236,6 +342,7 @@ namespace Terratweaks
 						{
 							// Replace some symbols/words with others to make this more lenient
 							settingToQuery = settingToQuery
+							#region Aliases
 								.Replace(" ", "").Replace("'", "").Replace("&", "").Replace("^", "").Replace("%", "").Replace("#", "").Replace("@", "")
 								.Replace("!", "").Replace("?", "")
 								.Replace("/", "_").Replace(":", "_").Replace(";", "_").Replace(".", "_").Replace("-", "_").Replace(",", "_")
@@ -306,6 +413,7 @@ namespace Terratweaks
 								.Replace("alchtweaks", "alchemitweaks")
 								.Replace("eternitymode", "emode")
 								.Replace("masochistmode", "masomode");
+							#endregion
 
 							return settingToQuery switch
 							{
@@ -397,6 +505,8 @@ namespace Terratweaks
 								"resummonminions" => Config.ResummonMinions,
 								"nobiomerequirements" => Config.NoBiomeRequirements,
 								"nonconsumablebosssummons" => Config.NonConsumableBossSummons,
+								"nobossspawns" or "nonaturalbossspawns" => Config.NoBossSpawns,
+								"noeventspawns" or "nonaturaleventspawns" => Config.NoEventSpawns,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

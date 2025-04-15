@@ -126,6 +126,12 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool MoreOOAMedals { get; set; }
 
+		[DefaultValue(false)]
+		public bool NoBossSpawns { get; set; }
+
+		[DefaultValue(false)]
+		public bool NoEventSpawns { get; set; }
+
 		[DefaultValue(true)]
 		public bool PostEyeSandstorms { get; set; }
 
