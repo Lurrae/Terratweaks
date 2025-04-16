@@ -271,7 +271,7 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool AutoFishing { get; set; }
 
-		public ItemDefinition AutoFishingItem { get; set; } = new(ItemID.LavaproofTackleBag);
+		public ItemDefinition AutoFishingItem { get; set; } = new(ItemID.AnglerTackleBag);
 
 		[Slider]
 		[Increment(5)]
