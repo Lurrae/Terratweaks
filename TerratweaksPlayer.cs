@@ -9,7 +9,6 @@ using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.UI;
 using Terraria.Utilities;
 using Terratweaks.Buffs;
 using Terratweaks.NPCs;
@@ -592,6 +591,17 @@ namespace Terratweaks
 						break;
 				}
 			}
+
+			if (Terratweaks.AutoFishingKeybind.JustPressed)
+			{
+				FishingPlayer fPlr = Player.GetModPlayer<FishingPlayer>();
+				if (fPlr.CanAutoFish())
+				{
+					fPlr.isAutoFishing = !fPlr.isAutoFishing;
+
+					CombatText.NewText(Player.getRect(), Color.White, Language.GetTextValue(fPlr.isAutoFishing ? "Mods.Terratweaks.Common.AutoFish_On" : "Mods.Terratweaks.Common.AutoFish_Off"));
+				}
+			}
 		}
 
 		public override void FrameEffects()
@@ -696,6 +706,98 @@ namespace Terratweaks
 	// Handles changes to fishing loot tables and fishing quest rewards
 	public class FishingPlayer : ModPlayer
 	{
+		public static readonly List<int> ValidAccessoryTypes = new();
+
+		public bool isAutoFishing = false;
+		public bool hasAutoFishAcc = false;
+
+		public bool HasAnyBait()
+		{
+			int numBaitStacks = 0;
+
+			foreach (Item item in Player.inventory)
+			{
+				if (item.bait > 0)
+					numBaitStacks++;
+			}
+
+			return numBaitStacks > 0;
+		}
+
+		public override void ResetEffects()
+		{
+			hasAutoFishAcc = false;
+		}
+
+		public bool CanAutoFish()
+		{
+			// You can't auto-fish if you're dead
+			if (Player.dead || Player.ghost)
+				return false;
+
+			// Otherwise, as long as the config is enabled, the proper accessory is equipped (if one is set), and the player has bait, they can auto-fish
+			return Terratweaks.Config.AutoFishing && (hasAutoFishAcc || ValidAccessoryTypes.Count == 0) && HasAnyBait();
+		}
+
+		public override void PostUpdate()
+		{
+			// If we don't have the ability to auto-fish for any reason, stop auto-fishing and display a message
+			if (!CanAutoFish() && isAutoFishing)
+			{
+				isAutoFishing = false;
+				CombatText.NewText(Player.getRect(), Color.White, Language.GetTextValue("Mods.Terratweaks.Common.AutoFish_Off"));
+			}
+
+			// All of the code below is for auto-fishing, so if we aren't auto-fishing, don't run any of it
+			// This also means that if we can't auto-fish, nothing below this point will run
+			if (!isAutoFishing)
+				return;
+
+			// Don't do anything if the player is not holding a fishing pole
+			if (Player.HeldItem.fishingPole <= 0)
+				return;
+
+			// This needs to be done to handle the custom bobber accessories
+			int bobberID = Player.overrideFishingBobber > 0 ? Player.overrideFishingBobber : Player.HeldItem.shoot;
+
+			// While auto-fishing, if we don't have a bobber out and aren't using our fishing rod already, use it
+			if (Player.ownedProjectileCounts[bobberID] == 0 && Player.itemAnimation <= 0)
+			{
+				Player.controlUseItem = true;
+				Player.ItemCheck();
+				Player.SetItemAnimation(Player.HeldItem.useAnimation);
+				Player.SetItemTime(Player.HeldItem.useTime);
+				Player.controlUseItem = false;
+			}
+
+			// If we *do* have a bobber, we need to figure out whether or not the bobber has caught something, and if it has, reel it in!
+			// Luckily, bobbers use their ai[1] field to detect whether or not they have a catch, so we can just check if that's not 0
+			// on any bobber, and then retract them all if one has an item
+			int numBobbers = Player.ownedProjectileCounts[bobberID];
+			int numBobbersWithItems = 0;
+
+			foreach (Projectile proj in Main.ActiveProjectiles)
+			{
+				// Ignore non-bobber projectiles, or projectiles not owned by this player
+				if (proj.owner != Player.whoAmI || !proj.bobber)
+					continue;
+
+				// If the bobber has an item, we've got a fish and need to reel all the bobbers in!
+				if (proj.ai[1] < 0)
+				{
+					numBobbersWithItems++;
+				}
+			}
+
+			// If at least a configurable percentage of the player's bobbers have an item, reel them all in
+			if (numBobbersWithItems >= numBobbers * (Terratweaks.Config.AutoFishingBobberCount / 100.0f))
+			{
+				Player.controlUseItem = true;
+				Player.ItemCheck();
+				Player.controlUseItem = false;
+			}
+		}
+
 		public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
 		{
 			if (Terratweaks.Config.ReaverSharkTweaks)

@@ -3,6 +3,10 @@ using System.ComponentModel;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria.Localization;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Terratweaks
 {
@@ -52,6 +56,8 @@ namespace Terratweaks
 	public class TerratweaksConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide;
+
+		private static ItemDefinition OldAutoFishingItem = new();
 
 		// Extra tweak categories
 		[Header("Categories")]
@@ -261,6 +267,17 @@ namespace Terratweaks
 
 		// General Item Tweaks
 		[Header("ItemTweaks")]
+
+		[DefaultValue(false)]
+		public bool AutoFishing { get; set; }
+
+		public ItemDefinition AutoFishingItem { get; set; } = new(ItemID.LavaproofTackleBag);
+
+		[Slider]
+		[Increment(5)]
+		[Range(0,100)]
+		[DefaultValue(80)]
+		public int AutoFishingBobberCount { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -513,6 +530,64 @@ namespace Terratweaks
 					SceneMetrics.GraveyardTileThreshold = 9 * 4;
 				}
 			}
+
+			UpdateAutoFishingAccList();
+		}
+
+		void UpdateAutoFishingAccList()
+		{
+			int newType = AutoFishingItem.Type;
+
+			// Non-accessory item means we don't need to equip anything specific
+			if (!ContentSamples.ItemsByType[newType].accessory)
+			{
+				// Clear out the list of valid accs, since we want to remove it
+				FishingPlayer.ValidAccessoryTypes.Clear();
+			}
+			// If the item required for auto-fishing has changed, we need to recalculate the list of valid accessories
+			else if (OldAutoFishingItem.Type != newType || FishingPlayer.ValidAccessoryTypes.Count < 1)
+			{
+				// Clear out the list of valid accs
+				FishingPlayer.ValidAccessoryTypes.Clear();
+
+				// We only need to check recipes which craft an accessory
+				List<Recipe> accessoryRecipes = Main.recipe.Where(r => !r.Disabled && r.createItem.accessory).ToList();
+
+				List<int> checkedItems = new();
+				List<int> itemsToCheck = new() { newType };
+
+				while (itemsToCheck.Count > 0)
+				{
+					int itemType = itemsToCheck[0];
+
+					// Already checked this item, skip it
+					if (checkedItems.Contains(itemType))
+					{
+						itemsToCheck.Remove(itemType);
+						continue;
+					}
+
+					// Add this item to the list of valid auto-fishing accs if it isn't already included
+					if (!FishingPlayer.ValidAccessoryTypes.Contains(itemType))
+						FishingPlayer.ValidAccessoryTypes.Add(itemType);
+
+					// Look through the list of all recipes that craft accessories, and find ones which require this item
+					foreach (Recipe recipe in accessoryRecipes)
+					{
+						if (recipe.ContainsIngredient(itemType))
+						{
+							itemsToCheck.Add(recipe.createItem.type);
+						}
+					}
+
+					// Add it to the list of checked items so we don't check it again
+					checkedItems.Add(itemType);
+					itemsToCheck.Remove(itemType);
+				}
+			}
+
+			// Once this is all said and done, update the old value with the new one
+			OldAutoFishingItem = AutoFishingItem;
 		}
 	}
 

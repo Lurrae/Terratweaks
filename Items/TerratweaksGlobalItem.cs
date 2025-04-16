@@ -496,6 +496,15 @@ namespace Terratweaks.Items
 				}
 			}
 
+			// Add a line to accessories which allow auto-fishing
+			if (Terratweaks.Config.AutoFishing && idx != -1)
+			{
+				if (FishingPlayer.ValidAccessoryTypes.Contains(item.type))
+				{
+					tooltips.Insert(idx + 1, new TooltipLine(Mod, "AutoFishingTip", Language.GetTextValue("Mods.Terratweaks.Common.AutoFishingTip", Terratweaks.AutoFishingKeybind.GetAssignedKeys()[0])));
+				}
+			}
+
 			// Add a line to consumed permanent buffs (doesn't support modded ones by default, requires mod call)
 			if (Terratweaks.ClientConfig.PermBuffTips && idx != -1)
 			{
@@ -1043,6 +1052,12 @@ namespace Terratweaks.Items
 			if (item.type == ItemID.BrainOfConfusion && Terratweaks.Config.WormBrain && NPC.downedMechBoss1)
 			{
 				player.GetModPlayer<TerratweaksPlayer>().buffedBrainOfConfusion = item;
+			}
+
+			// If an auto-fishing accessory is equipped, make sure FishingPlayer knows that
+			if (Terratweaks.Config.AutoFishing && FishingPlayer.ValidAccessoryTypes.Contains(item.type))
+			{
+				player.GetModPlayer<FishingPlayer>().hasAutoFishAcc = true;
 			}
 		}
 	}
