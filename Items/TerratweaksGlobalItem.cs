@@ -498,9 +498,9 @@ namespace Terratweaks.Items
 				// List if an item has been consumed for permanent buffs
 				else
 				{
-					if (TerratweaksContentSets.OneUsePermBuffs[item.type] != null)
+					if (TerratweaksContentSets.SingleUsePermBuffs[item.type] != null)
 					{
-						if (TerratweaksContentSets.OneUsePermBuffs[item.type](Main.LocalPlayer))
+						if (TerratweaksContentSets.SingleUsePermBuffs[item.type](Main.LocalPlayer))
 						{
 							TooltipLine line = new(Mod, "PermBuffTip", Language.GetTextValue("Mods.Terratweaks.Common.PermBuffTip", item.Name))
 							{

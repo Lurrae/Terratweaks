@@ -14,7 +14,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terratweaks.Items;
-using static Terratweaks.NPCs.StatChangeHandler;
 
 namespace Terratweaks.NPCs
 {

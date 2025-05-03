@@ -95,15 +95,15 @@ namespace Terratweaks
 			//Mod.Call("AddPermConsumable", ModContent.ItemType<PhantomHeart>(), (Player p) => p.Calamity().pHeart);
 
 			// Rage/Adrenaline upgrades
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<MushroomPlasmaRoot>()] = (Player p) => p.Calamity().rageBoostOne;
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<InfernalBlood>()] = (Player p) => p.Calamity().rageBoostTwo;
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<RedLightningContainer>()] = (Player p) => p.Calamity().rageBoostThree;
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<ElectrolyteGelPack>()] = (Player p) => p.Calamity().adrenalineBoostOne;
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<StarlightFuelCell>()] = (Player p) => p.Calamity().adrenalineBoostTwo;
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<Ectoheart>()] = (Player p) => p.Calamity().adrenalineBoostThree;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<MushroomPlasmaRoot>()] = (Player p) => p.Calamity().rageBoostOne;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<InfernalBlood>()] = (Player p) => p.Calamity().rageBoostTwo;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<RedLightningContainer>()] = (Player p) => p.Calamity().rageBoostThree;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<ElectrolyteGelPack>()] = (Player p) => p.Calamity().adrenalineBoostOne;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<StarlightFuelCell>()] = (Player p) => p.Calamity().adrenalineBoostTwo;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<Ectoheart>()] = (Player p) => p.Calamity().adrenalineBoostThree;
 
 			// Accessory slots
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<CelestialOnion>()] = (Player p) => p.Calamity().extraAccessoryML;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<CelestialOnion>()] = (Player p) => p.Calamity().extraAccessoryML;
 
 			// Hot debuffs
 			TerratweaksContentSets.HotDebuff[ModContent.BuffType<BanishingFire>()] = true;
@@ -160,11 +160,11 @@ namespace Terratweaks
 			TerratweaksContentSets.MultiUsePermBuffs[ModContent.ItemType<InspirationFragment>()] = (Player p) => new Vector2(Math.Clamp(p.GetModPlayer<ThoriumPlayer>().bardResourceMax - 10, 0, 10), 10);
 			TerratweaksContentSets.MultiUsePermBuffs[ModContent.ItemType<InspirationShard>()] = (Player p) => new Vector2(Math.Clamp(p.GetModPlayer<ThoriumPlayer>().bardResourceMax - 20, 0, 10), 10);
 			TerratweaksContentSets.MultiUsePermBuffs[ModContent.ItemType<InspirationCrystalNew>()] = (Player p) => new Vector2(Math.Clamp(p.GetModPlayer<ThoriumPlayer>().bardResourceMax - 30, 0, 10), 10);
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<InspirationGem>()] = (Player p) => p.GetModPlayer<ThoriumPlayer>().consumedInspirationGem;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<InspirationGem>()] = (Player p) => p.GetModPlayer<ThoriumPlayer>().consumedInspirationGem;
 
 			// Move speed upgrades
 			TerratweaksContentSets.MultiUsePermBuffs[ModContent.ItemType<CrystalWave>()] = (Player p) => new Vector2(p.GetModPlayer<ThoriumPlayer>().consumedCrystalWaveCount, 5);
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<AstralWave>()] = (Player p) => p.GetModPlayer<ThoriumPlayer>().consumedAstralWave;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<AstralWave>()] = (Player p) => p.GetModPlayer<ThoriumPlayer>().consumedAstralWave;
 
 			// Hot debuffs
 			TerratweaksContentSets.HotDebuff[ModContent.BuffType<IncandescentSparkDebuff>()] = true;
@@ -191,9 +191,9 @@ namespace Terratweaks
 		public override void SetStaticDefaults()
 		{
 			// Permanent consumables
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<MaxLifeCrystal>()] = (Player p) => p.ConsumedLifeCrystals == 15;
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<MaxManaCrystal>()] = (Player p) => p.ConsumedManaCrystals == 9;
-			TerratweaksContentSets.OneUsePermBuffs[ModContent.ItemType<MaxLifeFruit>()] = (Player p) => p.ConsumedLifeFruit == 20;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<MaxLifeCrystal>()] = (Player p) => p.ConsumedLifeCrystals == 15;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<MaxManaCrystal>()] = (Player p) => p.ConsumedManaCrystals == 9;
+			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<MaxLifeFruit>()] = (Player p) => p.ConsumedLifeFruit == 20;
 		}
 	}
 

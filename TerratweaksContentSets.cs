@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terratweaks.NPCs.StatChangeHandler;
 
 namespace Terratweaks
 {
@@ -14,11 +13,11 @@ namespace Terratweaks
 		// I'm putting the names and description for every custom named set in their own variables for convenience
 		// Note that each set's key will be appended with "Terratweaks/", so they'll actually appear as "Terratweaks/<key>"
 		#region ItemID.Sets
-		const string OneUsePermBuffs_Key = "OneUsePermBuffs";
-		const string OneUsePermBuffs_Desc = "Tracks the variable associated with a given permanent boost item, like the Vital Crystal or Artisan's Loaf";
+		const string SingleUsePermBuffs_Key = "SingleUsePermBuffs";
+		const string SingleUsePermBuffs_Desc = "Tracks the variable associated with a given permanent boost item, like the Vital Crystal or Artisan's Loaf";
 
-		public static Func<Player, bool>[] OneUsePermBuffs = ItemID.Sets.Factory.CreateNamedSet(OneUsePermBuffs_Key)
-			.Description(OneUsePermBuffs_Desc)
+		public static Func<Player, bool>[] SingleUsePermBuffs = ItemID.Sets.Factory.CreateNamedSet(SingleUsePermBuffs_Key)
+			.Description(SingleUsePermBuffs_Desc)
 			.RegisterCustomSet<Func<Player, bool>>(null,
 			ItemID.DemonHeart, (Player p) => p.extraAccessory,
 			ItemID.CombatBook, (Player p) => NPC.combatBookWasUsed,
