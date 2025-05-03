@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Terraria;
 using Terraria.ModLoader;
 using ThoriumMod.Items.Consumable;
 
@@ -25,6 +26,20 @@ namespace Terratweaks.Thoritweaks
 			}
 
 			return orig(self);
+		}
+
+		public override void SetDefaults(Item item)
+		{
+			// Add a tooltip specifying that certain items were modified by Terratweaks while the corresponding configs are active
+			#region StatsModifiedBy stuff
+			bool itemIsModified = false;
+
+			if (Terratweaks.Thoritweaks.EatCooksFoodInCombat && item.ModItem != null && item.ModItem is CookFoodItem)
+				itemIsModified = true;
+
+			if (itemIsModified && !Terratweaks.ClientConfig.HideItemModifiedTips)
+				item.StatsModifiedBy.Add(Mod);
+			#endregion
 		}
 	}
 }

@@ -230,7 +230,7 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			if (itemIsModified)
+			if (itemIsModified && !Terratweaks.ClientConfig.HideItemModifiedTips)
 				item.StatsModifiedBy.Add(Mod);
 			#endregion
 		}

@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
-using Terraria.Localization;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -637,6 +636,13 @@ namespace Terratweaks
 
 		[DefaultValue(true)]
 		public bool GrammarCorrections { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool HideItemModifiedTips { get; set; }
+
+		[DefaultValue(false)]
+		public bool HideMilestoneTips { get; set; }
 
 		[DefaultValue(true)]
 		public bool PermBuffTips { get; set; }

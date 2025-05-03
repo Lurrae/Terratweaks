@@ -19,10 +19,8 @@ using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terratweaks.Buffs;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
-using static Terratweaks.NPCs.StatChangeHandler;
 
 namespace Terratweaks
 {
@@ -178,7 +176,6 @@ namespace Terratweaks
 				// Give all modded enemies with Fighter AI and the Granite Golem AI type defensive properties that reduce damage taken to 25% and nearly nullify knockback
 				if (npc.aiStyle == NPCAIStyleID.Fighter && npc.ModNPC != null && npc.ModNPC.AIType == NPCID.GraniteGolem)
 				{
-					Logger.Info($"{npc.ModNPC.Name} added to list of defensive enemies!");
 					Tuple<float, float, Func<NPC, bool>> drEnemyStats = new(0.25f, 0.05f, (NPC npc) => npc.ai[2] < 0f);
 					TerratweaksContentSets.DefensiveEnemyProperties[npc.type] = drEnemyStats;
 				}
@@ -448,6 +445,8 @@ namespace Terratweaks
 								"client_overridehunterglow" or "overridehunterglow" => ClientConfig.OverrideHunterGlow,
 								"client_enemyglowcolor" or "enemyglowcolor" => ClientConfig.EnemyGlowColor,
 								"client_friendlyglowcolor" or "friendlyglowcolor" => ClientConfig.FriendlyGlowColor,
+								"client_hideitemmodifiedtips" or "hideitemmodifiedtips" => ClientConfig.HideItemModifiedTips,
+								"client_hidemilestonetips" or "hidemilestonetips" => ClientConfig.HideMilestoneTips,
 
 								"craftableuncraftables_planterboxes" or "planterboxesrecipe" => Config.craftableUncraftables.PlanterBoxes,
 								"craftableuncraftables_gemcritters" or "gemcrittersrecipe" => Config.craftableUncraftables.GemCritters,
@@ -553,7 +552,8 @@ namespace Terratweaks
 							throw new ArgumentException($"Expected argument of type Condition or any IEnumerable<Condition> for 'AddBiomeCondition', but got type {args[1].GetType().Name} instead.");
 						}
 					default:
-						throw new KeyNotFoundException($"Could not find a Terratweaks mod call under the name \"{args[0]}\".");
+						Logger.Error($"Could not find a Terratweaks mod call under the name \"{args[0]}\".");
+						return false;
 				}
 			}
 

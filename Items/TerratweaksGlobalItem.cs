@@ -14,7 +14,6 @@ using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.UI;
 using Terratweaks.Buffs;
 using Terratweaks.Tiles;
 using static Terraria.ModLoader.ModContent;
@@ -150,7 +149,7 @@ namespace Terratweaks.Items
 				itemIsModified = true;
 			#endregion
 
-			if (itemIsModified)
+			if (itemIsModified && !Terratweaks.ClientConfig.HideItemModifiedTips)
 				item.StatsModifiedBy.Add(Mod);
 		}
 	}
@@ -514,9 +513,9 @@ namespace Terratweaks.Items
 			}
 
 			// Add a line to summon weapons explaining the cooldown
-			if (Terratweaks.Config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj) && !TerratweaksContentSets.SpecialSummonWeapons[item.type])
+			if (Terratweaks.Config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon) && !TerratweaksContentSets.SpecialSummonWeapons[item.type])
 			{
-				if (proj.minion || proj.sentry)
+				if (ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj) && (proj.minion || proj.sentry))
 				{
 					TooltipLine line = new(Mod, "SummonCooldown", Language.GetTextValue("Mods.Terratweaks.Common.SummonCooldown"))
 					{
@@ -594,132 +593,125 @@ namespace Terratweaks.Items
 				if (ExpertItemsThatScale_ML.ContainsKey(item.type) && ExpertItemsThatScale_ML.TryGetValue(item.type, out configEnabled) && configEnabled())
 					numLines++;
 
-				bool addedMoonlord = false;
-				bool addedPlant = false;
-				bool addedMechs = false;
-				bool addedMechSkull = false;
-				bool addedMechEye = false;
-				bool addedMechWorm = false;
-				bool addedQS = false;
-				bool addedHM = false;
+				// All lines are always displayed, unless a cient-side config option is active to hide them
+				if (!Terratweaks.ClientConfig.HideMilestoneTips)
+					AddLines(idx, numLines, item, tooltips);
+			}
+		}
 
-				// Player is holding shift, display lines for each relevant boss
-				if (ItemSlot.ShiftInUse)
+		private void AddLines(int idx, int numLines, Item item, List<TooltipLine> tooltips)
+		{
+			bool addedMoonlord = false;
+			bool addedPlant = false;
+			bool addedMechs = false;
+			bool addedMechSkull = false;
+			bool addedMechEye = false;
+			bool addedMechWorm = false;
+			bool addedQS = false;
+			bool addedHM = false;
+			Func<bool> configEnabled;
+
+			for (int i = 1; i <= numLines; i++)
+			{
+				TooltipLine line = new(Mod, $"ProgressionStatBoost{i - 1}", "")
 				{
-					for (int i = 1; i <= numLines; i++)
-					{
-						TooltipLine line = new(Mod, $"ProgressionStatBoost{i - 1}", "")
-						{
-							OverrideColor = ItemRarity.GetColor(ItemRarityID.LightRed)
-						};
+					OverrideColor = ItemRarity.GetColor(ItemRarityID.LightRed)
+				};
 
-						if (!addedMoonlord && ExpertItemsThatScale_ML.TryGetValue(item.type, out configEnabled) && configEnabled())
-						{
-							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostML");
-							addedMoonlord = true;
-
-							if (NPC.downedMoonlord)
-								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
-
-							tooltips.Insert(idx + 1, line);
-							continue;
-						}
-
-						if (!addedPlant && ExpertItemsThatScale_Plant.TryGetValue(item.type, out configEnabled) && configEnabled())
-						{
-							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostPlant");
-							addedPlant = true;
-
-							if (NPC.downedPlantBoss)
-								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
-
-							tooltips.Insert(idx + 1, line);
-							continue;
-						}
-
-						if (!addedMechs && ExpertItemsThatScale_Mechs.TryGetValue(item.type, out configEnabled) && configEnabled())
-						{
-							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechs");
-							addedMechs = true;
-
-							if (DownedMechBossAll())
-								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
-
-							tooltips.Insert(idx + 1, line);
-							continue;
-						}
-
-						if (!addedMechSkull && ExpertItemsThatScale_MechSkull.TryGetValue(item.type, out configEnabled) && configEnabled())
-						{
-							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechSkull");
-							addedMechSkull = true;
-
-							if (NPC.downedMechBoss3)
-								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
-
-							tooltips.Insert(idx + 1, line);
-							continue;
-						}
-
-						if (!addedMechEye && ExpertItemsThatScale_MechEye.TryGetValue(item.type, out configEnabled) && configEnabled())
-						{
-							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechEye");
-							addedMechEye = true;
-
-							if (NPC.downedMechBoss2)
-								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
-
-							tooltips.Insert(idx + 1, line);
-							continue;
-						}
-
-						if (!addedMechWorm && ExpertItemsThatScale_MechWorm.TryGetValue(item.type, out configEnabled) && configEnabled())
-						{
-							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechWorm");
-							addedMechWorm = true;
-
-							if (NPC.downedMechBoss1)
-								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
-
-							tooltips.Insert(idx + 1, line);
-							continue;
-						}
-
-						if (!addedQS && ExpertItemsThatScale_QS.TryGetValue(item.type, out configEnabled) && configEnabled())
-						{
-							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostQS");
-							addedQS = true;
-
-							if (NPC.downedQueenSlime)
-								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
-
-							tooltips.Insert(idx + 1, line);
-							continue;
-						}
-
-						if (!addedHM && ExpertItemsThatScale_Hardmode.TryGetValue(item.type, out configEnabled) && configEnabled())
-						{
-							line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerInHM");
-							addedHM = true;
-
-							if (Main.hardMode)
-								line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
-
-							tooltips.Insert(idx + 1, line);
-							continue;
-						}
-					}
-				}
-				// Player is not holding shift, display a tooltip telling them to hold shift
-				// Only displays for items that have at least one line to display
-				else if (numLines > 0)
+				if (!addedMoonlord && ExpertItemsThatScale_ML.TryGetValue(item.type, out configEnabled) && configEnabled())
 				{
-					TooltipLine line = new(Mod, "ProgressionStatBoost0", Language.GetTextValue("Mods.Terratweaks.Common.StrongerHoldShift"))
-					{
-						OverrideColor = ItemRarity.GetColor(ItemRarityID.LightRed)
-					};
+					line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostML");
+					addedMoonlord = true;
+
+					if (NPC.downedMoonlord)
+						line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
 
 					tooltips.Insert(idx + 1, line);
+					continue;
+				}
+
+				if (!addedPlant && ExpertItemsThatScale_Plant.TryGetValue(item.type, out configEnabled) && configEnabled())
+				{
+					line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostPlant");
+					addedPlant = true;
+
+					if (NPC.downedPlantBoss)
+						line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+					tooltips.Insert(idx + 1, line);
+					continue;
+				}
+
+				if (!addedMechs && ExpertItemsThatScale_Mechs.TryGetValue(item.type, out configEnabled) && configEnabled())
+				{
+					line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechs");
+					addedMechs = true;
+
+					if (DownedMechBossAll())
+						line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+					tooltips.Insert(idx + 1, line);
+					continue;
+				}
+
+				if (!addedMechSkull && ExpertItemsThatScale_MechSkull.TryGetValue(item.type, out configEnabled) && configEnabled())
+				{
+					line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechSkull");
+					addedMechSkull = true;
+
+					if (NPC.downedMechBoss3)
+						line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+					tooltips.Insert(idx + 1, line);
+					continue;
+				}
+
+				if (!addedMechEye && ExpertItemsThatScale_MechEye.TryGetValue(item.type, out configEnabled) && configEnabled())
+				{
+					line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechEye");
+					addedMechEye = true;
+
+					if (NPC.downedMechBoss2)
+						line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+					tooltips.Insert(idx + 1, line);
+					continue;
+				}
+
+				if (!addedMechWorm && ExpertItemsThatScale_MechWorm.TryGetValue(item.type, out configEnabled) && configEnabled())
+				{
+					line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostMechWorm");
+					addedMechWorm = true;
+
+					if (NPC.downedMechBoss1)
+						line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+					tooltips.Insert(idx + 1, line);
+					continue;
+				}
+
+				if (!addedQS && ExpertItemsThatScale_QS.TryGetValue(item.type, out configEnabled) && configEnabled())
+				{
+					line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerPostQS");
+					addedQS = true;
+
+					if (NPC.downedQueenSlime)
+						line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+					tooltips.Insert(idx + 1, line);
+					continue;
+				}
+
+				if (!addedHM && ExpertItemsThatScale_Hardmode.TryGetValue(item.type, out configEnabled) && configEnabled())
+				{
+					line.Text = Language.GetTextValue("Mods.Terratweaks.Common.StrongerInHM");
+					addedHM = true;
+
+					if (Main.hardMode)
+						line.OverrideColor = ItemRarity.GetColor(ItemRarityID.Lime);
+
+					tooltips.Insert(idx + 1, line);
+					continue;
 				}
 			}
 		}

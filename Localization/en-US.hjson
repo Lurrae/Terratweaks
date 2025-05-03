@@ -1138,6 +1138,20 @@ Mods: {
 						The vanilla tint has color values R=50, G=255, B=50
 						'''
 				}
+
+				HideMilestoneTips: {
+					Label: "[i:RoyalGel] Hide Milestone Tooltips"
+					Tooltip: Hides all tooltips stating what progression milestones must be reached to enhance Expert Mode accessories with their corresponding configs active
+				}
+
+				HideItemModifiedTips: {
+					Label: "[i:Wrench] Hide 'Item modified by Terratweaks' Tooltips"
+					Tooltip:
+						'''
+						Hides all tooltips stating that a given item was modified by Terratweaks
+						Does not affect other mods which add these tooltips!
+						'''
+				}
 			}
 
 			CalTweaks: {
