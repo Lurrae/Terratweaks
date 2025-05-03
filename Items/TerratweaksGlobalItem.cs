@@ -187,30 +187,6 @@ namespace Terratweaks.Items
 		public override bool InstancePerEntity => true;
 		public int hitsDone = 0;
 
-		public static readonly Dictionary<int, Func<Player, bool>> PermBuffBools = new()
-		{
-			{ ItemID.DemonHeart, (Player p) => p.extraAccessory },
-			{ ItemID.CombatBook, (Player p) => NPC.combatBookWasUsed },
-			{ ItemID.ArtisanLoaf, (Player p) => p.ateArtisanBread },
-			{ ItemID.TorchGodsFavor, (Player p) => p.unlockedBiomeTorches },
-			{ ItemID.AegisCrystal, (Player p) => p.usedAegisCrystal },
-			{ ItemID.AegisFruit, (Player p) => p.usedAegisFruit },
-			{ ItemID.ArcaneCrystal, (Player p) => p.usedArcaneCrystal },
-			{ ItemID.Ambrosia, (Player p) => p.usedAmbrosia },
-			{ ItemID.GummyWorm, (Player p) => p.usedGummyWorm },
-			{ ItemID.GalaxyPearl, (Player p) => p.usedGalaxyPearl },
-			{ ItemID.CombatBookVolumeTwo, (Player p) => NPC.combatBookVolumeTwoWasUsed },
-			{ ItemID.PeddlersSatchel, (Player p) => NPC.peddlersSatchelWasUsed },
-			{ ItemID.MinecartPowerup, (Player p) => p.unlockedSuperCart }
-		};
-
-		public static readonly Dictionary<int, Func<Player, Vector2>> MultiPermBuffs = new()
-		{
-			{ ItemID.LifeCrystal, (Player p) => new Vector2(p.ConsumedLifeCrystals, 15) },
-			{ ItemID.ManaCrystal, (Player p) => new Vector2(p.ConsumedManaCrystals, 9) },
-			{ ItemID.LifeFruit, (Player p) => new Vector2(p.ConsumedLifeFruit, 20) }
-		};
-
 		static readonly Dictionary<int, Func<bool>> ExpertItemsThatScale_Hardmode = new()
 		{
 			{ ItemID.BoneHelm, () => Terratweaks.Config.BoneHelm }
@@ -509,10 +485,10 @@ namespace Terratweaks.Items
 			if (Terratweaks.ClientConfig.PermBuffTips && idx != -1)
 			{
 				// Permanent buffs that can be consumed multiple times use special logic, listing the number consumed instead of if they have/haven't been consumed
-				if (MultiPermBuffs.ContainsKey(item.type) && MultiPermBuffs.TryGetValue(item.type, out Func<Player, Vector2> values))
+				if (TerratweaksContentSets.MultiUsePermBuffs[item.type] != null)
 				{
-					int numConsumed = (int)values(Main.LocalPlayer).X;
-					int max = (int)values(Main.LocalPlayer).Y;
+					int numConsumed = (int)TerratweaksContentSets.MultiUsePermBuffs[item.type](Main.LocalPlayer).X;
+					int max = (int)TerratweaksContentSets.MultiUsePermBuffs[item.type](Main.LocalPlayer).Y;
 
 					TooltipLine line = new(Mod, "PermBuffTip", Language.GetTextValue("Mods.Terratweaks.Common.AmtConsumed", item.Name, numConsumed, max))
 					{
@@ -523,9 +499,9 @@ namespace Terratweaks.Items
 				// List if an item has been consumed for permanent buffs
 				else
 				{
-					if (PermBuffBools.ContainsKey(item.type) && PermBuffBools.TryGetValue(item.type, out Func<Player, bool> hasUsedItem))
+					if (TerratweaksContentSets.OneUsePermBuffs[item.type] != null)
 					{
-						if (hasUsedItem(Main.LocalPlayer))
+						if (TerratweaksContentSets.OneUsePermBuffs[item.type](Main.LocalPlayer))
 						{
 							TooltipLine line = new(Mod, "PermBuffTip", Language.GetTextValue("Mods.Terratweaks.Common.PermBuffTip", item.Name))
 							{
@@ -538,7 +514,7 @@ namespace Terratweaks.Items
 			}
 
 			// Add a line to summon weapons explaining the cooldown
-			if (Terratweaks.Config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
+			if (Terratweaks.Config.ManaFreeSummoner && idx != -1 && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj) && !TerratweaksContentSets.SpecialSummonWeapons[item.type])
 			{
 				if (proj.minion || proj.sentry)
 				{
@@ -1065,7 +1041,6 @@ namespace Terratweaks.Items
 	// Contains all item changes, like tools or weapons
 	public class ItemChanges : GlobalItem
 	{
-		public static readonly List<int> IgnoredSummonWeapons = new();
 		public static readonly float FROST_HYDRA_DMG_NERF = 0.75f; // -25% damage
 
 		public static bool IsBossSummon(Item item, bool skipCalItems = true, bool checkGlobalItem = true)
@@ -1291,7 +1266,7 @@ namespace Terratweaks.Items
 				item.pick = 100;
 			}
 
-			if (Terratweaks.Config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
+			if (Terratweaks.Config.ManaFreeSummoner && !TerratweaksContentSets.SpecialSummonWeapons[item.type] && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
 			{
 				if (proj.minion || proj.sentry)
 				{
@@ -1328,7 +1303,7 @@ namespace Terratweaks.Items
 			if (Main.gameMenu)
 				return;
 
-			if (Terratweaks.Config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
+			if (Terratweaks.Config.ManaFreeSummoner && !TerratweaksContentSets.SpecialSummonWeapons[item.type] && item.CountsAsClass(DamageClass.Summon) && ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out Projectile proj))
 			{
 				if (proj.minion || proj.sentry)
 				{
@@ -1363,7 +1338,7 @@ namespace Terratweaks.Items
 
 		public override bool CanUseItem(Item item, Player player)
 		{
-			if (Terratweaks.Config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon))
+			if (Terratweaks.Config.ManaFreeSummoner && !TerratweaksContentSets.SpecialSummonWeapons[item.type] && item.CountsAsClass(DamageClass.Summon))
 			{
 				Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
 
@@ -1384,7 +1359,7 @@ namespace Terratweaks.Items
 			Projectile proj = ContentSamples.ProjectilesByType[item.shoot];
 
 			// Disable minions if one is summoned during a boss fight
-			if (Terratweaks.Config.ManaFreeSummoner && !IgnoredSummonWeapons.Contains(item.type) && item.CountsAsClass(DamageClass.Summon))
+			if (Terratweaks.Config.ManaFreeSummoner && !TerratweaksContentSets.SpecialSummonWeapons[item.type] && item.CountsAsClass(DamageClass.Summon))
 			{
 				if (proj.minion || proj.sentry)
 				{
@@ -1777,22 +1752,6 @@ namespace Terratweaks.Items
 
 	public class ShimmerTransmutationHandler : GlobalItem
 	{
-		public static readonly Dictionary<string, List<int>> ShimmerableBossDrops = new()
-		{
-			{ "KingSlime", new List<int> { ItemID.SlimeGun, ItemID.SlimeHook } },
-			{ "NinjaSet", new List<int> { ItemID.NinjaHood, ItemID.NinjaShirt, ItemID.NinjaPants } },
-			{ "QueenBee", new List<int> { ItemID.BeeKeeper, ItemID.BeesKnees, ItemID.BeeGun } },
-			{ "BeeSet", new List<int> { ItemID.BeeHat, ItemID.BeeShirt, ItemID.BeePants } },
-			{ "Deerclops", new List<int> { ItemID.LucyTheAxe, ItemID.PewMaticHorn, ItemID.WeatherPain, ItemID.HoundiusShootius } },
-			{ "CrystalAssassinSet", new List<int> { ItemID.CrystalNinjaHelmet, ItemID.CrystalNinjaChestplate, ItemID.CrystalNinjaLeggings } },
-			{ "Plantera", new List<int> { ItemID.Seedler, ItemID.FlowerPow, ItemID.VenusMagnum, ItemID.GrenadeLauncher, ItemID.NettleBurst, ItemID.LeafBlower, ItemID.WaspGun } },
-			{ "Golem", new List<int> { ItemID.GolemFist, ItemID.PossessedHatchet, ItemID.Stynger, ItemID.HeatRay, ItemID.StaffofEarth, ItemID.EyeoftheGolem, ItemID.SunStone } },
-			{ "DukeFishron", new List<int> { ItemID.Flairon, ItemID.Tsunami, ItemID.RazorbladeTyphoon, ItemID.BubbleGun, ItemID.TempestStaff } },
-			{ "EmpressOfLight", new List<int> { ItemID.PiercingStarlight, ItemID.FairyQueenRangedItem, ItemID.FairyQueenMagicItem, ItemID.RainbowWhip } },
-			{ "Betsy", new List<int> { ItemID.DD2SquireBetsySword, ItemID.DD2BetsyBow, ItemID.ApprenticeStaffT3, ItemID.MonkStaffT3 } },
-			{ "MoonLord", new List<int> { ItemID.Meowmere, ItemID.StarWrath, ItemID.Terrarian, ItemID.SDMG, ItemID.Celeb2, ItemID.LastPrism, ItemID.LunarFlareBook, ItemID.RainbowCrystalStaff, ItemID.MoonlordTurretStaff } }
-		};
-
 		public override void SetStaticDefaults()
 		{
 			var enabledRecipes = Terratweaks.Config.craftableUncraftables;
@@ -1831,10 +1790,10 @@ namespace Terratweaks.Items
 
 			if (enabledRecipes.ShimmerBossDrops)
 			{
-				foreach (KeyValuePair<string, List<int>> pair in ShimmerableBossDrops)
+				foreach (List<int> items in TerratweaksContentSets.ShimmerableBossDrops)
 				{
-					if (pair.Value.Count > 0)
-						AddShimmerTransmutation_Cycle(pair.Value);
+					if (items != null && items.Count > 0)
+						AddShimmerTransmutation_Cycle(items);
 				}
 			}
 

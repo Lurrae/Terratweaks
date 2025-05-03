@@ -22,6 +22,7 @@ using Terraria.ModLoader;
 using Terratweaks.Buffs;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
+using static Terratweaks.NPCs.StatChangeHandler;
 
 namespace Terratweaks
 {
@@ -167,13 +168,33 @@ namespace Terratweaks
 		{
 			foreach (NPC npc in ContentSamples.NpcsByNetId.Values)
 			{
+				// Give all enemies with Granite Elemental AI defensive properties that reduce damage taken to 25% but increase knockback taken to 110%
 				if (npc.aiStyle == NPCAIStyleID.GraniteElemental)
 				{
-					StatChangeHandler.DREnemy drEnemyStats = new(0.25f, 1.1f, (NPC npc) => npc.ai[0] == -1);
-					if (!StatChangeHandler.damageResistantEnemies.TryAdd(npc.type, drEnemyStats))
-					{
-						StatChangeHandler.damageResistantEnemies[npc.type] = drEnemyStats;
-					}
+					Tuple<float, float, Func<NPC, bool>> drEnemyStats = new(0.25f, 1.1f, (NPC npc) => npc.ai[0] == -1);
+					TerratweaksContentSets.DefensiveEnemyProperties[npc.type] = drEnemyStats;
+				}
+
+				// Give all modded enemies with Fighter AI and the Granite Golem AI type defensive properties that reduce damage taken to 25% and nearly nullify knockback
+				if (npc.aiStyle == NPCAIStyleID.Fighter && npc.ModNPC != null && npc.ModNPC.AIType == NPCID.GraniteGolem)
+				{
+					Logger.Info($"{npc.ModNPC.Name} added to list of defensive enemies!");
+					Tuple<float, float, Func<NPC, bool>> drEnemyStats = new(0.25f, 0.05f, (NPC npc) => npc.ai[2] < 0f);
+					TerratweaksContentSets.DefensiveEnemyProperties[npc.type] = drEnemyStats;
+				}
+
+				// Give all Jellyfish-style enemies that can zap the player retalitory properties that deal 2x the enemy's base contact damage to the player
+				if (NPCID.Sets.ZappingJellyfish[npc.type])
+				{
+					Tuple<float, Func<NPC, bool>> retEnemyStats = new(2.0f, (NPC npc) => npc.wet && npc.ai[1] == 1f);
+					TerratweaksContentSets.RetalitoryEnemyProperties[npc.type] = retEnemyStats;
+				}
+
+				// Make all Caster AI enemies count as projectile attackers, and additionally add any enemies that use an AIType matching that of an enemy already in the set
+				// The latter check accounts for things like hornets, archers, and Salamanders, as well as a few misc. enemies like Gastropods and Probes
+				if (npc.aiStyle == NPCAIStyleID.Caster || (npc.ModNPC != null && npc.ModNPC.AIType > -1 && TerratweaksContentSets.ProjectileAttacker[npc.ModNPC.AIType]))
+				{
+					TerratweaksContentSets.ProjectileAttacker[npc.type] = true;
 				}
 
 				// Block only boss NPCs (and EoW) from stealing coins
@@ -490,263 +511,6 @@ namespace Terratweaks
 							};
 						}
 						throw new ArgumentException($"Expected an argument of type string for 'Query', but got type {args[1].GetType().Name} instead.");
-					case "AddPermConsumable":
-						try
-						{
-							int itemID = Convert.ToInt32(args[1]);
-
-							if (args[2] is Func<Player, bool> hasBeenUsed)
-							{
-								if (!TooltipChanges.PermBuffBools.TryAdd(itemID, hasBeenUsed))
-								{
-									TooltipChanges.PermBuffBools[itemID] = hasBeenUsed;
-								}
-								
-								return true;
-							}
-							else if (args[2] is Func<Player, Vector2> amtConsumed)
-							{
-								if (!TooltipChanges.MultiPermBuffs.TryAdd(itemID, amtConsumed))
-								{
-									TooltipChanges.MultiPermBuffs[itemID] = amtConsumed;
-								}
-								
-								return true;
-							}
-							else
-							{
-								throw new ArgumentException($"Expected a second argument of type Func<Player, bool> or Func<Player, Vector2> for 'AddPermConsumable', but got type {args[2].GetType().Name} instead.");
-							}
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected a first argument of type int for 'AddPermConsumable', but got type {args[1].GetType().Name} instead.");
-						}
-					case "AddDefensiveEnemy":
-						if (args[1] is string type)
-						{
-							switch (type)
-							{
-								case "DamageResistant":
-									try
-									{
-										int npcID = Convert.ToInt32(args[2]);
-
-										if (args[3] is float dmgResist && args[4] is float kbResist && args[5] is Func<NPC, bool> defensiveState)
-										{
-											StatChangeHandler.DREnemy drEnemyStats = new(dmgResist, kbResist, defensiveState);
-											if (!StatChangeHandler.damageResistantEnemies.TryAdd(npcID, drEnemyStats))
-											{
-												StatChangeHandler.damageResistantEnemies[npcID] = drEnemyStats;
-											}
-
-											return true;
-										}
-
-										throw new ArgumentException($"Expected arguments of type int, float, float, and Func<NPC, bool> for 'AddDefensiveEnemy', but got types {args[2].GetType().Name}, {args[3].GetType().Name}, {args[4].GetType().Name}, and {args[5].GetType().Name} instead.");
-									}
-									catch (OverflowException)
-									{
-										throw new ArgumentException($"Expected arguments of type int, float, float, and Func<NPC, bool> for 'AddDefensiveEnemy', but got types {args[2].GetType().Name}, {args[3].GetType().Name}, {args[4].GetType().Name}, and {args[5].GetType().Name} instead.");
-									}
-								// TODO: Add more defensive enemy types in the future, maybe projectile-reflecting ones like Selenians and Legendary Mode EoC could be cool?
-							}
-						}
-						throw new ArgumentException($"Expected a first argument of type string for 'AddDefensiveEnemy', but got type {args[1].GetType().Name} instead.");
-					case "RemoveDefensiveEnemy":
-						if (args[1] is string type2)
-						{
-							switch (type2)
-							{
-								case "DamageResistant":
-									try
-									{
-										int npcID = Convert.ToInt32(args[2]);
-										
-										StatChangeHandler.damageResistantEnemies.Remove(npcID);
-
-										return true;
-									}
-									catch (OverflowException)
-									{
-										throw new ArgumentException($"Expected a second argument of type int for 'RemoveDefensiveEnemy', but got type {args[2].GetType().Name} instead.");
-									}
-							}
-						}
-						throw new ArgumentException($"Expected a first argument of type string for 'RemoveDefensiveEnemy', but got type {args[1].GetType().Name} instead.");
-					case "AddNoContactDamageEnemy":
-						try
-						{
-							int npcID = Convert.ToInt32(args[1]);
-
-							if (!StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Contains(npcID))
-								StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Add(npcID);
-
-							return true;
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected an argument of type int for 'AddNoContactDamageEnemy', but got type {args[1].GetType().Name} instead.");
-						}
-					case "RemoveNoContactDamageEnemy":
-						try
-						{
-							int npcID = Convert.ToInt32(args[1]);
-
-							StatChangeHandler.npcTypesThatShouldNotDoContactDamage.Remove(npcID);
-							StatChangeHandler.ignoreNoContactDmg.Add(npcID);
-
-							return true;
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected an argument of type int for 'RemoveNoContactDamageEnemy', but got type {args[1].GetType().Name} instead.");
-						}
-					case "AddIgnoredSummonWeapon":
-						try
-						{
-							int itemID = Convert.ToInt32(args[1]);
-
-							if (!ItemChanges.IgnoredSummonWeapons.Contains(itemID))
-								ItemChanges.IgnoredSummonWeapons.Add(itemID);
-
-							return true;
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected an argument of type int for 'AddIgnoredSummonWeapon', but got type {args[1].GetType().Name} instead.");
-						}
-					case "RemoveIgnoredSummonWeapon":
-						try
-						{
-							int itemID = Convert.ToInt32(args[1]);
-
-							ItemChanges.IgnoredSummonWeapons.Remove(itemID);
-
-							return true;
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected an argument of type int for 'RemoveIgnoredSummonWeapon', but got type {args[1].GetType().Name} instead.");
-						}
-					case "AddHotDebuff":
-						try
-						{
-							int buffID = Convert.ToInt32(args[1]);
-
-							if (!TerratweaksPlayer.HotDebuffs.Contains(buffID))
-								TerratweaksPlayer.HotDebuffs.Add(buffID);
-							return true;
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected an argument of type int for 'AddHotDebuff', but got type {args[1].GetType().Name} instead.");
-						}
-					case "RemoveHotDebuff":
-						try
-						{
-							int buffID = Convert.ToInt32(args[1]);
-
-							TerratweaksPlayer.HotDebuffs.Remove(buffID);
-							return true;
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected an argument of type int for 'RemoveHotDebuff', but got type {args[1].GetType().Name} instead.");
-						}
-					case "AddColdDebuff":
-						try
-						{
-							int buffID = Convert.ToInt32(args[1]);
-
-							if (!TerratweaksPlayer.ColdDebuffs.Contains(buffID))
-								TerratweaksPlayer.ColdDebuffs.Add(buffID);
-							return true;
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected an argument of type int for 'AddColdDebuff', but got type {args[1].GetType().Name} instead.");
-						}
-					case "RemoveColdDebuff":
-						try
-						{
-							int buffID = Convert.ToInt32(args[1]);
-
-							TerratweaksPlayer.ColdDebuffs.Remove(buffID);
-							return true;
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected an argument of type int for 'RemoveColdDebuff', but got type {args[1].GetType().Name} instead.");
-						}
-					case "AddShimmerableBossDrop":
-						if (args[1] is string listToEdit && args[2] is List<int> items)
-						{
-							ShimmerTransmutationHandler.ShimmerableBossDrops.TryAdd(listToEdit, new List<int>());
-
-							foreach (int item in items)
-							{
-								if (ShimmerTransmutationHandler.ShimmerableBossDrops[listToEdit].Contains(item))
-									continue;
-
-								ShimmerTransmutationHandler.ShimmerableBossDrops[listToEdit].Add(item);
-							}
-
-							return true;
-						}
-						throw new ArgumentException($"Expected arguments of type string and List<int> for 'AddShimmerableBossDrop', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
-					case "RemoveShimmerableBossDrop":
-						if (args[1] is string listToEdit2 && args[2] is List<int> items2)
-						{
-							foreach (int item in items2)
-							{
-								ShimmerTransmutationHandler.ShimmerableBossDrops[listToEdit2].Remove(item);
-							}
-
-							return true;
-						}
-						throw new ArgumentException($"Expected arguments of type string and List<int> for 'RemoveShimmerableBossDrop', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
-					case "AddHappinessFactorBlacklistedNPC":
-						try
-						{
-							int npcID = Convert.ToInt32(args[1]);
-
-							happinessFactorBlacklist.Add(npcID);
-
-							return true;
-						}
-						catch (OverflowException)
-						{
-							if (args[1] is List<int> blacklistNpcIDs)
-							{
-								foreach (int npcID in blacklistNpcIDs)
-									happinessFactorBlacklist.Add(npcID);
-
-								return true;
-							}
-							throw new ArgumentException($"Expected argument of type int or List<int> for 'AddHappinessFactorBlacklistedNPC', but got type {args[1].GetType().Name} instead.");
-						}
-					case "AddHappinessFactorLocalization":
-						try
-						{
-							int npcID = Convert.ToInt32(args[1]);
-
-							if (args[2] is string npcLocKey)
-							{
-								if (!npcHappinessKeys.TryAdd(npcID, npcLocKey))
-								{
-									npcHappinessKeys[npcID] = npcLocKey;
-								}
-
-								return true;
-							}
-
-							throw new ArgumentException($"Expected arguments of type int and string for 'AddHappinessFactorLocalization', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected arguments of type int and string for 'AddHappinessFactorLocalization', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
-						}
 					case "AddSellableWeapon":
 						try
 						{
@@ -770,41 +534,26 @@ namespace Terratweaks
 						{
 							throw new ArgumentException($"Expected arguments of type int and int for 'AddSellableWeapon', but got types {args[1].GetType().Name} and {args[2].GetType().Name} instead.");
 						}
-					case "AddStationBuff":
-						try
-						{
-							int buffID = Convert.ToInt32(args[1]);
-							BuffChanges.StationBuffs.Add(buffID);
-
-							return true;
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected arguments of type int for 'AddStationBuff', but got type {args[1].GetType().Name} instead.");
-						}
-					case "AddToNoBiomeBlacklist":
-						try
-						{
-							int itemID = Convert.ToInt32(args[1]);
-							ShopHandler.NoBiomeBlacklist.Add(itemID);
-
-							return true;
-						}
-						catch (OverflowException)
-						{
-							throw new ArgumentException($"Expected arguments of type int for 'AddToNoBiomeBlacklist', but got type {args[1].GetType().Name} instead.");
-						}
 					case "AddBiomeCondition":
+					case "AddBiomeConditions":
 						if (args[1] is Condition biomeCondition)
 						{
 							ShopHandler.BiomeConditions.Add(biomeCondition);
 
 							return true;
 						}
+						else if (args[1] is IEnumerable<Condition> biomeConditions)
+						{
+							ShopHandler.BiomeConditions.AddRange(biomeConditions);
+
+							return true;
+						}
 						else
 						{
-							throw new ArgumentException($"Expected arguments of type Condition for 'AddBiomeCondition', but got type {args[1].GetType().Name} instead.");
+							throw new ArgumentException($"Expected argument of type Condition or any IEnumerable<Condition> for 'AddBiomeCondition', but got type {args[1].GetType().Name} instead.");
 						}
+					default:
+						throw new KeyNotFoundException($"Could not find a Terratweaks mod call under the name \"{args[0]}\".");
 				}
 			}
 
@@ -1073,12 +822,15 @@ namespace Terratweaks
 
 		private void IncreasedJellyfishDamage(On_Player.orig_TakeDamageFromJellyfish orig, Player self, int npcIndex)
 		{
-			// Deal 2x NPC's base damage if electrified while this config is enabled, instead of 1.3x
+			// Multiply the NPC's base damage by a higher value if electrified while this config is enabled
+			// By default, the multiplier is increased from 1.3x to 2x, but it can be customized per-enemy in theory, and doesn't even have to be limited to jellyfish-AI enemies!
 			if (Config.NoEnemyInvulnerability)
 			{
 				// Code adapted from the original method
 				NPC jelly = Main.npc[npcIndex];
-				double dmg = self.Hurt(PlayerDeathReason.ByNPC(npcIndex), jelly.damage * 2, -self.direction);
+				Tuple<float, Func<NPC, bool>> retData = TerratweaksContentSets.RetalitoryEnemyProperties[jelly.type];
+
+				double dmg = self.Hurt(PlayerDeathReason.ByNPC(npcIndex), (int)Math.Round(jelly.damage * retData.Item1), -self.direction);
 				self.SetMeleeHitCooldown(npcIndex, self.itemAnimation);
 				self.ApplyAttackCooldown();
 			}

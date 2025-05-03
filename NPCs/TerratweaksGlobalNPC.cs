@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terratweaks.Items;
+using static Terratweaks.NPCs.StatChangeHandler;
 
 namespace Terratweaks.NPCs
 {
@@ -262,19 +264,6 @@ namespace Terratweaks.NPCs
 			baseDamageMult = npc.takenDamageMultiplier;
 		}
 
-		public struct DREnemy(float dmgResist, float kbResist, Func<NPC, bool> defensiveState)
-		{
-			public float DmgResist { get; } = dmgResist;
-			public float KbResist { get; } = kbResist;
-			public Func<NPC, bool> DefensiveState = defensiveState;
-		}
-
-		public static readonly Dictionary<int, DREnemy> damageResistantEnemies = new()
-		{
-			{ NPCID.GraniteFlyer, new DREnemy(0.25f, 1.1f, (NPC npc) => npc.ai[0] == -1) },
-			{ NPCID.GraniteGolem, new DREnemy(0.25f, 0.05f, (NPC npc) => npc.ai[2] < 0f) }
-		};
-
 		public override void PostAI(NPC npc)
 		{
 			// Handle forcing vanilla boss contact damage
@@ -295,32 +284,26 @@ namespace Terratweaks.NPCs
 				return;
 
 			// Granite enemies have their invulnerability disabled and damage reduction applied
-			if (npc.aiStyle == NPCAIStyleID.GraniteElemental || npc.type == NPCID.GraniteGolem)
+			if (TerratweaksContentSets.DefensiveEnemyProperties[npc.type] != null)
 			{
+				Tuple<float, float, Func<NPC, bool>> drData = TerratweaksContentSets.DefensiveEnemyProperties[npc.type];
 				npc.dontTakeDamage = false;
 
-				if ((npc.aiStyle == NPCAIStyleID.GraniteElemental && npc.ai[0] == -1) || (npc.type == NPCID.GraniteGolem && npc.ai[2] < 0f))
+				if (drData.Item3(npc))
 				{
-					npc.takenDamageMultiplier = 0.25f;
-
-					if (npc.aiStyle == NPCAIStyleID.GraniteElemental)
-					{
-						npc.knockBackResist = 1.1f;
-					}
-					else
-					{
-						npc.knockBackResist = 0.05f;
-					}
+					npc.takenDamageMultiplier = drData.Item1;
+					npc.knockBackResist = drData.Item2;
 				}
-				else if (npc.aiStyle == NPCAIStyleID.GraniteElemental || npc.type == NPCID.GraniteGolem)
+				else
 				{
 					npc.takenDamageMultiplier = baseDamageMult;
 					npc.knockBackResist = baseKBResist;
 				}
 			}
 			// Remove invulnerability from jellyfish. The increased retaliation damage on melee hits needs to be handled elsewhere
-			else if (npc.aiStyle == NPCAIStyleID.Jellyfish)
+			else if (TerratweaksContentSets.RetalitoryEnemyProperties[npc.type] != null)
 			{
+				Tuple<float, Func<NPC, bool>> retData = TerratweaksContentSets.RetalitoryEnemyProperties[npc.type];
 				npc.dontTakeDamage = false;
 
 				// If Calamity is installed, implement their conditional contact damage
@@ -334,7 +317,7 @@ namespace Terratweaks.NPCs
 						damagingVelocity = npc.type == NPCID.GreenJellyfish ? 7.2f : 5.6f;
 					}
 
-					npc.damage = (npc.ai[1] == 1 || npc.velocity.Length() > damagingVelocity) ? npc.defDamage : 0;
+					npc.damage = (retData.Item2(npc) || npc.velocity.Length() > damagingVelocity) ? npc.defDamage : 0;
 				}
 			}
 		}
@@ -342,9 +325,11 @@ namespace Terratweaks.NPCs
 		// Call TakeDamageFromJellyfish manually because for SOME reason, vanilla checks npc.dontTakeDamage instead of npc.ai[1] == 1
 		public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
 		{
-			if (NPCID.Sets.ZappingJellyfish[npc.type])
+			if (TerratweaksContentSets.RetalitoryEnemyProperties[npc.type] != null)
 			{
-				if (Terratweaks.Config.NoEnemyInvulnerability && npc.wet && npc.ai[1] == 1f)
+				Tuple<float, Func<NPC, bool>> retData = TerratweaksContentSets.RetalitoryEnemyProperties[npc.type];
+
+				if (Terratweaks.Config.NoEnemyInvulnerability && retData.Item2(npc))
 				{
 					player.TakeDamageFromJellyfish(npc.whoAmI);
 				}
@@ -353,70 +338,19 @@ namespace Terratweaks.NPCs
 
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
 		{
-			if (NPCID.Sets.ZappingJellyfish[npc.type])
+			if (TerratweaksContentSets.RetalitoryEnemyProperties[npc.type] != null)
 			{
+				Tuple<float, Func<NPC, bool>> retData = TerratweaksContentSets.RetalitoryEnemyProperties[npc.type];
+
+				// TODO: Should I make a custom set for this or something...? Or see if an existing mod does so?
 				bool isHurtingProjectile = projectile.aiStyle == ProjAIStyleID.Spear || projectile.aiStyle == ProjAIStyleID.ShortSword || projectile.aiStyle == ProjAIStyleID.HeldProjectile || projectile.aiStyle == ProjAIStyleID.SleepyOctopod || ProjectileID.Sets.IsAWhip[projectile.type] || ProjectileID.Sets.AllowsContactDamageFromJellyfish[projectile.type];
 
-				if (Terratweaks.Config.NoEnemyInvulnerability && npc.wet && npc.ai[1] == 1f && isHurtingProjectile)
+				if (Terratweaks.Config.NoEnemyInvulnerability && retData.Item2(npc) && isHurtingProjectile)
 				{
 					Main.player[projectile.owner].TakeDamageFromJellyfish(npc.whoAmI);
 				}
 			}
 		}
-
-		public static readonly List<int> npcTypesThatShouldNotDoContactDamage =
-		#region npcTypesThatShouldNotDoContactDamage
-		[
-			// Hornets
-			NPCID.Hornet,
-			NPCID.HornetFatty,
-			NPCID.HornetHoney,
-			NPCID.HornetLeafy,
-			NPCID.HornetSpikey,
-			NPCID.HornetStingy,
-			NPCID.MossHornet,
-
-			// Archers
-			NPCID.CultistArcherBlue,
-			NPCID.CultistArcherWhite,
-			NPCID.ElfArcher,
-			NPCID.GoblinArcher,
-			NPCID.PirateCrossbower,
-			NPCID.SkeletonArcher,
-
-			// Gun users
-			NPCID.PirateDeadeye,
-			NPCID.RayGunner,
-			NPCID.ScutlixRider,
-			NPCID.SnowBalla,
-			NPCID.SnowmanGangsta,
-			NPCID.SkeletonCommando,
-			NPCID.SkeletonSniper,
-			NPCID.TacticalSkeleton,
-			NPCID.VortexRifleman,
-
-			// Salamanders
-			NPCID.Salamander,
-			NPCID.Salamander2,
-			NPCID.Salamander3,
-			NPCID.Salamander4,
-			NPCID.Salamander5,
-			NPCID.Salamander6,
-			NPCID.Salamander7,
-			NPCID.Salamander8,
-			NPCID.Salamander9,
-
-			// Misc.
-			NPCID.AngryNimbus,
-			NPCID.Eyezor,
-			NPCID.Gastropod,
-			NPCID.IcyMerman,
-			NPCID.MartianTurret,
-			NPCID.Probe
-		];
-		#endregion
-
-		public static readonly List<int> ignoreNoContactDmg = new();
 
 		public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
 		{
@@ -425,10 +359,10 @@ namespace Terratweaks.NPCs
 			if (npc.aiStyle == NPCAIStyleID.Caster)
 				shouldNotDoContactDamage = true;
 			
-			if (npcTypesThatShouldNotDoContactDamage.Contains(npc.type))
+			if (TerratweaksContentSets.ProjectileAttacker[npc.type])
 				shouldNotDoContactDamage = true;
 
-			if (shouldNotDoContactDamage && !ignoreNoContactDmg.Contains(npc.type) && Terratweaks.Config.NoCasterContactDamage)
+			if (shouldNotDoContactDamage && Terratweaks.Config.NoCasterContactDamage)
 				return false;
 
 			return base.CanHitPlayer(npc, target, ref cooldownSlot);
@@ -680,8 +614,6 @@ namespace Terratweaks.NPCs
 			{ ItemID.PrincessWeapon, new List<Condition>() { Condition.DownedPlantera } }
 		};
 
-		public static readonly List<int> NoBiomeBlacklist = new();
-
 		public static readonly List<Condition> BiomeConditions = new()
 		{
 			// Sky, surface, and underground
@@ -908,8 +840,8 @@ namespace Terratweaks.NPCs
 					if (TileID.Sets.CountsAsPylon.Contains(item.createTile))
 						continue;
 
-					// Skip any items which other mods add to the blacklist
-					if (NoBiomeBlacklist.Contains(item.type))
+					// Skip any items which other mods have added to the blacklist
+					if (TerratweaksContentSets.NoBiomeBlacklist[item.type])
 						continue;
 
 					// We need a list so that we can remove conditions freely (and the ToArray() and Clone() just ensures that we don't mess with the OG conditions list)

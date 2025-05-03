@@ -292,6 +292,7 @@ Mods: {
 						In return, this state gives them some other bonus depending on the enemy type:
 						Jellyfish deal damage to the player on melee hits for 2x their contact damage, up from 1.3x in vanilla
 						Granite Golems and Granite Elementals take 1/4th the damage they normally would from the player's attacks. They also have altered knockback resistance
+						Modded enemies that behave like these vanilla enemies should also behave the same way
 						'''
 				}
 
@@ -300,8 +301,8 @@ Mods: {
 					Tooltip:
 						'''
 						Removes contact damage from all enemies that attack with projectiles
-						This includes all enemies with Caster AI, all archer-style enemies, and some special cases like Probes and Gastropods
-						Modded caster enemies will be affected by this setting, but not other modded enemies
+						This includes all enemies with Caster AI, all archer/gunner-style enemies, and some special cases like Probes and Gastropods
+						Modded enemies that share an AIType with any affected enemy will also be affected by this setting (so all casters, all archers/gunners, etc.)
 						'''
 				}
 

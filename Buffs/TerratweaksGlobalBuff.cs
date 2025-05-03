@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,16 +7,6 @@ namespace Terratweaks.Buffs
 {
 	public class BuffChanges : GlobalBuff
 	{
-		public static readonly List<int> StationBuffs = new()
-		{
-			BuffID.AmmoBox,
-			BuffID.Bewitched,
-			BuffID.Clairvoyance,
-			BuffID.Sharpened,
-			BuffID.WarTable,
-			BuffID.SugarRush
-		};
-
 		public override void SetStaticDefaults()
 		{
 			if (Terratweaks.Config.ChesterRework)
@@ -41,24 +31,37 @@ namespace Terratweaks.Buffs
 			// Allow all station buffs to persist through death, just like flasks do
 			if (Terratweaks.Config.PersistentStationBuffs)
 			{
-				foreach (int buffID in StationBuffs)
+				for (int i = 0; i < TerratweaksContentSets.StationBuff.Length; i++)
 				{
-					Main.persistentBuff[buffID] = true;
+					Main.persistentBuff[i] |= TerratweaksContentSets.StationBuff[i]; // If it's a station buff, make it persistent, otherwise don't change it
 				}
 			}
 		}
 
-		// While the player has the Cerebral Mindtrick buff and is wearing a buffed Brain of Confusion, increase summon damage and crit chance by an extra 5%
 		public override void Update(int type, Player player, ref int buffIndex)
 		{
+			TerratweaksPlayer tPlr = player.GetModPlayer<TerratweaksPlayer>();
+
+			// While the player has the Cerebral Mindtrick buff and is wearing a buffed Brain of Confusion, increase summon damage and crit chance by an extra 5%
 			if (type == BuffID.BrainOfConfusionBuff && Terratweaks.Config.WormBrain)
 			{
-				TerratweaksPlayer tPlr = player.GetModPlayer<TerratweaksPlayer>();
-
 				if (tPlr.IsBuffedBrainEquipped())
 				{
 					player.GetCritChance(DamageClass.Generic) += 5;
 					player.GetDamage(DamageClass.Summon) += 0.05f;
+				}
+			}
+
+			// While in werebeaver form, tick down the debuff's duration an extra time each frame if it's a hot or cold debuff
+			if (tPlr.werebeaver && (TerratweaksContentSets.HotDebuff[type] || TerratweaksContentSets.ColdDebuff[type]))
+			{
+				player.buffTime[buffIndex]--;
+
+				// Clear the debuff if it runs out of time
+				if (player.buffTime[buffIndex] <= 0)
+				{
+					player.DelBuff(buffIndex);
+					buffIndex--;
 				}
 			}
 		}

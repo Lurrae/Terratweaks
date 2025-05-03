@@ -40,7 +40,6 @@ namespace Terratweaks
 		public bool radiantInsignia; // Literally only needed because Calamity is dumb
 		public bool summonsDisabled;
 		public bool werebeaver;
-		public bool werebeaverLastFrame;
 		public int werenessMeter = 0;
 
 		public static readonly int MAX_WERENESS = 500;
@@ -96,47 +95,6 @@ namespace Terratweaks
 			}
 		}
 
-		public static readonly List<int> HotDebuffs = new()
-		{
-			BuffID.OnFire,
-			BuffID.CursedInferno,
-			BuffID.ShadowFlame,
-			BuffID.Daybreak,
-			BuffID.OnFire3
-		};
-
-		public static readonly List<int> ColdDebuffs = new()
-		{
-			BuffID.Frostburn,
-			BuffID.Frozen,
-			BuffID.Frostburn2
-		};
-
-		private void AdjustRemainingHotAndColdDebuffTimes()
-		{
-			// Only run on the client of this player
-			if (Player.whoAmI != Main.myPlayer)
-				return;
-			
-			float insulation = 0.75f; // Werebeaver reduces duration of cold debuffs by 25%
-
-			for (int i = 0; i < Player.buffType.Length; i++)
-			{
-				int buffType = Player.buffType[i];
-
-				if (buffType == 0)
-					continue;
-
-				if (Main.debuff[buffType] && (HotDebuffs.Contains(buffType) || ColdDebuffs.Contains(buffType)))
-				{
-					if (werebeaver)
-						Player.buffTime[i] = (int)(Player.buffTime[i] * insulation);
-					else
-						Player.buffTime[i] = (int)(Player.buffTime[i] / insulation);
-				}
-			}
-		}
-
 		public override void PostUpdateEquips()
 		{
 			// Cooldown ticking
@@ -151,6 +109,7 @@ namespace Terratweaks
 
 			// Wereness meter decays at a rate of 1 unit per tick while in werebeaver form or not in combat
 			// This means the werebeaver form lasts about 8 seconds (500 / 60 = 8.333...)
+			// This duration can be extended by hitting enemies with Lucy while transformed, but that's handled elsewhere
 			if (werebeaver || !Player.GetModPlayer<CombatPlayer>().IsInCombat())
 			{
 				werenessMeter--;
@@ -186,13 +145,6 @@ namespace Terratweaks
 				Player.moveSpeed += 0.1f; // +10% movement speed
 				Player.nightVision = true; // Night vision
 			}
-
-			if (werebeaver != werebeaverLastFrame)
-			{
-				AdjustRemainingHotAndColdDebuffTimes();
-			}
-			
-			werebeaverLastFrame = werebeaver;
 
 			// Spooky armor's new set bonus
 			if (spookyShots)
@@ -436,6 +388,7 @@ namespace Terratweaks
 			}
 
 			// Draw a healthbar above the player's head to indicate their wereness meter while the meter is above 0
+			// TODO: It might be nice to have a custom sprite for this for convenience?
 			if (Terratweaks.Config.DeerWeaponsRework && werenessMeter > 0)
 			{
 				Main.instance.DrawHealthBar(Player.Center.X, Player.position.Y - 16, werenessMeter, MAX_WERENESS, 1);
@@ -463,14 +416,17 @@ namespace Terratweaks
 		{
 			TriggerOnHitBonus(target, hit);
 
-			if (item.type == ItemID.LucyTheAxe && Terratweaks.Config.DeerWeaponsRework && !werebeaver)
+			if (item.type == ItemID.LucyTheAxe && Terratweaks.Config.DeerWeaponsRework)
 			{
 				// Ignore target dummies and any enemies that don't drop coins
 				if (target.value > 0 && !target.immortal)
 				{
-					werenessMeter += 25;
+					if (!werebeaver)
+						werenessMeter += 25;
+					else
+						werenessMeter += 10;
 
-					if (werenessMeter >= MAX_WERENESS)
+					if (werenessMeter >= MAX_WERENESS && !werebeaver)
 					{
 						werenessMeter = MAX_WERENESS;
 						werebeaver = true;
