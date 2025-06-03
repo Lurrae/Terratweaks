@@ -477,7 +477,7 @@ namespace Terratweaks
 					calamitweaks.ForceWormContactDamage != pendingTtConfig.calamitweaks.ForceWormContactDamage ||
 					calamitweaks.EzCalBanners != pendingTtConfig.calamitweaks.EzCalBanners ||
 					calamitweaks.NoSellingRoD != pendingTtConfig.calamitweaks.NoSellingRoD ||
-					calamitweaks.OnionMasterMode != pendingTtConfig.calamitweaks.OnionMasterMode ||
+					//calamitweaks.OnionMasterMode != pendingTtConfig.calamitweaks.OnionMasterMode ||
 					calamitweaks.RevertPickSpeedBuffs != pendingTtConfig.calamitweaks.RevertPickSpeedBuffs ||
 					calamitweaks.RevertPillars != pendingTtConfig.calamitweaks.RevertPillars ||
 					calamitweaks.RevertTerraprisma != pendingTtConfig.calamitweaks.RevertTerraprisma ||
@@ -826,9 +826,10 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool ConsumableCalBossSummons { get; set; }
 
-		[ReloadRequired]
-		[DefaultValue(false)]
-		public bool OnionMasterMode { get; set; }
+		// TODO: Reimplement this with a custom accessory slot since Calamity removed theirs
+		//[ReloadRequired]
+		//[DefaultValue(false)]
+		//public bool OnionMasterMode { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(false)]

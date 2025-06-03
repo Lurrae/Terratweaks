@@ -235,7 +235,7 @@ namespace Terratweaks.Calamitweaks
 			#endregion
 		}
 
-		public override bool CanUseItem(Item item, Player player)
+		/*public override bool CanUseItem(Item item, Player player)
 		{
 			if (item.type == ModContent.ItemType<CelestialOnion>() && Terratweaks.Calamitweaks.OnionMasterMode)
 			{
@@ -255,7 +255,7 @@ namespace Terratweaks.Calamitweaks
 					itemLoot.AddIf((info) => !info.player.Calamity().extraAccessoryML && Main.masterMode, ModContent.ItemType<CelestialOnion>());
 				}
 			}
-		}
+		}*/
 
 		public override void UpdateEquip(Item item, Player player)
 		{
@@ -432,7 +432,7 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			if (Terratweaks.Calamitweaks.OnionMasterMode)
+			/*if (Terratweaks.Calamitweaks.OnionMasterMode)
 			{
 				// Celestial Onion - Remove tooltip stating that it does nothing in Master Mode
 				if (item.type == ModContent.ItemType<CelestialOnion>())
@@ -440,7 +440,7 @@ namespace Terratweaks.Calamitweaks
 					TooltipLine line = tooltips.Find(t => t.Name.Equals("Tooltip1"));
 					tooltips.Remove(line);
 				}
-			}
+			}*/
 		}
 	}
 }

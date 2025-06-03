@@ -27,8 +27,8 @@ namespace Terratweaks.Calamitweaks
 		private static readonly MethodInfo _addNewNames = typeof(CalamityGlobalNPC).GetMethod("AddNewNames", BindingFlags.Instance | BindingFlags.NonPublic);
 		private static readonly MethodInfo _pillarEventProgressionEdit = typeof(CalamityGlobalNPC).GetMethod("PillarEventProgressionEdit", BindingFlags.Instance | BindingFlags.NonPublic);
 		private static readonly MethodInfo _blockDrops = typeof(DropHelper).GetMethod("BlockDrops", BindingFlags.Static | BindingFlags.Public);
-		private static readonly MethodInfo _canUseOnion = typeof(CelestialOnion).GetMethod("CanUseItem", BindingFlags.Instance | BindingFlags.Public);
-		private static readonly MethodInfo _onionSlotIsEnabled = typeof(CelestialOnionAccessorySlot).GetMethod("IsEnabled", BindingFlags.Instance | BindingFlags.Public);
+		//private static readonly MethodInfo _canUseOnion = typeof(CelestialOnion).GetMethod("CanUseItem", BindingFlags.Instance | BindingFlags.Public);
+		//private static readonly MethodInfo _onionSlotIsEnabled = typeof(CelestialOnionAccessorySlot).GetMethod("IsEnabled", BindingFlags.Instance | BindingFlags.Public);
 		private static readonly MethodInfo _calGlobalNpcPostAi = typeof(CalamityGlobalNPC).GetMethod("PostAI", BindingFlags.Instance | BindingFlags.Public);
 		private static readonly MethodInfo _calGlobalNpcApplyDr = typeof(CalamityGlobalNPC).GetMethod("ApplyDR", BindingFlags.Instance | BindingFlags.NonPublic);
 		
@@ -42,8 +42,8 @@ namespace Terratweaks.Calamitweaks
 			MonoModHooks.Add(_addNewNames, DisablePatreonNames);
 			MonoModHooks.Add(_pillarEventProgressionEdit, ProgressionEditRemover);
 			MonoModHooks.Add(_blockDrops, PreventFoodDropBlocking);
-			MonoModHooks.Add(_onionSlotIsEnabled, EnableOnionSlotInMasterMode);
-			MonoModHooks.Add(_canUseOnion, EnableOnionUseInMasterMode);
+			//MonoModHooks.Add(_onionSlotIsEnabled, EnableOnionSlotInMasterMode);
+			//MonoModHooks.Add(_canUseOnion, EnableOnionUseInMasterMode);
 			
 			//IL.CalamityMod.NPCs.CalamityGlobalNPC.PostAI += DisableEnemyParticles;
 			MonoModHooks.Modify(_calGlobalNpcPostAi, DisableEnemyParticles);
@@ -194,7 +194,7 @@ namespace Terratweaks.Calamitweaks
 			orig(itemIDs);
 		}
 
-		private static bool EnableOnionUseInMasterMode(Func<ModItem, Player, bool> orig, ModItem self, Player player)
+		/*private static bool EnableOnionUseInMasterMode(Func<ModItem, Player, bool> orig, ModItem self, Player player)
 		{
 			if (Terratweaks.Calamitweaks.OnionMasterMode)
 			{
@@ -215,7 +215,7 @@ namespace Terratweaks.Calamitweaks
 			}
 			
 			return orig(self);
-		}
+		}*/
 
 		public override void PostAddRecipes()
 		{
