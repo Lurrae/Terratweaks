@@ -167,7 +167,6 @@ namespace Terratweaks
 			TerratweaksContentSets.SingleUsePermBuffs[ModContent.ItemType<AstralWave>()] = (Player p) => p.GetModPlayer<ThoriumPlayer>().consumedAstralWave;
 
 			// Hot debuffs
-			TerratweaksContentSets.HotDebuff[ModContent.BuffType<IncandescentSparkDebuff>()] = true;
 			TerratweaksContentSets.HotDebuff[ModContent.BuffType<NapalmDebuff>()] = true;
 			TerratweaksContentSets.HotDebuff[ModContent.BuffType<SchmelzeDebuff>()] = true;
 			TerratweaksContentSets.HotDebuff[ModContent.BuffType<Singed>()] = true;
