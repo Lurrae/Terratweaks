@@ -757,7 +757,8 @@ namespace Terratweaks.Items
 				
 				// Replace the vanilla rule with our new one
 				var idx = mainRule.rules.ToList().IndexOf(rule);
-				mainRule.rules[idx] = combinedRule;
+				if (idx > -1) // Don't replace the rule if we couldn't find the original
+					mainRule.rules[idx] = combinedRule;
 			}
 
 			// Sky/Azure Crates don't drop important items until Skeletron has been defeated in For the Worthy
