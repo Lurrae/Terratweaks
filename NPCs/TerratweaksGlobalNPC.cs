@@ -400,6 +400,21 @@ namespace Terratweaks.NPCs
 			// Reset death counter if an invasion is not active
 			if (Main.invasionType == InvasionID.None)
 				townNpcDeathsThisInvasion = 0;
+
+			// If this NPC is a probe, and there is currently no Destroyer Head NPC in the world (meaning The Destroyer is dead) kill the probe
+			if (Terratweaks.Config.NoLingeringProbes && npc.type == NPCID.Probe)
+			{
+				// "The Destroyer is dead"
+				// "We know"
+				// "Who killed him"
+				// "We don't know"
+				// "I will find him... I will capture him... And NOBODY will die again!"
+				if (!NPC.AnyNPCs(NPCID.TheDestroyer) && Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					// ...ok nevermind I guess somebody will die again (this probe, to be precise)
+					npc.StrikeInstantKill();
+				}
+			}
 		}
 
 		public override void OnKill(NPC npc)

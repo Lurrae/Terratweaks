@@ -107,6 +107,9 @@ namespace Terratweaks
 		// Boss and Event Tweaks
 		[Header("BossTweaks")]
 
+		[DefaultValue(true)]
+		public bool NoLingeringProbes { get; set; }
+
 		[DefaultValue(0)]
 		[Range(0, 10)]
 		[Slider]

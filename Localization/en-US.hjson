@@ -852,6 +852,11 @@ Mods: {
 						Setting this too high may result in waiting a while for your rod to automatically reel itself in, particularly if you have a lot of bobbers
 						'''
 				}
+
+				NoLingeringProbes: {
+					Label: "[i:DestroyerPetItem] No Lingering Probes"
+					Tooltip: Any probes which exist in the world will be instantly killed if no Destroyer exists in the world, meaning they will automatically die when the Destroyer does
+				}
 			}
 
 			CraftableUncraftables: {

@@ -430,6 +430,7 @@ namespace Terratweaks
 								"noeventspawns" or "nonaturaleventspawns" => Config.NoEventSpawns,
 								"autofishing" => Config.AutoFishing,
 								"autofishingitem" or "autofishingrequirement" => Config.AutoFishingItem, // Returns an ItemDefinition, not an item or an ID!
+								"nolingeringprobes" => Config.NoLingeringProbes,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
