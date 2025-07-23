@@ -973,10 +973,20 @@ namespace Terratweaks
 		//[Header("AccTweaks")]
 
 		// Block and Biome Tweaks
-		//[Header("BlockBiomeTweaks")]
+		[Header("BlockBiomeTweaks")]
+
+		[DefaultValue(false)]
+		public bool NoEnvironmentalDebuffs { get; set; }
 
 		// Boss and Event Tweaks
-		//[Header("BossTweaks")]
+		[Header("BossTweaks")]
+
+		[DefaultValue(false)]
+		public bool NoClassSealDebuffs { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool EternalEnergyAccessibility { get; set; }
 
 		// Enemy Tweaks
 		//[Header("EnemyTweaks")]

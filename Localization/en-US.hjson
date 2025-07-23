@@ -1525,6 +1525,32 @@ Mods: {
 						'''
 				}
 
+				NoEnvironmentalDebuffs: {
+					Label: "[i:MusicBoxCredits] No Environmental Debuffs"
+					Tooltip:
+						'''
+						Disables all of the Eternity Mode effects that the Pure Heart protects against
+						This primarily affects debuffs applied by being in certain biomes (like Weak in the desert, Darkness/Bleeding in the corruption/crimson, etc.),
+						but also protects against cactus damage, the underground ice shadow hands and underground hallow sparkles, and more
+						Enabling this config option does not provide any of the Pure Heart's other effects, only the environmental debuff immunity,
+						and it does not protect against anything the Pure Heart doesn't protect against (like water debuffs and Lihzahrd Curse)
+						'''
+				}
+
+				NoClassSealDebuffs: {
+					Label: "[i:SolarMonolith] No Class Sealing Debuffs"
+					Tooltip:
+						'''
+						Provides full immunity to all debuffs that prevent the use of specific classes' weapons, allowing them to be used against the Lunatic Cultist, pillars, and Moon Lord without restriction
+						This includes Atrophied, Jammed, Reverse Mana Flow, Antisocial, and Nullification Curse
+						'''
+				}
+
+				EternalEnergyAccessibility: {
+					Label: "[i:FragmentNebula] Eternal Energy Outside of Emode"
+					Tooltip: Allows the Mutant's Treasure Bag to drop Eternal Energy outside of Eternity Mode (though at a rate of 5-10 instead of 10-20)
+				}
+
 				Tooltip: ""
 			}
 		}

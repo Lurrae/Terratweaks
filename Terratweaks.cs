@@ -292,7 +292,7 @@ namespace Terratweaks
 								.Replace("hellstoneslime", "lavaslime")
 								.Replace("underworldslime", "lavaslime")
 								.Replace("fireslime", "lavaslime")
-								// Item name aliases/abbreviations
+								// Content name aliases/abbreviations
 								.Replace("oasismiragecrate", "oasiscrate")
 								.Replace("miragecrate", "oasiscrate")
 								.Replace("geysertrap", "geyser")
@@ -316,6 +316,8 @@ namespace Terratweaks
 								.Replace("highlightcolor", "glowcolor")
 								.Replace("fallingstar", "fallenstar")
 								.Replace("rainlightning", "lightning")
+								.Replace("environmentaldebuff", "envdebuff")
+								.Replace("classsealingdebuff", "classsealdebuff")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -508,6 +510,9 @@ namespace Terratweaks
 								"alchemitweaks_anticheese" or "alchemitweaks_infmoneyfix" or "architectinfmoneyfix" or "architectanticheese" => Alchemitweaks.AntiCheese,
 
 								"eternitweaks_lightningbuff" or "eternitweaks_emodelightningbuff" or "emodelightningbuff" => Eternitweaks.EmodeLightningBuff,
+								"eternitweaks_noenvdebuffs" or "noemodeenvdebuffs" => Eternitweaks.NoEnvironmentalDebuffs,
+								"eternitweaks_noclasssealdebuffs" or "noemodeclasssealdebuffs" => Eternitweaks.NoClassSealDebuffs,
+								"eternitweaks_eternalenergyaccessibility" or "eternitweaks_eternalenergyoutsideemode" or "eternalenergyaccessibility" or "eternalenergyoutsideemode" => Eternitweaks.EternalEnergyAccessibility,
 
 								_ => throw new Exception($"Could not find Terratweaks config option with name \"{args[1]}\" or alias \"{settingToQuery}\"."),
 								#endregion
