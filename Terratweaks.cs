@@ -431,6 +431,9 @@ namespace Terratweaks
 								"autofishing" => Config.AutoFishing,
 								"autofishingitem" or "autofishingrequirement" => Config.AutoFishingItem, // Returns an ItemDefinition, not an item or an ID!
 								"nolingeringprobes" => Config.NoLingeringProbes,
+								"goldcrittersdropgold" => Config.GoldCrittersDropGold,
+								"goldcrittersminvalue" or "goldcrittersmingold" => Config.GoldCritterMinValue,
+								"goldcrittersmaxvalue" or "goldcrittersmaxgold" => Config.GoldCritterMaxValue,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

@@ -377,6 +377,19 @@ namespace Terratweaks
 		public bool BetterBestiary { get; set; }
 
 		[DefaultValue(false)]
+		public bool GoldCrittersDropGold { get; set; }
+
+		[Slider]
+		[Range(0, 10)]
+		[DefaultValue(3)]
+		public int GoldCritterMinValue { get; set; }
+
+		[Slider]
+		[Range(0, 10)]
+		[DefaultValue(5)]
+		public int GoldCritterMaxValue { get; set; }
+
+		[DefaultValue(false)]
 		public bool HarmlessFallenStars { get; set; }
 
 		// Town NPC Tweaks

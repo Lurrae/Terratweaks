@@ -857,6 +857,25 @@ Mods: {
 					Label: "[i:DestroyerPetItem] No Lingering Probes"
 					Tooltip: Any probes which exist in the world will be instantly killed if no Destroyer exists in the world, meaning they will automatically die when the Destroyer does
 				}
+
+				GoldCrittersDropGold: {
+					Label: "[i:GoldBunny] Gold Critters Drop Gold"
+					Tooltip:
+						'''
+						If any gold critter is killed, be it by an enemy or the player, it will drop a random amount of gold within the range specified below (with a chance to drop some silver in place of one of the gold coins)
+						The gold dropped by gold critters is not affected by any multipliers, such as the Midas debuff (not sure how you'd apply that to a critter in the first place but...)
+						'''
+				}
+
+				GoldCritterMinValue: {
+					Label: "[i:GoldBunny] Gold Critter Minimum Value"
+					Tooltip: The minimum amount of gold dropped by killed gold critters. Cannot be set higher than 10 to prevent making them more valuable to kill than to sell
+				}
+
+				GoldCritterMaxValue: {
+					Label: "[i:GoldBunny] Gold Critter Maximum Value"
+					Tooltip: The maximum amount of gold dropped by killed gold critters. Cannot be set higher than 10 to prevent making them more valuable to kill than to sell
+				}
 			}
 
 			CraftableUncraftables: {

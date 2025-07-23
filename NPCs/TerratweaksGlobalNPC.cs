@@ -483,6 +483,37 @@ namespace Terratweaks.NPCs
 					Main.NewText(Language.GetTextValue("Mods.Terratweaks.Common.InvasionFailNPC"), color);
 				}
 			}
+
+			// Gold critter died- drop a random amount of gold within the configured range
+			// This is intentionally not affected by the multipliers that normally increase enemy coin drop values
+			// (which is also why I can't simply use npc.value)
+			if (NPCID.Sets.GoldCrittersCollection.Contains(npc.type) && Terratweaks.Config.GoldCrittersDropGold)
+			{
+				int minGold = Terratweaks.Config.GoldCritterMinValue;
+				int maxGold = Terratweaks.Config.GoldCritterMaxValue;
+
+				int droppedGold = Main.rand.Next(minGold, maxGold + 1); // + 1 is needed since max is exclusive normally
+
+				if (droppedGold > 0)
+				{
+					// Include a 50% chance to drop some silver coins instead of a gold one
+					if (Main.rand.NextBool())
+					{
+						droppedGold -= 1; // Drop one less gold
+						int droppedSilver = Main.rand.Next(1, 20) * 5; // Will drop 5-95 silver in a random multiple of 5
+
+						// Drop the specified amount of silver
+						Item.NewItem(npc.GetSource_Loot(), npc.getRect(), ItemID.SilverCoin, droppedSilver);
+
+						// Don't drop gold if the critter would've only dropped one gold and that one gold was converted into silver
+						if (droppedGold <= 0)
+							return;
+					}
+
+					// Drop the specified amount of gold, if at least 1 gold still needs to be dropped
+					Item.NewItem(npc.GetSource_Loot(), npc.getRect(), ItemID.GoldCoin, droppedGold);
+				}
+			}
 		}
 	}
 
