@@ -19,6 +19,7 @@ using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terratweaks.Calamitweaks;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
 
@@ -489,7 +490,7 @@ namespace Terratweaks
 								"calamitweaks_nosellingrod" or "nosellingrod" => Calamitweaks.NoSellingRoD,
 								"calamitweaks_nowormparticles" or "nowormparticles" => Calamitweaks.NoWormParticles,
 								"calamitweaks_notimeddr" or "notimeddr" => Calamitweaks.SummonerAccBuffs,
-								//"calamitweaks_onionmastermode" or "onionmastermode" => Calamitweaks.OnionMasterMode,
+								"calamitweaks_onionmastermode" or "onionmastermode" => Calamitweaks.OnionMasterMode,
 								"calamitweaks_radiantinsigniaupgradesfromascendant" or "radiantinsigniaupgradesfromascendant" => Calamitweaks.RadiantInsigniaUpgradesFromAscendant,
 								"calamitweaks_revertpickspeedbuffs" or "pickspeedcalreversion" => Calamitweaks.RevertPickSpeedBuffs,
 								"calamitweaks_revertpillars" or "pillarcalreversion" => Calamitweaks.RevertPillars,

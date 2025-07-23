@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terratweaks.Items;
@@ -235,27 +236,18 @@ namespace Terratweaks.Calamitweaks
 			#endregion
 		}
 
-		/*public override bool CanUseItem(Item item, Player player)
-		{
-			if (item.type == ModContent.ItemType<CelestialOnion>() && Terratweaks.Calamitweaks.OnionMasterMode)
-			{
-				return !player.Calamity().extraAccessoryML;
-			}
-
-			return base.CanUseItem(item, player);
-		}
-
 		public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
 		{
 			if (Terratweaks.Calamitweaks.OnionMasterMode)
 			{
 				if (item.type == ItemID.MoonLordBossBag)
 				{
-					// Add a drop rule for if the world IS in master, as Calamity already handles cases where it ISN'T
+					// Add a drop rule for if the player is in Master Mode and doesn't already have the slot
+					// Calamity already handles dropping the Onion in non-Master worlds, so we don't need to worry about that
 					itemLoot.AddIf((info) => !info.player.Calamity().extraAccessoryML && Main.masterMode, ModContent.ItemType<CelestialOnion>());
 				}
 			}
-		}*/
+		}
 
 		public override void UpdateEquip(Item item, Player player)
 		{
@@ -432,7 +424,7 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			/*if (Terratweaks.Calamitweaks.OnionMasterMode)
+			if (Terratweaks.Calamitweaks.OnionMasterMode)
 			{
 				// Celestial Onion - Remove tooltip stating that it does nothing in Master Mode
 				if (item.type == ModContent.ItemType<CelestialOnion>())
@@ -440,7 +432,7 @@ namespace Terratweaks.Calamitweaks
 					TooltipLine line = tooltips.Find(t => t.Name.Equals("Tooltip1"));
 					tooltips.Remove(line);
 				}
-			}*/
+			}
 		}
 	}
 }

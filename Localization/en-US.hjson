@@ -1316,8 +1316,12 @@ Mods: {
 				}
 
 				OnionMasterMode: {
-					Label: "[i:DemonHeart] Enable Celestial Onion Slot in Master Mode"
-					Tooltip: Allows the Celestial Onion to be obtained and used in Master Mode
+					Label: "[i:DemonHeart] Celestial Onion in Master Mode"
+					Tooltip:
+						'''
+						Allows the Celestial Onion to be obtained and used in Master Mode, where it provides an additional ninth accessory slot on top of Master's eighth slot
+						If the item is obtained outside of Master Mode and MM is later enabled (either through Journey Mode or a modded item) the ninth slot will retroactively apply itself without the need to consume the onion again
+						'''
 				}
 
 				RadiantInsigniaUpgradesFromAscendant: {

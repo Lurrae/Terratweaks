@@ -7,6 +7,20 @@ using Terraria.ModLoader;
 namespace Terratweaks.Calamitweaks
 {
 	[JITWhenModsEnabled("CalamityMod")]
+	public class CustomOnionSlot : ModAccessorySlot
+	{
+		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("CalamityMod");
+
+		public override bool IsEnabled()
+		{
+			if (Terratweaks.Calamitweaks.OnionMasterMode && Main.masterMode && Player.Calamity().extraAccessoryML)
+				return true;
+
+			return false;
+		}
+	}
+
+	[JITWhenModsEnabled("CalamityMod")]
 	public class CalamitweaksPlayer : ModPlayer
 	{
 		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("CalamityMod");

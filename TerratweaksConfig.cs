@@ -842,10 +842,9 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool ConsumableCalBossSummons { get; set; }
 
-		// TODO: Reimplement this with a custom accessory slot since Calamity removed theirs
-		//[ReloadRequired]
-		//[DefaultValue(false)]
-		//public bool OnionMasterMode { get; set; }
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool OnionMasterMode { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(false)]
