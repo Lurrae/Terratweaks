@@ -779,6 +779,10 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool DeificAmuletBuff { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool EarlyGrandGelatin { get; set; }
+
 		[DefaultValue(true)]
 		public bool RadiantInsigniaUpgradesFromAscendant { get; set; }
 

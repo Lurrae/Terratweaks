@@ -1,7 +1,6 @@
 using CalamityMod;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs;
@@ -221,7 +220,7 @@ namespace Terratweaks.Calamitweaks
 		{
 			// If none of these configs are active, we don't need to change any recipes
 			// This is done for performance reasons- there's no need to iterate over every recipe if we know we won't be changing any
-			if (!Terratweaks.Calamitweaks.DeificAmuletBuff && !Terratweaks.Calamitweaks.AsgardsValorBuff)
+			if (!Terratweaks.Calamitweaks.DeificAmuletBuff && !Terratweaks.Calamitweaks.AsgardsValorBuff && !Terratweaks.Calamitweaks.EarlyGrandGelatin)
 				return;
 
 			foreach (Recipe recipe in Main.recipe)
@@ -238,6 +237,7 @@ namespace Terratweaks.Calamitweaks
 						.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
 				}
 
+				// TODO: When the next Calamity update drops, make sure the Ankh Shield is added back into this recipe
 				if (Terratweaks.Calamitweaks.AsgardsValorBuff && recipe.HasResult(ModContent.ItemType<AsgardsValor>()))
 				{
 					// Remove these ingredients so the recipe displays in the correct order
@@ -247,6 +247,16 @@ namespace Terratweaks.Calamitweaks
 					recipe.AddIngredient(ModContent.ItemType<ShieldoftheOcean>())
 						.AddIngredient(ModContent.ItemType<DeepDiver>())
 						.AddIngredient(ModContent.ItemType<CoreofCalamity>());
+				}
+
+				if (Terratweaks.Calamitweaks.EarlyGrandGelatin && recipe.HasResult(ModContent.ItemType<GrandGelatin>()))
+				{
+					// Remove the souls
+					recipe.RemoveIngredient(ItemID.SoulofLight);
+					recipe.RemoveIngredient(ItemID.SoulofNight);
+
+					// Add purified gel in their place
+					recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 5);
 				}
 			}
 		}

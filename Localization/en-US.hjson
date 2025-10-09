@@ -1444,6 +1444,11 @@ Mods: {
 						'''
 				}
 
+				EarlyGrandGelatin: {
+					Label: "[i:SoulofLight] [i:SoulofNight] Early Grand Gelatin"
+					Tooltip: Replaces the Souls of Light/Night in the Grand Gelatin recipe with Purified Gel, making it obtainable post-Slime God instead of Hardmode-only
+				}
+
 				Tooltip: ""
 			}
 
