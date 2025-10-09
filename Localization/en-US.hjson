@@ -876,6 +876,21 @@ Mods: {
 					Label: "[i:GoldBunny] Gold Critter Maximum Value"
 					Tooltip: The maximum amount of gold dropped by killed gold critters. Cannot be set higher than 10 to prevent making them more valuable to kill than to sell
 				}
+
+				ToolboxHoC: {
+					Label: "[i:HandOfCreation] Toolbox & Toolbelt in Hand of Creation Recipe"
+					Tooltip:
+						'''
+						Adds the Toolbox (obtained from presents) and the Toolbelt (bought from the Goblin Tinkerer) to the Hand of Creation's crafting tree, and makes HoC provide their effects
+						The increased placement ranges from Toolbox and Toolbelt will also no longer stack with the Hand of Creation
+						Note: Due to how annoying the Toolbox is to obtain throughout most of the year, it's recommended that you use this alongside the config option that makes the Mechanic sell the Toolbox
+						'''
+				}
+
+				MechanicSellsToolbox: {
+					Label: "[i:Toolbox] Mechanic Sells Toolbox"
+					Tooltip: Adds the Toolbox accessory to the Mechanic's shop, making it more reasonably obtainable at all times of the year
+				}
 			}
 
 			CraftableUncraftables: {
@@ -1639,6 +1654,8 @@ Mods: {
 			AutoFish_Off: Auto-fishing disabled!
 			# Hammush tooltip
 			HammushExtraTip: "'Behold, the mighty ham-mush!'"
+			# Hand of Creation modified tooltip
+			HandTip: Increases block placement range by {0} & tool range by {1}
 		}
 
 		Items: {

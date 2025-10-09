@@ -328,6 +328,9 @@ namespace Terratweaks
 		public bool ReaverSharkTweaks { get; set; }
 
 		[DefaultValue(true)]
+		public bool ResummonMinions { get; set; }
+
+		[DefaultValue(true)]
 		public bool KillSentries { get; set; }
 
 		[ReloadRequired]
@@ -340,8 +343,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool ManaFreeSummoner { get; set; }
 
+		[ReloadRequired]
 		[DefaultValue(true)]
-		public bool ResummonMinions { get; set; }
+		public bool ToolboxHoC { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -410,6 +414,10 @@ namespace Terratweaks
 
 		[DefaultValue(false)]
 		public bool BoundNPCsImmune { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool MechanicSellsToolbox { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]

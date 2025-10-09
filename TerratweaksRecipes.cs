@@ -851,7 +851,7 @@ namespace Terratweaks
 
 			// Don't iterate over recipes if no configs that change recipes are active
 			// This is meant to help cut down on performance costs
-			if (!Terratweaks.Config.LunarWingsPreML)
+			if (!Terratweaks.Config.LunarWingsPreML && !Terratweaks.Config.ToolboxHoC)
 				return;
 
 			foreach (Recipe recipe in Main.recipe)
@@ -865,6 +865,15 @@ namespace Terratweaks
 					{
 						recipe.RemoveIngredient(ItemID.LunarBar);
 						recipe.AddIngredient(ItemID.SoulofFlight, 20);
+					}
+				}
+
+				if (Terratweaks.Config.ToolboxHoC)
+				{
+					if (recipe.HasResult(ItemID.HandOfCreation))
+					{
+						recipe.AddIngredient(ItemID.Toolbelt);
+						recipe.AddIngredient(ItemID.Toolbox);
 					}
 				}
 			}

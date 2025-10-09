@@ -127,6 +127,9 @@ namespace Terratweaks.Items
 
 			if (Terratweaks.Config.NonConsumableBossSummons && ItemChanges.IsBossSummon(item))
 				itemIsModified = true;
+
+			if (Terratweaks.Config.ToolboxHoC && item.type == ItemID.HandOfCreation)
+				itemIsModified = true;
 			#endregion
 
 			#region Expert Accessory & Armor Tweaks
@@ -570,6 +573,16 @@ namespace Terratweaks.Items
 						line.Text = Language.GetTextValue("CommonItemTooltip.PercentIncreasedMagicDamageCritChance", 10);
 
 					tooltips.Insert(idx + 1, line);
+				}
+			}
+
+			// Replace tooltip2 on Hand of Creation to account for its adjusted recipe
+			if (Terratweaks.Config.ToolboxHoC && item.type == ItemID.HandOfCreation)
+			{
+				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && t.Name.Contains("Tooltip")))
+				{
+					if (tooltip.Name.Equals("Tooltip2"))
+						tooltip.Text = Language.GetTextValue("Mods.Terratweaks.Common.HandTip", 5, 4);
 				}
 			}
 
@@ -1030,6 +1043,25 @@ namespace Terratweaks.Items
 			if (Terratweaks.Config.AutoFishing && FishingPlayer.ValidAccessoryTypes.Contains(item.type))
 			{
 				player.GetModPlayer<FishingPlayer>().hasAutoFishAcc = true;
+			}
+
+			// Apply Toolbelt and Toolbox's effects while wearing Hand of Creation
+			if (Terratweaks.Config.ToolboxHoC && item.type == ItemID.HandOfCreation)
+			{
+				// If not equipped alongside Toolbelt, give +1 block range
+				if (!player.armor.Any(i => i.type == ItemID.Toolbelt))
+					player.blockRange++;
+
+				// If not equipped alongside Toolbox, give +1 block and tool range
+				if (!player.armor.Any(i => i.type == ItemID.Toolbox))
+				{
+					// Multiplayer compatibility check; without this, the change would be global for all players when one person has HoC equipped
+					if (Main.myPlayer == player.whoAmI)
+					{
+						Player.tileRangeX += 2;
+						Player.tileRangeY += 2;
+					}
+				}
 			}
 		}
 	}

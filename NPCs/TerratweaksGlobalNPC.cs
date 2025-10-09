@@ -826,22 +826,21 @@ namespace Terratweaks.NPCs
 				}
 			}
 
-			if (shop.NpcType == NPCID.Dryad)
+			if (shop.NpcType == NPCID.Dryad && Terratweaks.Config.NPCsSellMinecarts)
 			{
-				if (Terratweaks.Config.NPCsSellMinecarts)
-				{
-					shop.Add(ItemID.SunflowerMinecart, Condition.HappyWindyDay);
-					shop.Add(ItemID.LadybugMinecart, Condition.HappyWindyDay);
-					shop.Add(ItemID.BeeMinecart, Condition.DownedQueenBee);
-				}
+				shop.Add(ItemID.SunflowerMinecart, Condition.HappyWindyDay);
+				shop.Add(ItemID.LadybugMinecart, Condition.HappyWindyDay);
+				shop.Add(ItemID.BeeMinecart, Condition.DownedQueenBee);
 			}
 
-			if (shop.NpcType == NPCID.Merchant)
+			if (shop.NpcType == NPCID.Merchant && Terratweaks.Config.NPCsSellMinecarts)
 			{
-				if (Terratweaks.Config.NPCsSellMinecarts)
-				{
-					shop.Add(ItemID.DesertMinecart, Condition.InDesert);
-				}
+				shop.Add(ItemID.DesertMinecart, Condition.InDesert);
+			}
+
+			if (shop.NpcType == NPCID.Mechanic && Terratweaks.Config.MechanicSellsToolbox)
+			{
+				shop.Add(ItemID.Toolbox);
 			}
 
 			if (Terratweaks.Config.TownNPCsSellWeapons)
