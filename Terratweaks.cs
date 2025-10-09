@@ -319,6 +319,8 @@ namespace Terratweaks
 								.Replace("rainlightning", "lightning")
 								.Replace("environmentaldebuff", "envdebuff")
 								.Replace("classsealingdebuff", "classsealdebuff")
+								.Replace("handofcreation", "hoc")
+								.Replace("tooltip", "tip")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -437,6 +439,8 @@ namespace Terratweaks
 								"goldcrittersdropgold" => Config.GoldCrittersDropGold,
 								"goldcrittersminvalue" or "goldcrittersmingold" => Config.GoldCritterMinValue,
 								"goldcrittersmaxvalue" or "goldcrittersmaxgold" => Config.GoldCritterMaxValue,
+								"toolboxhoc" or "toolbelthoc" or "toolbelttoolboxhoc" or "toolboxtoolbelthoc" => Config.ToolboxHoC,
+								"mechanicsellstoolbox" => Config.MechanicSellsToolbox,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
@@ -454,6 +458,7 @@ namespace Terratweaks
 								"client_friendlyglowcolor" or "friendlyglowcolor" => ClientConfig.FriendlyGlowColor,
 								"client_hideitemmodifiedtips" or "hideitemmodifiedtips" => ClientConfig.HideItemModifiedTips,
 								"client_hidemilestonetips" or "hidemilestonetips" => ClientConfig.HideMilestoneTips,
+								"client_hammushtip" or "hammushtip" => ClientConfig.HammushTooltip,
 
 								"craftableuncraftables_planterboxes" or "planterboxesrecipe" => Config.craftableUncraftables.PlanterBoxes,
 								"craftableuncraftables_gemcritters" or "gemcrittersrecipe" => Config.craftableUncraftables.GemCritters,
