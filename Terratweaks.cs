@@ -157,6 +157,7 @@ namespace Terratweaks
 			On_NPC.HitEffect_HitInfo += LavalessLavaSlime;
 			On_NPC.GetNPCColorTintedByBuffs += HunterHighlightOverride;
 			On_Main.StartSlimeRain += DisableSlimeRain;
+			On_Projectile.TryGetContainerIndex += ChesterIndexChange;
 
 			IL_Main.UpdateTime_StartDay += DisableEventSpawns_Day;
 			IL_Main.UpdateTime_StartNight += DisableEventAndBossSpawns_Night;
@@ -901,7 +902,8 @@ namespace Terratweaks
 			
 			// Make sure the game closes the safe when needed
 			// This SHOULD only trigger on safe Chester
-			if (proj.type == ProjectileID.ChesterPet && Main.mouseRight && Main.mouseRightRelease && playerHasChesterSafeOpened)
+			if (proj.type == ProjectileID.ChesterPet && Main.mouseRight && Main.mouseRightRelease && playerHasChesterSafeOpened
+				&& Main.MouseWorld.Distance(proj.Center) < proj.width / 2)
 			{
 				Main.LocalPlayer.chest = -2;
 				playerHasChesterSafeOpened = false;
@@ -1277,6 +1279,19 @@ namespace Terratweaks
 				return;
 
 			orig(announce);
+		}
+
+		private bool ChesterIndexChange(On_Projectile.orig_TryGetContainerIndex orig, Projectile proj, out int containerIndex)
+		{
+			// This makes Chester count as a safe (index -3) instead of a piggy bank (index -2)
+			// This SHOULD reduce some of the jank surrounding him, but definitely not *everything*
+			if (Config.ChesterRework && proj.type == ProjectileID.ChesterPet)
+			{
+				containerIndex = -3;
+				return true;
+			}
+
+			return orig(proj, out containerIndex);
 		}
 	}
 }

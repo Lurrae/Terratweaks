@@ -134,6 +134,14 @@ namespace Terratweaks.Projectiles
 			}
 		}
 
+		public override void SetStaticDefaults()
+		{
+			if (Terratweaks.Config.ChesterRework)
+			{
+				ProjectileID.Sets.LightPet[ProjectileID.ChesterPet] = true;
+			}
+		}
+
 		public override void SetDefaults(Projectile proj)
 		{
 			if (Terratweaks.Config.OreUnification)
