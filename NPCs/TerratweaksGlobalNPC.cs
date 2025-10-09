@@ -444,7 +444,7 @@ namespace Terratweaks.NPCs
 						if (insignia != default(Item)) // Make sure the player has a Soaring Insignia in their inventory to begin with
 						{
 							var oldPrefix = insignia.prefix;
-							plr.DropItem(new EntitySource_Loot(npc), plr.position, ref insignia);
+							plr.TryDroppingSingleItem(new EntitySource_Loot(npc), insignia);
 							RadiantInsigniaCutscene.AscendantInsigniaType = aInsigType;
 							plr.GetModPlayer<CutscenePlayer>().inCutscene = true;
 						}
@@ -460,7 +460,7 @@ namespace Terratweaks.NPCs
 							if (insignia != default(Item))
 							{
 								var oldPrefix = insignia.prefix;
-								plr.DropItem(new EntitySource_Loot(npc), plr.position, ref insignia);
+								plr.TryDroppingSingleItem(new EntitySource_Loot(npc), insignia);
 								RadiantInsigniaCutscene.AscendantInsigniaType = aInsigType;
 								CutscenePlayer cPlr = plr.GetModPlayer<CutscenePlayer>();
 								cPlr.inCutscene = true;
