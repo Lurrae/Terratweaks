@@ -457,18 +457,21 @@ namespace Terratweaks.Items
 			if (Terratweaks.ClientConfig.EstimatedDPS && idx != -1)
 			{
 				if (item.type == ItemID.DPSMeter || item.type == ItemID.GoblinTech)
-				{
 					tooltips.Insert(idx + 1, new TooltipLine(Mod, "DpsMeterExtraTip", Language.GetTextValue("Mods.Terratweaks.Common.DpsMeterExtraTip")));
-				}
 			}
 
 			// Add a line to the Gravity Globe
 			if (Terratweaks.Config.PlaceableGravGlobe && idx != -1)
 			{
 				if (item.type == ItemID.GravityGlobe)
-				{
 					tooltips.Insert(idx + 1, new TooltipLine(Mod, "GravGlobeExtraTip", Language.GetTextValue("Mods.Terratweaks.Common.GravGlobeExtraTip")));
-				}
+			}
+
+			// Add a line to the Hammush
+			if (Terratweaks.ClientConfig.HammushTooltip && idx != -1)
+			{
+				if (item.type == ItemID.Hammush)
+					tooltips.Insert(idx + 1, new TooltipLine(Mod, "hammushTip", Language.GetTextValue("Mods.Terratweaks.Common.HammushExtraTip")));
 			}
 
 			// Add a line to accessories which allow auto-fishing

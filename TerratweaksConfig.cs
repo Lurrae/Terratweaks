@@ -653,6 +653,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool GrammarCorrections { get; set; }
 
+		[DefaultValue(true)]
+		public bool HammushTooltip { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool HideItemModifiedTips { get; set; }

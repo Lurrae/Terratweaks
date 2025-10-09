@@ -1067,6 +1067,11 @@ Mods: {
 						'''
 				}
 
+				HammushTooltip: {
+					Label: "[i:Hammush] Hammush Tooltip"
+					Tooltip: Adds the line 'Behold, the mighty ham-mush!' from The Legend of Maxx (the webcomic from which the Hammush originates) to the item's tooltip
+				}
+
 				NoRandomCrit: {
 					Label: "[i:GalaxyPearl] Consistent critical hits"
 					Tooltip:
@@ -1632,6 +1637,8 @@ Mods: {
 			# Text that appears when auto-fishing is toggled
 			AutoFish_On: Auto-fishing enabled!
 			AutoFish_Off: Auto-fishing disabled!
+			# Hammush tooltip
+			HammushExtraTip: "'Behold, the mighty ham-mush!'"
 		}
 
 		Items: {
