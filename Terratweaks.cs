@@ -507,6 +507,7 @@ namespace Terratweaks
 								"calamitweaks_wotg_nosilentrift" or "wotg_nosilentrift" or "calamitweaks_nosilentrift" or "nosilentrift" => Calamitweaks.NoSilentRift,
 								"calamitweaks_fables_ezbanners" or "calamitweaks_fables_ezfablesbanners" or "fables_ezbanners" or "fables_ezfablesbanners" or "ezfablesbanners" => Calamitweaks.EzFablesBanners,
 								"calamitweaks_consumablebosssummons" or "consumablecalbosssummons" => Calamitweaks.ConsumableCalBossSummons,
+								"calamitweaks_earlygrandgelatin" or "earlygrandgelatin" => Calamitweaks.EarlyGrandGelatin,
 
 								"thoritweaks_bombableadblocks" or "bombableadblocks" => Thoritweaks.BombableADBlocks,
 								"thoritweaks_combinedstationsupport" or "thorcombinedstationsupport" => Thoritweaks.CombinedStationSupport,
