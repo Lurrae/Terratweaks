@@ -16,6 +16,9 @@ namespace Terratweaks.Thoritweaks
 		{
 			List<int> newAdjTiles = base.AdjTiles(type).ToList();
 
+			if (!Terratweaks.Calamitweaks.CombinedStationSupport)
+				return newAdjTiles.ToArray();
+
 			if (type == ModContent.TileType<CombinedStations1Tile>() ||
 				type == ModContent.TileType<CombinedStations2Tile>() ||
 				type == ModContent.TileType<CombinedStations3Tile>() ||
