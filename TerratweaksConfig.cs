@@ -868,7 +868,13 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ZenithRecipeOverhaul { get; set; }
-		
+
+		// Infernum Tweaks
+		[Header("InfernumTweaks")]
+
+		[DefaultValue(false)]
+		public bool AllowGamerChairInInfernumScal { get; set; }
+
 		// Misc. tweaks
 		[Header("MiscTweaks")]
 

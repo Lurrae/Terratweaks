@@ -1207,6 +1207,7 @@ Mods: {
 					EnemyTweaks: Enemy Tweaks
 					GameplayTweaks: Gameplay Tweaks
 					ItemTweaks: General Item Tweaks
+					InfernumTweaks: Infernum Mode Tweaks
 					MiscTweaks: Misc. Tweaks
 					TownNpcTweaks: Town NPC Tweaks
 					WotgTweaks: Wrath of the Gods Tweaks
@@ -1447,6 +1448,15 @@ Mods: {
 				EarlyGrandGelatin: {
 					Label: "[i:SoulofLight] [i:SoulofNight] Early Grand Gelatin"
 					Tooltip: Replaces the Souls of Light/Night in the Grand Gelatin recipe with Purified Gel, making it obtainable post-Slime God instead of Hardmode-only
+				}
+
+				AllowGamerChairInInfernumScal: {
+					Label: "[i:CosmicCarKey] Allow Exo Box in Infernum SCal Fight"
+					Tooltip:
+						'''
+						Disables the restriction Infernum applies to the Exo Box that makes it unusable against Supreme Witch, Calamitas
+						Does nothing if the Infernum Mode mod is not enabled, and of course since the restriction is only within Infernum Mode, it doesn't affect the SCal fight in lower difficulties
+						'''
 				}
 
 				Tooltip: ""

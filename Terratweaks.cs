@@ -321,6 +321,9 @@ namespace Terratweaks
 								.Replace("environmentaldebuff", "envdebuff")
 								.Replace("classsealingdebuff", "classsealdebuff")
 								.Replace("handofcreation", "hoc")
+								.Replace("exobox", "gamerchair")
+								.Replace("exocube", "gamerchair")
+								.Replace("supremecalamitas", "scal")
 								.Replace("tooltip", "tip")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
@@ -508,6 +511,7 @@ namespace Terratweaks
 								"calamitweaks_fables_ezbanners" or "calamitweaks_fables_ezfablesbanners" or "fables_ezbanners" or "fables_ezfablesbanners" or "ezfablesbanners" => Calamitweaks.EzFablesBanners,
 								"calamitweaks_consumablebosssummons" or "consumablecalbosssummons" => Calamitweaks.ConsumableCalBossSummons,
 								"calamitweaks_earlygrandgelatin" or "earlygrandgelatin" => Calamitweaks.EarlyGrandGelatin,
+								"calamitweaks_allowgamerchairininfernumscal" or "allowgamerchairininfernumscal" => Calamitweaks.AllowGamerChairInInfernumScal,
 
 								"thoritweaks_bombableadblocks" or "bombableadblocks" => Thoritweaks.BombableADBlocks,
 								"thoritweaks_combinedstationsupport" or "thorcombinedstationsupport" => Thoritweaks.CombinedStationSupport,
