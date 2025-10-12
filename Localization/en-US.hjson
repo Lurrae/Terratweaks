@@ -903,6 +903,25 @@ Mods: {
 						Dunerider Boots can still be obtained from Sandstone Chests and Oasis/Mirage Crates, but the crafting recipe allows other boot types to still upgrade into Spectre Boots
 						'''
 				}
+
+				BossWhitelist: {
+					Label: "[i:SuspiciousLookingEye] Summon Cooldown Boss Whitelist"
+					Tooltip:
+						'''
+						Any entities in this whitelist will force summoner weapons to go on cooldown while it's alive, even if they're not tagged as a "boss" or "danger" internally
+						The blacklist takes priority over the whitelist, so if an NPC is in both lists, they will not apply the summon cooldown
+						The Eater of Worlds' head is included by default, since EoW doesn't actually count as a boss internally so as to not drop the full boss loot table from every segment
+						'''
+				}
+
+				BossBlacklist: {
+					Label: "[i:SuspiciousLookingEye] Summon Cooldown Boss Blacklist"
+					Tooltip:
+						'''
+						Any entities in this blacklist will not cause summoner weapons to go on cooldown, even if they're tagged as a "boss" or "danger" internally
+						The celestial pillars and Martian Probe are included in this blacklist by default, since they're tagged as "dangers" without really being bosses
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

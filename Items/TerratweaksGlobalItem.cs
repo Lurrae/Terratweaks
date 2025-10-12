@@ -1410,7 +1410,7 @@ namespace Terratweaks.Items
 			{
 				if (proj.minion || proj.sentry)
 				{
-					if (/*player.GetModPlayer<CombatPlayer>().IsInCombat()*/ Main.CurrentFrameFlags.AnyActiveBossNPC || AnyBossExists(true))
+					if (/*player.GetModPlayer<CombatPlayer>().IsInCombat()*/ AnyBossExists())
 					{
 						player.AddBuff(BuffType<SummonsDisabled>(), Conversions.ToFrames(3));
 					}
@@ -1439,17 +1439,21 @@ namespace Terratweaks.Items
 			return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
 		}
 
-		private static bool AnyBossExists(bool ignorePillars = false)
+		private static bool AnyBossExists()
 		{
 			bool flag = false;
 
 			foreach (NPC npc in Main.npc)
 			{
-				if (!npc.active || (!npc.boss && !NPCID.Sets.DangerThatPreventsOtherDangers[npc.type]))
+				// Ignore NPCs that don't truly exist, as well as NPCs that don't meet at least one of the following criteria:
+				// - Flagged as a "boss"
+				// - Not flagged as a "boss", but still considered a "danger" (all four Celestial Pillars and... the Martian Probe, for some reason...?)
+				// - Included in the boss whitelist (by default, just Eater of Worlds since he's not considered a boss OR a danger)
+				if (!npc.active || (!npc.boss && !NPCID.Sets.DangerThatPreventsOtherDangers[npc.type] && !Terratweaks.Config.BossWhitelist.Any(n => n.Type == npc.type)))
 					continue;
 
-				// Don't count pillars if told not to
-				if (ignorePillars && (npc.type == NPCID.LunarTowerNebula || npc.type == NPCID.LunarTowerSolar || npc.type == NPCID.LunarTowerVortex || npc.type == NPCID.LunarTowerStardust))
+				// Ignore any bosses or non-boss enemies we put in the blacklist
+				if (Terratweaks.Config.BossBlacklist.Any(n => n.Type == npc.type))
 					continue;
 
 				flag = true;

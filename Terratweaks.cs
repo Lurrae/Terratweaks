@@ -449,6 +449,8 @@ namespace Terratweaks
 								"toolboxhoc" or "toolbelthoc" or "toolbelttoolboxhoc" or "toolboxtoolbelthoc" => Config.ToolboxHoC,
 								"mechanicsellstoolbox" => Config.MechanicSellsToolbox,
 								"spectreneedsdunerider" or "spectreneeddunerider" => Config.SpectreNeedsDunerider,
+								"bossblacklist" => Config.BossBlacklist, // Returns a list of NPCDefinitions, not a list of NPCs or IDs!
+								"bosswhitelist" => Config.BossWhitelist, // Returns a list of NPCDefinitions, not a list of NPCs or IDs!
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

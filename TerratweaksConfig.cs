@@ -348,6 +348,22 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool ManaFreeSummoner { get; set; }
 
+		[Expand(false)]
+		public List<NPCDefinition> BossBlacklist { get; set; } = new()
+		{
+			new NPCDefinition(NPCID.LunarTowerSolar),
+			new NPCDefinition(NPCID.LunarTowerVortex),
+			new NPCDefinition(NPCID.LunarTowerNebula),
+			new NPCDefinition(NPCID.LunarTowerStardust),
+			new NPCDefinition(NPCID.MartianProbe)
+		};
+
+		[Expand(false)]
+		public List<NPCDefinition> BossWhitelist { get; set; } = new()
+		{
+			new NPCDefinition(NPCID.EaterofWorldsHead)
+		};
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ToolboxHoC { get; set; }
