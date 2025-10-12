@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using System.Collections.Generic;
 using System.Linq;
+using Terratweaks.Items;
 
 namespace Terratweaks
 {
@@ -337,6 +338,10 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool SIRework { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool SpectreNeedsDunerider { get; set; }
+
 		[DefaultValue(SentryAccSetting.Limited)]
 		public SentryAccSetting StackableDD2Accs { get; set; }
 
@@ -555,6 +560,54 @@ namespace Terratweaks
 			}
 
 			UpdateAutoFishingAccList();
+			UpdateSpectreBootsUpgradeAccList();
+		}
+
+		/// <summary>
+		/// Updates a provided list of accessories to include all accessories which are crafted from that item, recursively
+		/// For example, passing in Spectre Boots will add Spectre, Lightning, Frostspark, and Terraspark Boots, as well as any modded upgrades to any of those boots (so long as the upgrades are still considered accessories)
+		/// </summary>
+		/// <param name="referenceItem">The base item to check. Any item that is crafted from this item or an upgrade of this item will be added to the list passed in as the second parameter</param>
+		/// <param name="listToUpdate">The list of items to be updated. Be warned that the list will be cleared out first!</param>
+		void UpdateAnAccList(int referenceItem, List<int> listToUpdate)
+		{
+			// Clear out the list of valid accs
+			listToUpdate.Clear();
+
+			// We only need to check recipes which craft an accessory
+			List<Recipe> accessoryRecipes = Main.recipe.Where(r => !r.Disabled && r.createItem.accessory).ToList();
+
+			List<int> checkedItems = new();
+			List<int> itemsToCheck = new() { referenceItem };
+
+			while (itemsToCheck.Count > 0)
+			{
+				int itemType = itemsToCheck[0];
+
+				// Already checked this item, skip it
+				if (checkedItems.Contains(itemType))
+				{
+					itemsToCheck.Remove(itemType);
+					continue;
+				}
+
+				// Add this item to the list of valid accessories if it isn't already included
+				if (!listToUpdate.Contains(itemType))
+					listToUpdate.Add(itemType);
+
+				// Look through the list of all recipes that craft accessories, and find ones which require this item
+				foreach (Recipe recipe in accessoryRecipes)
+				{
+					if (recipe.ContainsIngredient(itemType))
+					{
+						itemsToCheck.Add(recipe.createItem.type);
+					}
+				}
+
+				// Add it to the list of checked items so we don't check it again
+				checkedItems.Add(itemType);
+				itemsToCheck.Remove(itemType);
+			}
 		}
 
 		void UpdateAutoFishingAccList()
@@ -570,47 +623,24 @@ namespace Terratweaks
 			// If the item required for auto-fishing has changed, we need to recalculate the list of valid accessories
 			else if (OldAutoFishingItem.Type != newType || FishingPlayer.ValidAccessoryTypes.Count < 1)
 			{
-				// Clear out the list of valid accs
-				FishingPlayer.ValidAccessoryTypes.Clear();
-
-				// We only need to check recipes which craft an accessory
-				List<Recipe> accessoryRecipes = Main.recipe.Where(r => !r.Disabled && r.createItem.accessory).ToList();
-
-				List<int> checkedItems = new();
-				List<int> itemsToCheck = new() { newType };
-
-				while (itemsToCheck.Count > 0)
-				{
-					int itemType = itemsToCheck[0];
-
-					// Already checked this item, skip it
-					if (checkedItems.Contains(itemType))
-					{
-						itemsToCheck.Remove(itemType);
-						continue;
-					}
-
-					// Add this item to the list of valid auto-fishing accs if it isn't already included
-					if (!FishingPlayer.ValidAccessoryTypes.Contains(itemType))
-						FishingPlayer.ValidAccessoryTypes.Add(itemType);
-
-					// Look through the list of all recipes that craft accessories, and find ones which require this item
-					foreach (Recipe recipe in accessoryRecipes)
-					{
-						if (recipe.ContainsIngredient(itemType))
-						{
-							itemsToCheck.Add(recipe.createItem.type);
-						}
-					}
-
-					// Add it to the list of checked items so we don't check it again
-					checkedItems.Add(itemType);
-					itemsToCheck.Remove(itemType);
-				}
+				UpdateAnAccList(newType, FishingPlayer.ValidAccessoryTypes);
 			}
 
 			// Once this is all said and done, update the old value with the new one
 			OldAutoFishingItem = AutoFishingItem;
+		}
+
+		void UpdateSpectreBootsUpgradeAccList()
+		{
+			// If the config's disabled, or if there are no recipes for Spectre Boots that use Dunerider Boots, just leave the list empty
+			if (!SpectreNeedsDunerider || !Main.recipe.Any(r => !r.Disabled && r.HasResult(ItemID.SpectreBoots) && r.HasIngredient(ItemID.SandBoots)))
+			{
+				ModifiedStatsTip.SpectreBootsUpgrades.Clear();
+			}
+			else
+			{
+				UpdateAnAccList(ItemID.SpectreBoots, ModifiedStatsTip.SpectreBootsUpgrades);
+			}
 		}
 	}
 

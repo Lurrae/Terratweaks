@@ -87,6 +87,9 @@ namespace Terratweaks.Items
 			ItemID.ReaverShark
 		};
 
+		// This doesn't contain any items by default, because it's generated dynamically in the config code
+		public static List<int> SpectreBootsUpgrades = new();
+
 		public override void SetDefaults(Item item)
 		{
 			bool itemIsModified = false;
@@ -129,6 +132,9 @@ namespace Terratweaks.Items
 				itemIsModified = true;
 
 			if (Terratweaks.Config.ToolboxHoC && item.type == ItemID.HandOfCreation)
+				itemIsModified = true;
+
+			if (Terratweaks.Config.SpectreNeedsDunerider && SpectreBootsUpgrades.Contains(item.type))
 				itemIsModified = true;
 			#endregion
 
@@ -475,6 +481,13 @@ namespace Terratweaks.Items
 			{
 				if (item.type == ItemID.Hammush)
 					tooltips.Insert(idx + 1, new TooltipLine(Mod, "hammushTip", Language.GetTextValue("Mods.Terratweaks.Common.HammushExtraTip")));
+			}
+
+			// Add a line to Spectre Boots and its upgrades
+			if (Terratweaks.Config.SpectreNeedsDunerider && idx != -1)
+			{
+				if (ModifiedStatsTip.SpectreBootsUpgrades.Contains(item.type))
+					tooltips.Insert(idx + 1, new TooltipLine(Mod, "DuneriderEffect", Language.GetTextValue("Mods.Terratweaks.Common.DuneriderEffect")));
 			}
 
 			// Add a line to accessories which allow auto-fishing
@@ -1062,6 +1075,12 @@ namespace Terratweaks.Items
 						Player.tileRangeY += 2;
 					}
 				}
+			}
+
+			// Apply Dunerider Boots' effect to Spectre Boots and its upgrades
+			if (Terratweaks.Config.SpectreNeedsDunerider && ModifiedStatsTip.SpectreBootsUpgrades.Contains(item.type))
+			{
+				player.desertBoots = true;
 			}
 		}
 	}

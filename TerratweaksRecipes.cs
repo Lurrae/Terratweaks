@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -143,12 +144,25 @@ namespace Terratweaks
 					.AddTile(TileID.HeavyWorkBench)
 					.Register();
 			}
+
+			if (Terratweaks.Config.SpectreNeedsDunerider)
+			{
+				Recipe.Create(ItemID.SandBoots)
+					.AddRecipeGroup("HermesBoots")
+					.AddIngredient(ItemID.Sandstone, 50)
+					.AddIngredient(ItemID.FossilOre, 15)
+					.AddTile(TileID.TinkerersWorkbench)
+					.Register();
+			}
 		}
 
 		public override void AddRecipeGroups()
 		{
 			string anyDungeonBrick = Language.GetTextValue("Mods.Terratweaks.RecipeGroups.DungeonBricks"); // "Any Dungeon Brick"
 			RecipeGroup.RegisterGroup("DungeonBricks", new RecipeGroup(() => anyDungeonBrick, ItemID.BlueBrick, ItemID.GreenBrick, ItemID.PinkBrick));
+
+			string anyHermesBoots = Language.GetTextValue("Mods.Terratweaks.RecipeGroups.HermesBoots"); // "Any Hermes Boots"
+			RecipeGroup.RegisterGroup("HermesBoots", new RecipeGroup(() => anyHermesBoots, ItemID.HermesBoots, ItemID.FlurryBoots, ItemID.SailfishBoots));
 
 			if (ModLoader.TryGetMod("CalamityMod", out Mod calamity))
 			{
@@ -851,8 +865,17 @@ namespace Terratweaks
 
 			// Don't iterate over recipes if no configs that change recipes are active
 			// This is meant to help cut down on performance costs
-			if (!Terratweaks.Config.LunarWingsPreML && !Terratweaks.Config.ToolboxHoC)
+			if (!Terratweaks.Config.LunarWingsPreML && !Terratweaks.Config.ToolboxHoC && !Terratweaks.Config.SpectreNeedsDunerider)
 				return;
+
+			// We should also make sure there's a recipe that actually uses Dunerider Boots before disabling all the ones that don't,
+			// just in case another mod decides to remove the vanilla recipes for any reason
+			bool editSpectreRecipe = false;
+
+			if (Terratweaks.Config.SpectreNeedsDunerider && Main.recipe.Any(r => !r.Disabled && r.HasResult(ItemID.SpectreBoots) && r.HasIngredient(ItemID.SandBoots)))
+			{
+				editSpectreRecipe = true;
+			}
 
 			foreach (Recipe recipe in Main.recipe)
 			{
@@ -874,6 +897,14 @@ namespace Terratweaks
 					{
 						recipe.AddIngredient(ItemID.Toolbelt);
 						recipe.AddIngredient(ItemID.Toolbox);
+					}
+				}
+
+				if (Terratweaks.Config.SpectreNeedsDunerider && editSpectreRecipe)
+				{
+					if (recipe.HasResult(ItemID.SpectreBoots) && !recipe.HasIngredient(ItemID.SandBoots))
+					{
+						recipe.DisableRecipe();
 					}
 				}
 			}
@@ -914,7 +945,7 @@ namespace Terratweaks
 				calamity.TryFind("HolyCollider", out ModItem holyCollider);
 				// Star Wrath (3.0)
 				calamity.TryFind("AstralBlade", out ModItem astralBlade);
-				// Influx Waver (7.0)
+				// Influx Waver (4.0)
 				calamity.TryFind("PlagueKeeper", out ModItem plagueKeeper);
 				// The Horseman's Blade (6.0)
 				calamity.TryFind("Greentide", out ModItem greentide);

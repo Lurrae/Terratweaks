@@ -324,7 +324,10 @@ namespace Terratweaks
 								.Replace("exobox", "gamerchair")
 								.Replace("exocube", "gamerchair")
 								.Replace("supremecalamitas", "scal")
-								.Replace("tooltip", "tip")
+								.Replace("spectreboots", "spectre")
+								.Replace("spectres", "spectre")
+								.Replace("duneriderboots", "dunerider")
+								.Replace("duneriders", "dunerider")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -445,6 +448,7 @@ namespace Terratweaks
 								"goldcrittersmaxvalue" or "goldcrittersmaxgold" => Config.GoldCritterMaxValue,
 								"toolboxhoc" or "toolbelthoc" or "toolbelttoolboxhoc" or "toolboxtoolbelthoc" => Config.ToolboxHoC,
 								"mechanicsellstoolbox" => Config.MechanicSellsToolbox,
+								"spectreneedsdunerider" or "spectreneeddunerider" => Config.SpectreNeedsDunerider,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

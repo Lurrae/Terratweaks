@@ -45,6 +45,7 @@ Mods: {
 
 		RecipeGroups: {
 			DungeonBricks: "{$LegacyMisc.37} Dungeon Brick"
+			HermesBoots: "{$LegacyMisc.37} {$ItemName.HermesBoots}"
 			CalEvilSwords: "{$Mods.CalamityMod.Items.Weapons.Melee.PerfectDark.DisplayName} or {$Mods.CalamityMod.Items.Weapons.Melee.VeinBurster.DisplayName}"
 			ThorSwords: "{$Mods.ThoriumMod.Items.LodeStoneClaymore.DisplayName} or {$Mods.ThoriumMod.Items.ValadiumSlicer.DisplayName}"
 		}
@@ -891,6 +892,17 @@ Mods: {
 					Label: "[i:Toolbox] Mechanic Sells Toolbox"
 					Tooltip: Adds the Toolbox accessory to the Mechanic's shop, making it more reasonably obtainable at all times of the year
 				}
+
+				SpectreNeedsDunerider: {
+					Label: "[i:SpectreBoots] [i:SandBoots] Spectre Boots Inherit Dunerider Boots' Effect"
+					Tooltip:
+						'''
+						Spectre Boots can now only be crafted with Dunerider Boots, but in return they inherit Duneriders' increased movement speed on sand
+						(and this carries over to all future upgrades too, including modded ones!)
+						Additionally, a crafting recipe for Dunerider Boots is added: Any Hermes Boots, 50 Sandstone, 15 Sturdy Fossil
+						Dunerider Boots can still be obtained from Sandstone Chests and Oasis/Mirage Crates, but the crafting recipe allows other boot types to still upgrade into Spectre Boots
+						'''
+				}
 			}
 
 			CraftableUncraftables: {
@@ -1671,6 +1683,8 @@ Mods: {
 			HammushExtraTip: "'Behold, the mighty ham-mush!'"
 			# Hand of Creation modified tooltip
 			HandTip: Increases block placement range by {0} & tool range by {1}
+			# Extra tooltip for Spectre Boots and its upgrades when inheriting Dunerider Boots' effect
+			DuneriderEffect: Also allows even faster running on sand!
 		}
 
 		Items: {
