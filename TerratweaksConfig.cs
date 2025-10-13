@@ -508,7 +508,8 @@ namespace Terratweaks
 					craftableUncraftables.ShimmerBossDrops != pendingTtConfig.craftableUncraftables.ShimmerBossDrops ||
 					craftableUncraftables.GeyserTraps != pendingTtConfig.craftableUncraftables.GeyserTraps ||
 					craftableUncraftables.ShimmerBlackLens != pendingTtConfig.craftableUncraftables.ShimmerBlackLens ||
-					craftableUncraftables.EarlyEchoBlocks != pendingTtConfig.craftableUncraftables.EarlyEchoBlocks)
+					craftableUncraftables.EarlyEchoBlocks != pendingTtConfig.craftableUncraftables.EarlyEchoBlocks ||
+					craftableUncraftables.ConvertibleMushrooms != pendingTtConfig.craftableUncraftables.ConvertibleMushrooms)
 				{
 					return true;
 				}
@@ -742,6 +743,10 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool ClothierVoodooDoll { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
+		public bool ConvertibleMushrooms { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]

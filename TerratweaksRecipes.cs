@@ -154,6 +154,24 @@ namespace Terratweaks
 					.AddTile(TileID.TinkerersWorkbench)
 					.Register();
 			}
+
+			if (enabledRecipes.ConvertibleMushrooms)
+			{
+				Recipe.Create(ItemID.VileMushroom)
+					.AddIngredient(ItemID.Mushroom)
+					.AddIngredient(ItemID.VilePowder, 5)
+					.Register();
+
+				Recipe.Create(ItemID.ViciousMushroom)
+					.AddIngredient(ItemID.Mushroom)
+					.AddIngredient(ItemID.ViciousPowder, 5)
+					.Register();
+
+				Recipe.Create(ItemID.Mushroom)
+					.AddRecipeGroup("VileMushroom")
+					.AddIngredient(ItemID.PurificationPowder, 5)
+					.Register();
+			}
 		}
 
 		public override void AddRecipeGroups()
@@ -163,6 +181,9 @@ namespace Terratweaks
 
 			string anyHermesBoots = Language.GetTextValue("Mods.Terratweaks.RecipeGroups.HermesBoots"); // "Any Hermes Boots"
 			RecipeGroup.RegisterGroup("HermesBoots", new RecipeGroup(() => anyHermesBoots, ItemID.HermesBoots, ItemID.FlurryBoots, ItemID.SailfishBoots));
+
+			string anyVileMushroom = Language.GetTextValue("Mods.Terratweaks.RecipeGroups.VileMushroom"); // "Vile Mushroom or Vicious Mushroom"
+			RecipeGroup.RegisterGroup("VileMushroom", new RecipeGroup(() => anyVileMushroom, ItemID.VileMushroom, ItemID.ViciousMushroom));
 
 			if (ModLoader.TryGetMod("CalamityMod", out Mod calamity))
 			{

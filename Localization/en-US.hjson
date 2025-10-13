@@ -46,6 +46,7 @@ Mods: {
 		RecipeGroups: {
 			DungeonBricks: "{$LegacyMisc.37} Dungeon Brick"
 			HermesBoots: "{$LegacyMisc.37} {$ItemName.HermesBoots}"
+			VileMushroom: "{$ItemName.VileMushroom} or {$ItemName.ViciousMushroom}"
 			CalEvilSwords: "{$Mods.CalamityMod.Items.Weapons.Melee.PerfectDark.DisplayName} or {$Mods.CalamityMod.Items.Weapons.Melee.VeinBurster.DisplayName}"
 			ThorSwords: "{$Mods.ThoriumMod.Items.LodeStoneClaymore.DisplayName} or {$Mods.ThoriumMod.Items.ValadiumSlicer.DisplayName}"
 		}
@@ -934,6 +935,11 @@ Mods: {
 				Headers: {
 					Crafting: Crafting Recipes
 					Shimmer: Shimmer Transmutations
+				}
+
+				ConvertibleMushrooms: {
+					Label: "[i:VileMushroom] [i:ViciousMushroom] [i:Mushroom] Convertible Mushrooms"
+					Tooltip: Enables recipes to turn mushrooms into Vile/Vicious ones using 5 of the corresponding powder, or purify evil mushrooms with 5 {$ItemName.PurificationPowder}
 				}
 
 				ClothierVoodooDoll: {
