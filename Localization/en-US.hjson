@@ -778,6 +778,7 @@ Mods: {
 						When you respawn, every minion that you had summoned before you died will immediately respawn
 						Note that extra minion slots from buffs like the Summoning Potion will not apply unless the buff is persistent!
 						If you don't have enough minion slots to resummon everything, the last minions you spawned will not respawn
+						Note: Most modded minions should work fine with this feature, but not all minion weapons work with resummoning, and there's not much I can do about it
 						'''
 				}
 
