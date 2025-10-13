@@ -923,6 +923,11 @@ Mods: {
 						The celestial pillars and Martian Probe are included in this blacklist by default, since they're tagged as "dangers" without really being bosses
 						'''
 				}
+
+				EarlyLacewing: {
+					Label: "[i:EmpressButterfly] Early Prismatic Lacewing Spawns"
+					Tooltip: Allows Prismatic Lacewings to spawn as soon as Hardmode begins. Its other spawn conditions still apply
+				}
 			}
 
 			CraftableUncraftables: {

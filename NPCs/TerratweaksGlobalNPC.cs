@@ -1133,5 +1133,41 @@ namespace Terratweaks.NPCs
 				}
 			}
 		}
+
+		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
+		{
+			if (Terratweaks.Config.EarlyLacewing)
+			{
+				if (MeetsVanillaLacewingConditions(spawnInfo) && Main.hardMode && !NPC.downedPlantBoss)
+				{
+					// 0.1 spawn weight basically means an early Lacewing spawn is 10x rarer than any vanilla NPC spawning
+					// This makes it *approximately* a 1/11 chance, slightly rarer than the Lacewing's ~10% chance normally
+					// It's close enough that I really can't be bothered to do the math to figure out a more accurate weight,
+					// especially since NPC spawn code is an absolute freaking *mess* and I'm not even confident that the 10%
+					// chance is actually fully accurate
+					pool.Add(NPCID.EmpressButterfly, 0.1f);
+				}
+			}
+		}
+
+		/* Vanilla Lacewing conditions:
+			* Must be between 7:30 PM - 12:00 AM in-game, unless in Don't Dig Up world
+			* Only spawns in the surface Hallow biome
+			* There must not be another Prismatic Lacewing somewhere in the world
+			* Obviously normally Plantera must be defeated, but we're not checking that here so that we can spawn it early
+		*/
+		private static bool MeetsVanillaLacewingConditions(NPCSpawnInfo spawnInfo)
+		{
+			if ((!Main.dayTime && Main.time < 16200.0) || Main.remixWorld)
+			{
+				if (spawnInfo.SpawnTileY <= Main.worldSurface && spawnInfo.Player.ZoneHallow)
+				{
+					if (!NPC.AnyNPCs(NPCID.EmpressButterfly))
+						return true;
+				}
+			}
+
+			return false;
+		}
 	}
 }

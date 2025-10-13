@@ -108,6 +108,9 @@ namespace Terratweaks
 		// Boss and Event Tweaks
 		[Header("BossTweaks")]
 
+		[DefaultValue(false)]
+		public bool EarlyLacewing { get; set; }
+
 		[DefaultValue(true)]
 		public bool NoLingeringProbes { get; set; }
 

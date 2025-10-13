@@ -328,6 +328,7 @@ namespace Terratweaks
 								.Replace("spectres", "spectre")
 								.Replace("duneriderboots", "dunerider")
 								.Replace("duneriders", "dunerider")
+								.Replace("prismaticlacewing", "lacewing")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -451,6 +452,7 @@ namespace Terratweaks
 								"spectreneedsdunerider" or "spectreneeddunerider" => Config.SpectreNeedsDunerider,
 								"bossblacklist" => Config.BossBlacklist, // Returns a list of NPCDefinitions, not a list of NPCs or IDs!
 								"bosswhitelist" => Config.BossWhitelist, // Returns a list of NPCDefinitions, not a list of NPCs or IDs!
+								"earlylacewing" => Config.EarlyLacewing,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
