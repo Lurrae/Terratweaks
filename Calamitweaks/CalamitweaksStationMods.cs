@@ -19,22 +19,15 @@ namespace Terratweaks.Calamitweaks
 
 			if (!Terratweaks.Calamitweaks.CombinedStationSupport)
 				return newAdjTiles.ToArray();
-
-			if (type == ModContent.TileType<CombinedFurnitureStations1Tile>() ||
-				type == ModContent.TileType<CombinedFurnitureStations2Tile>() ||
-				type == ModContent.TileType<CombinedStations4Tile>())
-			{
-				newAdjTiles.AddRange([ ModContent.TileType<WulfrumLabstation>(), ModContent.TileType<EutrophicShelf>(), ModContent.TileType<StaticRefiner>() ]);
-			}
 			
 			if (type == ModContent.TileType<CombinedFurnitureStations2Tile>() || type == ModContent.TileType<CombinedStations4Tile>())
 			{
-				newAdjTiles.AddRange([ ModContent.TileType<AncientAltar>(), ModContent.TileType<AshenAltar>(), ModContent.TileType<MonolithAmalgam>(), ModContent.TileType<PlagueInfuser>(), ModContent.TileType<VoidCondenser>()]);
+				newAdjTiles.AddRange([ ModContent.TileType<AshenAltar>(), ModContent.TileType<PlagueInfuser>(), ModContent.TileType<VoidCondenser>()]);
 			}
 
 			if (type == ModContent.TileType<CombinedStations4Tile>())
 			{
-				newAdjTiles.AddRange([ ModContent.TileType<ProfanedCrucible>(), ModContent.TileType<BotanicPlanter>(), ModContent.TileType<SilvaBasin>(), ModContent.TileType<SCalAltar>(), ModContent.TileType<SCalAltarLarge>(), ModContent.TileType<CosmicAnvil>(), ModContent.TileType<DraedonsForge>() ]);
+				newAdjTiles.AddRange([ ModContent.TileType<ProfanedCrucible>(), ModContent.TileType<SCalAltar>(), ModContent.TileType<SCalAltarLarge>(), ModContent.TileType<CosmicAnvil>(), ModContent.TileType<DraedonsForge>() ]);
 			}
 
 			return newAdjTiles.ToArray();

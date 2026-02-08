@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terratweaks.Items;
@@ -122,7 +123,7 @@ namespace Terratweaks.Calamitweaks
 				ItemID.Sets.KillsToBanner[ModContent.ItemType<CnidrionBanner>()] = 25;
 				ItemID.Sets.KillsToBanner[ModContent.ItemType<EarthElementalBanner>()] = 25;
 				ItemID.Sets.KillsToBanner[ModContent.ItemType<CloudElementalBanner>()] = 25;
-				ItemID.Sets.KillsToBanner[ModContent.ItemType<ArmoredDiggerBanner>()] = 25;
+				ItemID.Sets.KillsToBanner[ModContent.ItemType<BurrowerBanner>()] = 25;
 				ItemID.Sets.KillsToBanner[ModContent.ItemType<PlaguebringerBanner>()] = 25;
 				ItemID.Sets.KillsToBanner[ModContent.ItemType<ColossalSquidBanner>()] = 10;
 				ItemID.Sets.KillsToBanner[ModContent.ItemType<ReaperSharkBanner>()] = 10;
@@ -164,11 +165,11 @@ namespace Terratweaks.Calamitweaks
 
 		public static readonly List<int> BossSummonBlacklist = new()
 		{
-			ModContent.ItemType<Starcore>(),		// Designed to be a non-consumable counterpart of Titan Hearts
-			ModContent.ItemType<ProfanedCore>(),	// Dropped by Profaned Guardians, so it'd be annoying to get multiples of
-			ModContent.ItemType<RuneofKos>(),		// Dropped by Providence, so it'd be annoying to get multiples of
-			ModContent.ItemType<CeremonialUrn>(),	// Designed to be a non-consumable counterpart of Ashes of Calamity
-			ModContent.ItemType<NO>()				// It would be cruel to force players to farm this item with how unfair THE LORDE is
+			ModContent.ItemType<Starcore>(),			// Designed to be a non-consumable counterpart of Titan Hearts
+			ModContent.ItemType<ProfanedCore>(),		// Dropped by Profaned Guardians, so it'd be annoying to get multiples of
+			ModContent.ItemType<MarkofProvidence>(),	// Dropped by Providence, so it'd be annoying to get multiples of
+			ModContent.ItemType<CeremonialUrn>(),		// Designed to be a non-consumable counterpart of Ashes of Calamity
+			ModContent.ItemType<NO>()					// It would be cruel to force players to farm this item with how unfair THE LORDE is
 		};
 
 		public static bool IsVanillaOrCalBossSummon(Item item, bool ignoreBlacklist = false)
@@ -203,11 +204,19 @@ namespace Terratweaks.Calamitweaks
 			#region StatsModifiedBy stuff
 			bool itemIsModified = false;
 
-			if (Terratweaks.Calamitweaks.AsgardsValorBuff && (item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>()))
+			if (Terratweaks.Calamitweaks.AsgardsValorBuff && (item.type == ModContent.ItemType<OrnateShield>() || item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>()))
+			{
 				itemIsModified = true;
 
-			if (Terratweaks.Calamitweaks.AquaticEmblemBuff && item.type == ModContent.ItemType<AquaticEmblem>())
-				itemIsModified = true;
+				if (item.type == ModContent.ItemType<AsgardsValor>())
+				{
+					item.defense += 4;
+				}
+				else if (item.type == ModContent.ItemType<AsgardianAegis>())
+				{
+					item.defense += 6;
+				}
+			}
 
 			if (Terratweaks.Calamitweaks.DeificAmuletBuff && (item.type == ModContent.ItemType<DeificAmulet>() || item.type == ModContent.ItemType<RampartofDeities>()))
 				itemIsModified = true;
@@ -287,8 +296,39 @@ namespace Terratweaks.Calamitweaks
 
 			if (Terratweaks.Calamitweaks.AsgardsValorBuff)
 			{
+				// Revert nerf to Ornate Shield
+				if (item.type == ModContent.ItemType<OrnateShield>())
+				{
+					player.buffImmune[BuffID.Chilled] = true;
+					player.buffImmune[BuffID.Frostburn] = true;
+					player.buffImmune[BuffID.Frostburn2] = true;
+					player.buffImmune[BuffID.Frozen] = true;
+				}
+
+				// Apply effects of new components
 				if (item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>())
 				{
+					// Ankh Shield effect
+					player.noKnockback = true;
+					player.fireWalk = true;
+					player.buffImmune[BuffID.Bleeding] = true;
+					player.buffImmune[BuffID.BrokenArmor] = true;
+					player.buffImmune[BuffID.Confused] = true;
+					player.buffImmune[BuffID.Cursed] = true;
+					player.buffImmune[BuffID.Darkness] = true;
+					player.buffImmune[BuffID.Poisoned] = true;
+					player.buffImmune[BuffID.Silenced] = true;
+					player.buffImmune[BuffID.Slow] = true;
+					player.buffImmune[BuffID.Stoned] = true;
+					player.buffImmune[BuffID.Weak] = true;
+					player.buffImmune[BuffID.WindPushed] = true; // TODO: Does Calamity still buff the Ankh Shield to give Mighty Wind immunity? Brainstorm's changelog doesn't say anything about it
+
+					// Ornate Shield effect
+					player.buffImmune[BuffID.Chilled] = true;
+					player.buffImmune[BuffID.Frostburn] = true;
+					player.buffImmune[BuffID.Frostburn2] = true;
+					player.buffImmune[BuffID.Frozen] = true;
+
 					// Shield of the Ocean effect
 					if (player.wet)
 					{
@@ -404,7 +444,7 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			if (Terratweaks.Calamitweaks.DeificAmuletBuff)
+			if (Terratweaks.Calamitweaks.DeificAmuletBuff && !PlayerInput.Triggers.Current.SmartCursor && tooltips.Any(t => t.Name.Equals("Tooltip0")))
 			{
 				// Deific Amulet and Rampart of Deities - Now inherit Charm of Myths effect
 				if (item.type == ModContent.ItemType<DeificAmulet>() || item.type == ModContent.ItemType<RampartofDeities>())
@@ -414,13 +454,20 @@ namespace Terratweaks.Calamitweaks
 				}
 			}
 
-			if (Terratweaks.Calamitweaks.AsgardsValorBuff)
+			if (Terratweaks.Calamitweaks.AsgardsValorBuff && tooltips.Any(t => t.Name.Equals("Tooltip0")))
 			{
+				// Ornate Shield - Now grants immunity to Chilled, Frozen, Frostburn, and Frostbite
+				if (item.type == ModContent.ItemType<OrnateShield>())
+				{
+					TooltipLine line = tooltips.FindLast(t => t.Name.Contains("Tooltip"));
+					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MoreShields", "Grants immunity to Chilled, Frozen, Frostburn, and Frostbite"));
+				}
+
 				// Asgard's Valor and Asgardian Aegis - Now inherit Shield of the Ocean and Deep Diver's effects
 				if (item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>())
 				{
 					TooltipLine line = tooltips.FindLast(t => t.Name.Contains("Tooltip"));
-					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MoreShields", "Increases defense by 5 and provides +10% movement speed and +1 HP/s life regeneration when submerged in a liquid\nProvides greatly improved water mobility"));
+					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MoreShields", "Grants immunity to knockback and fire blocks\nGrants immunity to most debuffs, including most forms of frost\nIncreases defense by 5 and provides +10% movement speed and +1 HP/s life regeneration when submerged in a liquid\nProvides greatly improved water mobility"));
 				}
 			}
 

@@ -525,16 +525,9 @@ namespace Terratweaks.NPCs
 		{
 			if (npc.type == NPCID.HallowBoss) // Empress of Light
 			{
-				if (ModLoader.HasMod("CalamityMod")) // Remove Calamity's Terraprisma drop from EoL
-				{
-					foreach (IItemDropRule rule in npcLoot.Get(false))
-					{
-						HandleCalamityEoLChanges(rule);
-					}
-				}
 
 				// If the configs allow it, add a secondary Terraprisma drop chance when EoL is not "genuinely enraged"
-				if (Terratweaks.Config.TerraprismaDropRate > 0 && (!ModLoader.HasMod("CalamityMod") || Terratweaks.Config.calamitweaks.RevertTerraprisma))
+				if (Terratweaks.Config.TerraprismaDropRate > 0)
 				{
 					var nightEol = new TerratweaksDropConditions.NightEoL();
 					npcLoot.Add(new ItemDropWithConditionRule(ItemID.EmpressBlade, 100, 1, 1, nightEol, Terratweaks.Config.TerraprismaDropRate));
@@ -590,50 +583,6 @@ namespace Terratweaks.NPCs
 			if (Terratweaks.Config.CultistGravGlobe && npc.type == NPCID.CultistBoss)
 			{
 				npcLoot.Add(ItemDropRule.BossBag(ItemID.GravityGlobe));
-			}
-		}
-
-		private static void HandleCalamityEoLChanges(IItemDropRule rule)
-		{
-			if (rule is LeadingConditionRule lcr && lcr.ChainedRules.Count > 2) // The rule we're looking for has at least 3 items
-			{
-				CalamityMod.DropHelper.AllOptionsAtOnceWithPityDropRule targetRule = null;
-
-				foreach (IItemDropRuleChainAttempt chainedRule in lcr.ChainedRules)
-				{
-					// The rule we're looking for is a custom type from Calamity, which is why we needed the JITWhenModsEnabled stuff
-					if (chainedRule.RuleToChain is CalamityMod.DropHelper.AllOptionsAtOnceWithPityDropRule pityRule)
-					{
-						targetRule = pityRule;
-						break;
-					}
-				}
-
-				if (targetRule != null) // Found Calamity's rule, now remove Terraprisma from it
-				{
-					CalamityMod.WeightedItemStack stackToRemove= new();
-					bool foundTerraprisma = false;
-
-					foreach (CalamityMod.WeightedItemStack stack in targetRule.stacks)
-					{
-						FieldInfo stackItemID = stack.GetType().GetField("itemID", BindingFlags.NonPublic | BindingFlags.Instance);
-						int itemID = (int)stackItemID.GetValue(stack);
-
-						if (itemID == ItemID.EmpressBlade)
-						{
-							stackToRemove = stack;
-							foundTerraprisma = true;
-							break;
-						}
-					}
-
-					if (foundTerraprisma)
-					{
-						List<CalamityMod.WeightedItemStack> stacksList = targetRule.stacks.ToList();
-						stacksList.Remove(stackToRemove);
-						targetRule.stacks = stacksList.ToArray();
-					}
-				}
 			}
 		}
 	}

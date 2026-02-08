@@ -1062,38 +1062,102 @@ Mods: {
 
 			DummySetting: {
 				Tooltip: ""
-				Off.Label: Vanilla Behavior
-				Limited.Label: Whip Target Only
-				On.Label: Always Active
+
+				Off: {
+					Label: Vanilla Behavior
+					Tooltip: ""
+				}
+
+				Limited: {
+					Label: Whip Target Only
+					Tooltip: ""
+				}
+
+				On: {
+					Label: Always Active
+					Tooltip: ""
+				}
 			}
 
 			SentryAccSetting: {
 				Tooltip: ""
-				Off.Label: Vanilla Behavior
-				Limited.Label: Stack With Other Tier
-				On.Label: No Restrictions
+
+				Off: {
+					Label: Vanilla Behavior
+					Tooltip: ""
+				}
+
+				Limited: {
+					Label: Stack With Other Tier
+					Tooltip: ""
+				}
+
+				On: {
+					Label: No Restrictions
+					Tooltip: ""
+				}
 			}
 
 			DamageVarianceSetting: {
 				Tooltip: ""
-				Off.Label: Vanilla Behavior
-				Limited.Label: No Player Damage Variance
-				On.Label: No Damage Variance
+
+				Off: {
+					Label: Vanilla Behavior
+					Tooltip: ""
+				}
+
+				Limited: {
+					Label: No Player Damage Variance
+					Tooltip: ""
+				}
+
+				On: {
+					Label: No Damage Variance
+					Tooltip: ""
+				}
 			}
 
 			CoinTheftSetting: {
 				Tooltip: ""
-				Off.Label: Vanilla Behavior
-				Limited.Label: Bosses Can't Steal Coins
-				On.Label: All Enemies Can't Steal Coins
+
+				Off: {
+					Label: Vanilla Behavior
+					Tooltip: ""
+				}
+
+				Limited: {
+					Label: Bosses Can't Steal Coins
+					Tooltip: ""
+				}
+
+				On: {
+					Label: All Enemies Can't Steal Coins
+					Tooltip: ""
+				}
 			}
 
 			SturdyLarvaeSetting: {
 				Tooltip: ""
-				Off.Label: Vanilla Behavior
-				Env.Label: Needs Environmental Preservation
-				Peace.Label: Needs Peaceful Coexistence
-				Bee.Label: Needs Queen Bee Downed and E.P.
+
+				Off: {
+					Label: Vanilla Behavior
+					Tooltip: ""
+				}
+
+				Env: {
+					Label: Needs Environmental Preservation
+					Tooltip: ""
+				}
+
+				Peace: {
+					Label: Needs Peaceful Coexistence
+					Tooltip: ""
+				}
+
+				Bee: {
+					Label: Needs Queen Bee Downed and E.P.
+					Tooltip: ""
+				}
 			}
 
 			TerratweaksConfig_Client: {
@@ -1257,12 +1321,13 @@ Mods: {
 				}
 
 				AsgardsValorBuff: {
-					Label: "[i:AnkhShield] Asgard's Valor Inherits More Shields"
+					Label: "[i:AnkhShield] Ornate Shield & Asgard's Valor Nerf Reversion"
 					Tooltip:
 						'''
-						Adds the Shield of the Ocean and Deep Diver to Asgard's Valor recipe
-						Asgard's Valor and Asgardian Aegis provide increased defense, movement speed, and regen while in water,
-						and allow free movement in water
+						Re-adds the Ankh Shield to the recipe of Asgard's Valor
+						Additionally, adds the Shield of the Ocean and Deep Diver to Asgard's Valor recipe, similar to old versions of Calamity
+						Reverts the debuff immunity removal from Ornate Shield, and adds the effects of the new shields
+						to Asgard's Valor and Asgardian Aegis, as well as reverting their defense nerf
 						'''
 				}
 

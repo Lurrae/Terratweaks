@@ -23,28 +23,14 @@ namespace Terratweaks.Calamitweaks
 	{
 		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("CalamityMod");
 
-		private static readonly MethodInfo _addNewNames = typeof(CalamityGlobalNPC).GetMethod("AddNewNames", BindingFlags.Instance | BindingFlags.NonPublic);
-		private static readonly MethodInfo _pillarEventProgressionEdit = typeof(CalamityGlobalNPC).GetMethod("PillarEventProgressionEdit", BindingFlags.Instance | BindingFlags.NonPublic);
-		private static readonly MethodInfo _blockDrops = typeof(DropHelper).GetMethod("BlockDrops", BindingFlags.Static | BindingFlags.Public);
-		//private static readonly MethodInfo _canUseOnion = typeof(CelestialOnion).GetMethod("CanUseItem", BindingFlags.Instance | BindingFlags.Public);
-		//private static readonly MethodInfo _onionSlotIsEnabled = typeof(CelestialOnionAccessorySlot).GetMethod("IsEnabled", BindingFlags.Instance | BindingFlags.Public);
+		private static readonly MethodInfo _setPatreonTownNpcName = typeof(CalamityGlobalTownNPC).GetMethod("SetPatreonTownNPCName", BindingFlags.Instance | BindingFlags.Public);
 		private static readonly MethodInfo _calGlobalNpcPostAi = typeof(CalamityGlobalNPC).GetMethod("PostAI", BindingFlags.Instance | BindingFlags.Public);
 		private static readonly MethodInfo _calGlobalNpcApplyDr = typeof(CalamityGlobalNPC).GetMethod("ApplyDR", BindingFlags.Instance | BindingFlags.NonPublic);
 		
 		public override void Load()
 		{
-			if (Terratweaks.Calamitweaks.RevertVanillaBossAIChanges)
-			{
-				CalamityMod.CalamityMod.ExternalFlag_DisableNonRevBossAI = true;
-			}
-
-			MonoModHooks.Add(_addNewNames, DisablePatreonNames);
-			MonoModHooks.Add(_pillarEventProgressionEdit, ProgressionEditRemover);
-			MonoModHooks.Add(_blockDrops, PreventFoodDropBlocking);
-			//MonoModHooks.Add(_onionSlotIsEnabled, EnableOnionSlotInMasterMode);
-			//MonoModHooks.Add(_canUseOnion, EnableOnionUseInMasterMode);
+			MonoModHooks.Add(_setPatreonTownNpcName, DisablePatreonNames);
 			
-			//IL.CalamityMod.NPCs.CalamityGlobalNPC.PostAI += DisableEnemyParticles;
 			MonoModHooks.Modify(_calGlobalNpcPostAi, DisableEnemyParticles);
 			MonoModHooks.Modify(_calGlobalNpcApplyDr, DisableTimedDR);
 
@@ -103,16 +89,14 @@ namespace Terratweaks.Calamitweaks
 			#endregion
 
 			#region Plague Keeper crafting tree
-			profiles.Add(ModContent.ItemType<PlagueKeeper>(), new FinalFractalHelper.FinalFractalProfile(90f, new Color(80, 222, 122)));
 			profiles.Add(ModContent.ItemType<Virulence>(), new FinalFractalHelper.FinalFractalProfile(62f, new Color(80, 222, 122)));
 			#endregion
 
 			#region Swords that are not part of any grand crafting tree
-			profiles.Add(ModContent.ItemType<Excelsus>(), new FinalFractalHelper.FinalFractalProfile(78f, new Color(255, 231, 255)));
+			profiles.Add(ModContent.ItemType<MawOfInfinity>(), new FinalFractalHelper.FinalFractalProfile(78f, new Color(255, 231, 255)));
 			profiles.Add(ModContent.ItemType<GalactusBlade>(), new FinalFractalHelper.FinalFractalProfile(60f, new Color(236, 62, 152)));
 			profiles.Add(ModContent.ItemType<VoidEdge>(), new FinalFractalHelper.FinalFractalProfile(122f, new Color(62, 0, 66)));
 			profiles.Add(ModContent.ItemType<HolyCollider>(), new FinalFractalHelper.FinalFractalProfile(140f, new Color(255, 231, 69)));
-			profiles.Add(ModContent.ItemType<AstralBlade>(), new FinalFractalHelper.FinalFractalProfile(80f, new Color(255, 231, 255)));
 			profiles.Add(ModContent.ItemType<Greentide>(), new FinalFractalHelper.FinalFractalProfile(62f, new Color(80, 222, 122)));
 			profiles.Add(ModContent.ItemType<BrimstoneSword>(), new FinalFractalHelper.FinalFractalProfile(52f, new Color(237, 28, 36)));
 			profiles.Add(ModContent.ItemType<PerfectDark>(), new FinalFractalHelper.FinalFractalProfile(50f, new Color(122, 66, 191)));
@@ -163,58 +147,15 @@ namespace Terratweaks.Calamitweaks
 			c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoTimedDR), BindingFlags.Public | BindingFlags.Static));
 		}
 
-		private static void DisablePatreonNames(Action<CalamityGlobalNPC, List<string>, string[]> orig, CalamityGlobalNPC self, List<string> nameList, string[] patreonNames)
+		private static void DisablePatreonNames(Action<CalamityGlobalTownNPC, NPC, Mod> orig, CalamityGlobalTownNPC self, NPC npc, Mod mod)
 		{
 			// By not calling the original function, it never runs, which should mean no patreon names!
 			// This likely won't change the names of NPCs already in the world but-
 			if (Terratweaks.Calamitweaks.NoPatreonNPCNames)
 				return;
 
-			orig(self, nameList, patreonNames);
+			orig(self, npc, mod);
 		}
-
-		private static void ProgressionEditRemover(Action<CalamityGlobalNPC, NPC> orig, CalamityGlobalNPC self, NPC npc)
-		{
-			// By not calling the original function, it never runs, and therefore pillar enemies spawn as they do in vanilla!
-			if (Terratweaks.Calamitweaks.RevertPillars)
-				return;
-
-			orig(self, npc);
-		}
-
-		private static void PreventFoodDropBlocking(Action<int[]> orig, params int[] itemIDs)
-		{
-			// Like with ProgressionEditRemover, not calling the original function prevents it from running
-			// In this case, it should always run the original function UNLESS trying to block enemy food drops, that way we don't run into issues
-			// with other items being left unblocked (such as the evil ores and materials from EoW's segments or BoC's creepers)
-			if (itemIDs.Contains(ItemID.ApplePie) && Terratweaks.Calamitweaks.EnemyFoodDrops)
-				return;
-
-			orig(itemIDs);
-		}
-
-		/*private static bool EnableOnionUseInMasterMode(Func<ModItem, Player, bool> orig, ModItem self, Player player)
-		{
-			if (Terratweaks.Calamitweaks.OnionMasterMode)
-			{
-				return !player.Calamity().extraAccessoryML;
-			}
-
-			return orig(self, player);
-		}
-
-		private static bool EnableOnionSlotInMasterMode(Func<ModAccessorySlot, bool> orig, ModAccessorySlot self)
-		{
-			if (Terratweaks.Calamitweaks.OnionMasterMode)
-			{
-				if (!ModAccessorySlot.Player.active)
-					return false;
-
-				return ModAccessorySlot.Player.Calamity().extraAccessoryML;
-			}
-			
-			return orig(self);
-		}*/
 
 		public override void PostAddRecipes()
 		{
@@ -229,24 +170,26 @@ namespace Terratweaks.Calamitweaks
 				{
 					// Remove these ingredients so the recipe displays in the correct order
 					recipe.RemoveIngredient(ModContent.ItemType<AstralBar>());
-					recipe.RemoveIngredient(ModContent.ItemType<SeaPrism>());
 
-					// Add Charm of Myths, then put the ingredients back (they had to be re-added so that they'll show up after Star Veil and Charm of Myths)
+					// Add Charm of Myths, then put the ingredients back (they had to be re-added so that they'll show up after all the accessories)
 					recipe.AddIngredient(ItemID.CharmofMyths)
-						.AddIngredient(ModContent.ItemType<AstralBar>(), 10)
-						.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
+						.AddIngredient(ModContent.ItemType<AstralBar>(), 10);
 				}
 
-				// TODO: When the next Calamity update drops, make sure the Ankh Shield is added back into this recipe
 				if (Terratweaks.Calamitweaks.AsgardsValorBuff && recipe.HasResult(ModContent.ItemType<AsgardsValor>()))
 				{
 					// Remove these ingredients so the recipe displays in the correct order
+					recipe.RemoveIngredient(ModContent.ItemType<OrnateShield>());
 					recipe.RemoveIngredient(ModContent.ItemType<CoreofCalamity>());
+					recipe.RemoveIngredient(ItemID.HallowedBar);
 
 					// Add Shield of the Ocean and Deep Diver, then put the ingredients back
-					recipe.AddIngredient(ModContent.ItemType<ShieldoftheOcean>())
+					recipe.AddIngredient(ItemID.AnkhShield)
+						.AddIngredient(ModContent.ItemType<OrnateShield>())
+						.AddIngredient(ModContent.ItemType<ShieldoftheOcean>())
 						.AddIngredient(ModContent.ItemType<DeepDiver>())
-						.AddIngredient(ModContent.ItemType<CoreofCalamity>());
+						.AddIngredient(ModContent.ItemType<CoreofCalamity>())
+						.AddIngredient(ItemID.HallowedBar, 5);
 				}
 
 				if (Terratweaks.Calamitweaks.EarlyGrandGelatin && recipe.HasResult(ModContent.ItemType<GrandGelatin>()))

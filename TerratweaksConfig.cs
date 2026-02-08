@@ -521,16 +521,8 @@ namespace Terratweaks
 					calamitweaks.ConsumableCalBossSummons != pendingTtConfig.calamitweaks.ConsumableCalBossSummons ||
 					calamitweaks.CraftableHostileTurrets != pendingTtConfig.calamitweaks.CraftableHostileTurrets ||
 					calamitweaks.DeificAmuletBuff != pendingTtConfig.calamitweaks.DeificAmuletBuff ||
-					calamitweaks.DryadSellsSeeds != pendingTtConfig.calamitweaks.DryadSellsSeeds ||
-					calamitweaks.EnemyFoodDrops != pendingTtConfig.calamitweaks.EnemyFoodDrops ||
-					calamitweaks.ForceWormContactDamage != pendingTtConfig.calamitweaks.ForceWormContactDamage ||
 					calamitweaks.EzCalBanners != pendingTtConfig.calamitweaks.EzCalBanners ||
-					calamitweaks.NoSellingRoD != pendingTtConfig.calamitweaks.NoSellingRoD ||
-					//calamitweaks.OnionMasterMode != pendingTtConfig.calamitweaks.OnionMasterMode ||
-					calamitweaks.RevertPickSpeedBuffs != pendingTtConfig.calamitweaks.RevertPickSpeedBuffs ||
-					calamitweaks.RevertPillars != pendingTtConfig.calamitweaks.RevertPillars ||
-					calamitweaks.RevertTerraprisma != pendingTtConfig.calamitweaks.RevertTerraprisma ||
-					calamitweaks.RevertVanillaBossAIChanges != pendingTtConfig.calamitweaks.RevertVanillaBossAIChanges)
+					calamitweaks.RevertPickSpeedBuffs != pendingTtConfig.calamitweaks.RevertPickSpeedBuffs)
 				{
 					return true;
 				}
@@ -822,9 +814,6 @@ namespace Terratweaks
 		// Accessory Tweaks
 		[Header("AccTweaks")]
 
-		[DefaultValue(true)]
-		public bool AquaticEmblemBuff { get; set; }
-
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool AsgardsValorBuff { get; set; }
@@ -847,22 +836,7 @@ namespace Terratweaks
 		//[Header("BlockBiomeTweaks")]
 		
 		// Boss and Event Tweaks
-		[Header("BossTweaks")]
-
-		[DefaultValue(true)]
-		public bool EnragedEoLInstakills { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool RevertPillars { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool RevertTerraprisma { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool RevertVanillaBossAIChanges { get; set; }
+		//[Header("BossTweaks")]
 
 		// Calamity Fables Tweaks
 		[Header("FablesTweaks")]
@@ -876,15 +850,7 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
-		public bool EnemyFoodDrops { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
 		public bool EzCalBanners { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool ForceWormContactDamage { get; set; }
 
 		[DefaultValue(true)]
 		public bool NoPlantParticles { get; set; }
@@ -944,16 +910,8 @@ namespace Terratweaks
 		[Header("TownNpcTweaks")]
 
 		[ReloadRequired]
-		[DefaultValue(true)]
-		public bool DryadSellsSeeds { get; set; }
-
-		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool NoPatreonNPCNames { get; set; }
-
-		[ReloadRequired]
-		[DefaultValue(false)]
-		public bool NoSellingRoD { get; set; }
 
 		// Wrath of the Gods Tweaks
 		[Header("WotgTweaks")]

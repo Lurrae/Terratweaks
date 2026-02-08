@@ -898,43 +898,6 @@ namespace Terratweaks.Items
 				// Remove the Gravity Globe from Moon Lord's treasure bag, as Cultist drops it instead
 				itemLoot.RemoveWhere(r => r is CommonDrop cd && cd.itemId == ItemID.GravityGlobe);
 			}
-
-			if (Terratweaks.Calamitweaks.RevertTerraprisma && ModLoader.HasMod("CalamityMod") && item.type == ItemID.FairyQueenBossBag)
-			{
-				foreach (IItemDropRule rule in itemLoot.Get(false))
-				{
-					HandleCalamityEoLChanges(rule);
-				}
-			}
-		}
-
-		static void HandleCalamityEoLChanges(IItemDropRule rule)
-		{
-			if (rule is CalamityMod.DropHelper.AllOptionsAtOnceWithPityDropRule pityRule)
-			{
-				CalamityMod.WeightedItemStack stackToRemove = new();
-				bool foundTerraprisma = false;
-
-				foreach (CalamityMod.WeightedItemStack stack in pityRule.stacks)
-				{
-					FieldInfo stackItemID = stack.GetType().GetField("itemID", BindingFlags.NonPublic | BindingFlags.Instance);
-					int itemID = (int)stackItemID.GetValue(stack);
-
-					if (itemID == ItemID.EmpressBlade)
-					{
-						stackToRemove = stack;
-						foundTerraprisma = true;
-						break;
-					}
-				}
-
-				if (foundTerraprisma)
-				{
-					List<CalamityMod.WeightedItemStack> stacksList = pityRule.stacks.ToList();
-					stacksList.Remove(stackToRemove);
-					pityRule.stacks = stacksList.ToArray();
-				}
-			}
 		}
 	}
 

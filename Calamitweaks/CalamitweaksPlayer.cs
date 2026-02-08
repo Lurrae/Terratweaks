@@ -25,7 +25,7 @@ namespace Terratweaks.Calamitweaks
 	{
 		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("CalamityMod");
 
-		public float aquaticBoostMounted = 0f;
+		//public float aquaticBoostMounted = 0f;
 
 		public override void PostUpdateBuffs()
 		{
@@ -44,7 +44,8 @@ namespace Terratweaks.Calamitweaks
 
 			// Smoothly convert existing mounted/non-mounted boosts between each other
 			// Without this, the boost would reset upon mounting/un-mounting
-			if (calPlr.aquaticEmblem && Terratweaks.Calamitweaks.AquaticEmblemBuff)
+			// No longer needed as of Calamity version 2.1!
+			/*if (calPlr.aquaticEmblem && Terratweaks.Calamitweaks.AquaticEmblemBuff)
 			{
 				if (Player.mount.Active)
 				{
@@ -62,10 +63,10 @@ namespace Terratweaks.Calamitweaks
 						aquaticBoostMounted = calPlr.aquaticBoostMax;
 					}
 				}
-			}
+			}*/
 		}
 
-		public override void PostUpdateMiscEffects()
+		/*public override void PostUpdateMiscEffects()
 		{
 			CalamityPlayer calPlr = Player.Calamity();
 
@@ -110,10 +111,10 @@ namespace Terratweaks.Calamitweaks
 			{
 				aquaticBoostMounted = calPlr.aquaticBoostMax;
 			}
-		}
+		}*/
 
 		// Force enraged (daytime) EoL to insta-kill if the config setting is enabled
-		public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
+		/*public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
 		{
 			if (Terratweaks.Calamitweaks.EnragedEoLInstakills && npc.type == NPCID.HallowBoss && npc.Calamity().CurrentlyEnraged)
 			{
@@ -142,6 +143,6 @@ namespace Terratweaks.Calamitweaks
 					}
 				}
 			}
-		}
+		}*/
 	}
 }

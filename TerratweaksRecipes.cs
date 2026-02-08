@@ -960,14 +960,13 @@ namespace Terratweaks
 			{
 				calamity.TryFind("Terratomere", out ModItem terratomere);
 				calamity.TryFind("ArkoftheCosmos", out ModItem cosmosArk);
-				calamity.TryFind("Excelsus", out ModItem excelsus);
+				calamity.TryFind("MawOfInfinity", out ModItem excelsus);
 				calamity.TryFind("VoidEdge", out ModItem voidEdge);
 				calamity.TryFind("GalactusBlade", out ModItem galactusBlade);
 				calamity.TryFind("HolyCollider", out ModItem holyCollider);
 				// Star Wrath (3.0)
-				calamity.TryFind("AstralBlade", out ModItem astralBlade);
 				// Influx Waver (4.0)
-				calamity.TryFind("PlagueKeeper", out ModItem plagueKeeper);
+				calamity.TryFind("Virulence", out ModItem virulence);
 				// The Horseman's Blade (6.0)
 				calamity.TryFind("Greentide", out ModItem greentide);
 				// Seedler (5.0)
@@ -977,10 +976,9 @@ namespace Terratweaks
 				// Copper Shortsword (10.0)
 
 				ingredients[1.0f] = terratomere.Type; // Replace Terra Blade with Terratomere
-				// Remove Star Wrath, Starfury, Bee Keeper, and Enchanted Sword, as they all have been replaced with swords at different progression points
+				// Remove Star Wrath, Starfury, and Enchanted Sword, as they all have been replaced with swords at different progression points
 				ingredients.Remove(3.0f);
 				ingredients.Remove(7.0f);
-				ingredients.Remove(8.0f);
 				ingredients.Remove(9.0f);
 				// Add all of the Calamity swords at their respective progression stages using floats to represent progression stages
 				ingredients.Add(1.01f, cosmosArk.Type);
@@ -988,8 +986,7 @@ namespace Terratweaks
 				ingredients.Add(1.25f, voidEdge.Type);
 				ingredients.Add(1.5f, galactusBlade.Type);
 				ingredients.Add(1.51f, holyCollider.Type);
-				ingredients.Add(2.1f, plagueKeeper.Type);
-				ingredients.Add(3.05f, astralBlade.Type);
+				ingredients.Add(2.1f, virulence.Type);
 				ingredients.Add(5.8f, greentide.Type);
 				ingredients.Add(6.5f, brimstoneSword.Type);
 				ingredients.Add(8.5f, -1); // -1 indicates to the code below, "hey check the recipe group dictionary"
