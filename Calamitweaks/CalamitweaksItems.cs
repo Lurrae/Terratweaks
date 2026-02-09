@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.Localization;
@@ -263,9 +262,6 @@ namespace Terratweaks.Calamitweaks
 		{
 			if (Terratweaks.Calamitweaks.DRBuffs)
 			{
-				if (item.type == ItemID.WormScarf)
-					player.endurance += 0.03f; // Raise DR from 14% to 17%
-
 				if (item.type == ModContent.ItemType<BloodyWormScarf>())
 					player.endurance += 0.07f; // Raise DR from 10% to 17%
 
@@ -325,7 +321,7 @@ namespace Terratweaks.Calamitweaks
 					player.buffImmune[BuffID.WindPushed] = true;
 
 					// All-Encompassing Ankh Shield adds Chromatic Cloak effect
-					// Ornate Shield's buff already covers the Chilled and Frozen immunity that would otherwise need to be added anyways
+					// Ornate Shield's buff already covers the Chilled and Frozen immunity that would otherwise need to be added too
 					if (Terratweaks.Config.AllEncompassingAnkhShield && !player.controlDownHold)
 						player.shimmerImmune = true;
 
@@ -390,27 +386,6 @@ namespace Terratweaks.Calamitweaks
 
 			if (Terratweaks.Calamitweaks.DRBuffs)
 			{
-				// Frozen Turtle Shell (and upgrades) and Worm Scarf - Reverted back to their vanilla DR values
-				if (tooltips.Any(t => t.Text.Contains("reduces damage")))
-				{
-					if (item.type == ItemID.FrozenTurtleShell || item.type == ItemID.FrozenShield)
-					{
-						TooltipLine line = tooltips.First(t => t.Text.Contains("reduces damage by 15%"));
-						line.Text = line.Text.Replace("reduces damage by 15%", "reduces damage taken by 25%");
-					}
-					if (item.type == ModContent.ItemType<RampartofDeities>())
-					{
-						TooltipLine line = tooltips.First(t => t.Text.Contains("reduces damage taken"));
-						line.Text = line.Text.Replace("reduces damage taken", "reduces damage taken by 25%");
-					}
-				}
-
-				if (item.type == ItemID.WormScarf && tooltips.Any(t => t.Text.Contains("14%")))
-				{
-					TooltipLine line = tooltips.First(t => t.Text.Contains("14%"));
-					line.Text = line.Text.Replace("14%", "17%");
-				}
-
 				// Bloody Worm Scarf - Increased DR granted from 10% to 17%
 				if (item.type == ModContent.ItemType<BloodyWormScarf>() && tooltips.Any(t => t.Text.Contains("10%")))
 				{
@@ -426,27 +401,27 @@ namespace Terratweaks.Calamitweaks
 				}
 
 				// The Sponge - Increased DR granted from 10% to 30%
-				if (item.type == ModContent.ItemType<TheSponge>() && tooltips.Any(t => t.Text.Contains("reduces damage taken")))
+				if (item.type == ModContent.ItemType<TheSponge>() && tooltips.Any(t => t.Text.Contains("damage reduction")))
 				{
-					TooltipLine line = tooltips.First(t => t.Text.Contains("reduces damage taken"));
-					line.Text = line.Text.Replace("reduces damage taken by 10%", "reduces damage taken by 30%");
+					TooltipLine line = tooltips.First(t => t.Text.Contains("damage reduction"));
+					line.Text = line.Text.Replace("10% damage reduction", "30% damage reduction");
 				}
 			}
 
 			if (Terratweaks.Calamitweaks.SummonerAccBuffs)
 			{
 				// Star-Tainted Generator - Increased minion slots granted from +2 to +3
-				if (item.type == ModContent.ItemType<StarTaintedGenerator>() && tooltips.Any(t => t.Text.Contains("+2 max minions")))
+				if (item.type == ModContent.ItemType<StarTaintedGenerator>() && tooltips.Any(t => t.Text.Contains(Language.GetTextValueWith("CommonItemTooltip.IncreasesMaxMinionsBy", 2))))
 				{
-					TooltipLine line = tooltips.First(t => t.Text.Contains("+2 max minions"));
-					line.Text = line.Text.Replace("+2 max minions", "+3 max minions");
+					TooltipLine line = tooltips.First(t => t.Text.Contains(Language.GetTextValueWith("CommonItemTooltip.IncreasesMaxMinionsBy", 2)));
+					line.Text = line.Text.Replace(Language.GetTextValueWith("CommonItemTooltip.IncreasesMaxMinionsBy", 2), Language.GetTextValueWith("CommonItemTooltip.IncreasesMaxMinionsBy", 3));
 				}
 
 				// Nucleogenesis - Increased minion slots granted from +4 to +6
-				if (item.type == ModContent.ItemType<Nucleogenesis>() && tooltips.Any(t => t.Text.Contains("Increases max minions by 4")))
+				if (item.type == ModContent.ItemType<Nucleogenesis>() && tooltips.Any(t => t.Text.Contains(Language.GetTextValueWith("CommonItemTooltip.IncreasesMaxMinionsBy", 4))))
 				{
-					TooltipLine line = tooltips.First(t => t.Text.Contains("Increases max minions by 4"));
-					line.Text = line.Text.Replace("Increases max minions by 4", "Increases max minions by 6");
+					TooltipLine line = tooltips.First(t => t.Text.Contains(Language.GetTextValueWith("CommonItemTooltip.IncreasesMaxMinionsBy", 4)));
+					line.Text = line.Text.Replace(Language.GetTextValueWith("CommonItemTooltip.IncreasesMaxMinionsBy", 4), Language.GetTextValueWith("CommonItemTooltip.IncreasesMaxMinionsBy", 6));
 				}
 			}
 
@@ -456,7 +431,7 @@ namespace Terratweaks.Calamitweaks
 				if (item.type == ModContent.ItemType<DeificAmulet>() || item.type == ModContent.ItemType<RampartofDeities>())
 				{
 					TooltipLine line = tooltips.First(t => t.Name.Equals("Tooltip0"));
-					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MythsEffect", "Provides life regeneration and reduces the cooldown of healing potions by 25%"));
+					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MythsEffect", Language.GetTextValue("ItemTooltip.CharmofMyths")));
 				}
 			}
 
@@ -466,14 +441,14 @@ namespace Terratweaks.Calamitweaks
 				if (item.type == ModContent.ItemType<OrnateShield>())
 				{
 					TooltipLine line = tooltips.FindLast(t => t.Name.Contains("Tooltip"));
-					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MoreShields", "Grants immunity to Chilled, Frozen, Frostburn, and Frostbite"));
+					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "ColdImmunity", Language.GetTextValue("Mods.Terratweaks.Common.OrnateShieldTip")));
 				}
 
 				// Asgard's Valor and Asgardian Aegis - Now inherit Shield of the Ocean and Deep Diver's effects
 				if (item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>())
 				{
 					TooltipLine line = tooltips.FindLast(t => t.Name.Contains("Tooltip"));
-					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MoreShields", "Grants immunity to knockback and fire blocks\nGrants immunity to most debuffs, including Mighty Wind and most forms of frost\nIncreases defense by 5 and provides +10% movement speed and +1 HP/s life regeneration when submerged in a liquid\nProvides greatly improved water mobility"));
+					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MoreShields", Language.GetTextValue("Mods.Terratweaks.Common.AsgardTip")));
 					
 					// Chromatic Cloak tooltip
 					if (Terratweaks.Config.AllEncompassingAnkhShield)
