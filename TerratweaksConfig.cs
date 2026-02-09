@@ -512,6 +512,7 @@ namespace Terratweaks
 				if (craftableUncraftables.GemCritters != pendingTtConfig.craftableUncraftables.GemCritters ||
 					craftableUncraftables.PlanterBoxes != pendingTtConfig.craftableUncraftables.PlanterBoxes ||
 					craftableUncraftables.DungeonFurniture != pendingTtConfig.craftableUncraftables.DungeonFurniture ||
+					craftableUncraftables.GoldenFurniture != pendingTtConfig.craftableUncraftables.GoldenFurniture ||
 					craftableUncraftables.ObsidianFurniture != pendingTtConfig.craftableUncraftables.ObsidianFurniture ||
 					craftableUncraftables.StructureBanners != pendingTtConfig.craftableUncraftables.StructureBanners ||
 					craftableUncraftables.Moss != pendingTtConfig.craftableUncraftables.Moss ||
@@ -754,6 +755,10 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool BiomeChestWeapons { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool ClothierVoodooDoll { get; set; }
 
 		[ReloadRequired]
@@ -775,6 +780,18 @@ namespace Terratweaks
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool GeyserTraps { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool GoldenFurniture { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool HandWarmer { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool IceMirror { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]
@@ -801,6 +818,10 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool ShimmerBiomeMimicDrops { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool ShimmerBlackLens { get; set; }
 
 		[ReloadRequired]
@@ -813,7 +834,19 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool ShimmerCounterweights { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ShimmerEnemySets { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool Gravestones { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool ShimmerDesertShards { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]

@@ -1063,7 +1063,7 @@ Mods: {
 					Tooltip:
 						'''
 						Enables Shimmer transmutations to unlock access to all types of moss in a given world
-						Regular mosses cycle through each other in rainbow order, while glowing mosses have a chain of transmutations similar to ores
+						Regular mosses cycle through each other in rainbow order, while glowing mosses have a chain of transmutations similar to ores, starting at Lava Moss and then going from highest atomic number (Xenon) to lowest (Helium)
 						'''
 				}
 
@@ -1084,6 +1084,62 @@ Mods: {
 				TeamBlocks: {
 					Label: "[i:TeamBlockRed] [i:TeamBlockRedPlatform] Team Blocks"
 					Tooltip: Enables recipes to turn 25 Stone and a dye into 25 Team Blocks of the dye's color, as well as crafting Team Platforms in the same way as normal platforms
+				}
+
+				GoldenFurniture: {
+					Label: "[i:GoldenBathtub] Golden Furniture"
+					Tooltip: Enables recipes for all of the Golden furniture items dropped by the Pirates
+				}
+
+				HandWarmer: {
+					Label: "[i:HandWarmer] Hand Warmer"
+					Tooltip: Enables a recipe for the Hand Warmer: 15 Silk + 5 Flinx Fur + Warmth Potion @ Loom
+				}
+
+				IceMirror: {
+					Label: "[i:IceMirror] Ice Mirror"
+					Tooltip: Enables a recipe to turn a Magic Mirror into an Ice Mirror: Magic Mirror + 50 Ice Blocks @ Ice Machine
+				}
+
+				BiomeChestWeapons: {
+					Label: "[i:VampireKnives] Biome Chest Weapons"
+					Tooltip:
+						'''
+						Enables a recipe to combine any biome key with some Ectoplasm to create that biome key's weapon!
+						Includes Thorium support, and also enables a recipe for Calamity's Heavenfallen Stardisk,
+						though it uses vastly different ingredients from the other recipes since the Astral Chest doesn't have a key and isn't locked behind Plantera
+						'''
+				}
+
+				ShimmerCounterweights: {
+					Label: "[i:BlackCounterweight] Shimmerable Counterweights"
+					Tooltip: Enables a Shimmer transmutation cycle for all six colored counterweight accessories
+				}
+
+				ShimmerBiomeMimicDrops: {
+					Label: "[i:LightKey] [i:NightKey] Shimmerable Biome Mimic Drops"
+					Tooltip:
+						'''
+						Enables a Shimmer transmutation cycle for every item dropped by the Corruption, Crimson, and Hallowed Biome Mimics, similar to the 'Shimmerable Boss Drops' config option
+						Now you only need to kill one Hallowed Mimic to get that Daedalus Stormbow!
+						'''
+				}
+
+				ShimmerDesertShards: {
+					Label: "[i:LightShard] [i:DarkShard] Shimmerable Light/Dark Shards"
+					Tooltip: Enables Shimmer transmutations to turn a Light Shard into a Dark Shard, and vice-versa
+				}
+
+				ShimmerEnemySets: {
+					Label: "[i:MummyMask] Shimmerable Enemy-Dropped Armor/Vanity"
+					Tooltip:
+						'''
+						Enables Shimmer transmutation cycles for as many rare enemy-dropped armor and vanity sets as I could think of off the top of my head
+						These are designed to match the vanilla transmutation cycle for Gladiator armor, and currently includes the following items:
+						- Vanity: Mummy set, Lamia set, Scarecrow set, Elf set, Martian Uniform set, Martian Costume set, Pedguin's set
+						- Armor: Rain armor, Snow armor
+						Modded enemy drops are not currently supported, but manual support is possible via content sets!
+						'''
 				}
 
 				Tooltip: ""

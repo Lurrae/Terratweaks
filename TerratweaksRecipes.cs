@@ -172,6 +172,35 @@ namespace Terratweaks
 					.AddIngredient(ItemID.PurificationPowder, 5)
 					.Register();
 			}
+
+			if (enabledRecipes.HandWarmer)
+			{
+				Recipe.Create(ItemID.HandWarmer)
+					.AddIngredient(ItemID.Silk, 15)
+					.AddIngredient(ItemID.FlinxFur, 5)
+					.AddIngredient(ItemID.WarmthPotion)
+					.AddTile(TileID.Loom)
+					.Register();
+			}
+
+			if (enabledRecipes.IceMirror)
+			{
+				Recipe.Create(ItemID.IceMirror)
+					.AddIngredient(ItemID.MagicMirror)
+					.AddIngredient(ItemID.IceBlock, 50)
+					.AddTile(TileID.IceMachine)
+					.Register();
+			}
+
+			if (enabledRecipes.GoldenFurniture)
+			{
+				AddGoldenFurnitureRecipes();
+			}
+
+			if (enabledRecipes.BiomeChestWeapons)
+			{
+				AddBiomeChestWeaponRecipes();
+			}
 		}
 
 		public override void AddRecipeGroups()
@@ -877,6 +906,182 @@ namespace Terratweaks
 				.AddIngredient(ItemID.Obsidian, 10)
 				.AddIngredient(ItemID.Hellstone, 2)
 				.Register();
+		}
+
+		static void AddGoldenFurnitureRecipes()
+		{
+			Recipe.Create(ItemID.GoldenPlatform, 2)
+				.AddIngredient(ItemID.GoldBrick)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenBathtub)
+				.AddIngredient(ItemID.GoldBrick, 14)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenBed)
+				.AddIngredient(ItemID.GoldBrick, 15)
+				.AddIngredient(ItemID.Silk, 5)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenBookcase)
+				.AddIngredient(ItemID.GoldBrick, 20)
+				.AddIngredient(ItemID.Book, 10)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenCandelabra)
+				.AddIngredient(ItemID.GoldBrick, 5)
+				.AddIngredient(ItemID.Torch, 3)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenCandle)
+				.AddIngredient(ItemID.GoldBrick, 4)
+				.AddIngredient(ItemID.Torch)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenChair)
+				.AddIngredient(ItemID.GoldBrick, 4)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenChandelier)
+				.AddIngredient(ItemID.GoldBrick, 4)
+				.AddIngredient(ItemID.Torch, 4)
+				.AddIngredient(ItemID.Chain)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.DungeonClockBlue)
+				.AddIngredient(ItemID.GoldBrick, 10)
+				.AddRecipeGroup(RecipeGroupID.IronBar, 3)
+				.AddIngredient(ItemID.Glass, 6)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenDoor)
+				.AddIngredient(ItemID.GoldBrick, 6)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenDresser)
+				.AddIngredient(ItemID.GoldBrick, 16)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenLamp)
+				.AddIngredient(ItemID.Torch)
+				.AddIngredient(ItemID.GoldBrick, 3)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenPiano)
+				.AddIngredient(ItemID.GoldBrick, 15)
+				.AddIngredient(ItemID.Bone, 4)
+				.AddIngredient(ItemID.Book)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenSofa)
+				.AddIngredient(ItemID.GoldBrick, 5)
+				.AddIngredient(ItemID.Silk, 2)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenTable)
+				.AddIngredient(ItemID.GoldBrick, 8)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.GoldenWorkbench)
+				.AddIngredient(ItemID.GoldBrick, 10)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+		}
+
+		static void AddBiomeChestWeaponRecipes()
+		{
+			Recipe.Create(ItemID.ScourgeoftheCorruptor)
+				.AddIngredient(ItemID.CorruptionKey)
+				.AddIngredient(ItemID.Ectoplasm, 10)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.VampireKnives)
+				.AddIngredient(ItemID.CrimsonKey)
+				.AddIngredient(ItemID.Ectoplasm, 10)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.RainbowGun)
+				.AddIngredient(ItemID.HallowedKey)
+				.AddIngredient(ItemID.Ectoplasm, 10)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.PiranhaGun)
+				.AddIngredient(ItemID.JungleKey)
+				.AddIngredient(ItemID.Ectoplasm, 10)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			Recipe.Create(ItemID.StormTigerStaff)
+				.AddIngredient(ItemID.DungeonDesertKey)
+				.AddIngredient(ItemID.Ectoplasm, 10)
+				.AddTile(TileID.MythrilAnvil)
+				.Register();
+
+			if (ModLoader.TryGetMod("ThoriumMod", out Mod thorium))
+			{
+				if (thorium.TryFind("AquaticDepthsBiomeKey", out ModItem depthsKey) &&
+					thorium.TryFind("Fishbone", out ModItem fishbone))
+				{
+					Recipe.Create(fishbone.Type)
+						.AddIngredient(depthsKey.Type)
+						.AddIngredient(ItemID.Ectoplasm, 10)
+						.AddTile(TileID.MythrilAnvil)
+						.Register();
+				}
+
+				if (thorium.TryFind("PharaohsSlab", out ModItem pharaohSlab))
+				{
+					Recipe.Create(pharaohSlab.Type)
+						.AddIngredient(ItemID.DungeonDesertKey)
+						.AddIngredient(ItemID.Ectoplasm, 10)
+						.AddTile(TileID.MythrilAnvil)
+						.Register();
+				}
+
+				if (thorium.TryFind("UnderworldBiomeKey", out ModItem hellKey) &&
+					thorium.TryFind("PhoenixStaff", out ModItem phoenixStaff))
+				{
+					Recipe.Create(phoenixStaff.Type)
+						.AddIngredient(hellKey.Type)
+						.AddIngredient(ItemID.Ectoplasm, 10)
+						.AddTile(TileID.MythrilAnvil)
+						.Register();
+				}
+			}
+
+			if (ModLoader.TryGetMod("CalamityMod", out Mod cal))
+			{
+				if (cal.TryFind("HeavenfallenStardisk", out ModItem stardisk) &&
+					cal.TryFind("StarblightSoot", out ModItem starblightSoot) &&
+					cal.TryFind("AureusCell", out ModItem aureusCell))
+				{
+					Recipe.Create(stardisk.Type)
+						.AddIngredient(ItemID.MeteoriteBar, 10)
+						.AddIngredient(ItemID.FallenStar, 15)
+						.AddIngredient(starblightSoot.Type, 30)
+						.AddIngredient(aureusCell.Type, 10)
+						.AddTile(TileID.MythrilAnvil)
+						.Register();
+				}
+			}
 		}
 
 		public override void PostAddRecipes()

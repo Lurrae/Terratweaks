@@ -85,6 +85,24 @@ namespace Terratweaks
 			ItemID.Meowmere, new List<int> { ItemID.Meowmere, ItemID.StarWrath, ItemID.Terrarian, ItemID.SDMG, ItemID.Celeb2, ItemID.LastPrism, ItemID.LunarFlareBook, ItemID.RainbowCrystalStaff, ItemID.MoonlordTurretStaff }
 			);
 
+		const string ShimmerableEnemySets_Key = "ShimmerableEnemySets";
+		const string ShimmerableEnemySets_Desc = "Stores a list of shimmer transmutations for an item that should be enabled with the Shimmerable Enemy-Dropped Armor/Vanity config option";
+
+		public static List<int>[] ShimmerableEnemySets = ItemID.Sets.Factory.CreateNamedSet(ShimmerableEnemySets_Key)
+			.Description(ShimmerableEnemySets_Desc)
+			.RegisterCustomSet<List<int>>(null,
+			// Note: As with ShimmerableBossDrops, the "key" item isn't actually used, but does have to be unique
+			ItemID.MummyMask, new List<int> { ItemID.MummyMask, ItemID.MummyShirt, ItemID.MummyPants },
+			ItemID.LamiaHat, new List<int> { ItemID.LamiaHat, ItemID.LamiaShirt, ItemID.LamiaPants },
+			ItemID.ScarecrowHat, new List<int> { ItemID.ScarecrowHat, ItemID.ScarecrowShirt, ItemID.ScarecrowPants },
+			ItemID.ElfHat, new List<int> { ItemID.ElfHat, ItemID.ElfShirt, ItemID.ElfPants },
+			ItemID.MartianUniformHelmet, new List<int> { ItemID.MartianUniformHelmet, ItemID.MartianUniformTorso, ItemID.MartianUniformPants },
+			ItemID.MartianCostumeMask, new List<int> { ItemID.MartianCostumeMask, ItemID.MartianCostumeShirt, ItemID.MartianCostumePants },
+			ItemID.PedguinHat, new List<int> { ItemID.PedguinHat, ItemID.PedguinShirt, ItemID.PedguinPants },
+			ItemID.RainHat, new List<int> { ItemID.RainHat, ItemID.RainCoat },
+			ItemID.EskimoCoat, new List<int> { ItemID.EskimoCoat, ItemID.EskimoCoat, ItemID.EskimoPants }
+			);
+
 		const string NoBiomeBlacklist_Key = "NoBiomeBlacklist";
 		const string NoBiomeBlacklist_Desc = "If set to true for an item type, the item won't have its biome conditions removed from shops with the config option that disables shop biome conditions";
 

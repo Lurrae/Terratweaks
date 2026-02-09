@@ -1814,7 +1814,6 @@ namespace Terratweaks.Items
 		}
 	}
 
-	[Autoload(false)]
 	public class ShimmerTransmutationHandler : GlobalItem
 	{
 		public override void SetStaticDefaults()
@@ -1865,6 +1864,33 @@ namespace Terratweaks.Items
 			if (enabledRecipes.ShimmerBlackLens)
 			{
 				ItemID.Sets.ShimmerTransformToItem[ItemID.BlackLens] = ItemID.Lens;
+			}
+
+			if (enabledRecipes.ShimmerCounterweights)
+			{
+				AddShimmerTransmutation_Cycle(new List<int> { ItemID.BlackCounterweight, ItemID.YellowCounterweight, ItemID.BlueCounterweight, ItemID.RedCounterweight, ItemID.GreenCounterweight, ItemID.PurpleCounterweight });
+			}
+
+			if (enabledRecipes.ShimmerDesertShards)
+			{
+				ItemID.Sets.ShimmerTransformToItem[ItemID.DarkShard] = ItemID.LightShard;
+				ItemID.Sets.ShimmerTransformToItem[ItemID.LightShard] = ItemID.DarkShard;
+			}
+
+			if (enabledRecipes.ShimmerBiomeMimicDrops)
+			{
+				AddShimmerTransmutation_Cycle(new List<int> { ItemID.ChainGuillotines, ItemID.DartRifle, ItemID.ClingerStaff, ItemID.PutridScent, ItemID.WormHook });
+				AddShimmerTransmutation_Cycle(new List<int> { ItemID.FetidBaghnakhs, ItemID.DartPistol, ItemID.SoulDrain, ItemID.FleshKnuckles, ItemID.TendonHook });
+				AddShimmerTransmutation_Cycle(new List<int> { ItemID.FlyingKnife, ItemID.DaedalusStormbow, ItemID.CrystalVileShard, ItemID.IlluminantHook });
+			}
+
+			if (enabledRecipes.ShimmerEnemySets)
+			{
+				foreach (List<int> items in TerratweaksContentSets.ShimmerableEnemySets)
+				{
+					if (items != null && items.Count > 0)
+						AddShimmerTransmutation_Cycle(items);
+				}
 			}
 		}
 
