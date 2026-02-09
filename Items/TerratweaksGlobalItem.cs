@@ -288,6 +288,13 @@ namespace Terratweaks.Items
 				tooltips.RemoveAll(t => t.Name.Equals("OneDropLogo"));
 			}
 
+			// Remove the favorited tooltip from all favorited items
+			if (Terratweaks.ClientConfig.HideFavoritedTips)
+			{
+				tooltips.RemoveAll(t => t.Name.Equals("Favorite"));
+				tooltips.RemoveAll(t => t.Name.Equals("FavoriteDesc"));
+			}
+
 			// Grammar corrections option only applies when playing with English localization,
 			// since I don't know enough about other languages to even know if the incorrect grammar from vanilla
 			// still applies in other languages, let alone how best to correct it

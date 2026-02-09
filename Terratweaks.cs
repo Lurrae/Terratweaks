@@ -473,6 +473,7 @@ namespace Terratweaks
 								"client_hideitemmodifiedtips" or "hideitemmodifiedtips" => ClientConfig.HideItemModifiedTips,
 								"client_hidemilestonetips" or "hidemilestonetips" => ClientConfig.HideMilestoneTips,
 								"client_hammushtip" or "hammushtip" => ClientConfig.HammushTooltip,
+								"client_hidefavoritedtips" => ClientConfig.HideFavoritedTips,
 
 								"craftableuncraftables_planterboxes" or "planterboxesrecipe" => Config.craftableUncraftables.PlanterBoxes,
 								"craftableuncraftables_gemcritters" or "gemcrittersrecipe" => Config.craftableUncraftables.GemCritters,

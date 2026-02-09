@@ -710,6 +710,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool HammushTooltip { get; set; }
 
+		[DefaultValue(true)]
+		public bool HideFavoritedTips { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool HideItemModifiedTips { get; set; }

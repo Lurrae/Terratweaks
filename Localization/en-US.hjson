@@ -1312,6 +1312,11 @@ Mods: {
 						Does not affect other mods which add these tooltips!
 						'''
 				}
+
+				HideFavoritedTips: {
+					Label: "[i:StarTopper1] Hide 'Marked as favorite' Tooltip"
+					Tooltip: Hides the additional tooltip vanilla Terraria adds to every favorited item
+				}
 			}
 
 			CalTweaks: {
