@@ -372,7 +372,10 @@ namespace Terratweaks
 			new NPCDefinition(NPCID.LunarTowerVortex),
 			new NPCDefinition(NPCID.LunarTowerNebula),
 			new NPCDefinition(NPCID.LunarTowerStardust),
-			new NPCDefinition(NPCID.MartianProbe)
+			new NPCDefinition(NPCID.MartianSaucer),
+			new NPCDefinition(NPCID.MartianSaucerCannon),
+			new NPCDefinition(NPCID.MartianSaucerCore),
+			new NPCDefinition(NPCID.MartianSaucerTurret)
 		};
 
 		[Expand(false)]
