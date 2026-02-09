@@ -929,6 +929,15 @@ Mods: {
 					Label: "[i:EmpressButterfly] Early Prismatic Lacewing Spawns"
 					Tooltip: Allows Prismatic Lacewings to spawn as soon as Hardmode begins. Its other spawn conditions still apply
 				}
+
+				GoblinsDropCloth: {
+					Label: "[i:TatteredCloth] All Goblins Drop Tattered Cloth"
+					Tooltip:
+						'''
+						All of the goblin enemies that spawn during a Goblin Invasion have the same 100% chance to drop 1-2 Tattered Cloth as Goblin Scouts do
+						This should automatically include any and all modded Goblin Army enemies, so long as they internally tag themselves as "belonging" to the Goblin Army!
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

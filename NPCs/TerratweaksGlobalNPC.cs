@@ -518,7 +518,6 @@ namespace Terratweaks.NPCs
 	}
 
 	// Add/modify NPC drops here
-	[JITWhenModsEnabled("CalamityMod")]
 	public class DropHandler : GlobalNPC
 	{
 		public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
@@ -583,6 +582,12 @@ namespace Terratweaks.NPCs
 			if (Terratweaks.Config.CultistGravGlobe && npc.type == NPCID.CultistBoss)
 			{
 				npcLoot.Add(ItemDropRule.BossBag(ItemID.GravityGlobe));
+			}
+
+			// Make all Goblin Army enemies drop Tattered Cloth
+			if (Terratweaks.Config.GoblinsDropCloth && NPCID.Sets.BelongsToInvasionGoblinArmy[npc.type])
+			{
+				npcLoot.Add(ItemDropRule.Common(ItemID.TatteredCloth, 1, 1, 2)); // 100% chance for 1-2 cloth
 			}
 		}
 	}

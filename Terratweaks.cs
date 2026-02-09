@@ -324,11 +324,12 @@ namespace Terratweaks
 								.Replace("exobox", "gamerchair")
 								.Replace("exocube", "gamerchair")
 								.Replace("supremecalamitas", "scal")
-								.Replace("spectreboots", "spectre")
+								.Replace("spectreboot", "spectre")
 								.Replace("spectres", "spectre")
-								.Replace("duneriderboots", "dunerider")
+								.Replace("duneriderboot", "dunerider")
 								.Replace("duneriders", "dunerider")
 								.Replace("prismaticlacewing", "lacewing")
+								.Replace("tatteredcloth", "cloth")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -453,6 +454,7 @@ namespace Terratweaks
 								"bossblacklist" => Config.BossBlacklist, // Returns a list of NPCDefinitions, not a list of NPCs or IDs!
 								"bosswhitelist" => Config.BossWhitelist, // Returns a list of NPCDefinitions, not a list of NPCs or IDs!
 								"earlylacewing" => Config.EarlyLacewing,
+								"goblinsdropcloth" or "allgoblinsdropcloth" => Config.GoblinsDropCloth,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

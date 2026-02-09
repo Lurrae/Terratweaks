@@ -181,6 +181,10 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool GoblinsDropCloth { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool PillarEnemiesDropFragments { get; set; }
 
 		[DefaultValue(true)]
