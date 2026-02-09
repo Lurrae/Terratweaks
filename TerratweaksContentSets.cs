@@ -91,6 +91,13 @@ namespace Terratweaks
 		public static bool[] NoBiomeBlacklist = ItemID.Sets.Factory.CreateNamedSet(NoBiomeBlacklist_Key)
 			.Description(NoBiomeBlacklist_Desc)
 			.RegisterBoolSet(false);
+
+		const string OnFireImmunityItem_Key = "OnFireImmunityItem";
+		const string OnFireImmunityItem_Desc = "If set to true for an item type, the item will have an extra line added to its tooltip indicating that it provides immunity to On Fire!";
+
+		public static bool[] OnFireImmunityItem = ItemID.Sets.Factory.CreateNamedSet(OnFireImmunityItem_Key)
+			.Description(OnFireImmunityItem_Desc)
+			.RegisterBoolSet(false, ItemID.ObsidianSkull, ItemID.LavaSkull, ItemID.MoltenCharm, ItemID.ObsidianSkullRose, ItemID.MoltenSkullRose, ItemID.ObsidianHorseshoe, ItemID.ObsidianShield, ItemID.ObsidianWaterWalkingBoots, ItemID.LavaWaders, ItemID.TerrasparkBoots);
 		#endregion
 
 		#region NPCID.Sets

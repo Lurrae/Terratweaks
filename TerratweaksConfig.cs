@@ -176,6 +176,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool SpelunkerHighlightsHellstone { get; set; }
 
+		[DefaultValue(true)]
+		public bool WarmthGivesColdImmunity { get; set; }
+
 		// Enemy Tweaks
 		[Header("EnemyTweaks")]
 
@@ -278,6 +281,10 @@ namespace Terratweaks
 		// General Item Tweaks
 		[Header("ItemTweaks")]
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool AllEncompassingAnkhShield { get; set; }
+
 		[DefaultValue(false)]
 		public bool AutoFishing { get; set; }
 
@@ -330,6 +337,9 @@ namespace Terratweaks
 		[Range(1, 50)]
 		[DefaultValue(35)]
 		public int OasisCrateOdds { get; set; }
+
+		[DefaultValue(true)]
+		public bool ObsidianSkullOnFireImmunity { get; set; }
 
 		[ReloadRequired]
 		[DefaultValue(true)]

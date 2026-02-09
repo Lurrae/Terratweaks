@@ -455,6 +455,9 @@ namespace Terratweaks
 								"bosswhitelist" => Config.BossWhitelist, // Returns a list of NPCDefinitions, not a list of NPCs or IDs!
 								"earlylacewing" => Config.EarlyLacewing,
 								"goblinsdropcloth" or "allgoblinsdropcloth" => Config.GoblinsDropCloth,
+								"warmthgivescoldimmunity" => Config.WarmthGivesColdImmunity,
+								"obsidianskullonfireimmunity" or "obsidianskullgivesonfireimmunity" => Config.ObsidianSkullOnFireImmunity,
+								"allencompassingankhshield" => Config.AllEncompassingAnkhShield,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

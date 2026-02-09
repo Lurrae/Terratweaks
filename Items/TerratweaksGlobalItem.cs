@@ -557,6 +557,32 @@ namespace Terratweaks.Items
 				tooltips.Insert(idx + 1, new TooltipLine(Mod, "NotConsumable", Language.GetTextValue("Mods.Terratweaks.Common.NotConsumable")));
 			}
 
+			// Add an extra line to Warmth Potion's tooltip to account for its new Chilled/Frozen immunity
+			if (Terratweaks.Config.WarmthGivesColdImmunity && idx != -1 && item.type == ItemID.WarmthPotion)
+			{
+				TooltipLine line = new(Mod, "WarmthPotionExtraTip", Language.GetTextValue("Mods.Terratweaks.Common.WarmthPotionExtraTip"));
+				tooltips.Insert(idx + 1, line);
+			}
+
+			// Any item that says "grants immunity to fire blocks" should now say "grants immunity to fire blocks and On Fire!"
+			if (Terratweaks.Config.ObsidianSkullOnFireImmunity && tooltips.Any(t => t.Mod == "Terraria" && t.Name.Contains("Tooltip")))
+			{
+				foreach (TooltipLine tooltip in tooltips.Where(t => t.Mod == "Terraria" && t.Name.Contains("Tooltip")))
+				{
+					if (tooltip.Text.Contains(Language.GetTextValue("ItemTooltip.ObsidianSkull")))
+					{
+						tooltip.Text = tooltip.Text.Replace(Language.GetTextValue("ItemTooltip.ObsidianSkull"), Language.GetTextValue("Mods.Terratweaks.Common.ObsidianSkullExtraTip"));
+					}
+				}
+			}
+
+			// Add the Chromatic Cloak's tooltip about shimmer phasing to the Ankh Shield
+			if (Terratweaks.Config.AllEncompassingAnkhShield && idx != -1 && item.type == ItemID.AnkhShield)
+			{
+				TooltipLine line = new(Mod, "ShimmerPhasingTip", Language.GetTextValue("ItemTooltip.ShimmerCloak"));
+				tooltips.Insert(idx + 1, line);
+			}
+
 			// Add/replace some lines for accessories with removed diminishing returns
 			if (Terratweaks.Config.NoDiminishingReturns && idx != -1)
 			{
@@ -1051,6 +1077,23 @@ namespace Terratweaks.Items
 			if (Terratweaks.Config.SpectreNeedsDunerider && ModifiedStatsTip.SpectreBootsUpgrades.Contains(item.type))
 			{
 				player.desertBoots = true;
+			}
+
+			// Makes every item that gives the Obsidian Skull's effect also give On Fire! immunity
+			// The only problem with this is that items affected by this config option may not necessarily have their tooltips updated to reflect that, but it's probably fine
+			if (Terratweaks.Config.ObsidianSkullOnFireImmunity && player.fireWalk)
+			{
+				player.buffImmune[BuffID.OnFire] = true;
+			}
+
+			if (Terratweaks.Config.AllEncompassingAnkhShield && item.type == ItemID.AnkhShield)
+			{
+				player.buffImmune[BuffID.Chilled] = true; // Technically this is already included in vanilla, but just in case another mod removes it or smth
+				player.buffImmune[BuffID.Frozen] = true;
+
+				// Chromatic Cloak effect - Immunity to Shimmer Phasing while not holding down
+				if (!player.controlDownHold)
+					player.shimmerImmune = true;
 			}
 		}
 	}

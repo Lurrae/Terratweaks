@@ -15,6 +15,7 @@ using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameInput;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terratweaks.Items;
 
@@ -321,7 +322,12 @@ namespace Terratweaks.Calamitweaks
 					player.buffImmune[BuffID.Slow] = true;
 					player.buffImmune[BuffID.Stoned] = true;
 					player.buffImmune[BuffID.Weak] = true;
-					player.buffImmune[BuffID.WindPushed] = true; // TODO: Does Calamity still buff the Ankh Shield to give Mighty Wind immunity? Brainstorm's changelog doesn't say anything about it
+					player.buffImmune[BuffID.WindPushed] = true;
+
+					// All-Encompassing Ankh Shield adds Chromatic Cloak effect
+					// Ornate Shield's buff already covers the Chilled and Frozen immunity that would otherwise need to be added anyways
+					if (Terratweaks.Config.AllEncompassingAnkhShield && !player.controlDownHold)
+						player.shimmerImmune = true;
 
 					// Ornate Shield effect
 					player.buffImmune[BuffID.Chilled] = true;
@@ -467,7 +473,13 @@ namespace Terratweaks.Calamitweaks
 				if (item.type == ModContent.ItemType<AsgardsValor>() || item.type == ModContent.ItemType<AsgardianAegis>())
 				{
 					TooltipLine line = tooltips.FindLast(t => t.Name.Contains("Tooltip"));
-					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MoreShields", "Grants immunity to knockback and fire blocks\nGrants immunity to most debuffs, including most forms of frost\nIncreases defense by 5 and provides +10% movement speed and +1 HP/s life regeneration when submerged in a liquid\nProvides greatly improved water mobility"));
+					tooltips.Insert(tooltips.IndexOf(line) + 1, new TooltipLine(Mod, "MoreShields", "Grants immunity to knockback and fire blocks\nGrants immunity to most debuffs, including Mighty Wind and most forms of frost\nIncreases defense by 5 and provides +10% movement speed and +1 HP/s life regeneration when submerged in a liquid\nProvides greatly improved water mobility"));
+					
+					// Chromatic Cloak tooltip
+					if (Terratweaks.Config.AllEncompassingAnkhShield)
+					{
+						tooltips.Insert(tooltips.IndexOf(line) + 2, new TooltipLine(Mod, "ShimmerTip", Language.GetTextValue("ItemTooltip.ShimmerCloak")));
+					}
 				}
 			}
 

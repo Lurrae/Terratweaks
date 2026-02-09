@@ -1,6 +1,7 @@
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace Terratweaks.Buffs
@@ -63,6 +64,21 @@ namespace Terratweaks.Buffs
 					player.DelBuff(buffIndex);
 					buffIndex--;
 				}
+			}
+
+			// Provide chilled/frozen immunity while under the effects of the Warmth Potion
+			if (type == BuffID.Warmth && Terratweaks.Config.WarmthGivesColdImmunity)
+			{
+				player.buffImmune[BuffID.Chilled] = true;
+				player.buffImmune[BuffID.Frozen] = true;
+			}
+		}
+
+        public override void ModifyBuffText(int type, ref string buffName, ref string tip, ref int rare)
+        {
+			if (type == BuffID.Warmth && Terratweaks.Config.WarmthGivesColdImmunity)
+			{
+				tip += Language.GetTextValue("Mods.Terratweaks.Common.WarmthBuffExtraTip");
 			}
 		}
 	}

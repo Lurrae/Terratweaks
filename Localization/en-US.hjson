@@ -938,6 +938,26 @@ Mods: {
 						This should automatically include any and all modded Goblin Army enemies, so long as they internally tag themselves as "belonging" to the Goblin Army!
 						'''
 				}
+
+				WarmthGivesColdImmunity: {
+					Label: "[i:WarmthPotion] Warmth Buff Provides Chilled/Frozen Immunity"
+					Tooltip: The Warmth Potion's buff now gives you immunity to the Chilled and Frozen debuffs, as it should
+				}
+
+				ObsidianSkullOnFireImmunity: {
+					Label: "[i:ObsidianSkull] Obsidian Skull Provides On Fire! Immunity"
+					Tooltip: The Obsidian Skull and all of its upgrades- yes, even the useless Obsidian Horseshoe- now provide immunity to the On Fire! debuff, since realistically they probably should
+				}
+
+				AllEncompassingAnkhShield: {
+					Label: "[i:AnkhShield] All-Encompassing Ankh Shield"
+					Tooltip:
+						'''
+						Adds the Hand Warmer and Chromatic Cloak to the Ankh Charm's recipe, and adds their effects to the Ankh Charm and Ankh Shield
+						It's highly recommended that if you enable this config option, you also enable the Craftable Uncraftables config option that adds a crafting recipe for the Hand Warmer
+						Currently only includes support for Calamity's Asgard's Valor line (if the Calamitweaks config option to buff it is enabled, since Brainstorm removed the Ankh Shield from its recipe in base Calamity)
+						'''
+				}
 			}
 
 			CraftableUncraftables: {
@@ -1795,6 +1815,10 @@ Mods: {
 			HandTip: Increases block placement range by {0} & tool range by {1}
 			# Extra tooltip for Spectre Boots and its upgrades when inheriting Dunerider Boots' effect
 			DuneriderEffect: Also allows even faster running on sand!
+			# Extra tooltip for the Warmth Potion and its buff when it provides Chilled/Frozen immunity
+			WarmthPotionExtraTip: Grants immunity to Chilled and Frozen
+			WarmthBuffExtraTip: ", immune to Chilled and Frozen"
+			ObsidianSkullExtraTip: "{$ItemTooltip.ObsidianSkull} and {$BuffName.OnFire}"
 		}
 
 		Items: {
