@@ -62,15 +62,26 @@ namespace Terratweaks
 			// Obviously each item does need to be unique though, otherwise the existing shimmer cycle will get replaced
 			ItemID.SlimeGun, new List<int> { ItemID.SlimeGun, ItemID.SlimeHook },
 			ItemID.NinjaHood, new List<int> { ItemID.NinjaHood, ItemID.NinjaShirt, ItemID.NinjaPants },
+			ItemID.ApprenticeScarf, new List<int> { ItemID.ApprenticeScarf, ItemID.SquireShield },
+			ItemID.DD2PetGato, new List<int> { ItemID.DD2PetGato, ItemID.DD2PetDragon, ItemID.DD2PetGhost },
 			ItemID.BeeKeeper, new List<int> { ItemID.BeeKeeper, ItemID.BeesKnees, ItemID.BeeGun },
 			ItemID.BeeHat, new List<int> { ItemID.BeeHat, ItemID.BeeShirt, ItemID.BeePants },
 			ItemID.LucyTheAxe, new List<int> { ItemID.LucyTheAxe, ItemID.PewMaticHorn, ItemID.WeatherPain, ItemID.HoundiusShootius },
+			ItemID.ShadowFlameKnife, new List<int> { ItemID.ShadowFlameKnife, ItemID.ShadowFlameBow, ItemID.ShadowFlameHexDoll },
 			ItemID.CrystalNinjaHelmet, new List<int> { ItemID.CrystalNinjaHelmet, ItemID.CrystalNinjaChestplate, ItemID.CrystalNinjaLeggings },
+			ItemID.HuntressBuckler, new List<int> { ItemID.HuntressBuckler, ItemID.MonkBelt },
+			ItemID.DD2SquireDemonSword, new List<int> { ItemID.DD2SquireDemonSword, ItemID.MonkStaffT1, ItemID.MonkStaffT2, ItemID.DD2PhoenixBow, ItemID.BookStaff },
 			ItemID.Seedler, new List<int> { ItemID.Seedler, ItemID.FlowerPow, ItemID.VenusMagnum, ItemID.GrenadeLauncher, ItemID.NettleBurst, ItemID.LeafBlower, ItemID.WaspGun },
+			ItemID.StakeLauncher, new List<int> { ItemID.StakeLauncher, ItemID.NecromanticScroll, ItemID.SpookyHook, ItemID.SpookyTwig, ItemID.CursedSapling },
+			ItemID.TheHorsemansBlade, new List<int> { ItemID.TheHorsemansBlade, ItemID.CandyCornRifle, ItemID.JackOLanternLauncher, ItemID.BatScepter, ItemID.RavenStaff, ItemID.ScytheWhip, ItemID.BlackFairyDust, ItemID.SpiderEgg },
+			ItemID.ChristmasTreeSword, new List<int> { ItemID.ChristmasTreeSword, ItemID.Razorpine, ItemID.FestiveWings, ItemID.ChristmasHook },
+			ItemID.ElfMelter, new List<int> { ItemID.ElfMelter, ItemID.ChainGun },
+			ItemID.NorthPole, new List<int> { ItemID.NorthPole, ItemID.SnowmanCannon, ItemID.BlizzardStaff, ItemID.BabyGrinchMischiefWhistle, ItemID.ReindeerBells },
 			ItemID.GolemFist, new List<int> { ItemID.GolemFist, ItemID.PossessedHatchet, ItemID.Stynger, ItemID.HeatRay, ItemID.StaffofEarth, ItemID.EyeoftheGolem, ItemID.SunStone },
 			ItemID.Flairon, new List<int> { ItemID.Flairon, ItemID.Tsunami, ItemID.RazorbladeTyphoon, ItemID.BubbleGun, ItemID.TempestStaff },
 			ItemID.PiercingStarlight, new List<int> { ItemID.PiercingStarlight, ItemID.FairyQueenRangedItem, ItemID.FairyQueenMagicItem, ItemID.RainbowWhip },
 			ItemID.DD2SquireBetsySword, new List<int> { ItemID.DD2SquireBetsySword, ItemID.DD2BetsyBow, ItemID.ApprenticeStaffT3, ItemID.MonkStaffT3 },
+			ItemID.InfluxWaver, new List<int> { ItemID.InfluxWaver, ItemID.Xenopopper, ItemID.ElectrosphereLauncher, ItemID.LaserMachinegun, ItemID.XenoStaff, ItemID.CosmicCarKey },
 			ItemID.Meowmere, new List<int> { ItemID.Meowmere, ItemID.StarWrath, ItemID.Terrarian, ItemID.SDMG, ItemID.Celeb2, ItemID.LastPrism, ItemID.LunarFlareBook, ItemID.RainbowCrystalStaff, ItemID.MoonlordTurretStaff }
 			);
 

@@ -1764,6 +1764,7 @@ namespace Terratweaks.Items
 		}
 	}
 
+	[Autoload(false)]
 	public class ShimmerTransmutationHandler : GlobalItem
 	{
 		public override void SetStaticDefaults()
@@ -1863,7 +1864,7 @@ namespace Terratweaks.Items
 			}
 		}
 
-		static void AddShimmerTransmutation_Cycle(List<int> items)
+		public static void AddShimmerTransmutation_Cycle(List<int> items)
 		{
 			for (int i = 0; i < items.Count; i++)
 			{
@@ -1874,7 +1875,7 @@ namespace Terratweaks.Items
 			}
 		}
 
-		static void AddShimmerTransmutation_Chain(List<int> items)
+		public static void AddShimmerTransmutation_Chain(List<int> items)
 		{
 			for (int i = 0; i < items.Count; i++)
 			{

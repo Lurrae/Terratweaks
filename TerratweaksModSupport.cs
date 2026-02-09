@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terratweaks.Items;
 using ThoriumMod;
 using ThoriumMod.Buffs;
 using ThoriumMod.Items.BardItems;
@@ -39,6 +40,7 @@ using ThoriumMod.Items.DD;
 using ThoriumMod.Items.Depths;
 using ThoriumMod.Items.HealerItems;
 using ThoriumMod.Items.NPCItems;
+using ThoriumMod.Items.ThrownItems;
 
 namespace Terratweaks
 {
@@ -117,6 +119,16 @@ namespace Terratweaks
 			TerratweaksContentSets.ColdDebuff[ModContent.BuffType<GlacialState>()] = true;
 			TerratweaksContentSets.ColdDebuff[ModContent.BuffType<Nightwither>()] = true;
 			TerratweaksContentSets.ColdDebuff[ModContent.BuffType<TemporalSadness>()] = true;
+
+			// Re-run the shimmer population code so that the crossmod changes can apply
+			if (Terratweaks.Config.craftableUncraftables.ShimmerBossDrops)
+			{
+				foreach (List<int> items in TerratweaksContentSets.ShimmerableBossDrops)
+				{
+					if (items != null && items.Count > 0)
+						ShimmerTransmutationHandler.AddShimmerTransmutation_Cycle(items);
+				}
+			}
 		}
 
 		public override void PostSetupContent()
@@ -153,8 +165,16 @@ namespace Terratweaks
 			TerratweaksContentSets.ShimmerableBossDrops[ModContent.ItemType<OgreSnotGun>()] = new List<int> { ModContent.ItemType<OgreSnotGun>(), ModContent.ItemType<OgreSandal>() };
 			TerratweaksContentSets.ShimmerableBossDrops[ModContent.ItemType<WitherStaff>()] = new List<int> { ModContent.ItemType<WitherStaff>(), ModContent.ItemType<SoulRender>(), ModContent.ItemType<CadaverCornet>(), ModContent.ItemType<SoulCleaver>() }; // Soul Bombs are excluded due to being consumable
 			TerratweaksContentSets.ShimmerableBossDrops[ModContent.ItemType<MantisShrimpPunch>()] = new List<int> { ModContent.ItemType<MantisShrimpPunch>(), ModContent.ItemType<TrenchSpitter>(), ModContent.ItemType<OldGodsVision>(), ModContent.ItemType<TheIncubator>(), ModContent.ItemType<SirensLyre>() }; // Whispering armor is excluded since normally the full set drops at once, and there's no way to replicate that with Shimmer
-			TerratweaksContentSets.ShimmerableBossDrops[ModContent.ItemType<LivewireCrasher>()] = new List<int> { ModContent.ItemType<LivewireCrasher>(), ModContent.ItemType<MolecularStabilizer>(), ModContent.ItemType<Turntable>(), ModContent.ItemType<TheTriangle>() };
 			TerratweaksContentSets.ShimmerableBossDrops[ModContent.ItemType<AncientFlame>()] = new List<int> { ModContent.ItemType<AncientFlame>(), ModContent.ItemType<AncientFrost>(), ModContent.ItemType<AncientSpark>() };
+
+			// Adding event miniboss drops
+			TerratweaksContentSets.ShimmerableBossDrops[ItemID.StakeLauncher].InsertRange(1, new List<int> { ModContent.ItemType<PaganGrasp>(), ModContent.ItemType<DarkEffigy>() });
+			TerratweaksContentSets.ShimmerableBossDrops[ItemID.ShadowFlameKnife].AddRange(new List<int> { ModContent.ItemType<ShadowflameWarhorn>() });
+			TerratweaksContentSets.ShimmerableBossDrops[ItemID.TheHorsemansBlade].InsertRange(6, new List<int> { ModContent.ItemType<Witchblade>(), ModContent.ItemType<SnackLantern>(), ModContent.ItemType<HauntingBassDrum>() });
+			TerratweaksContentSets.ShimmerableBossDrops[ItemID.ChristmasTreeSword].InsertRange(2, new List<int> { ModContent.ItemType<ChristmasCheer>() });
+			TerratweaksContentSets.ShimmerableBossDrops[ItemID.ElfMelter].AddRange(new List<int> { ModContent.ItemType<JingleBells>() });
+			TerratweaksContentSets.ShimmerableBossDrops[ItemID.NorthPole].InsertRange(3, new List<int> { ModContent.ItemType<Cryotherapy>() });
+			TerratweaksContentSets.ShimmerableBossDrops[ItemID.InfluxWaver].InsertRange(5, new List<int> { ModContent.ItemType<LivewireCrasher>(), ModContent.ItemType<MolecularStabilizer>(), ModContent.ItemType<Turntable>(), ModContent.ItemType<TheTriangle>() });
 
 			// Max inspiration consumables
 			TerratweaksContentSets.MultiUsePermBuffs[ModContent.ItemType<InspirationFragment>()] = (Player p) => new Vector2(Math.Clamp(p.GetModPlayer<ThoriumPlayer>().bardResourceMax - 10, 0, 10), 10);
@@ -173,6 +193,16 @@ namespace Terratweaks
 
 			// Cold debuffs
 			TerratweaksContentSets.ColdDebuff[ModContent.BuffType<Freezing>()] = true;
+
+			// Re-run the shimmer population code so that the crossmod changes can apply
+			if (Terratweaks.Config.craftableUncraftables.ShimmerBossDrops)
+			{
+				foreach (List<int> items in TerratweaksContentSets.ShimmerableBossDrops)
+				{
+					if (items != null && items.Count > 0)
+						ShimmerTransmutationHandler.AddShimmerTransmutation_Cycle(items);
+				}
+			}
 		}
 
 		public override void PostSetupContent()
