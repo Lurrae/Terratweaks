@@ -800,7 +800,8 @@ namespace Terratweaks.NPCs
 			if (Terratweaks.Config.TownNPCsSellWeapons)
 			{
 				// Make sure the NPC whose shop we're editing actually has a weapon to sell
-				if (SellableWeapons.Any(pair => pair.Value == shop.NpcType))
+				// Also make sure the shop name is "Shop" because we don't want the painter's decor shop to be affected
+				if (SellableWeapons.Any(pair => pair.Value == shop.NpcType) && shop.Name.Equals("Shop"))
 				{
 					// Foreach loop to ensure that if an NPC needs to sell multiple weapons, they can do so without issue
 					foreach (KeyValuePair<int, int> pair in SellableWeapons.Where(p => p.Value == shop.NpcType))
