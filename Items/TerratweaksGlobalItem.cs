@@ -502,7 +502,11 @@ namespace Terratweaks.Items
 			{
 				if (FishingPlayer.ValidAccessoryTypes.Contains(item.type))
 				{
-					tooltips.Insert(idx + 1, new TooltipLine(Mod, "AutoFishingTip", Language.GetTextValue("Mods.Terratweaks.Common.AutoFishingTip", Terratweaks.AutoFishingKeybind.GetAssignedKeys()[0])));
+					string keybind = "NONE";
+					if (Terratweaks.AutoFishingKeybind.GetAssignedKeys().Count > 0)
+						keybind = Terratweaks.AutoFishingKeybind.GetAssignedKeys()[0];
+
+					tooltips.Insert(idx + 1, new TooltipLine(Mod, "AutoFishingTip", Language.GetTextValue("Mods.Terratweaks.Common.AutoFishingTip", keybind)));
 				}
 			}
 
