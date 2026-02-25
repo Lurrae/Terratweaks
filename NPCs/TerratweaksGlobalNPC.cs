@@ -833,6 +833,7 @@ namespace Terratweaks.NPCs
 				{
 					Item item = entry.Item;
 					var conditions = entry.Conditions;
+					bool needsReplacing = false;
 
 					// Skip all pylons- which thankfully have a very easy way to filter out
 					// I totally didn't spend ages trying to figure out some hacky workarounds before realizing I could just do this :)
@@ -852,24 +853,31 @@ namespace Terratweaks.NPCs
 					{
 						if (BiomeConditions.Contains(condition))
 						{
+							//Mod.Logger.Debug($"Removed condition \"{condition.Description}\" from item {item.Name} in shop of NPC {Lang.GetNPCName(shop.NpcType)}");
 							// Remove the condition from the new list, so that when we create our own entry later the condition won't be present
 							newConditions.Remove(condition);
+							needsReplacing = true;
 						}
 					}
 
 					// Once we've got an up-to-date list of conditions, we can replace the original entry with our own!
 					// ...Well, not really because lists are dumb and stupid and you can't add/remove stuff from them while looping over them in a foreach-
-					newEntries.Add(entry, newConditions.ToArray());
+					if (needsReplacing)
+						newEntries.Add(entry, newConditions.ToArray());
 				}
 
 				// me when "Collection was modified; enumeration operation may not execute"
-				foreach (KeyValuePair<NPCShop.Entry, Condition[]> pair in newEntries)
+				if (newEntries.Count > 0)
 				{
-					var entry = pair.Key;
-					var conditions = pair.Value;
+					foreach (KeyValuePair<NPCShop.Entry, Condition[]> pair in newEntries)
+					{
+						var entry = pair.Key;
+						var conditions = pair.Value;
 
-					entry.Disable();
-					shop.InsertAfter(entry, entry.Item, conditions);
+						entry.Disable();
+						shop.InsertAfter(entry, entry.Item, conditions);
+						Mod.Logger.Debug($"Updated {entry.Item.Name} in shop of NPC {Lang.GetNPCName(shop.NpcType)} to not have biome conditions");
+					}
 				}
 			}
 		}
