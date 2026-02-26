@@ -643,9 +643,9 @@ namespace Terratweaks
 		void UpdateAutoFishingAccList()
 		{
 			int newType = AutoFishingItem.Type;
-
+			
 			// Non-accessory item means we don't need to equip anything specific
-			if (!ContentSamples.ItemsByType[newType].accessory)
+			if (newType == -1 || !ContentSamples.ItemsByType[newType].accessory)
 			{
 				// Clear out the list of valid accs, since we want to remove it
 				FishingPlayer.ValidAccessoryTypes.Clear();
