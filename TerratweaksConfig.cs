@@ -479,6 +479,10 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool SoilSolutionsPreML { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool PulseBowDrops { get; set; }
+
 		// Vanilla Armorset Reworks
 		[Header("ArmorTweaks")]
 

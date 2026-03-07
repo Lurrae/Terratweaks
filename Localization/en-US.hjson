@@ -958,6 +958,11 @@ Mods: {
 						Currently only includes support for Calamity's Asgard's Valor line (if the Calamitweaks config option to buff it is enabled, since Brainstorm removed the Ankh Shield from its recipe in base Calamity)
 						'''
 				}
+
+				PulseBowDrops: {
+					Label: "[i:PulseBow] Traveling Merchant Drops Pulse Bow post-Plantera"
+					Tooltip: Gives the Traveling Merchant a 1/8 chance to drop the Pulse Bow on death if Plantera has been defeated
+				}
 			}
 
 			CraftableUncraftables: {

@@ -589,6 +589,11 @@ namespace Terratweaks.NPCs
 			{
 				npcLoot.Add(ItemDropRule.Common(ItemID.TatteredCloth, 1, 1, 2)); // 100% chance for 1-2 cloth
 			}
+
+			if (Terratweaks.Config.PulseBowDrops && npc.type == NPCID.TravellingMerchant)
+			{
+				npcLoot.Add(ItemDropRule.ByCondition(new Conditions.DownedPlantera(), ItemID.PulseBow, 8)); // 1/8 chance if Plantera downed
+			}
 		}
 	}
 

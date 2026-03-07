@@ -294,6 +294,7 @@ namespace Terratweaks
 								.Replace("hellstoneslime", "lavaslime")
 								.Replace("underworldslime", "lavaslime")
 								.Replace("fireslime", "lavaslime")
+								.Replace("travelingmerchant", "tmerch")
 								// Content name aliases/abbreviations
 								.Replace("oasismiragecrate", "oasiscrate")
 								.Replace("miragecrate", "oasiscrate")
@@ -458,6 +459,7 @@ namespace Terratweaks
 								"warmthgivescoldimmunity" => Config.WarmthGivesColdImmunity,
 								"obsidianskullonfireimmunity" or "obsidianskullgivesonfireimmunity" => Config.ObsidianSkullOnFireImmunity,
 								"allencompassingankhshield" => Config.AllEncompassingAnkhShield,
+								"pulsebowdrops" or "tmerchdropspulsebow" => Config.PulseBowDrops,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
