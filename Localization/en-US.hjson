@@ -972,6 +972,11 @@ Mods: {
 						Player-thrown bombs will still function as intended
 						'''
 				}
+
+				NoLingeringSandnados: {
+					Label: "[i:AncientBattleArmorMaterial] No Lingering Sandnados"
+					Tooltip: Any Sandnados which exist in the world will instantly fade away if no Sand Elementals exist in the world
+				}
 			}
 
 			CraftableUncraftables: {

@@ -196,6 +196,9 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool NoCasterContactDamage { get; set; }
 
+		[DefaultValue(true)]
+		public bool NoLingeringSandnados { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool EzDyeBanners { get; set; }

@@ -332,6 +332,7 @@ namespace Terratweaks
 								.Replace("duneriders", "dunerider")
 								.Replace("prismaticlacewing", "lacewing")
 								.Replace("tatteredcloth", "cloth")
+								.Replace("sandnadoes", "sandnados")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -462,6 +463,7 @@ namespace Terratweaks
 								"allencompassingankhshield" => Config.AllEncompassingAnkhShield,
 								"pulsebowdrops" or "tmerchdropspulsebow" => Config.PulseBowDrops,
 								"ftw_nonaturalbombs" or "nonaturalbombs" => Config.NoNaturalBombs,
+								"nolingeringsandnados" => Config.NoLingeringSandnados,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

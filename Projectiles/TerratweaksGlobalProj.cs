@@ -240,6 +240,12 @@ namespace Terratweaks.Projectiles
 				// Keep timer in between 0 and the amount of time it takes to reach max fire rate
 				projectile.ai[2] = Math.Clamp(projectile.ai[2], 0, 10 * (60 - FROST_HYDRA_MIN_COOLDOWN));
 			}
+
+			if (Terratweaks.Config.NoLingeringSandnados && projectile.type == ProjectileID.SandnadoHostile)
+			{
+				if (!NPC.AnyNPCs(NPCID.SandElemental) && projectile.ai[0] < 200)
+					projectile.ai[0] = 200; // Instantly makes the projectile start to fade out
+			}
 		}
 
 		// Vanilla code for detecting a target, since only the Houndius Shootius stores the target index in an ai field unfortunately
