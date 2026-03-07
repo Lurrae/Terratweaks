@@ -278,6 +278,9 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool NoMobGriefing { get; set; }
 
+		[DefaultValue(false)]
+		public bool NoNaturalBombs { get; set; }
+
 		// General Item Tweaks
 		[Header("ItemTweaks")]
 

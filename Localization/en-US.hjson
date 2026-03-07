@@ -963,6 +963,15 @@ Mods: {
 					Label: "[i:PulseBow] Traveling Merchant Drops Pulse Bow post-Plantera"
 					Tooltip: Gives the Traveling Merchant a 1/8 chance to drop the Pulse Bow on death if Plantera has been defeated
 				}
+
+				NoNaturalBombs: {
+					Label: "[i:Bomb] Safe Pot/Tree Bombs"
+					Tooltip:
+						'''
+						Prevents bombs dropped by pots or trees in For the Worthy worlds from destroying blocks
+						Player-thrown bombs will still function as intended
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

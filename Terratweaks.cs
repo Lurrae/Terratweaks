@@ -22,6 +22,7 @@ using Terraria.ModLoader;
 using Terratweaks.Calamitweaks;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
+using Terratweaks.Projectiles;
 
 namespace Terratweaks
 {
@@ -460,6 +461,7 @@ namespace Terratweaks
 								"obsidianskullonfireimmunity" or "obsidianskullgivesonfireimmunity" => Config.ObsidianSkullOnFireImmunity,
 								"allencompassingankhshield" => Config.AllEncompassingAnkhShield,
 								"pulsebowdrops" or "tmerchdropspulsebow" => Config.PulseBowDrops,
+								"ftw_nonaturalbombs" or "nonaturalbombs" => Config.NoNaturalBombs,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
@@ -1005,6 +1007,18 @@ namespace Terratweaks
 			// Disable Skeletron Prime bombs breaking blocks in For the Worthy worlds
 			if (Config.NoMobGriefing && Main.getGoodWorld && self.type == ProjectileID.BombSkeletronPrime)
 				return false;
+
+			// Disable all bombs on FtW breaking blocks, if they weren't thrown by the player
+			if (Config.NoNaturalBombs && Main.getGoodWorld && self.type == ProjectileID.Bomb)
+			{
+				// Checking the source item should tell us whether the bomb was thrown by a player or spawned naturally
+				// This is important since we don't want to completely disable ALL bombs from working
+				// Granted, even if we did break normal bombs, all of the variants (Sticky/Bouncy Bombs, Dynamite and its variants, and Bomb Fish) would still be usable
+				if (self.TryGetGlobalProjectile(out TerratweaksGlobalProj tproj) && tproj.sourceItem == null)
+				{
+					return false;
+				}
+			}
 
 			return orig(self, i, j);
 		}
