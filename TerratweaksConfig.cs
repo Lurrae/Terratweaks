@@ -81,6 +81,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool BombableMeteorite { get; set; }
 
+		[DefaultValue(true)]
+		public bool DodgeableSpikes { get; set; }
+
 		[DefaultValue(false)]
 		public bool OverrideGraveyardRequirements { get; set; }
 
@@ -104,6 +107,10 @@ namespace Terratweaks
 
 		[DefaultValue(SturdyLarvaeSetting.Env)]
 		public SturdyLarvaeSetting SturdyLarvae { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool VenomousWoodenSpikes { get; set; }
 
 		// Boss and Event Tweaks
 		[Header("BossTweaks")]
@@ -265,6 +272,7 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool NoExpertScaling { get; set; }
 
+		[ReloadRequired]
 		[DefaultValue(false)]
 		public bool NoExpertDebuffTimes { get; set; }
 

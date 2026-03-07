@@ -1,4 +1,5 @@
 global using TepigCore;
+using CatalystMod;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -159,6 +160,7 @@ namespace Terratweaks
 			On_NPC.GetNPCColorTintedByBuffs += HunterHighlightOverride;
 			On_Main.StartSlimeRain += DisableSlimeRain;
 			On_Projectile.TryGetContainerIndex += ChesterIndexChange;
+			On_Player.ApplyTouchDamage += SpikeDamageChanges;
 
 			IL_Main.UpdateTime_StartDay += DisableEventSpawns_Day;
 			IL_Main.UpdateTime_StartNight += DisableEventAndBossSpawns_Night;
@@ -464,6 +466,8 @@ namespace Terratweaks
 								"pulsebowdrops" or "tmerchdropspulsebow" => Config.PulseBowDrops,
 								"ftw_nonaturalbombs" or "nonaturalbombs" => Config.NoNaturalBombs,
 								"nolingeringsandnados" => Config.NoLingeringSandnados,
+								"venomouswoodenspikes" => Config.VenomousWoodenSpikes,
+								"dodgeablespikes" => Config.DodgeableSpikes,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
@@ -1328,6 +1332,85 @@ namespace Terratweaks
 			}
 
 			return orig(proj, out containerIndex);
+		}
+
+		private void SpikeDamageChanges(On_Player.orig_ApplyTouchDamage orig, Player self, int tileId, int x, int y)
+		{
+			// Only run vanilla code if player shouldn't be able to dodge spike blocks' debuffs
+			// This is because we need to essentially rewrite the method if that config's enabled
+			if (!Config.DodgeableSpikes)
+			{
+				orig(self, tileId, x, y);
+
+				// If we have the config option to apply Acid Venom with Wooden Spikes enabled, apply that
+				// This will unfortunately bypass dodges, but there's not much I can do about that
+				TryApplyVenomDebuff(self, tileId);
+			}
+			else // The rest of this code was adapted from the vanilla ApplyTouchDamage method, Player.cs lines 28297-28333
+			{
+				// Burning tiles behave exactly as in vanilla
+				if (TileID.Sets.TouchDamageHot[tileId])
+				{
+					self.AddBuff(BuffID.Burning, 20, true, false);
+				}
+
+				// Suffocating tiles also use vanilla behavior
+				if (TileID.Sets.Suffocate[tileId])
+				{
+					if (self.suffocateDelay < 5)
+					{
+						self.suffocateDelay += 1;
+					}
+					else
+					{
+						self.AddBuff(BuffID.Suffocation, 1, true, false);
+					}
+				}
+				else
+				{
+					self.suffocateDelay = 0;
+				}
+
+				// If a tile does damage, we need to store the amount of damage the player actually took
+				// If it's zero, that means the attack was dodged
+				int spikeDmg = TileID.Sets.TouchDamageImmediate[tileId];
+				double dmgTaken = 1.0;
+				if (spikeDmg > 0)
+				{
+					spikeDmg = Main.DamageVar(spikeDmg, -self.luck);
+					dmgTaken = self.Hurt(PlayerDeathReason.ByOther(3), spikeDmg, 0, knockback: 0);
+				}
+
+				// Bleeding tiles no longer inflict bleeding if the attack was dodged
+				if (TileID.Sets.TouchDamageBleeding[tileId] && dmgTaken > 0.0)
+				{
+					self.AddBuff(BuffID.Bleeding, Main.rand.Next(240, 600), true, false);
+				}
+
+				// Tiles that get destroyed, namely thorns, use vanilla behavior too
+				if (TileID.Sets.TouchDamageDestroyTile[tileId])
+				{
+					WorldGen.KillTile(x, y, false, false, false);
+					if (Main.netMode == NetmodeID.MultiplayerClient && !Main.tile[x, y].HasTile)
+					{
+						NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 4, x, y, 0f, 0, 0, 0);
+					}
+				}
+
+				// If we have the config option to apply Acid Venom with Wooden Spikes enabled, that needs to be affected by dodges too
+				if (dmgTaken > 0.0)
+				{
+					TryApplyVenomDebuff(self, tileId);
+				}
+			}
+		}
+
+		private static void TryApplyVenomDebuff(Player self, int tileId)
+		{
+			if (Config.VenomousWoodenSpikes && tileId == TileID.WoodenSpikes)
+			{
+				self.AddBuff(BuffID.Venom, 180); // Lasts 3 seconds
+			}
 		}
 	}
 }

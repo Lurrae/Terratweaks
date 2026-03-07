@@ -977,6 +977,29 @@ Mods: {
 					Label: "[i:AncientBattleArmorMaterial] No Lingering Sandnados"
 					Tooltip: Any Sandnados which exist in the world will instantly fade away if no Sand Elementals exist in the world
 				}
+
+				VenomousWoodenSpikes: {
+					Label: "[i:WoodenSpike] Venomous Wooden Spikes"
+					Tooltip:
+						'''
+						Greatly reduces the base damage of Wooden Spikes from 80 to 30, but makes them inflict Acid Venom for 3 seconds
+						(6 seconds in Expert Mode, 7.5 in Master; this deals a total of 45 / 90 / ~112 damage, plus the 30 base damage which can be reduced by defense)
+						If the config option to disable longer debuff durations in Expert+ is enabled, Wooden Spikes will always inflict Acid Venom for 3 seconds
+						This makes them far more dangerous than normal spikes (dealing a total of 75 damage, while Spikes deal 60), particularly to armored players,
+						without making them inexplicably have higher base damage than the Dungeon's metal spikes which should realistically be sharper
+						Do be warned, due to the way damaging blocks work, the Acid Venom will be applied even if you dodge the spike damage or have godmode enabled,
+						unless you enable the "Dodgeable Spikes" config option
+						'''
+				}
+
+				DodgeableSpikes: {
+					Label: "[i:Spike] Dodgeable Spikes"
+					Tooltip:
+						'''
+						Prevents all types of spike blocks from applying the Bleeding debuff if the damage from the block is dodged (or negated outright with Journey Mode's godmode)
+						This also affects the Acid Venom debuff from Wooden Spikes if the "Venomous Wooden Spikes" config option is enabled
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

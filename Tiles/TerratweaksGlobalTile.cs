@@ -11,6 +11,14 @@ namespace Terratweaks.Tiles
 {
 	public class TerratweaksGlobalTile : GlobalTile
 	{
+		public override void SetStaticDefaults()
+		{
+			if (Terratweaks.Config.VenomousWoodenSpikes)
+			{
+				TileID.Sets.TouchDamageImmediate[TileID.WoodenSpikes] = 30; // Nerf base damage from 80 to 30, to account for it now inflicting Acid Venom
+			}
+		}
+
 		// Change what tiles Dangersense Potions highlight
 		public override bool? IsTileDangerous(int i, int j, int type, Player player)
 		{
