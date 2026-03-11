@@ -495,6 +495,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool SoilSolutionsPreML { get; set; }
 
+		[DefaultValue(true)]
+		public bool TeleportOnRehome { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool PulseBowDrops { get; set; }

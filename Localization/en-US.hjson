@@ -1009,6 +1009,15 @@ Mods: {
 						This also affects the Acid Venom debuff from Wooden Spikes if the "Venomous Wooden Spikes" config option is enabled
 						'''
 				}
+
+				TeleportOnRehome: {
+					Label: "[i:KingStatue] Teleport Town NPCs on Rehome"
+					Tooltip:
+						'''
+						Whenever you move an NPC's house with the housing menu, they will now immediately teleport to their new home location
+						No more needing to wait for nighttime/rain and move offscreen to get your pylons up and running!
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

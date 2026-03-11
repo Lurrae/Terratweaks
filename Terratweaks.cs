@@ -160,6 +160,7 @@ namespace Terratweaks
 			On_Main.StartSlimeRain += DisableSlimeRain;
 			On_Projectile.TryGetContainerIndex += ChesterIndexChange;
 			On_Player.ApplyTouchDamage += SpikeDamageChanges;
+			On_TownRoomManager.SetRoom_int_Point += TeleportOnRehome;
 
 			IL_Main.UpdateTime_StartDay += DisableEventSpawns_Day;
 			IL_Main.UpdateTime_StartNight += DisableEventAndBossSpawns_Night;
@@ -297,6 +298,7 @@ namespace Terratweaks
 								.Replace("underworldslime", "lavaslime")
 								.Replace("fireslime", "lavaslime")
 								.Replace("travelingmerchant", "tmerch")
+								.Replace("townnpcs", "npcs")
 								// Content name aliases/abbreviations
 								.Replace("oasismiragecrate", "oasiscrate")
 								.Replace("miragecrate", "oasiscrate")
@@ -351,6 +353,7 @@ namespace Terratweaks
 								.Replace("thortweaks", "thoritweaks")
 								.Replace("alchtweaks", "alchemitweaks")
 								.Replace("eternitymode", "emode")
+								.Replace("spookytweaks", "spookitweaks")
 								.Replace("masochistmode", "masomode");
 							#endregion
 
@@ -404,7 +407,7 @@ namespace Terratweaks
 								"solutionsongfb" => Config.SolutionsOnGFB,
 								"stackabledd2accs" => (int)Config.StackableDD2Accs,
 								"terraprismadroprate" => Config.TerraprismaDropRate,
-								"townnpcssellweapons" => Config.TownNPCsSellWeapons,
+								"npcssellweapons" => Config.TownNPCsSellWeapons,
 								"umbrellahatrework" => Config.UmbrellaHatRework,
 								"expertaccbuffs_royalgel" or "royalgelbuff" => Config.RoyalGel,
 								"expertaccbuffs_hivepack" or "hivepackbuff" => Config.HivePack,
@@ -467,6 +470,7 @@ namespace Terratweaks
 								"nolingeringsandnados" => Config.NoLingeringSandnados,
 								"venomouswoodenspikes" => Config.VenomousWoodenSpikes,
 								"dodgeablespikes" => Config.DodgeableSpikes,
+								"teleportonrehome" or "teleportnpcsonrehome" => Config.TeleportOnRehome,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
@@ -1411,6 +1415,24 @@ namespace Terratweaks
 			if (Config.VenomousWoodenSpikes && tileId == TileID.WoodenSpikes)
 			{
 				self.AddBuff(BuffID.Venom, 180); // Lasts 3 seconds
+			}
+		}
+
+		private void TeleportOnRehome(On_TownRoomManager.orig_SetRoom_int_Point orig, TownRoomManager self, int npcID, Point pt)
+		{
+			// Always run the original code
+			orig(self, npcID, pt);
+
+			// If the config option is enabled, teleport this town NPC to their new home
+			if (Config.TeleportOnRehome)
+			{
+				int idx = NPC.FindFirstNPC(npcID);
+				if (idx > -1)
+				{
+					NPC npc = Main.npc[idx];
+					if (npc.townNPC || NPCID.Sets.TownCritter[npcID] || NPCID.Sets.IsTownSlime[npcID])
+						npc.position = new Vector2(pt.X * 16, (pt.Y * 16) - npc.height);
+				}
 			}
 		}
 	}
