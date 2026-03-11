@@ -39,6 +39,9 @@
     <Reference Include="NoxusBoss">
       <HintPath>..\..\ModReader\NoxusBoss\NoxusBoss.dll</HintPath>
     </Reference>
+    <Reference Include="Spooky">
+      <HintPath>..\..\ModReader\Spooky\Spooky.dll</HintPath>
+    </Reference>
     <Reference Include="TepigCore">
       <HintPath>..\..\ModReader\TepigCore\TepigCore.dll</HintPath>
     </Reference>

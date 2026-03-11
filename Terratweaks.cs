@@ -1,5 +1,4 @@
 global using TepigCore;
-using CatalystMod;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -20,7 +19,6 @@ using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terratweaks.Calamitweaks;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
 using Terratweaks.Projectiles;
@@ -130,6 +128,7 @@ namespace Terratweaks
 		public static CalTweaks Calamitweaks => Config.calamitweaks;
 		public static EmodeTweaks Eternitweaks => Config.eternitweaks;
 		public static ThorTweaks Thoritweaks => Config.thoritweaks;
+		public static SpookyTweaks Spookitweaks => Config.spookitweaks;
 
 		public override void Load()
 		{
@@ -548,6 +547,8 @@ namespace Terratweaks
 								"eternitweaks_noenvdebuffs" or "noemodeenvdebuffs" => Eternitweaks.NoEnvironmentalDebuffs,
 								"eternitweaks_noclasssealdebuffs" or "noemodeclasssealdebuffs" => Eternitweaks.NoClassSealDebuffs,
 								"eternitweaks_eternalenergyaccessibility" or "eternitweaks_eternalenergyoutsideemode" or "eternalenergyaccessibility" or "eternalenergyoutsideemode" => Eternitweaks.EternalEnergyAccessibility,
+
+								"spookitweaks_betterwateringgourd" or "betterwateringgourd" => Spookitweaks.BetterWateringGourd,
 
 								_ => throw new Exception($"Could not find Terratweaks config option with name \"{args[1]}\" or alias \"{settingToQuery}\"."),
 								#endregion

@@ -72,6 +72,8 @@ namespace Terratweaks
 
 		public EmodeTweaks eternitweaks = new();
 
+		public SpookyTweaks spookitweaks = new();
+
 		// Block & biome tweaks
 		[Header("BlockBiomeTweaks")]
 
@@ -1102,6 +1104,39 @@ namespace Terratweaks
 
 		// General Item Tweaks
 		//[Header("ItemTweaks")]
+
+		// Misc. Tweaks
+		//[Header("MiscTweaks")]
+
+		// Town NPC Tweaks
+		//[Header("TownNpcTweaks")]
+	}
+
+	[SeparatePage]
+	public class SpookyTweaks
+	{
+		// Accessory Tweaks
+		//[Header("AccTweaks")]
+
+		// Block and Biome Tweaks
+		//[Header("BlockBiomeTweaks")]
+
+		// Boss and Event Tweaks
+		//[Header("BossTweaks")]
+
+		// Enemy Tweaks
+		//[Header("EnemyTweaks")]
+
+		// Gameplay Tweaks
+		//[Header("GameplayTweaks")]
+
+		// General Item Tweaks
+		[Header("ItemTweaks")]
+		
+		[Slider]
+		[Range(1,10)]
+		[DefaultValue(7)]
+		public int BetterWateringGourd { get; set; }
 
 		// Misc. Tweaks
 		//[Header("MiscTweaks")]
