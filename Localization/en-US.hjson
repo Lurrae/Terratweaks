@@ -1716,6 +1716,11 @@ Mods: {
 						'''
 				}
 
+				NoLifestealCooldown: {
+					Label: "[i:VampireKnives] No Lifesteal Cooldown"
+					Tooltip: Disables the cooldown applied to life-stealing effects such as the Vampire Knives and Spectre Hood
+				}
+
 				Tooltip: ""
 			}
 

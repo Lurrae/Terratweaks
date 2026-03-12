@@ -1,10 +1,8 @@
 using Microsoft.Xna.Framework;
-using MonoMod.Utils;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
 using Terraria.Graphics;
-using Terraria.ID;
 using Terraria.ModLoader;
 using ThoriumMod;
 using ThoriumMod.Items.BossTheGrandThunderBird;

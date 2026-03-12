@@ -538,6 +538,7 @@ namespace Terratweaks
 								"calamitweaks_consumablebosssummons" or "consumablecalbosssummons" => Calamitweaks.ConsumableCalBossSummons,
 								"calamitweaks_earlygrandgelatin" or "earlygrandgelatin" => Calamitweaks.EarlyGrandGelatin,
 								"calamitweaks_allowgamerchairininfernumscal" or "allowgamerchairininfernumscal" => Calamitweaks.AllowGamerChairInInfernumScal,
+								"calamitweaks_nolifestealcooldown" or "nocallifestealcooldown" => Calamitweaks.NoLifestealCooldown,
 
 								"thoritweaks_bombableadblocks" or "bombableadblocks" => Thoritweaks.BombableADBlocks,
 								"thoritweaks_combinedstationsupport" or "thorcombinedstationsupport" => Thoritweaks.CombinedStationSupport,

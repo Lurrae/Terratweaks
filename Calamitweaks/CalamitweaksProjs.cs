@@ -1,8 +1,6 @@
 using CalamityMod;
 using CalamityMod.Projectiles;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Terratweaks.Calamitweaks

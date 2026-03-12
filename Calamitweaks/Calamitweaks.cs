@@ -1,7 +1,5 @@
-using CalamityMod;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
@@ -9,7 +7,6 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.Graphics;

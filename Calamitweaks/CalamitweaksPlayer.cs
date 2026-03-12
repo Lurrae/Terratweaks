@@ -24,6 +24,14 @@ namespace Terratweaks.Calamitweaks
 	{
 		public override bool IsLoadingEnabled(Mod mod) => ModLoader.HasMod("CalamityMod");
 
+		public override void PreUpdate()
+		{
+			// Essentially removes the lifesteal cap
+			// This does still display the cooldown visual briefly which is annoying, but I can't seem to do anything about it unfortunately
+			if (Player.whoAmI == Main.myPlayer && Terratweaks.Calamitweaks.NoLifestealCooldown)
+				Player.lifeSteal = Main.expertMode ? 70 : 80;
+		}
+
 		public override void PostUpdateEquips()
 		{
 			CalamityPlayer calPlr = Player.Calamity();

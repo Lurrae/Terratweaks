@@ -2,7 +2,6 @@ using CalamityMod;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Weapons.Magic;

@@ -978,6 +978,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool CombinedStationSupport { get; set; }
 
+		[DefaultValue(true)]
+		public bool NoLifestealCooldown { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool CraftableHostileTurrets { get; set; }

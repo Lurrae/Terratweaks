@@ -1,7 +1,6 @@
 using FargowiltasSouls.Core.ModPlayers;
 using System;
 using System.Reflection;
-using Terraria;
 using Terraria.ModLoader;
 
 namespace Terratweaks.FargoTweaks
