@@ -28,6 +28,12 @@ namespace Terratweaks.Projectiles
 
 			Player player = Main.player[projectile.owner];
 
+			if (Terratweaks.Config.MinecartLaserFix && projectile.type == ProjectileID.MinecartMechLaser)
+			{
+				projectile.usesIDStaticNPCImmunity = true;
+				projectile.idStaticNPCHitCooldown = 10;
+			}
+
 			// Increase Bone Helm damage, increase it further and increase armor pen and pierce in Hardmode
 			if (Terratweaks.Config.BoneHelm && projectile.type == ProjectileID.InsanityShadowFriendly)
 			{

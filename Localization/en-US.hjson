@@ -1020,6 +1020,15 @@ Mods: {
 						No more needing to wait for nighttime/rain and move offscreen to get your pylons up and running!
 						'''
 				}
+
+				MinecartLaserFix: {
+					Label: "[i:MechanicalCart] Minecart Laser Fix"
+					Tooltip:
+						'''
+						Makes the lasers fired by upgraded minecarts use ID-static immunity frames rather than global ones
+						This should make it easier for other projectiles to hit alongside the lasers
+						'''
+				}
 			}
 
 			CraftableUncraftables: {

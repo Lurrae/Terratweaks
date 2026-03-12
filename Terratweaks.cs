@@ -338,6 +338,11 @@ namespace Terratweaks
 								.Replace("tatteredcloth", "cloth")
 								.Replace("sandnadoes", "sandnados")
 								.Replace("profanedsoulcrystal", "soulcrystal")
+								.Replace("mechanicalcart", "mechcart")
+								.Replace("mechanicalminecart", "mechcart")
+								.Replace("mechanicalboss", "mechboss")
+								.Replace("mechbossminecart", "mechcart")
+								.Replace("mechbosscart", "mechcart")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -473,6 +478,7 @@ namespace Terratweaks
 								"venomouswoodenspikes" => Config.VenomousWoodenSpikes,
 								"dodgeablespikes" => Config.DodgeableSpikes,
 								"teleportonrehome" or "teleportnpcsonrehome" => Config.TeleportOnRehome,
+								"minecartlaserfix" or "mechcartlaserfix" => Config.MinecartLaserFix,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

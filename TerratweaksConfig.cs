@@ -245,6 +245,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool HivePack { get; set; }
 
+		[DefaultValue(true)]
+		public bool MinecartLaserFix { get; set; }
+
 		[ReloadRequired]
 		[DefaultValue(true)]
 		public bool PlaceableGravGlobe { get; set; }
