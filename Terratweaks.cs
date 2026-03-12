@@ -299,6 +299,7 @@ namespace Terratweaks
 								.Replace("fireslime", "lavaslime")
 								.Replace("travelingmerchant", "tmerch")
 								.Replace("townnpcs", "npcs")
+								.Replace("providence", "prov")
 								// Content name aliases/abbreviations
 								.Replace("oasismiragecrate", "oasiscrate")
 								.Replace("miragecrate", "oasiscrate")
@@ -336,6 +337,7 @@ namespace Terratweaks
 								.Replace("prismaticlacewing", "lacewing")
 								.Replace("tatteredcloth", "cloth")
 								.Replace("sandnadoes", "sandnados")
+								.Replace("profanedsoulcrystal", "soulcrystal")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -539,6 +541,7 @@ namespace Terratweaks
 								"calamitweaks_earlygrandgelatin" or "earlygrandgelatin" => Calamitweaks.EarlyGrandGelatin,
 								"calamitweaks_allowgamerchairininfernumscal" or "allowgamerchairininfernumscal" => Calamitweaks.AllowGamerChairInInfernumScal,
 								"calamitweaks_nolifestealcooldown" or "nocallifestealcooldown" => Calamitweaks.NoLifestealCooldown,
+								"calamitweaks_enragedprovdropssoulcrystal" or "enragedprovdropssoulcrystal" => Calamitweaks.EnragedProvDropsSoulCrystal,
 
 								"thoritweaks_bombableadblocks" or "bombableadblocks" => Thoritweaks.BombableADBlocks,
 								"thoritweaks_combinedstationsupport" or "thorcombinedstationsupport" => Thoritweaks.CombinedStationSupport,

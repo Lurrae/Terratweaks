@@ -41,6 +41,8 @@ Mods: {
 			InPlayerInv: Item must be in the player's inventory or portable storage
 			NightEoL: Drops if the Empress of Light is attacked at least once during the night
 			PostSkeletronOnFtw: On For the Worthy worlds, only drops if Skeletron has been defeated
+			EnragedProvidence: Drops if Providence was defeated while enraged
+			EnragedPlusArtifact: Drops if Providence was defeated while enraged, and the player has the Profaned Soul Artifact equipped or in their inventory
 		}
 
 		RecipeGroups: {
@@ -1305,6 +1307,25 @@ Mods: {
 				}
 			}
 
+			ProfanedSoulCrystalSetting: {
+				Tooltip: ""
+
+				Off: {
+					Label: Vanilla Behavior
+					Tooltip: ""
+				}
+
+				OnlyEnraged: {
+					Label: Defeat Enraged Providence
+					Tooltip: ""
+				}
+
+				EnragedPlusArtifact: {
+					Label: Defeat with Profaned Soul Artifact
+					Tooltip: ""
+				}
+			}
+
 			TerratweaksConfig_Client: {
 				DisplayName: Terratweaks Config (Client)
 
@@ -1719,6 +1740,17 @@ Mods: {
 				NoLifestealCooldown: {
 					Label: "[i:VampireKnives] No Lifesteal Cooldown"
 					Tooltip: Disables the cooldown applied to life-stealing effects such as the Vampire Knives and Spectre Hood
+				}
+
+				EnragedProvDropsSoulCrystal: {
+					Label: "[i:CrystalShard] Enraged Providence Drops Profaned Soul Crystal"
+					Tooltip:
+						'''
+						Allows Providence to drop the Profaned Soul Crystal under certain conditions:
+						Vanilla Behavior - Only drops if all damage is dealt by Profaned Soul Artifact
+						Defeat Enraged Providence - Also allows PSC to drop if enraged Providence was beaten
+						Defeat with Profaned Soul Artifact - Player must have Profaned Soul Artifact equipped or in their inventory/void bag to get PSC from enraged Providence
+						'''
 				}
 
 				Tooltip: ""

@@ -53,6 +53,13 @@ namespace Terratweaks
 		ForceNonConsumable
 	}
 
+	public enum ProfanedSoulCrystalSetting
+	{
+		Off,
+		OnlyEnraged,
+		EnragedPlusArtifact
+	}
+
 	public class TerratweaksConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide;
@@ -563,7 +570,8 @@ namespace Terratweaks
 					calamitweaks.CraftableHostileTurrets != pendingTtConfig.calamitweaks.CraftableHostileTurrets ||
 					calamitweaks.DeificAmuletBuff != pendingTtConfig.calamitweaks.DeificAmuletBuff ||
 					calamitweaks.EzCalBanners != pendingTtConfig.calamitweaks.EzCalBanners ||
-					calamitweaks.RevertPickSpeedBuffs != pendingTtConfig.calamitweaks.RevertPickSpeedBuffs)
+					calamitweaks.RevertPickSpeedBuffs != pendingTtConfig.calamitweaks.RevertPickSpeedBuffs ||
+					calamitweaks.EnragedProvDropsSoulCrystal != pendingTtConfig.calamitweaks.EnragedProvDropsSoulCrystal)
 				{
 					return true;
 				}
@@ -912,7 +920,11 @@ namespace Terratweaks
 		//[Header("BlockBiomeTweaks")]
 		
 		// Boss and Event Tweaks
-		//[Header("BossTweaks")]
+		[Header("BossTweaks")]
+
+		[ReloadRequired]
+		[DefaultValue(ProfanedSoulCrystalSetting.Off)]
+		public ProfanedSoulCrystalSetting EnragedProvDropsSoulCrystal { get; set; }
 
 		// Calamity Fables Tweaks
 		[Header("FablesTweaks")]
