@@ -103,6 +103,44 @@ namespace Terratweaks
 				return Language.GetTextValue("Mods.Terratweaks.Conditions.FirstTimeKillingSkeletron");
 			}
 		}
+
+		public class DownedGolem : IItemDropRuleCondition, IProvideItemConditionDescription
+		{
+			public bool CanDrop(DropAttemptInfo info)
+			{
+				return NPC.downedGolemBoss;
+			}
+
+			public bool CanShowItemDropInUI()
+			{
+				return true;
+			}
+
+			public string GetConditionDescription()
+			{
+				return Language.GetTextValue("Mods.Terratweaks.Conditions.DownedGolem");
+			}
+		}
+
+		// This drop rule condition was adapted from Calamity Mod's LambdaDropRuleCondition, in Utilities/DropHelper.cs, lines 638-654
+		// TODO: This would probably be a much more useful thing to have in TepigCore than Terratweaks itself, so other mods can use it
+		public class LambdaDropRuleCondition : IItemDropRuleCondition, IProvideItemConditionDescription
+		{
+			private readonly Func<DropAttemptInfo, bool> lambda;
+			private readonly bool canShowInUI;
+			private readonly string description;
+
+			public LambdaDropRuleCondition(Func<DropAttemptInfo, bool> inLambda, bool hidden = false, string desc = null)
+			{
+				lambda = inLambda;
+				canShowInUI = !hidden;
+				description = desc;
+			}
+
+			public bool CanDrop(DropAttemptInfo info) => lambda(info);
+			public bool CanShowItemDropInUI() => canShowInUI;
+			public string GetConditionDescription() => description;
+		}
 	}
 
 	public class Terratweaks : Mod
@@ -292,6 +330,8 @@ namespace Terratweaks
 								.Replace("!", "").Replace("?", "")
 								.Replace("/", "_").Replace(":", "_").Replace(";", "_").Replace(".", "_").Replace("-", "_").Replace(",", "_")
 								.ToLower() // Convert to lowercase so case sensitivity doesn't matter (this happens before checking for alias words for obvious reasons)
+								.Replace("post_", "post") // If someone types something like "post-golem" we don't want that getting messed up
+								.Replace("pre_", "pre") // Ditto above
 								// Secret Seed name abbreviations
 								.Replace("fortheworthy", "ftw")
 								.Replace("featherworthy", "ftw")
@@ -502,6 +542,7 @@ namespace Terratweaks
 								"guaranteedchippyscouch" => Config.GuaranteedChippysCouch,
 								"noreducedregen" => Config.NoReducedRegen,
 								"useammofromvoidbag" => Config.UseAmmoFromVoidBag,
+								"postgolembiomekeys" or "postgolembiomekeydropratebuff" => Config.PostGolemBiomeKeys,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

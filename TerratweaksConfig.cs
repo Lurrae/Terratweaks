@@ -376,6 +376,10 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(true)]
+		public bool PostGolemBiomeKeys { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(true)]
 		public bool ReaverSharkTweaks { get; set; }
 
 		[DefaultValue(true)]

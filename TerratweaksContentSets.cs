@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -116,6 +117,20 @@ namespace Terratweaks
 		public static bool[] OnFireImmunityItem = ItemID.Sets.Factory.CreateNamedSet(OnFireImmunityItem_Key)
 			.Description(OnFireImmunityItem_Desc)
 			.RegisterBoolSet(false, ItemID.ObsidianSkull, ItemID.LavaSkull, ItemID.MoltenCharm, ItemID.ObsidianSkullRose, ItemID.MoltenSkullRose, ItemID.ObsidianHorseshoe, ItemID.ObsidianShield, ItemID.ObsidianWaterWalkingBoots, ItemID.LavaWaders, ItemID.TerrasparkBoots);
+
+		const string BiomeKeyConditions_Key = "BiomeKeyConditions";
+		const string BiomeKeyConditions_Desc = "Stores a list of checks for the specified biome key to drop, excluding the conditions global to all biome keys. Adding a condition to this list ensures that the biome key will have its drop rate doubled post-Golem";
+
+		public static Func<Player, bool>[] BiomeKeyConditions = ItemID.Sets.Factory.CreateNamedSet(BiomeKeyConditions_Key)
+			.Description(BiomeKeyConditions_Desc)
+			.RegisterCustomSet<Func<Player, bool>>(null,
+			ItemID.CorruptionKey, (Player plr) => plr.ZoneCorrupt,
+			ItemID.CrimsonKey, (Player plr) => plr.ZoneCrimson,
+			ItemID.HallowedKey, (Player plr) => plr.ZoneHallow,
+			ItemID.JungleKey, (Player plr) => plr.ZoneJungle,
+			ItemID.FrozenKey, (Player plr) => plr.ZoneSnow,
+			ItemID.DungeonDesertKey, (Player plr) => plr.ZoneDesert || plr.ZoneUndergroundDesert
+			);
 		#endregion
 
 		#region NPCID.Sets

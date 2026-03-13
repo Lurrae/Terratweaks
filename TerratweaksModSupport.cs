@@ -21,6 +21,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terratweaks.Items;
 using ThoriumMod;
+using ThoriumMod.Biomes.Depths;
 using ThoriumMod.Buffs;
 using ThoriumMod.Items.BardItems;
 using ThoriumMod.Items.BossBoreanStrider;
@@ -38,6 +39,7 @@ using ThoriumMod.Items.Cultist;
 using ThoriumMod.Items.DD;
 using ThoriumMod.Items.Depths;
 using ThoriumMod.Items.HealerItems;
+using ThoriumMod.Items.Misc;
 using ThoriumMod.Items.NPCItems;
 using ThoriumMod.Items.ThrownItems;
 
@@ -191,6 +193,10 @@ namespace Terratweaks
 
 			// Cold debuffs
 			TerratweaksContentSets.ColdDebuff[ModContent.BuffType<Freezing>()] = true;
+
+			// Biome keys
+			TerratweaksContentSets.BiomeKeyConditions[ModContent.ItemType<UnderworldBiomeKey>()] = (Player p) => p.ZoneUnderworldHeight;
+			TerratweaksContentSets.BiomeKeyConditions[ModContent.ItemType<AquaticDepthsBiomeKey>()] = (Player p) => p.InModBiome<DepthsBiome>();
 
 			// Re-run the shimmer population code so that the crossmod changes can apply
 			if (Terratweaks.Config.craftableUncraftables.ShimmerBossDrops)

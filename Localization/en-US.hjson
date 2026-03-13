@@ -44,6 +44,7 @@ Mods: {
 			FirstTimeKillingSkeletron: Guaranteed drop on first kill, 1/7 chance after that
 			EnragedProvidence: Drops if Providence was defeated while enraged
 			EnragedPlusArtifact: Drops if Providence was defeated while enraged, and the player has the Profaned Soul Artifact equipped or in their inventory
+			DownedGolem: Defeated Golem
 		}
 
 		RecipeGroups: {
@@ -1044,6 +1045,15 @@ Mods: {
 				UseAmmoFromVoidBag: {
 					Label: "[i:VoidLens] [i:WoodenArrow] [i:MusketBall] Use Ammo from Void Bag"
 					Tooltip: If you have no suitable ammo in your ammo slots or inventory, your void bag will be checked if you have an open one in your inventory
+				}
+
+				PostGolemBiomeKeys: {
+					Label: "[i:CorruptionKey] Post-Golem Biome Key Droprate Buff"
+					Tooltip:
+						'''
+						Doubles the odds of enemies dropping any biome key after Golem has been defeated
+						Includes support for Thorium's biome keys! Other mods are not currently supported
+						'''
 				}
 			}
 

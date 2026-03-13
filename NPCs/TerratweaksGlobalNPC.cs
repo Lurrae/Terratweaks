@@ -606,6 +606,41 @@ namespace Terratweaks.NPCs
 				npcLoot.Add(rule);
 			}
 		}
+
+		public override void ModifyGlobalLoot(GlobalLoot globalLoot)
+		{
+			// Double Biome Key drop rates post-Golem
+			if (Terratweaks.Config.PostGolemBiomeKeys)
+			{
+				for (int i = 0; i < TerratweaksContentSets.BiomeKeyConditions.Length; i++)
+				{
+					Func<Player, bool> cond = TerratweaksContentSets.BiomeKeyConditions[i];
+
+					if (cond == null) // Most items will not have a specified condition because they aren't a biome key
+						continue;
+
+					// If this item has a condition, it's likely a biome key
+					// We should make sure it actually drops like normal biome keys though, just in case
+					if (globalLoot.Get().Any(r => r is ItemDropWithConditionRule cr && cr.itemId == i))
+					{
+						// Once we know we have a valid rule, we can remove that rule, append it as a secondary rule on top of a new post-Golem rule that has double the drop chance, and then add the new rule
+						// This makes the key retain its vanilla drop rate pre-Golem, and once Golem is defeated it'll have double the drop rate
+						// Conveniently, it doesn't even matter whether the original drop rate matches that of the vanilla biome keys! Whatever it is, it'll be doubled
+						ItemDropWithConditionRule ogRule = (ItemDropWithConditionRule)globalLoot.Get().First(r => r is ItemDropWithConditionRule cr && cr.itemId == i);
+						globalLoot.Remove(ogRule);
+						var condition = new TerratweaksDropConditions.LambdaDropRuleCondition((info) => NPC.downedGolemBoss && GlobalBiomeKeyRequirements(info) && cond(info.player));
+						var postGolemRule = ItemDropRule.ByCondition(condition, i, ogRule.chanceDenominator / 2);
+						postGolemRule.OnFailedConditions(ogRule, true);
+						globalLoot.Add(postGolemRule);
+					}
+				}
+			}
+		}
+
+		private static bool GlobalBiomeKeyRequirements(DropAttemptInfo info)
+		{
+			return info.npc.value > 0f && Main.hardMode && !info.IsInSimulation;
+		}
 	}
 
 	// Modify shops here
