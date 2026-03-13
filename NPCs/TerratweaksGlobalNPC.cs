@@ -590,9 +590,20 @@ namespace Terratweaks.NPCs
 				npcLoot.Add(ItemDropRule.Common(ItemID.TatteredCloth, 1, 1, 2)); // 100% chance for 1-2 cloth
 			}
 
+			// Travelling Merchant can drop Pulse Bow post-Plantera
 			if (Terratweaks.Config.PulseBowDrops && npc.type == NPCID.TravellingMerchant)
 			{
 				npcLoot.Add(ItemDropRule.ByCondition(new Conditions.DownedPlantera(), ItemID.PulseBow, 8)); // 1/8 chance if Plantera downed
+			}
+
+			// Skeletron Chippy's Couch changes
+			if (Terratweaks.Config.GuaranteedChippysCouch && npc.type == NPCID.SkeletronHead)
+			{
+				npcLoot.RemoveWhere(r => r is CommonDrop cd && cd.itemId == ItemID.ChippysCouch); // Remove Chippy's Couch drop rule
+				var rule = ItemDropRule.ByCondition(new TerratweaksDropConditions.FirstTimeKillingSkeletron(), ItemID.ChippysCouch);
+				var vanillaRule = ItemDropRule.Common(ItemID.ChippysCouch, 7);
+				rule.OnFailedConditions(vanillaRule, true);
+				npcLoot.Add(rule);
 			}
 		}
 	}

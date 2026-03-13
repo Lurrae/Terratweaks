@@ -85,6 +85,24 @@ namespace Terratweaks
 				return Language.GetTextValue("Mods.Terratweaks.Conditions.PostSkeletronOnFtw");
 			}
 		}
+
+		public class FirstTimeKillingSkeletron : IItemDropRuleCondition, IProvideItemConditionDescription
+		{
+			public bool CanDrop(DropAttemptInfo info)
+			{
+				return !NPC.downedBoss3;
+			}
+
+			public bool CanShowItemDropInUI()
+			{
+				return true;
+			}
+
+			public string GetConditionDescription()
+			{
+				return Language.GetTextValue("Mods.Terratweaks.Conditions.FirstTimeKillingSkeletron");
+			}
+		}
 	}
 
 	public class Terratweaks : Mod
@@ -479,6 +497,7 @@ namespace Terratweaks
 								"dodgeablespikes" => Config.DodgeableSpikes,
 								"teleportonrehome" or "teleportnpcsonrehome" => Config.TeleportOnRehome,
 								"minecartlaserfix" or "mechcartlaserfix" => Config.MinecartLaserFix,
+								"guaranteedchippyscouch" => Config.GuaranteedChippysCouch,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

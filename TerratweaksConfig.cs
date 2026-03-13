@@ -151,6 +151,10 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool ForceBossContactDamage { get; set; }
 
+		[ReloadRequired]
+		[DefaultValue(true)]
+		public bool GuaranteedChippysCouch { get; set; }
+
 		[DefaultValue(false)]
 		public bool MoreOOAMedals { get; set; }
 

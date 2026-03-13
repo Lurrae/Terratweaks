@@ -41,6 +41,7 @@ Mods: {
 			InPlayerInv: Item must be in the player's inventory or portable storage
 			NightEoL: Drops if the Empress of Light is attacked at least once during the night
 			PostSkeletronOnFtw: On For the Worthy worlds, only drops if Skeletron has been defeated
+			FirstTimeKillingSkeletron: Guaranteed drop on first kill, 1/7 chance after that
 			EnragedProvidence: Drops if Providence was defeated while enraged
 			EnragedPlusArtifact: Drops if Providence was defeated while enraged, and the player has the Profaned Soul Artifact equipped or in their inventory
 		}
@@ -1028,6 +1029,11 @@ Mods: {
 						Makes the lasers fired by upgraded minecarts use ID-static immunity frames rather than global ones
 						This should make it easier for other projectiles to hit alongside the lasers
 						'''
+				}
+
+				GuaranteedChippysCouch: {
+					Label: "[i:ChippysCouch] Guaranteed Chippy's Couch"
+					Tooltip: Guarantees that Skeletron will drop Chippy's Couch the first time he's killed in a world
 				}
 			}
 
