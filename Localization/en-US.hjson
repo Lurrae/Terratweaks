@@ -1040,6 +1040,11 @@ Mods: {
 					Label: "[i:BandofRegeneration] No Reduced Natural Regeneration"
 					Tooltip: Disables Expert Mode's nerf to natural life regeneration that otherwise forces you to have any Well Fed buff to counteract it
 				}
+
+				UseAmmoFromVoidBag: {
+					Label: "[i:VoidLens] [i:WoodenArrow] [i:MusketBall] Use Ammo from Void Bag"
+					Tooltip: If you have no suitable ammo in your ammo slots or inventory, your void bag will be checked if you have an open one in your inventory
+				}
 			}
 
 			CraftableUncraftables: {

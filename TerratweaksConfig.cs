@@ -429,6 +429,9 @@ namespace Terratweaks
 		[DefaultValue(true)]
 		public bool OreUnification { get; set; }
 
+		[DefaultValue(true)]
+		public bool UseAmmoFromVoidBag { get; set; }
+
 		// Joke Tweaks
 		[Header("JokeTweaks")]
 

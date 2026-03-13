@@ -179,6 +179,7 @@ namespace Terratweaks
 			On_Projectile.TryGetContainerIndex += ChesterIndexChange;
 			On_Player.ApplyTouchDamage += SpikeDamageChanges;
 			On_TownRoomManager.SetRoom_int_Point += TeleportOnRehome;
+			On_Player.ChooseAmmo += GrabAmmoFromVoidBag;
 
 			IL_Main.UpdateTime_StartDay += DisableEventSpawns_Day;
 			IL_Main.UpdateTime_StartNight += DisableEventAndBossSpawns_Night;
@@ -361,6 +362,7 @@ namespace Terratweaks
 								.Replace("mechanicalboss", "mechboss")
 								.Replace("mechbossminecart", "mechcart")
 								.Replace("mechbosscart", "mechcart")
+								.Replace("voidlens", "voidbag")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -499,6 +501,7 @@ namespace Terratweaks
 								"minecartlaserfix" or "mechcartlaserfix" => Config.MinecartLaserFix,
 								"guaranteedchippyscouch" => Config.GuaranteedChippysCouch,
 								"noreducedregen" => Config.NoReducedRegen,
+								"useammofromvoidbag" => Config.UseAmmoFromVoidBag,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
@@ -1464,6 +1467,31 @@ namespace Terratweaks
 						npc.position = new Vector2(pt.X * 16, (pt.Y * 16) - npc.height);
 				}
 			}
+		}
+
+		private Item GrabAmmoFromVoidBag(On_Player.orig_ChooseAmmo orig, Player self, Item weapon)
+		{
+			Item og = orig(self, weapon);
+
+			// If we didn't find an item in the player's ammo slots or inventory, check the void bag if the player has an open one in their inventory
+			if (Config.UseAmmoFromVoidBag && og == null && self.HasItem(ItemID.VoidLens))
+			{
+				Item item = null;
+
+				for (int k = 0; k < 54; k++)
+				{
+					Item checkItem = self.bank4.item[k];
+					if (checkItem.stack > 0 && ItemLoader.CanChooseAmmo(weapon, checkItem, self))
+					{
+						item = checkItem;
+						break;
+					}
+				}
+
+				return item;
+			}
+
+			return og;
 		}
 	}
 }
