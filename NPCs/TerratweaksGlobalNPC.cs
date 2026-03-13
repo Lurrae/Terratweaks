@@ -927,7 +927,6 @@ namespace Terratweaks.NPCs
 
 						entry.Disable();
 						shop.InsertAfter(entry, entry.Item, conditions);
-						Mod.Logger.Debug($"Updated {entry.Item.Name} in shop of NPC {Lang.GetNPCName(shop.NpcType)} to not have biome conditions");
 					}
 				}
 			}
