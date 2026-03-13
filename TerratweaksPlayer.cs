@@ -474,6 +474,18 @@ namespace Terratweaks
 				mythrilCD = 30;
 			}
 		}
+
+		// Increase natural regen to counteract Expert+ nerfs
+		public override void NaturalLifeRegen(ref float regen)
+		{
+			if (Terratweaks.Config.NoReducedRegen && Main.expertMode && !Player.wellFed)
+			{
+				if (Player.shinyStone)
+					regen *= 1/0.75f;
+				else
+					regen *= 2;
+			}
+		}
 	}
 
 	// This ModPlayer is used exclusively for checking if the player is in the Radiant Insignia cutscene, because APPARENTLY global items don't exist on dropped items for a frame or two

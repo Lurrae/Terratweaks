@@ -498,6 +498,7 @@ namespace Terratweaks
 								"teleportonrehome" or "teleportnpcsonrehome" => Config.TeleportOnRehome,
 								"minecartlaserfix" or "mechcartlaserfix" => Config.MinecartLaserFix,
 								"guaranteedchippyscouch" => Config.GuaranteedChippysCouch,
+								"noreducedregen" => Config.NoReducedRegen,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,

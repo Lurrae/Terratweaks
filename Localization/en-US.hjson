@@ -1023,7 +1023,7 @@ Mods: {
 				}
 
 				MinecartLaserFix: {
-					Label: "[i:MechanicalCart] Minecart Laser Fix"
+					Label: "[i:MinecartMech] Minecart Laser Fix"
 					Tooltip:
 						'''
 						Makes the lasers fired by upgraded minecarts use ID-static immunity frames rather than global ones
@@ -1034,6 +1034,11 @@ Mods: {
 				GuaranteedChippysCouch: {
 					Label: "[i:ChippysCouch] Guaranteed Chippy's Couch"
 					Tooltip: Guarantees that Skeletron will drop Chippy's Couch the first time he's killed in a world
+				}
+
+				NoReducedRegen: {
+					Label: "[i:BandofRegeneration] No Reduced Natural Regeneration"
+					Tooltip: Disables Expert Mode's nerf to natural life regeneration that otherwise forces you to have any Well Fed buff to counteract it
 				}
 			}
 

@@ -295,6 +295,9 @@ namespace Terratweaks
 		[DefaultValue(false)]
 		public bool NoExpertFreezingWater { get; set; }
 
+		[DefaultValue(false)]
+		public bool NoReducedRegen { get; set; }
+
 		// For the Worthy Tweaks
 		[Header("FtwTweaks")]
 
