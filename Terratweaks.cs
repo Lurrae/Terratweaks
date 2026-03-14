@@ -19,6 +19,7 @@ using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.UI;
 using Terratweaks.Items;
 using Terratweaks.NPCs;
 using Terratweaks.Projectiles;
@@ -222,6 +223,7 @@ namespace Terratweaks
 			IL_Main.UpdateTime_StartDay += DisableEventSpawns_Day;
 			IL_Main.UpdateTime_StartNight += DisableEventAndBossSpawns_Night;
 			IL_Main.UpdateTime += DisableBossSpawns_Deerclops;
+			IL_ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += UpdateCountForVoidBag;
 		}
 
 		public override void PostSetupContent()
@@ -1392,6 +1394,37 @@ namespace Terratweaks
 
 			c.Index++;
 			c.Emit(OpCodes.Call, GetType().GetMethod(nameof(CheckNoBosses), BindingFlags.Public | BindingFlags.Static));
+		}
+
+		private void UpdateCountForVoidBag(ILContext il)
+		{
+			var c = new ILCursor(il);
+
+			int num10Index = -1;
+			int itemIndex = -1;
+			if (!c.TryGotoNext(MoveType.After, i => i.MatchLdloc(out itemIndex), i => i.MatchLdfld<Item>(nameof(Item.useAmmo)), i => i.MatchPop(), i => i.MatchLdcI4(0), i => i.MatchStloc(out num10Index)))
+			{
+				Logger.Warn("Terratweaks IL edit failed to find index of item and/or num10 within ItemSlot.Draw()! Dumping IL logs...");
+				MonoModHooks.DumpIL(this, il);
+				return;
+			}
+
+			c.Emit(OpCodes.Ldloc, itemIndex);
+			c.Emit(OpCodes.Ldloca, num10Index);
+			c.EmitDelegate((Item item, ref int num10) =>
+			{
+				Player player = Main.LocalPlayer;
+				var vb = player.bank4.item;
+
+				if (Config.UseAmmoFromVoidBag && player.HasItem(ItemID.VoidLens))
+				{
+					for (int i = 0; i < 40; i++)
+					{
+						if (vb[i].stack > 0 && ItemLoader.CanChooseAmmo(item, vb[i], player))
+							num10 += vb[i].stack;
+					}
+				}
+			});
 		}
 
 		private void DisableSlimeRain(On_Main.orig_StartSlimeRain orig, bool announce)
