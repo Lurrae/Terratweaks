@@ -352,6 +352,13 @@ namespace Terratweaks
 
 		[ReloadRequired]
 		[DefaultValue(false)]
+		public bool FrostburnArrowRework { get; set; }
+
+		[DefaultValue(true)]
+		public bool ChillEnemies { get; set; }
+
+		[ReloadRequired]
+		[DefaultValue(false)]
 		public bool LunarWingsPreML { get; set; }
 
 		[DefaultValue(false)]

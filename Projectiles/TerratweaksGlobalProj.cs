@@ -28,6 +28,13 @@ namespace Terratweaks.Projectiles
 
 			Player player = Main.player[projectile.owner];
 
+			if (Terratweaks.Config.FrostburnArrowRework && projectile.type == ProjectileID.FrostburnArrow)
+			{
+				Projectile.NewProjectile(source, projectile.position, projectile.velocity, ModContent.ProjectileType<FrostArrow>(), projectile.damage, projectile.knockBack, projectile.owner);
+				projectile.active = false;
+				return;
+			}
+
 			if (Terratweaks.Config.MinecartLaserFix && projectile.type == ProjectileID.MinecartMechLaser)
 			{
 				projectile.usesIDStaticNPCImmunity = true;

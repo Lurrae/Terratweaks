@@ -1055,6 +1055,26 @@ Mods: {
 						Includes support for Thorium's biome keys! Other mods are not currently supported
 						'''
 				}
+
+				FrostburnArrowRework: {
+					Label: "[i:FrostburnArrow] Frostburn Arrow Rework"
+					Tooltip:
+						'''
+						Fully replaces Frostburn Arrows with "Frost Arrows", simply crafted with Wooden Arrows and Ice Blocks instead of an Ice Torch
+						Frost Arrows inflict Chilled instead of Frostburn, making them not overshadow Flaming Arrows unlike in vanilla
+						'''
+				}
+
+				ChillEnemies: {
+					Label: "[i:IceBlock] Chilled Works on Enemies"
+					Tooltip:
+						'''
+						Applies a slowdown effect to enemies who have the Chilled debuff (also clears the Chilled debuff if the enemy touches lava or is set on fire). Disable this if you have other mods which already do this
+						Bosses and certain enemies aren't slowed as much by Chilled, but can still be affected (with some exceptions, like Deerclops being fully immune)
+						This config option by itself does not inflict Chilled on enemies in any way. It is solely intended to be used alongside the "Frostburn Arrow Rework" above
+						Additionally, certain enemies are hard-coded to be immune to Chilled. This list of enemies does not natively include most modded enemies, but due to checking various content sets it is possible for modded enemies to be supported
+						'''
+				}
 			}
 
 			CraftableUncraftables: {
@@ -2040,8 +2060,8 @@ Mods: {
 		# Projectile names, mostly just used for PvP
 		Projectiles: {
 			MythrilExplosion.DisplayName: Mythril Explosion
-			Placeholder.DisplayName: This shouldn't have to exist, but TML's auto-formatting is dumb
 			Probe.DisplayName: Probe
+			FrostArrow.DisplayName: Frost Arrow
 		}
 
 		# Buff names and tooltips

@@ -1091,7 +1091,7 @@ namespace Terratweaks
 
 			// Don't iterate over recipes if no configs that change recipes are active
 			// This is meant to help cut down on performance costs
-			if (!Terratweaks.Config.LunarWingsPreML && !Terratweaks.Config.ToolboxHoC && !Terratweaks.Config.SpectreNeedsDunerider)
+			if (!Terratweaks.Config.LunarWingsPreML && !Terratweaks.Config.ToolboxHoC && !Terratweaks.Config.SpectreNeedsDunerider && !Terratweaks.Config.FrostburnArrowRework)
 				return;
 
 			// We should also make sure there's a recipe that actually uses Dunerider Boots before disabling all the ones that don't,
@@ -1131,6 +1131,15 @@ namespace Terratweaks
 					if (recipe.HasResult(ItemID.SpectreBoots) && !recipe.HasIngredient(ItemID.SandBoots))
 					{
 						recipe.DisableRecipe();
+					}
+				}
+
+				if (Terratweaks.Config.FrostburnArrowRework)
+				{
+					if (recipe.HasResult(ItemID.FrostburnArrow))
+					{
+						recipe.RemoveIngredient(ItemID.IceTorch);
+						recipe.AddIngredient(ItemID.IceBlock);
 					}
 				}
 			}

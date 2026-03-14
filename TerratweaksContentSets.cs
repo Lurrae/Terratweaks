@@ -213,6 +213,27 @@ namespace Terratweaks
 		public static bool[] IgnoresRoomSize = NPCID.Sets.Factory.CreateNamedSet(IgnoresRoomSize_Key)
 			.Description(IgnoresRoomSize_Desc)
 			.RegisterBoolSet(false, NPCID.Princess);
+
+		const string ChilledImmune_Key = "ChilledImmune";
+		const string ChilledImmune_Desc = "If set to true for an NPC type, they are given immunity to the Chilled debuff when the \"Chilled Works on Enemies\" config option is enabled";
+
+		public static bool[] ChilledImmune = NPCID.Sets.Factory.CreateNamedSet(ChilledImmune_Key)
+			.Description(ChilledImmune_Desc)
+			.RegisterBoolSet(false, NPCID.Deerclops);
+
+		const string ChilledResist_Key = "ChilledResist";
+		const string ChilledResist_Desc = "If set to true for an NPC type, they will have their movement speed reduced less by the Chilled debuff when the \"Chilled Works on Enemies\" config option is enabled. Mostly used for bosses that don't set NPC.boss like Eater of Worlds";
+
+		public static bool[] ChilledResist = NPCID.Sets.Factory.CreateNamedSet(ChilledResist_Key)
+			.Description(ChilledResist_Desc)
+			.RegisterBoolSet(false, NPCID.EaterofWorldsHead, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail);
+
+		const string WeakToChilled_Key = "WeakToChilled";
+		const string WeakToChilled_Desc = "If set to true for an NPC type, they will override the default Chilled resistance/immunity given to bosses and certain enemy types when the \"Chilled Works on Enemies\" config option is enabled";
+
+		public static bool[] WeakToChilled = NPCID.Sets.Factory.CreateNamedSet(WeakToChilled_Key)
+			.Description(WeakToChilled_Desc)
+			.RegisterBoolSet(false);
 		#endregion
 
 		#region BuffID.Sets

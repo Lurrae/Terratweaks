@@ -35,9 +35,14 @@ namespace Terratweaks.NPCs
 			// so any enemies that use a modded hit sound will automatically not be immune unless the mod they come from makes them immune by default
 			if (Terratweaks.Config.PaperCuts)
 				npc.buffImmune[BuffID.Bleeding] |= !IsProbablyOrganic(npc);
+
+			// Any cold enemies or enemies specified in the chilled immune content set are immune to the slowing effects of Chilled
+			// If another mod makes them immune to Bleeding, that applies too (that's what the "|=" is for, it keeps existing true values intact)
+			if (Terratweaks.Config.ChillEnemies)
+				npc.buffImmune[BuffID.Chilled] |= TerratweaksContentSets.ChilledImmune[npc.type] || npc.coldDamage;
 		}
 
-		// Any enemy with 
+		// Any enemy with one of these hit sounds is probably inorganic
 		private static readonly List<SoundStyle> InorganicHitSounds = new()
 		{
 			SoundID.NPCHit2,	// Skeleton
@@ -89,12 +94,17 @@ namespace Terratweaks.NPCs
 
 		public override void AI(NPC npc)
 		{
-			Player player = Main.player[Main.myPlayer];
-			TerratweaksPlayer tPlr = player.GetModPlayer<TerratweaksPlayer>();
-
-			if (tPlr.spiderWeb && npc.damage > 0 && npc.Distance(Main.player[Main.myPlayer].Center) <= 64 && !npc.buffImmune[BuffID.Webbed])
+			if (Terratweaks.Config.ChillEnemies)
 			{
-				npc.position -= npc.velocity * 0.5f;
+				// If the NPC is in lava or has any fiery debuff, cure them of Chilled
+				if (npc.lavaWet || npc.onFire || npc.onFire2 || npc.onFire3 || npc.onFrostBurn || npc.onFrostBurn2 || npc.shadowFlame)
+				{
+					int chillIdx = npc.FindBuffIndex(BuffID.Chilled);
+					if (chillIdx > -1 && Main.netMode != NetmodeID.MultiplayerClient) // Only clear the debuff on server or singleplayer, it's very unsafe otherwise
+					{
+						npc.DelBuff(chillIdx);
+					}
+				}
 			}
 		}
 
@@ -105,7 +115,7 @@ namespace Terratweaks.NPCs
 			//		 paper cuts can just be disabled to resolve the conflicts
 			if (Terratweaks.Config.PaperCuts)
 			{
-				if (npc.HasBuff(BuffID.Bleeding))
+				if (npc.HasBuff(BuffID.Bleeding) && !npc.buffImmune[BuffID.Bleeding])
 				{
 					// Prevent natural regen if the enemy is regenerating somehow
 					if (npc.lifeRegen > 0)
@@ -115,6 +125,17 @@ namespace Terratweaks.NPCs
 										// (a third of what it deals to enemies, and half of what On Fire! deals to both enemies and players)
 				}
 			}
+
+			Player player = Main.player[Main.myPlayer];
+			TerratweaksPlayer tPlr = player.GetModPlayer<TerratweaksPlayer>();
+
+			// 50% slowdown from Webbed
+			if (tPlr.spiderWeb && npc.damage > 0 && npc.Distance(Main.player[Main.myPlayer].Center) <= 64 && !npc.buffImmune[BuffID.Webbed])
+				npc.velocity *= 0.5f;
+
+			// 25% slowdown from Chilled
+			if (npc.HasBuff(BuffID.Chilled) && !npc.buffImmune[BuffID.Chilled])
+				npc.velocity *= 0.75f;
 		}
 
 		public override void DrawEffects(NPC npc, ref Color drawColor)
@@ -124,13 +145,18 @@ namespace Terratweaks.NPCs
 			//		 but for now this is fine
 			if (Terratweaks.Config.PaperCuts)
 			{
-				if (npc.HasBuff(BuffID.Bleeding) && Main.rand.NextBool(30))
+				if (npc.HasBuff(BuffID.Bleeding) && !npc.buffImmune[BuffID.Bleeding] && Main.rand.NextBool(30))
 				{
 					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.Blood);
 					Dust dust2 = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustID.Blood);
 					dust2.velocity.Y += 0.5f;
 					dust.velocity *= 0.25f;
 				}
+			}
+
+			if (Terratweaks.Config.ChillEnemies && npc.HasBuff(BuffID.Chilled) && !npc.buffImmune[BuffID.Chilled])
+			{
+				drawColor = Color.Aquamarine;
 			}
 		}
 	}

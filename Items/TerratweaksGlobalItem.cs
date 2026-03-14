@@ -135,6 +135,9 @@ namespace Terratweaks.Items
 
 			if (Terratweaks.Config.SpectreNeedsDunerider && SpectreBootsUpgrades.Contains(item.type))
 				itemIsModified = true;
+
+			if (Terratweaks.Config.FrostburnArrowRework && item.ammo == AmmoID.Arrow && item.Name.Contains("Frostburn"))
+				itemIsModified = true;
 			#endregion
 
 			#region Expert Accessory & Armor Tweaks
@@ -661,6 +664,17 @@ namespace Terratweaks.Items
 				// All lines are always displayed, unless a cient-side config option is active to hide them
 				if (!Terratweaks.ClientConfig.HideMilestoneTips)
 					AddLines(idx, numLines, item, tooltips);
+			}
+
+			// Replace all Frostburn Arrows/Quivers with Frost Arrows/Quivers
+			// This hopefully shouldn't affect any other item with frostburn in the name
+			if (Terratweaks.Config.FrostburnArrowRework && item.ammo == AmmoID.Arrow && item.Name.Contains("Frostburn"))
+			{
+				idx = tooltips.FindIndex(t => t.Name.Equals("ItemName"));
+				if (idx > -1)
+				{
+					tooltips[idx].Text = tooltips[idx].Text.Replace("Frostburn", "Frost");
+				}
 			}
 		}
 

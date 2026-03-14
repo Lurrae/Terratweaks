@@ -403,6 +403,7 @@ namespace Terratweaks
 								.Replace("mechbossminecart", "mechcart")
 								.Replace("mechbosscart", "mechcart")
 								.Replace("voidlens", "voidbag")
+								.Replace("chilled", "chill")
 								// Category name aliases
 								.Replace("expertaccessorybuffs", "expertaccbuffs")
 								.Replace("armortweaks", "armorreworks")
@@ -543,6 +544,8 @@ namespace Terratweaks
 								"noreducedregen" => Config.NoReducedRegen,
 								"useammofromvoidbag" => Config.UseAmmoFromVoidBag,
 								"postgolembiomekeys" or "postgolembiomekeydropratebuff" => Config.PostGolemBiomeKeys,
+								"frostburnarrowrework" => Config.FrostburnArrowRework,
+								"chillenemies" or "chillworksonenemies" => Config.ChillEnemies,
 
 								"client_estimateddps" or "estimateddps" => ClientConfig.EstimatedDPS,
 								"client_grammarcorrections" or "grammarcorrections" => ClientConfig.GrammarCorrections,
