@@ -928,7 +928,8 @@ namespace Terratweaks.NPCs
 					// Unfortunately, this has to be hardcoded in since there's no way to check the conditions easily
 					foreach (Condition condition in conditions)
 					{
-						if (BiomeConditions.Contains(condition))
+						// The description key check is literally the only way I could figure out to detect Thorium's custom dynamic biome condition
+						if (BiomeConditions.Contains(condition) || (ModLoader.HasMod("ThoriumMod") && condition.Description.Key.Contains("Conditions.BiomeCondition")))
 						{
 							//Mod.Logger.Debug($"Removed condition \"{condition.Description}\" from item {item.Name} in shop of NPC {Lang.GetNPCName(shop.NpcType)}");
 							// Remove the condition from the new list, so that when we create our own entry later the condition won't be present

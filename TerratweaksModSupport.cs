@@ -116,7 +116,6 @@ namespace Terratweaks
 			TerratweaksContentSets.HotDebuff[ModContent.BuffType<VulnerabilityHex>()] = true;
 
 			// Cold debuffs
-			TerratweaksContentSets.ColdDebuff[ModContent.BuffType<GlacialState>()] = true;
 			TerratweaksContentSets.ColdDebuff[ModContent.BuffType<Nightwither>()] = true;
 			TerratweaksContentSets.ColdDebuff[ModContent.BuffType<TemporalSadness>()] = true;
 
@@ -207,12 +206,6 @@ namespace Terratweaks
 						ShimmerTransmutationHandler.AddShimmerTransmutation_Cycle(items);
 				}
 			}
-		}
-
-		public override void PostSetupContent()
-		{
-			// Custom biome conditions
-			Mod.Call("AddBiomeCondition", ThoriumConditions.NotInBeachSnowDesert);
 		}
 	}
 
