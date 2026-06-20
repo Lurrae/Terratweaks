@@ -1418,7 +1418,7 @@ namespace Terratweaks
 
 				if (Config.UseAmmoFromVoidBag && player.HasItem(ItemID.VoidLens))
 				{
-					for (int i = 0; i < 40; i++)
+					for (int i = 0; i < vb.Length; i++)
 					{
 						if (vb[i].stack > 0 && ItemLoader.CanChooseAmmo(item, vb[i], player))
 							num10 += vb[i].stack;
@@ -1555,7 +1555,7 @@ namespace Terratweaks
 			{
 				Item item = null;
 
-				for (int k = 0; k < 54; k++)
+				for (int k = 0; k < self.bank4.item.Length; k++)
 				{
 					Item checkItem = self.bank4.item[k];
 					if (checkItem.stack > 0 && ItemLoader.CanChooseAmmo(weapon, checkItem, self))

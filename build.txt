@@ -1,6 +1,6 @@
 displayName = Terratweaks
 author = Lurrae & Skulgan
-version = 1.6.6.0
+version = 1.6.6.1
 modReferences = TepigCore
 weakReferences = CalamityMod, ThoriumMod, EfficientNohits, AlchemistNPCLite, MagicStorage, CatalystMod, NoxusBoss, InfernumMode, CalamityFables, Fargowiltas, FargowiltasSouls, Spooky
 sortAfter = CalamityMod

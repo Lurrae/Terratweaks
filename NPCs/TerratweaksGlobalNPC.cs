@@ -1132,7 +1132,7 @@ namespace Terratweaks.NPCs
 		{
 			bool anyBosses = false;
 
-			for (int i = 0; i < 200; i++)
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				NPC npc = Main.npc[i];
 				if (npc.active && (npc.boss || NPCID.Sets.DangerThatPreventsOtherDangers[npc.type]))
